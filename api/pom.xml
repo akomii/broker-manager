@@ -18,13 +18,5 @@
             <artifactId>query-model</artifactId>
             <version>1.0.4-SNAPSHOT</version>
         </dependency>
-
-        <!-- lombok for fully featured builder -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

@@ -18,5 +18,12 @@
             <artifactId>query-model</artifactId>
             <version>1.0.4-SNAPSHOT</version>
         </dependency>
+
+        <!-- broker-server admin-client -->
+        <dependency>
+            <groupId>org.aktin</groupId>
+            <artifactId>broker-client</artifactId>
+            <version>1.5.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

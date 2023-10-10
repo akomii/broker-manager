@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>j2ee</artifactId>
-        <groupId>org.broker.manager</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>j2ee</artifactId>
+    <groupId>org.broker.manager</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>common</artifactId>
+  <artifactId>common</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.broker.manager</groupId>
-            <artifactId>api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.broker.manager</groupId>
+      <artifactId>api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
-        <!-- JAXB RI (for parsing responses of admin-client) -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.1</version>
-        </dependency>
+    <!-- JAXB RI (for parsing responses of admin-client) -->
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>2.3.1</version>
+    </dependency>
 
-        <!-- Testcontainers -->
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>1.17.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>1.17.6</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <!-- Testcontainers -->
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>1.17.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>1.17.6</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

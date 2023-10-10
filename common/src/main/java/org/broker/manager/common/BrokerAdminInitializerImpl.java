@@ -1,5 +1,6 @@
 package org.broker.manager.common;
 
+import jakarta.annotation.PostConstruct;
 import java.net.URI;
 import org.aktin.broker.client2.BrokerAdmin2;
 import org.aktin.broker.client2.auth.ApiKeyAuthentication;
@@ -13,13 +14,12 @@ import org.springframework.stereotype.Service;
 public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {
 
   @Autowired
-  private final PropertiesFileResolver propertiesFileResolver;
+  private PropertiesFileResolver propertiesFileResolver;
 
-  private final BrokerAdmin2 brokerAdmin;
+  private BrokerAdmin2 brokerAdmin;
 
-  @Autowired
-  public BrokerAdminInitializerImpl(PropertiesFileResolver propertiesFileResolver) {
-    this.propertiesFileResolver = propertiesFileResolver;
+  @PostConstruct
+  public void init() {
     URI brokerUri = URI.create(propertiesFileResolver.getKeyValue(PropertiesKey.URL));
     String apiKey = propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY);
     this.brokerAdmin = createBrokerAdmin(brokerUri, apiKey);

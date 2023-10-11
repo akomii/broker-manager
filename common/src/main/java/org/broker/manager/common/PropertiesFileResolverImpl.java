@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Properties;
 import org.broker.manager.api.common.PropertiesFileResolver;
 import org.broker.manager.api.enums.PropertiesKey;
@@ -38,7 +39,9 @@ public class PropertiesFileResolverImpl implements PropertiesFileResolver {
   }
 
   private Path getPropertiesPath() {
-    return Paths.get(System.getProperty("jboss.server.config.dir"), "brokermanager.properties");
+    String propertiesPath = System.getProperty("brokermanager.config.path");
+    String defaultLinuxPath = "/etc/brokermanager/config.properties";
+    return Paths.get(Objects.requireNonNullElse(propertiesPath, defaultLinuxPath));
   }
 
   private void checkPropertiesFileForIntegrity() throws IllegalStateException {

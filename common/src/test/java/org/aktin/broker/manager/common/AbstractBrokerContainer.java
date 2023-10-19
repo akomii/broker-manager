@@ -1,3 +1,5 @@
+package org.aktin.broker.manager.common;
+
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import java.time.Duration;
 import org.testcontainers.containers.GenericContainer;

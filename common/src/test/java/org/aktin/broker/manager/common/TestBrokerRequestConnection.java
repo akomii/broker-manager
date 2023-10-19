@@ -1,3 +1,5 @@
+package org.aktin.broker.manager.common;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -10,13 +12,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
+import org.aktin.broker.manager.api.common.PropertiesFileResolver;
+import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.RequestInfo;
 import org.aktin.broker.xml.RequestStatus;
 import org.aktin.broker.xml.RequestStatusInfo;
 import org.aktin.broker.xml.util.Util;
-import org.broker.manager.api.common.PropertiesFileResolver;
-import org.broker.manager.api.enums.PropertiesKey;
-import org.broker.manager.common.BrokerAdminInitializerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

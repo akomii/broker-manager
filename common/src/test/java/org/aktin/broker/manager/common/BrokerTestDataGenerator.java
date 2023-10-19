@@ -1,3 +1,5 @@
+package org.aktin.broker.manager.common;
+
 import java.io.StringWriter;
 import java.net.URI;
 import java.time.Instant;

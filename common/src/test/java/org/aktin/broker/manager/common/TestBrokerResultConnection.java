@@ -1,15 +1,16 @@
+package org.aktin.broker.manager.common;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
 import org.aktin.broker.client.ResponseWithMetadata;
+import org.aktin.broker.manager.api.common.PropertiesFileResolver;
+import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.RequestStatus;
 import org.aktin.broker.xml.RequestStatusInfo;
 import org.aktin.broker.xml.ResultInfo;
-import org.broker.manager.api.common.PropertiesFileResolver;
-import org.broker.manager.api.enums.PropertiesKey;
-import org.broker.manager.common.BrokerAdminInitializerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

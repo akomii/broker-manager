@@ -1,6 +1,8 @@
+package org.aktin.broker.manager.common;
+
+import java.io.File;
 import java.net.URL;
-import org.broker.manager.api.enums.PropertiesKey;
-import org.broker.manager.common.PropertiesFileResolverImpl;
+import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -23,9 +25,10 @@ public class TestPropertiesFileResolverImpl {
 
   private String getTestResourcePath(String resourceName) {
     ClassLoader classLoader = getClass().getClassLoader();
-    URL resource = classLoader.getResource(resourceName);
-    assert resource != null;
-    return resource.getPath();
+    URL resourceUrl = classLoader.getResource(resourceName);
+    assert resourceUrl != null;
+    File resource = new File(resourceUrl.getFile());
+    return resource.getAbsolutePath();
   }
 
   @Order(2)

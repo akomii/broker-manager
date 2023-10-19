@@ -1,3 +1,5 @@
+package org.aktin.broker.manager.common;
+
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
@@ -6,10 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
+import org.aktin.broker.manager.api.common.PropertiesFileResolver;
+import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.Node;
-import org.broker.manager.api.common.PropertiesFileResolver;
-import org.broker.manager.api.enums.PropertiesKey;
-import org.broker.manager.common.BrokerAdminInitializerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

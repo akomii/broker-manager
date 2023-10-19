@@ -1,4 +1,4 @@
-package org.broker.manager.common;
+package org.aktin.broker.manager.common;
 
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
-import org.broker.manager.api.common.PropertiesFileResolver;
-import org.broker.manager.api.enums.PropertiesKey;
+import org.aktin.broker.manager.api.common.PropertiesFileResolver;
+import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,8 @@ public class PropertiesFileResolverImpl implements PropertiesFileResolver {
   private final Logger logger = LoggerFactory.getLogger(PropertiesFileResolverImpl.class);
 
   private final Properties properties = new Properties();
+
+  private static final String DEFAULT_LINUX_PATH = "/etc/broker-manager/config.properties";
 
   @PostConstruct
   public void init() {
@@ -40,8 +42,7 @@ public class PropertiesFileResolverImpl implements PropertiesFileResolver {
 
   private Path getPropertiesPath() {
     String propertiesPath = System.getProperty("brokermanager.config.path");
-    String defaultLinuxPath = "/etc/brokermanager/config.properties";
-    return Paths.get(Objects.requireNonNullElse(propertiesPath, defaultLinuxPath));
+    return Paths.get(Objects.requireNonNullElse(propertiesPath, DEFAULT_LINUX_PATH));
   }
 
   private void checkPropertiesFileForIntegrity() throws IllegalStateException {

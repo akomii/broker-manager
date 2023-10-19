@@ -1,4 +1,4 @@
-package org.broker.manager.api.enums;
+package org.aktin.broker.manager.api.enums;
 
 /**
  * Possible keys for properties file of broker-manager.

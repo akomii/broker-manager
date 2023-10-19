@@ -1,4 +1,4 @@
-package org.broker.manager.api.persistence;
+package org.aktin.broker.manager.api.persistence;
 
 import java.util.List;
 import java.util.Optional;

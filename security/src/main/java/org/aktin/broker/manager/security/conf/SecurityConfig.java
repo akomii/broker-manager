@@ -22,22 +22,19 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable);
     http.cors(AbstractHttpConfigurer::disable);
-    http.authorizeHttpRequests(
-        authorize ->
-            authorize
-                .requestMatchers("/error", "/login")
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+    http.authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/error", "/login", "/api")
+        .permitAll()
+        .anyRequest()
+        .authenticated());
     http.oauth2Login(Customizer.withDefaults());
     http.logout(
-        logout ->
-            logout
-                .logoutSuccessHandler(
-                    (request, response, authentication) -> response.sendRedirect(logoutUrl))
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID"));
+        logout -> logout
+            .logoutSuccessHandler(
+                (request, response, authentication) -> response.sendRedirect(logoutUrl))
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .deleteCookies("JSESSIONID"));
     return http.build();
   }
 }

@@ -15,6 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
+  private static final String ERROR_PATH = "/error";
+  private static final String LOGIN_PATH = "/login";
+  private static final String API_NODE_PATH = "/api/node";
+  private static final String JSESSIONID_COOKIE = "JSESSIONID";
+
   @Value("${spring.security.oauth2.client.provider.broker-manager.logout-url}")
   private String logoutUrl;
 
@@ -23,7 +28,7 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.cors(AbstractHttpConfigurer::disable);
     http.authorizeHttpRequests(authorize -> authorize
-        .requestMatchers("/error", "/login", "/api")
+        .requestMatchers(ERROR_PATH, LOGIN_PATH, API_NODE_PATH)
         .permitAll()
         .anyRequest()
         .authenticated());
@@ -34,7 +39,7 @@ public class SecurityConfig {
                 (request, response, authentication) -> response.sendRedirect(logoutUrl))
             .invalidateHttpSession(true)
             .clearAuthentication(true)
-            .deleteCookies("JSESSIONID"));
+            .deleteCookies(JSESSIONID_COOKIE));
     return http.build();
   }
 }

@@ -17,6 +17,7 @@
   <modules>
     <module>api</module>
     <module>common</module>
+    <module>persistence</module>
   </modules>
 
   <properties>

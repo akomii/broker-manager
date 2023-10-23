@@ -67,7 +67,7 @@ public class NodeStatusInfoController {
   }
 
   private Optional<NodeStatusInfo> findStatusInfoInList(Integer id) {
-    return infos.stream().filter(node -> node.getId().equals(id))
+    return infos.stream().filter(node -> node.getNode().equals(id))
         .findFirst();
   }
 }

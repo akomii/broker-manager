@@ -20,19 +20,42 @@ public class NodeStatusInfoDeserializer extends JsonDeserializer<NodeStatusInfo>
   @Override
   public NodeStatusInfo deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
     JsonNode jsonNode = p.getCodec().readTree(p);
+
+    Integer node = jsonNode.has("node") ? jsonNode.get("node").asInt() : null;
+    Integer executionId = jsonNode.has("executionId") ? jsonNode.get("executionId").asInt() : null;
+    String statusMessage =
+        jsonNode.has("statusMessage") ? jsonNode.get("statusMessage").asText() : null;
+    Instant deleted = parseInstant(jsonNode, "deleted");
+    Instant retrieved = parseInstant(jsonNode, "retrieved");
+    Instant queued = parseInstant(jsonNode, "queued");
+    Instant processing = parseInstant(jsonNode, "processing");
+    Instant completed = parseInstant(jsonNode, "completed");
+    Instant rejected = parseInstant(jsonNode, "rejected");
+    Instant failed = parseInstant(jsonNode, "failed");
+    Instant expired = parseInstant(jsonNode, "expired");
     return nodeStatusInfoFactory.create(
-        jsonNode.get("id").asInt(),
-        jsonNode.get("executionId").asInt(),
-        jsonNode.get("statusMessage").asText(),
-        jsonNode.get("node").asInt(),
-        Instant.parse(jsonNode.get("deleted").asText()),
-        Instant.parse(jsonNode.get("retrieved").asText()),
-        Instant.parse(jsonNode.get("queued").asText()),
-        Instant.parse(jsonNode.get("processing").asText()),
-        Instant.parse(jsonNode.get("completed").asText()),
-        Instant.parse(jsonNode.get("rejected").asText()),
-        Instant.parse(jsonNode.get("failed").asText()),
-        Instant.parse(jsonNode.get("expired").asText())
+        node,
+        executionId,
+        statusMessage,
+        deleted,
+        retrieved,
+        queued,
+        processing,
+        completed,
+        rejected,
+        failed,
+        expired
     );
+  }
+
+  private Instant parseInstant(JsonNode jsonNode, String fieldName) {
+    if (jsonNode.has(fieldName)) {
+      try {
+        return Instant.parse(jsonNode.get(fieldName).asText());
+      } catch (Exception e) {
+        return null; // Return null or some default value
+      }
+    }
+    return null; // Return null for missing field
   }
 }

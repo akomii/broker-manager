@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//TODO test with keycloak
 //TODO NodeStatusInfoHandler
 
-//TODO endpoint mit Login über Keycloak ansprechen
 @RestController
 @RequestMapping("/node-status-info")
 public class NodeStatusInfoController {
@@ -67,7 +67,6 @@ public class NodeStatusInfoController {
   }
 
   private Optional<NodeStatusInfo> findStatusInfoInList(Integer id) {
-    return infos.stream().filter(node -> node.getNode().equals(id))
-        .findFirst();
+    return infos.stream().filter(node -> node.getNode().equals(id)).findFirst();
   }
 }

@@ -3,7 +3,7 @@ package org.aktin.broker.manager.endpoint.rest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.aktin.broker.manager.api.models.ManagerNode;
+import org.aktin.broker.manager.api.models.NodeStatusInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,38 +15,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//TODO managerNodeHandler
-@RestController
-@RequestMapping("/node")
-public class ManagerNodeController {
+//TODO NodeStatusInfoHandler
 
-  private final List<ManagerNode> nodes = new ArrayList<>();
+//TODO endpoint mit Login über Keycloak ansprechen
+@RestController
+@RequestMapping("/node-status-info")
+public class NodeStatusInfoController {
+
+  private final List<NodeStatusInfo> infos = new ArrayList<>();
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody ManagerNode managerNode) {
-    nodes.add(managerNode);
+  public ResponseEntity<Void> create(@RequestBody NodeStatusInfo nodeStatusInfo) {
+    infos.add(nodeStatusInfo);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @GetMapping
-  public ResponseEntity<List<ManagerNode>> getAll() {
-    return new ResponseEntity<>(nodes, HttpStatus.OK);
+  public ResponseEntity<List<NodeStatusInfo>> getAll() {
+    return new ResponseEntity<>(infos, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ManagerNode> get(@PathVariable Integer id) {
-    Optional<ManagerNode> managerNode = findNodeInList(id);
-    return managerNode.map(node -> new ResponseEntity<>(node, HttpStatus.OK))
+  public ResponseEntity<NodeStatusInfo> get(@PathVariable Integer id) {
+    Optional<NodeStatusInfo> statusInfo = findStatusInfoInList(id);
+    return statusInfo.map(info -> new ResponseEntity<>(info, HttpStatus.OK))
         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<Void> update(@PathVariable Integer id,
-      @RequestBody ManagerNode updatedNode) {
-    Optional<ManagerNode> existingNode = findNodeInList(id);
-    if (existingNode.isPresent()) {
-      nodes.remove(existingNode.get());
-      nodes.add(updatedNode);
+      @RequestBody NodeStatusInfo updatedNode) {
+    Optional<NodeStatusInfo> existingInfo = findStatusInfoInList(id);
+    if (existingInfo.isPresent()) {
+      infos.remove(existingInfo.get());
+      infos.add(updatedNode);
       return new ResponseEntity<>(HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -55,17 +57,17 @@ public class ManagerNodeController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable Integer id) {
-    Optional<ManagerNode> nodeToDelete = findNodeInList(id);
-    if (nodeToDelete.isPresent()) {
-      nodes.remove(nodeToDelete.get());
+    Optional<NodeStatusInfo> infoToDelete = findStatusInfoInList(id);
+    if (infoToDelete.isPresent()) {
+      infos.remove(infoToDelete.get());
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
-  private Optional<ManagerNode> findNodeInList(Integer id) {
-    return nodes.stream().filter(node -> node.getId().equals(id))
+  private Optional<NodeStatusInfo> findStatusInfoInList(Integer id) {
+    return infos.stream().filter(node -> node.getId().equals(id))
         .findFirst();
   }
 }

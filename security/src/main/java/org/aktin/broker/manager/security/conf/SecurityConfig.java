@@ -17,7 +17,7 @@ public class SecurityConfig {
 
   private static final String ERROR_PATH = "/error";
   private static final String LOGIN_PATH = "/login";
-  private static final String API_PATH = "/api/*";
+  private static final String API_PATH = "/api/**";
   private static final String JSESSIONID_COOKIE = "JSESSIONID";
 
   @Value("${spring.security.oauth2.client.provider.broker-manager.logout-url}")

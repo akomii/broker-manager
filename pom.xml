@@ -21,6 +21,7 @@
     <module>security</module>
     <module>endpoint</module>
     <module>main</module>
+    <module>ui</module>
   </modules>
 
   <properties>

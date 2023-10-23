@@ -5,10 +5,6 @@ import org.aktin.broker.xml.RequestStatus;
 
 public interface NodeStatusInfo {
 
-  Integer getId();
-
-  void setId(Integer id);
-
   Integer getExecutionId();
 
   void setExecutionId(Integer id);
@@ -17,9 +13,9 @@ public interface NodeStatusInfo {
 
   void setStatusMessage(String statusMessage);
 
-  int getNodeId();
+  Integer getNode();
 
-  void setNodeId(int id);
+  void setNode(Integer id);
 
   Instant getDeleted();
 

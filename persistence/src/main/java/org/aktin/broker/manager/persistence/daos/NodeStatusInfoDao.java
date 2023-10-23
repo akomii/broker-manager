@@ -15,17 +15,15 @@ import org.aktin.broker.xml.RequestStatusInfo;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NodeStatusInfoDao extends RequestStatusInfo implements NodeStatusInfo {
 
-  Integer id;
-
   Integer executionId;
 
   String statusMessage;
 
-  public int getNodeId() {
+  public Integer getNode() {
     return node;
   }
 
-  public void setNodeId(int id) {
+  public void setNode(Integer id) {
     node = id;
   }
 

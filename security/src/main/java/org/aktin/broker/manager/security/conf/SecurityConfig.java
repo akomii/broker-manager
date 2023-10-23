@@ -17,7 +17,7 @@ public class SecurityConfig {
 
   private static final String ERROR_PATH = "/error";
   private static final String LOGIN_PATH = "/login";
-  private static final String API_NODE_PATH = "/api/node";
+  private static final String API_PATH = "/api/*";
   private static final String JSESSIONID_COOKIE = "JSESSIONID";
 
   @Value("${spring.security.oauth2.client.provider.broker-manager.logout-url}")
@@ -28,7 +28,7 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.cors(AbstractHttpConfigurer::disable);
     http.authorizeHttpRequests(authorize -> authorize
-        .requestMatchers(ERROR_PATH, LOGIN_PATH, API_NODE_PATH)
+        .requestMatchers(ERROR_PATH, LOGIN_PATH, API_PATH)
         .permitAll()
         .anyRequest()
         .authenticated());

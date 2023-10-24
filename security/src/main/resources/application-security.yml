@@ -1,21 +1,9 @@
 spring:
   security:
     oauth2:
-     resourceserver:
-       jwt:
-         issuer-uri: http://localhost:8180/realms/broker-manager-realm
-     client:
-       registration:
-         broker-manager:
-           client-id: broker-manager-client
-           authorization-grant-type: authorization_code
-           scope: openid
-           redirect-uri: http://localhost:8080/login/oauth2/code/broker-manager-client
-       provider:
-         broker-manager:
-           logout-url: http://localhost:8180/realms/broker-manager-realm/protocol/openid-connect/logout
-           issuer-uri: http://localhost:8180/realms/broker-manager-realm
-           user-name-attribute: preferred_username
-           authorities:
-             prefix: ROLE_
-             roles: resource_access.broker-manager-client.roles
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/broker-manager-realm
+        authorities:
+          prefix: ROLE_
+          roles: resource_access.broker-manager-client.roles

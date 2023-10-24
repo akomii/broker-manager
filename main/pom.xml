@@ -9,7 +9,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
+  <groupId>org.aktin.broker-manager</groupId>
   <artifactId>main</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
   <dependencies>
     <dependency>

@@ -1,4 +1,4 @@
-package org.aktin.broker.manager.security.enums;
+package org.aktin.broker.manager.security.resources.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

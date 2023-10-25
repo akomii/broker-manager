@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -38,13 +39,24 @@ public class JwtUserRoleConverter implements Converter<Jwt, AbstractAuthenticati
   private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
     Map<String, Object> claims = jwt.getClaims();
     Collection<String> roles = extractRolesFromClaims(claims);
-    return roles.stream().map(role ->
-        new SimpleGrantedAuthority(rolesPrefix + role)).collect(Collectors.toSet());
+    return roles.stream()
+        .map(role -> new SimpleGrantedAuthority(rolesPrefix + role))
+        .collect(Collectors.toSet());
   }
 
   private Collection<String> extractRolesFromClaims(Map<String, Object> claims) {
+    Object value = traverseClaimsMap(claims).orElseThrow(
+        () -> new IllegalArgumentException("Cannot traverse claims because it's not a map."));
+    if (value instanceof List) {
+      return (List<String>) value;
+    } else {
+      throw new IllegalArgumentException(
+          "Last key should contain a list or array of strings, but it does not.");
+    }
+  }
+
+  private Optional<Object> traverseClaimsMap(Map<String, Object> claims) {
     Object value = claims;
-    // Traverse the map hierarchy using the keys.
     for (String key : rolesKeys) {
       if (value instanceof Map) {
         value = ((Map<?, ?>) value).get(key);
@@ -52,15 +64,9 @@ public class JwtUserRoleConverter implements Converter<Jwt, AbstractAuthenticati
           throw new IllegalArgumentException(String.format("Key '%s' not found in claims.", key));
         }
       } else {
-        throw new IllegalArgumentException("Cannot traverse claims because it's not a map.");
+        return Optional.empty();
       }
     }
-    // Check if the final value is a list and return it.
-    if (value instanceof List) {
-      return (List<String>) value;
-    } else {
-      throw new IllegalArgumentException(
-          "Last key should contain a list or array of strings, but it does not.");
-    }
+    return Optional.ofNullable(value);
   }
 }

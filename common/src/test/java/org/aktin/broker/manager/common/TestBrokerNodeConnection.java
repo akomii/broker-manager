@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
+import org.aktin.broker.manager.BrokerContainer;
+import org.aktin.broker.manager.BrokerTestDataGenerator;
 import org.aktin.broker.manager.api.common.PropertiesFileResolver;
 import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.Node;
@@ -29,9 +31,11 @@ import org.mockito.quality.Strictness;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestBrokerNodeConnection extends AbstractBrokerContainer {
+public class TestBrokerNodeConnection {
 
-  private static final BrokerTestDataGenerator generator = new BrokerTestDataGenerator(BROKER_URL);
+  private static BrokerTestDataGenerator generator;
+  private static BrokerContainer broker;
+  private static String brokerUrl;
 
   @Mock
   private PropertiesFileResolver propertiesFileResolver;
@@ -42,13 +46,16 @@ public class TestBrokerNodeConnection extends AbstractBrokerContainer {
   private BrokerAdmin adminClient;
 
   @BeforeAll
-  public static void initBrokerClients() throws IOException {
+  public static void init() throws IOException {
+    broker = new BrokerContainer();
+    brokerUrl = broker.getBrokerUrl();
+    generator = new BrokerTestDataGenerator(brokerUrl);
     initBrokerClient1();
     initBrokerClient2();
   }
 
   private static void initBrokerClient1() throws IOException {
-    BrokerClientImpl client = generator.getNewBrokerClient(DEFAULT_KEY_1);
+    BrokerClientImpl client = generator.getNewBrokerClient(broker.getDefaultKey1());
     Properties properties = new Properties();
     properties.put("wildfly", "18");
     properties.put("postgresql", "14");
@@ -57,7 +64,7 @@ public class TestBrokerNodeConnection extends AbstractBrokerContainer {
   }
 
   private static void initBrokerClient2() throws IOException {
-    BrokerClientImpl client = generator.getNewBrokerClient(DEFAULT_KEY_2);
+    BrokerClientImpl client = generator.getNewBrokerClient(broker.getDefaultKey2());
     Properties properties = new Properties();
     properties.put("dwh-j2ee", "1.5.1");
     properties.put("dwh-api", "0.10");
@@ -66,43 +73,44 @@ public class TestBrokerNodeConnection extends AbstractBrokerContainer {
 
   @BeforeEach
   public void openMocks() {
-    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL)).thenReturn(BROKER_URL);
+    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL))
+        .thenReturn(brokerUrl);
     Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY))
-        .thenReturn(DEFAULT_ADMIN_KEY);
+        .thenReturn(broker.getDefaultAdminKey());
     brokerAdminInitializerImpl.init();
     adminClient = brokerAdminInitializerImpl.getAdminClient();
   }
 
   @Order(1)
   @Test
-  public void getBrokerNodes() throws IOException {
+  void getBrokerNodes() throws IOException {
     List<Node> nodes = adminClient.listNodes();
     Assertions.assertEquals(2, nodes.size());
   }
 
   @Order(2)
   @Test
-  public void getBrokerNode1() throws IOException {
+  void getBrokerNode1() throws IOException {
     Node node = adminClient.getNode(0);
     Assertions.assertEquals("Schwarzwaldklinik", node.getCommonName());
   }
 
   @Order(3)
   @Test
-  public void getBrokerNode2() throws IOException {
+  void getBrokerNode2() throws IOException {
     Node node = adminClient.getNode(1);
     Assertions.assertEquals("Plainsboro Teaching Hospital", node.getCommonName());
   }
 
   @Order(4)
   @Test
-  public void getNonexistingBrokerNode() throws IOException {
+  void getNonexistingBrokerNode() throws IOException {
     Assertions.assertNull(adminClient.getNode(99));
   }
 
   @Order(5)
   @Test
-  public void getNodeProperties() throws IOException {
+  void getNodeProperties() throws IOException {
     Properties resource = adminClient.getNodeProperties(0, "software");
     Assertions.assertEquals(3, resource.size());
     Assertions.assertEquals("18", resource.get("wildfly"));
@@ -112,7 +120,7 @@ public class TestBrokerNodeConnection extends AbstractBrokerContainer {
 
   @Order(6)
   @Test
-  public void getNodeString() throws IOException {
+  void getNodeString() throws IOException {
     String resource = adminClient.getNodeString(1, "versions");
     resource = resource.replaceAll("\n", "");
     Pattern regex = Pattern.compile("<properties>(.*?)</properties>");
@@ -129,7 +137,7 @@ public class TestBrokerNodeConnection extends AbstractBrokerContainer {
 
   @Order(7)
   @Test
-  public void getNonexistingNodeRessource() {
+  void getNonexistingNodeRessource() {
     // http code 404
     Assertions.assertThrows(InvalidPropertiesFormatException.class,
         () -> adminClient.getNodeProperties(0, "resources"));

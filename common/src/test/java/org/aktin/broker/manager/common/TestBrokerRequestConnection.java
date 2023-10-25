@@ -12,6 +12,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
+import org.aktin.broker.manager.BrokerContainer;
+import org.aktin.broker.manager.BrokerTestDataGenerator;
 import org.aktin.broker.manager.api.common.PropertiesFileResolver;
 import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.RequestInfo;
@@ -40,9 +42,15 @@ import org.xml.sax.SAXException;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestBrokerRequestConnection extends AbstractBrokerContainer {
+public class TestBrokerRequestConnection {
 
-  private static final BrokerTestDataGenerator generator = new BrokerTestDataGenerator(BROKER_URL);
+  private static BrokerTestDataGenerator generator;
+  private static BrokerContainer broker;
+  private static String brokerUrl;
+  private static BrokerClientImpl client1;
+  private static BrokerClientImpl client2;
+  private static BrokerClientImpl client3;
+  private static String defaultContentType;
 
   @Mock
   private PropertiesFileResolver propertiesFileResolver;
@@ -52,16 +60,14 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   private BrokerAdmin adminClient;
 
-  private static BrokerClientImpl client1;
-  private static BrokerClientImpl client2;
-  private static BrokerClientImpl client3;
-  private static String defaultContentType;
-
   @BeforeAll
-  public static void initBrokerClients() throws IOException {
-    client1 = generator.getNewBrokerClient(DEFAULT_KEY_1);
-    client2 = generator.getNewBrokerClient(DEFAULT_KEY_2);
-    client3 = generator.getNewBrokerClient(DEFAULT_KEY_3);
+  public static void init() throws IOException {
+    broker = new BrokerContainer();
+    brokerUrl = broker.getBrokerUrl();
+    generator = new BrokerTestDataGenerator(brokerUrl);
+    client1 = generator.getNewBrokerClient(broker.getDefaultKey1());
+    client2 = generator.getNewBrokerClient(broker.getDefaultKey2());
+    client3 = generator.getNewBrokerClient(broker.getDefaultKey3());
     client1.getMyNode();
     client2.getMyNode();
     client3.getMyNode();
@@ -70,23 +76,24 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @BeforeEach
   public void openMocks() {
-    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL)).thenReturn(BROKER_URL);
+    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL))
+        .thenReturn(brokerUrl);
     Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY))
-        .thenReturn(DEFAULT_ADMIN_KEY);
+        .thenReturn(broker.getDefaultAdminKey());
     brokerAdminInitializerImpl.init();
     adminClient = brokerAdminInitializerImpl.getAdminClient();
   }
 
   @Order(1)
   @Test
-  public void checkEmptyBrokerRequests() throws IOException {
+  void checkEmptyBrokerRequests() throws IOException {
     List<RequestInfo> requests = adminClient.listAllRequests();
     Assertions.assertTrue(requests.isEmpty());
   }
 
   @Order(2)
   @Test
-  public void createSingleRequestAndUpdateToSerial()
+  void createSingleRequestAndUpdateToSerial()
       throws IOException, ParserConfigurationException, SAXException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(0));
@@ -132,7 +139,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(3)
   @Test
-  public void createSerialRequestAndDeleteIt() throws IOException {
+  void createSerialRequestAndDeleteIt() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSerialQueryRequest(1));
     checkBrokerRequestSize(2);
@@ -142,45 +149,45 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(4)
   @Test
-  public void getNonexistingBrokerRequest() throws IOException {
+  void getNonexistingBrokerRequest() throws IOException {
     Assertions.assertNull(adminClient.getRequestDefinition(111, defaultContentType));
   }
 
   @Order(5)
   @Test
-  public void deleteNonexistingBrokerRequest() throws IOException {
+  void deleteNonexistingBrokerRequest() throws IOException {
     adminClient.deleteRequest(333);
   }
 
   @Order(6)
   @Test
-  public void addRequestDefinitionToNonexistingRequest() throws IOException {
+  void addRequestDefinitionToNonexistingRequest() throws IOException {
     adminClient.putRequestDefinition(222, defaultContentType,
         generator.createDefaultSingleQueryRequest(222));
   }
 
   @Order(7)
   @Test
-  public void getTargetNodesOfNonexistingRequest() throws IOException {
+  void getTargetNodesOfNonexistingRequest() throws IOException {
     Assertions.assertNull(adminClient.getRequestTargetNodes(555));
   }
 
   @Order(8)
   @Test
-  public void addTargetNodesToNonexistingRequest() throws IOException {
+  void addTargetNodesToNonexistingRequest() throws IOException {
     int[] targetNodes = generator.getDefaultTargets1();
     adminClient.setRequestTargetNodes(444, targetNodes);
   }
 
   @Order(9)
   @Test
-  public void deleteTargetNodesFromNonexistingRequest() {
+  void deleteTargetNodesFromNonexistingRequest() {
     Assertions.assertThrows(IOException.class, () -> adminClient.clearRequestTargetNodes(666));
   }
 
   @Order(10)
   @Test
-  public void publishRequestAndUpdateItsContent()
+  void publishRequestAndUpdateItsContent()
       throws IOException, ParserConfigurationException, SAXException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(2));
@@ -247,7 +254,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(11)
   @Test
-  public void publishEmptyRequestAndDeleteIt() throws IOException {
+  void publishEmptyRequestAndDeleteIt() throws IOException {
     int id = adminClient.createRequest();
     adminClient.publishRequest(id);
     checkAvailableRequestsOfNodes(2, 2, 1);
@@ -258,7 +265,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(12)
   @Test
-  public void publishedEmptyRequestAnDeleteItBeforeRetrieval() throws IOException {
+  void publishedEmptyRequestAnDeleteItBeforeRetrieval() throws IOException {
     int id = adminClient.createRequest();
     adminClient.publishRequest(id);
     adminClient.deleteRequest(id);
@@ -267,7 +274,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(13)
   @Test
-  public void publishRequestWithInvalidTargets() throws IOException {
+  void publishRequestWithInvalidTargets() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(3));
     adminClient.setRequestTargetNodes(id, generator.getInvalidTargets());
@@ -277,13 +284,13 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(14)
   @Test
-  public void publishNonexistingRequest() {
+  void publishNonexistingRequest() {
     Assertions.assertThrows(IOException.class, () -> adminClient.publishRequest(777));
   }
 
   @Order(15)
   @Test
-  public void closeRequestAndPublishAgain() throws IOException {
+  void closeRequestAndPublishAgain() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(4));
     adminClient.publishRequest(id);
@@ -297,7 +304,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(16)
   @Test
-  public void closeUnpublishedRequestAndCloseItAgain() throws IOException {
+  void closeUnpublishedRequestAndCloseItAgain() throws IOException {
     int id = adminClient.createRequest();
     adminClient.closeRequest(id);
     adminClient.closeRequest(id);
@@ -305,7 +312,7 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(17)
   @Test
-  public void publishAClosedRequest() throws IOException {
+  void publishAClosedRequest() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(5));
     adminClient.closeRequest(id);
@@ -315,13 +322,13 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(18)
   @Test
-  public void closeNonexistingRequest() {
+  void closeNonexistingRequest() {
     Assertions.assertThrows(IOException.class, () -> adminClient.closeRequest(999));
   }
 
   @Order(19)
   @Test
-  public void getRequestInfo() throws IOException {
+  void getRequestInfo() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(6));
     assertEmptyRequestInfo(id);
@@ -376,13 +383,13 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(20)
   @Test
-  public void getRequestInfoOfNonexistingRequest() throws IOException {
+  void getRequestInfoOfNonexistingRequest() throws IOException {
     Assertions.assertNull(adminClient.getRequestInfo(999));
   }
 
   @Order(21)
   @Test
-  public void getRequestStatus() throws IOException {
+  void getRequestStatus() throws IOException {
     int id = adminClient.createRequest();
     assertEmptyRequestStatus(id);
     adminClient.putRequestDefinition(id, defaultContentType,
@@ -452,13 +459,13 @@ public class TestBrokerRequestConnection extends AbstractBrokerContainer {
 
   @Order(22)
   @Test
-  public void getRequestStatusOfNonexistingRequest() throws IOException {
+  void getRequestStatusOfNonexistingRequest() throws IOException {
     assertEmptyRequestStatus(999);
   }
 
   @Order(23)
   @Test
-  public void getRequestNodeMesage() throws IOException {
+  void getRequestNodeMesage() throws IOException {
     int id = adminClient.createRequest();
     adminClient.putRequestDefinition(id, defaultContentType,
         generator.createDefaultSingleQueryRequest(id));

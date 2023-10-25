@@ -6,6 +6,8 @@ import java.util.List;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
 import org.aktin.broker.client.ResponseWithMetadata;
+import org.aktin.broker.manager.BrokerContainer;
+import org.aktin.broker.manager.BrokerTestDataGenerator;
 import org.aktin.broker.manager.api.common.PropertiesFileResolver;
 import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.RequestStatus;
@@ -30,9 +32,14 @@ import org.mockito.quality.Strictness;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestBrokerResultConnection extends AbstractBrokerContainer {
+public class TestBrokerResultConnection {
 
-  private static final BrokerTestDataGenerator generator = new BrokerTestDataGenerator(BROKER_URL);
+  private static BrokerTestDataGenerator generator;
+  private static BrokerContainer broker;
+  private static String brokerUrl;
+  private static BrokerClientImpl client1;
+  private static BrokerClientImpl client2;
+  private static String defaultContentType;
 
   @Mock
   private PropertiesFileResolver propertiesFileResolver;
@@ -42,14 +49,13 @@ public class TestBrokerResultConnection extends AbstractBrokerContainer {
 
   private BrokerAdmin adminClient;
 
-  private static BrokerClientImpl client1;
-  private static BrokerClientImpl client2;
-  private static String defaultContentType;
-
   @BeforeAll
-  public static void initBrokerClients() throws IOException {
-    client1 = generator.getNewBrokerClient(DEFAULT_KEY_1);
-    client2 = generator.getNewBrokerClient(DEFAULT_KEY_2);
+  public static void init() throws IOException {
+    broker = new BrokerContainer();
+    brokerUrl = broker.getBrokerUrl();
+    generator = new BrokerTestDataGenerator(brokerUrl);
+    client1 = generator.getNewBrokerClient(broker.getDefaultKey1());
+    client2 = generator.getNewBrokerClient(broker.getDefaultKey2());
     client1.getMyNode();
     client2.getMyNode();
     defaultContentType = generator.getDefaultQueryRequestContentType();
@@ -57,16 +63,17 @@ public class TestBrokerResultConnection extends AbstractBrokerContainer {
 
   @BeforeEach
   public void openMocks() {
-    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL)).thenReturn(BROKER_URL);
+    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL))
+        .thenReturn(brokerUrl);
     Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY))
-        .thenReturn(DEFAULT_ADMIN_KEY);
+        .thenReturn(broker.getDefaultAdminKey());
     brokerAdminInitializerImpl.init();
     adminClient = brokerAdminInitializerImpl.getAdminClient();
   }
 
   @Order(1)
   @Test
-  public void getEmptyResults() throws IOException {
+  void getEmptyResults() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(0));
     assertEmptyResultList(id);
@@ -85,7 +92,7 @@ public class TestBrokerResultConnection extends AbstractBrokerContainer {
 
   @Order(2)
   @Test
-  public void getResultAndResultString() throws IOException {
+  void getResultAndResultString() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(1));
     letClient1And2CompleteRequest(id);
@@ -124,7 +131,7 @@ public class TestBrokerResultConnection extends AbstractBrokerContainer {
 
   @Order(3)
   @Test
-  public void deleteRequestAfterResults() throws IOException {
+  void deleteRequestAfterResults() throws IOException {
     int id = adminClient.createRequest(defaultContentType,
         generator.createDefaultSingleQueryRequest(1));
     letClient1And2CompleteRequest(id);

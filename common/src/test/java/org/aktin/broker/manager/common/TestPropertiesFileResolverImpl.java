@@ -1,6 +1,7 @@
 package org.aktin.broker.manager.common;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.junit.jupiter.api.Assertions;
@@ -10,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TestPropertiesFileResolverImpl {
+class TestPropertiesFileResolverImpl {
 
   private final PropertiesFileResolverImpl propertiesFileResolver = new PropertiesFileResolverImpl();
 
   @Order(1)
   @Test
-  public void getKeyValue() {
+  void getKeyValue() throws IOException {
     System.setProperty("brokermanager.config.path", getTestResourcePath("good.properties"));
     propertiesFileResolver.init();
     Assertions.assertEquals("ABCD", propertiesFileResolver.getKeyValue(PropertiesKey.URL));
@@ -33,14 +34,14 @@ public class TestPropertiesFileResolverImpl {
 
   @Order(2)
   @Test
-  public void missingKeysInProperties() {
+  void missingKeysInProperties() {
     System.setProperty("brokermanager.config.path", getTestResourcePath("bad.properties"));
     Assertions.assertThrows(IllegalStateException.class, propertiesFileResolver::init);
   }
 
   @Order(3)
   @Test
-  public void noPropertiesFile() {
+  void noPropertiesFile() {
     System.setProperty("brokermanager.config.path", "missing.properties");
     Assertions.assertThrows(IllegalStateException.class, propertiesFileResolver::init);
   }

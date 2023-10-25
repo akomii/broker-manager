@@ -1,4 +1,4 @@
-package org.aktin.broker.manager.common;
+package org.aktin.broker.manager;
 
 import java.io.StringWriter;
 import java.net.URI;
@@ -19,21 +19,20 @@ import org.aktin.broker.query.xml.SingleExecution;
 
 public class BrokerTestDataGenerator {
 
-  private static URI BROKER_URI;
-  private static final String DEFAULT_QUERYREQUEST_CONTENT_TYPE = "application/vnd.aktin.query.request+xml";
+  private final URI brokerUri;
 
   public BrokerTestDataGenerator(String brokerUrl) {
-    BROKER_URI = URI.create(brokerUrl);
+    this.brokerUri = URI.create(brokerUrl);
   }
 
   public BrokerClientImpl getNewBrokerClient(String apiKey) {
-    BrokerClientImpl client = new BrokerClientImpl(BROKER_URI);
+    BrokerClientImpl client = new BrokerClientImpl(brokerUri);
     client.setClientAuthenticator(HttpApiKeyAuth.newBearer(apiKey));
     return client;
   }
 
   public String getDefaultQueryRequestContentType() {
-    return DEFAULT_QUERYREQUEST_CONTENT_TYPE;
+    return "application/vnd.aktin.query.request+xml";
   }
 
   public String createDefaultSingleQueryRequest(int id) {
@@ -100,16 +99,19 @@ public class BrokerTestDataGenerator {
 
   private String convertQueryRequestToXmlString(QueryRequest queryRequest) {
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(QueryRequest.class);
-      Marshaller marshaller = jaxbContext.createMarshaller();
-      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-      StringWriter stringWriter = new StringWriter();
-      marshaller.marshal(queryRequest, stringWriter);
-      return stringWriter.toString();
+      return marshalQueryRequest(queryRequest);
     } catch (JAXBException e) {
-      e.printStackTrace();
-      return null;
+      throw new RuntimeException("Failed to marshal QueryRequest", e);
     }
+  }
+
+  private String marshalQueryRequest(QueryRequest queryRequest) throws JAXBException {
+    JAXBContext jaxbContext = JAXBContext.newInstance(QueryRequest.class);
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    StringWriter stringWriter = new StringWriter();
+    marshaller.marshal(queryRequest, stringWriter);
+    return stringWriter.toString();
   }
 
   public int[] getDefaultTargets1() {

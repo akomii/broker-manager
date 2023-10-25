@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
+import org.aktin.broker.manager.KeycloakContainer;
 import org.aktin.broker.manager.TestApplication;
 import org.aktin.broker.manager.api.factories.NodeStatusInfoFactory;
 import org.aktin.broker.manager.api.models.NodeStatusInfo;
@@ -17,11 +18,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+//TODO containers wants to restart between tests
+@Testcontainers
 @SpringBootTest(classes = TestApplication.class)
-@ActiveProfiles("security")
 @AutoConfigureMockMvc
+@ActiveProfiles("security")
 class TestNodeStatusInfoController {
+
+  private final KeycloakContainer keycloakContainer = new KeycloakContainer();
 
   @Autowired
   private MockMvc mockMvc;
@@ -35,16 +41,29 @@ class TestNodeStatusInfoController {
   @Test
   void create() throws Exception {
     NodeStatusInfo statusInfo = createDefaultInfo();
+    String token = keycloakContainer.fetchAccessTokenFor(keycloakContainer.getDefaultUsername());
+
     mockMvc.perform(post("/api/node-status-info")
+            .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(statusInfo)))
         .andExpect(status().isCreated());
 
     mockMvc.perform(get("/api/node-status-info/1")
+            .header("Authorization", "Bearer " + token)
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.node").value(1))
         .andExpect(jsonPath("$.executionId").value(101));
+  }
+
+  @Test
+  void createUnauthorized() throws Exception {
+    NodeStatusInfo statusInfo = createDefaultInfo();
+    mockMvc.perform(post("/api/node-status-info")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(statusInfo)))
+        .andExpect(status().isUnauthorized());
   }
 
   private NodeStatusInfo createDefaultInfo() {

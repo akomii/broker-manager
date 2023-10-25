@@ -1,0 +1,3 @@
+broker-manager:
+  config:
+    default-linux-path: /etc/broker-manager/config.properties

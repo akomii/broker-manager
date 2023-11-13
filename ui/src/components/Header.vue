@@ -1,13 +1,99 @@
 <template>
-    <header>
-        <h1>My App Header</h1>
-    </header>
-</template>
-  
-<script lang="ts">
-import { defineComponent } from 'vue';
+    <div class="card">
+        <Menubar>
+            <template #start>
+                <div class="logo-container">
+                    <img src="../assets/aktin_logo.png" class="logo-image" />
+                    <h3>Broker Manager</h3>
+                </div>
+            </template>
 
-export default defineComponent({
+            <template #end>
+                <div class="menu-container">
+                    <TabMenu :model="routing" class="tab-menu" />
+                    <Divider layout="vertical" class="divider" />
+                    <div class="user-menu">
+                        <Button type="button" icon="pi pi-user" @click="toggle" aria-haspopup="true"
+                            aria-controls="overlay_menu" />
+                        <Menu ref="menu" id="overlay_menu" :model="usermenu" :popup="true" />
+                    </div>
+                </div>
+            </template>
+        </Menubar>
+    </div>
+</template>
+
+<script lang="ts">
+import Menubar from 'primevue/menubar';
+import TabMenu from 'primevue/tabmenu';
+import Divider from 'primevue/divider';
+import Button from 'primevue/button';
+import Menu from 'primevue/menu';
+
+export default {
     name: 'Header',
-});
+    components: {
+        Menubar,
+        TabMenu,
+        Divider,
+        Button,
+        Menu
+    },
+    data() {
+        return {
+            usermenu: [
+                {
+                    label: '<username>',
+                    items: [
+                        {
+                            label: 'Settings',
+                        },
+                        {
+                            label: 'Logout',
+                        },
+                    ]
+                }
+            ],
+            routing: [
+                { label: 'Anfragen' },
+                { label: 'Kliniken' },
+            ]
+        };
+    },
+    methods: {
+        toggle(event) {
+            this.$refs.menu.toggle(event);
+        }
+    }
+};
 </script>
+
+<style scoped>
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    max-height: 45px;
+    margin-right: 10px;
+}
+
+.menu-container {
+    display: flex;
+    align-items: center;
+}
+
+.tab-menu {
+    margin-right: 10px;
+}
+
+.divider {
+    margin: 0 15px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+</style>

@@ -4,7 +4,7 @@
             <template #start>
                 <div class="logo-container">
                     <img src="../assets/aktin_logo.png" class="logo-image" />
-                    <h3>Broker Manager</h3>
+                    <h2>Broker Manager</h2>
                 </div>
             </template>
 
@@ -55,8 +55,8 @@ export default {
                 }
             ],
             routing: [
-                { label: 'Anfragen' },
-                { label: 'Kliniken' },
+                { label: 'Anfragen', to: '/requests' },
+                { label: 'Kliniken', to: '/clinics' },
             ]
         };
     },
@@ -75,7 +75,7 @@ export default {
 }
 
 .logo-image {
-    max-height: 45px;
+    max-height: 60px;
     margin-right: 10px;
 }
 

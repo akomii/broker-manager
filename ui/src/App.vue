@@ -2,11 +2,16 @@
   <div id="app">
     <Header />
     <main>
-      <h2>Home Page</h2>
+      <Card>
+        <template #content>
+          <router-view></router-view>
+        </template>
+      </Card>
     </main>
   </div>
 </template>
           
 <script setup lang="ts">
 import Header from './components/Header.vue';
+import Card from 'primevue/card';
 </script>

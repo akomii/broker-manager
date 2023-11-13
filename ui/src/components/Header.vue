@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts">
+import { Vue } from 'vue';
 import Menubar from 'primevue/menubar';
 import TabMenu from 'primevue/tabmenu';
 import Divider from 'primevue/divider';
@@ -31,7 +32,6 @@ import Button from 'primevue/button';
 import Menu from 'primevue/menu';
 
 export default {
-    name: 'Header',
     components: {
         Menubar,
         TabMenu,
@@ -57,8 +57,9 @@ export default {
         };
     },
     methods: {
-        toggle(event: PointerEvent) {
-            this.$refs.menu.toggle(event);
+        toggle(event: MouseEvent) {
+            const menu = this.$refs.menu as Vue;
+            menu.toggle(event);
         }
     }
 };

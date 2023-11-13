@@ -45,12 +45,8 @@ export default {
                 {
                     label: '<username>',
                     items: [
-                        {
-                            label: 'Settings',
-                        },
-                        {
-                            label: 'Logout',
-                        },
+                        { label: 'Settings' },
+                        { label: 'Logout' },
                     ]
                 }
             ],
@@ -61,7 +57,7 @@ export default {
         };
     },
     methods: {
-        toggle(event) {
+        toggle(event: PointerEvent) {
             this.$refs.menu.toggle(event);
         }
     }

@@ -3,7 +3,7 @@
         <Menubar>
             <template #start>
                 <div class="logo-container">
-                    <img src="../assets/aktin_logo.png" class="logo-image" />
+                    <img src="@/assets/aktin_logo.png" class="logo-image" />
                     <h2>Broker Manager</h2>
                 </div>
             </template>

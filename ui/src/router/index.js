@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Requests from "../views/requests.vue";
-import Clinics from "../views/clinics.vue";
+import Requests from "@/views/requests.vue";
+import Clinics from "@/views/clinics.vue";
 
 const routes = [
   {

@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-column h-screen">
     <Header />
-    <main class="p-input-filled">
+    <main class="p-input-filled my-2 border-solid border-200">
       <router-view></router-view>
     </main>
   </div>
@@ -10,9 +10,3 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
 </script>
-
-<style scoped>
-main {
-  margin: 0 1%;
-}
-</style>

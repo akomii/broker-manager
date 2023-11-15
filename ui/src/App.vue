@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <main>
+    <main class="p-input-filled">
       <router-view></router-view>
     </main>
   </div>

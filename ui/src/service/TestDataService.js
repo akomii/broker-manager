@@ -686,6 +686,75 @@ export const TestDataService = {
       }, 450); // Simulate an async operation
     });
   },
+
+  getPrincipals() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            name: "John Doe",
+            organization: "City General Hospital",
+            email: "john.doe@example.com",
+            phone: "123-456-7890",
+          },
+          {
+            name: "Jane Smith",
+            organization: "Community Health Center",
+            email: "jane.smith@example.com",
+            phone: "987-654-3210",
+          },
+          {
+            name: "Alice Johnson",
+            organization: "Metropolitan Medical Center",
+            email: "alice.johnson@example.com",
+            phone: "555-123-4567",
+          },
+          {
+            name: "Robert Brown",
+            organization: "Regional Health Clinic",
+            email: "robert.brown@example.com",
+            phone: "456-789-0123",
+          },
+          {
+            name: "Emily Davis",
+            organization: "Unity Medical Group",
+            email: "emily.davis@example.com",
+            phone: "789-012-3456",
+          },
+          {
+            name: "Daniel White",
+            organization: "City Health Services",
+            email: "daniel.white@example.com",
+            phone: "234-567-8901",
+          },
+          {
+            name: "Sophia Wilson",
+            organization: "Community Wellness Center",
+            email: "sophia.wilson@example.com",
+            phone: "567-890-1234",
+          },
+          {
+            name: "Matthew Taylor",
+            organization: "Metropolitan Health Solutions",
+            email: "matthew.taylor@example.com",
+            phone: "890-123-4567",
+          },
+          {
+            name: "Olivia Martinez",
+            organization: "City Medical Associates",
+            email: "olivia.martinez@example.com",
+            phone: "123-234-5678",
+          },
+          {
+            name: "William Clark",
+            organization: "Regional Wellness Center",
+            email: "william.clark@example.com",
+            phone: "234-345-6789",
+          },
+        ]);
+      }, 450); // Simulate an async operation
+    });
+  },
 };
 
 export default TestDataService;

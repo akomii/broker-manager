@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         onPrincipalSelected(selectedPrincipal: Principal) {
-            this.$emit('update:modelValue', selectedPrincipal);
+            this.$emit('update:modelValue', { ...selectedPrincipal });
         }
     }
 };

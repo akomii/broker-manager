@@ -39,7 +39,7 @@ export default {
             }, 250);
         },
         onPrincipalSelected() {
-            this.$emit('principal-select', this.selectedPrincipal);
+            this.$emit('principal-select', { ...this.selectedPrincipal });
         }
     }
 };

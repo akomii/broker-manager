@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="flex flex-column h-screen">
-    <Header />
+    <ApplicationHeader />
     <main class="p-input-filled my-2 border-solid border-200">
       <router-view></router-view>
     </main>
@@ -8,5 +8,5 @@
 </template>
           
 <script setup lang="ts">
-import Header from '@/components/Header.vue';
+import ApplicationHeader from '@/components/ApplicationHeader.vue';
 </script>

@@ -755,6 +755,25 @@ export const TestDataService = {
       }, 450); // Simulate an async operation
     });
   },
+
+  getOrganizations() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          "NuHeal",
+          "AllWellth",
+          "PalmHealth",
+          "QiMed",
+          "MediWise",
+          "Medispa",
+          "LabHealthy",
+          "SafeMed",
+          "MindHeal",
+          "ProHealthy",
+        ]);
+      });
+    });
+  },
 };
 
 export default TestDataService;

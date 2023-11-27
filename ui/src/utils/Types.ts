@@ -5,3 +5,8 @@ export interface Principal {
   email: string;
   phone: string;
 }
+
+export interface Organization {
+  id: number,
+  name: string;
+}

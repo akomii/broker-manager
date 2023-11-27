@@ -760,16 +760,16 @@ export const TestDataService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve([
-          "NuHeal",
-          "AllWellth",
-          "PalmHealth",
-          "QiMed",
-          "MediWise",
-          "Medispa",
-          "LabHealthy",
-          "SafeMed",
-          "MindHeal",
-          "ProHealthy",
+          { name: "NuHeal", id: 1 },
+          { name: "AllWellth", id: 2 },
+          { name: "PalmHealth", id: 3 },
+          { name: "QiMed", id: 4 },
+          { name: "MediWise", id: 5 },
+          { name: "Medispa", id: 6 },
+          { name: "LabHealthy", id: 7 },
+          { name: "SafeMed", id: 8 },
+          { name: "MindHeal", id: 9 },
+          { name: "ProHealthy", id: 10 },
         ]);
       });
     });

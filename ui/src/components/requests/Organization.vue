@@ -4,7 +4,7 @@
             <template v-if="editable">
                 <h3 class="underline m-1 text-center ">Ausgewählte Auswertestellen</h3>
                 <ScrollPanel class="w-24rem h-10rem">
-                    <template v-for="organization in localModelValue">
+                    <template v-for="organization in selectedOrganizations">
                         <div class="hover:bg-red-100 flex justify-content-start flex-wrap"
                             @click="removeOrganization(organization)">
                             <i class="pi pi-minus-circle p-3 mt-1"></i>
@@ -26,7 +26,7 @@
             </template>
             <template v-else>
                 <ScrollPanel class="w-24rem max-h-11rem">
-                    <template v-for="organization in localModelValue">
+                    <template v-for="organization in selectedOrganizations">
                         <div class="hover:surface-100">
                             <p class="text-left text-xl p-3 m-auto">{{ organization }}</p>
                         </div>
@@ -57,22 +57,24 @@ export default {
     data() {
         return {
             allOrganizations: [] as string[],
-            localModelValue: this.modelValue as string[],
+            selectedOrganizations: this.modelValue as string[],
         };
     },
     mounted() {
-        TestDataService.getOrganizations().then((data: string[]) => this.allOrganizations = data);
+        TestDataService.getOrganizations().then((data: string[]) => {
+            this.allOrganizations = data.filter(org => !this.modelValue.includes(org));
+        });
     },
     methods: {
         addOrganization(organization: string) {
             this.allOrganizations = this.allOrganizations.filter(org => org !== organization);
-            this.localModelValue.push(organization);
-            this.$emit('update:modelValue', [...this.localModelValue]);
+            this.selectedOrganizations.push(organization);
+            this.$emit('update:modelValue', [...this.selectedOrganizations]);
         },
         removeOrganization(organization: string) {
-            this.localModelValue = this.localModelValue.filter(org => org !== organization);
+            this.selectedOrganizations = this.selectedOrganizations.filter(org => org !== organization);
             this.allOrganizations.push(organization);
-            this.$emit('update:modelValue', [...this.localModelValue]);
+            this.$emit('update:modelValue', [...this.selectedOrganizations]);
         },
     }
 };

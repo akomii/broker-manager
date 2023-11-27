@@ -7,7 +7,7 @@
             </template>
             <template v-else>
                 <ScrollPanel class="w-24rem max-h-11rem">
-                    <template v-for="organization in localModelValue">
+                    <template v-for="organization in modelValue">
                         <div class="hover:surface-100">
                             <p class="text-left text-xl p-2 m-auto">{{ organization.name }}</p>
                         </div>
@@ -43,10 +43,13 @@ export default {
         };
     },
     mounted() {
-        TestDataService.getOrganizations().then((data: Organization[]) => this.allOrganizations = data);
+        TestDataService.getOrganizations().then((data: Organization[]) => {
+            this.allOrganizations = data.sort((a, b) => a.name.localeCompare(b.name));
+        });
     },
     methods: {
         updateModelValue() {
+            this.localModelValue.sort((a, b) => a.name.localeCompare(b.name));
             this.$emit('update:modelValue', this.localModelValue);
         }
     }

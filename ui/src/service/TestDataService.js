@@ -6,7 +6,7 @@ export const TestDataService = {
           {
             id: 1,
             tags: ["urgent", "medical", "diagnosis"],
-            allowedOrganisationsToDownloadResults: ["RKI", "AKTIN"],
+            allowedOrganisationsToDownloadResults: [1, 2],
             targetNodes: [1, 2, 3, 4, 5],
             requestState: "ONLINE",
             requestModificationHistory: [
@@ -506,7 +506,7 @@ export const TestDataService = {
               "allergy",
               "orthopedics",
             ],
-            allowedOrganisationsToDownloadResults: ["AKTIN"],
+            allowedOrganisationsToDownloadResults: [1],
             targetNodes: [1, 3, 5],
             requestState: "ONLINE",
             requestModificationHistory: [
@@ -638,7 +638,6 @@ export const TestDataService = {
               "CN=BBT Trier,O=Krankenhaus der Barmherzigen Brüder Trier,L=Trier",
             lastContact: "2023-03-10T09:30",
           },
-
           {
             apiKey: "c7e3f5d2",
             tags: ["diagnostics"],

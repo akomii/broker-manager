@@ -12,7 +12,7 @@
                     },
                     bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
                 }">
-                    <template v-for="organization in modelValue">
+                    <template v-for="organization in localModelValue">
                         <div class="hover:surface-100">
                             <p class="text-left text-xl p-2 m-auto">{{ organization.name }}</p>
                         </div>
@@ -38,24 +38,39 @@ export default {
         MultiSelect
     },
     props: {
-        modelValue: { type: Array as () => Organization[], required: true },
+        modelValue: { type: Array as () => number[], required: true },
         editable: { type: Boolean, default: false },
     },
     data() {
         return {
             allOrganizations: [] as Organization[],
-            localModelValue: this.modelValue as Organization[],
+            localModelValue: [] as Organization[],
         };
     },
     mounted() {
         TestDataService.getOrganizations().then((data: Organization[]) => {
             this.allOrganizations = data.sort((a, b) => a.name.localeCompare(b.name));
+            this.localModelValue = this.allOrganizations.filter(org => this.modelValue.includes(org.id));
         });
+    },
+    watch: {
+        modelValue: {
+            immediate: true,
+            handler(newValue) {
+                if (newValue && newValue.length > 0) {
+                    if (this.allOrganizations.length > 0) {
+                        this.localModelValue = this.allOrganizations.filter(org =>
+                            this.modelValue.includes(org.id)
+                        );
+                    }
+                }
+            },
+        },
     },
     methods: {
         updateModelValue() {
             this.localModelValue.sort((a, b) => a.name.localeCompare(b.name));
-            this.$emit('update:modelValue', this.localModelValue);
+            this.$emit('update:modelValue', this.localModelValue.map(org => org.id));
         }
     }
 };

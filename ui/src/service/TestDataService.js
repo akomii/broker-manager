@@ -634,8 +634,11 @@ export const TestDataService = {
               "2023-02-15": "Another note for 2023-02-15",
             },
             id: 1,
-            clientDN:
-              "CN=BBT Trier,O=Krankenhaus der Barmherzigen Brüder Trier,L=Trier",
+            clientDN: {
+              CN: "BBT Trier",
+              O: "Krankenhaus der Barmherzigen Brüder Trier",
+              L: "Trier",
+            },
             lastContact: "2023-03-10T09:30",
           },
           {
@@ -646,8 +649,11 @@ export const TestDataService = {
               "2023-04-20": "Additional note for 2023-04-20",
             },
             id: 2,
-            clientDN:
-              "CN=Ev. Oldenburg,O=Evangelisches Krankenhaus Oldenburg,L=Oldenburg",
+            clientDN: {
+              CN: "Ev. Oldenburg",
+              O: "Evangelisches Krankenhaus Oldenburg",
+              L: "Oldenburg",
+            },
             lastContact: "2023-05-02T14:45",
           },
           {
@@ -657,8 +663,11 @@ export const TestDataService = {
               "2023-06-12": "Note content for 2023-06-12",
             },
             id: 3,
-            clientDN:
-              "CN=UKSH Lübeck,O=Universitätsklinikum Schleswig-Holstein Campus Lübeck,L=Lübeck",
+            clientDN: {
+              CN: "UKSH Lübeck",
+              O: "Universitätsklinikum Schleswig-Holstein Campus Lübeck",
+              L: "Lübeck",
+            },
             lastContact: "2023-08-05T11:15",
           },
           {
@@ -669,7 +678,11 @@ export const TestDataService = {
               "2023-10-18": "Additional note for 2023-10-18",
             },
             id: 4,
-            clientDN: "CN=Charite Mitte,O=Campus Charite Mitte,L=Berlin",
+            clientDN: {
+              CN: "Charite Mitte",
+              O: "Campus Charite Mitte",
+              L: "Berlin",
+            },
             lastContact: "2023-11-07T17:20",
           },
           {
@@ -677,8 +690,11 @@ export const TestDataService = {
             tags: ["neurology", "mental-health"],
             notes: {},
             id: 5,
-            clientDN:
-              "CN=Helios Frankfurt,O=HELIOS Klinikum Frankfurt,L=Frankfurt",
+            clientDN: {
+              CN: "Helios Frankfurt",
+              O: "HELIOS Klinikum Frankfurt",
+              L: "Frankfurt",
+            },
             lastContact: "2024-02-10T10:00",
           },
         ]);

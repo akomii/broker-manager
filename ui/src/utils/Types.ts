@@ -7,6 +7,21 @@ export interface Principal {
 }
 
 export interface Organization {
-  id: number,
+  id: number;
   name: string;
+}
+
+export interface ManagerNode {
+  id: number;
+  tags: string[];
+  clientDN: ClientDN;
+  lastContact: string;
+  apiKey: string;
+  notes: { [key: string]: string };
+}
+
+interface ClientDN {
+  CN: string;
+  O: string;
+  L: string;
 }

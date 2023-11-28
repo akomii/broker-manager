@@ -11,7 +11,7 @@
                     },
                     bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
                 }">
-                    <p>{{ modelValue }}</p>
+                    <p>{{ localModelValue }}</p>
                 </ScrollPanel>
             </template>
         </Fieldset>
@@ -40,6 +40,14 @@ export default {
             localModelValue: this.modelValue as string,
         };
     },
+    watch: {
+        modelValue: {
+            immediate: true,
+            handler(newValue) {
+                this.localModelValue = newValue;
+            }
+        }
+    },
     methods: {
         updateModelValue() {
             this.$emit('update:modelValue', this.localModelValue);
@@ -53,6 +61,7 @@ p {
     white-space: pre-wrap;
     text-align: justify;
 }
+
 .p-inputtextarea {
     min-width: 370%;
     max-width: 785%;

@@ -13,14 +13,13 @@ interface ManagerRequest {
   executions: Execution[];
 }
 
-interface SingleRequest extends ManagerRequest {
-}
+interface SingleRequest extends ManagerRequest {}
 
 interface SeriesRequest extends ManagerRequest {
   anchoredSequenceIdRef: number;
   isAutoPublishing: boolean;
-  seriesClosingDate?: string;
-  seriesArchiveDate?: string;
+  seriesClosingDate: string | null;
+  seriesArchiveDate: string | null;
 }
 
 export interface Organization {
@@ -44,11 +43,11 @@ interface Query {
 }
 
 export interface Principal {
-  [key: string]: string;
+  [key: string]: string | null;
   name: string;
   organization: string;
   email: string;
-  phone?: string;
+  phone: string | null;
 }
 
 interface SingleExecution {
@@ -68,11 +67,11 @@ interface Execution {
   referenceDate: string;
   scheduledExecutionDate: string;
   scheduledPublishDate: string;
-  publishedDate?: string;
+  publishedDate: string | null;
   scheduledClosingDate: string;
-  closedDate?: string;
+  closedDate: string | null;
   scheduledArchiveDate: string;
-  archivedDate?: string;
+  archivedDate: string | null;
   creator: string;
   createdDate: string;
   executionState: ExecutionState;
@@ -82,15 +81,15 @@ interface Execution {
 
 interface NodeStatusInfo {
   nodeId: number;
-  statusMessage?: string;
-  deleted?: string;
-  retrieved?: string;
-  queued?: string;
-  processing?: string;
-  completed?: string;
-  rejected?: string;
-  failed?: string;
-  expired?: string;
+  statusMessage: string | null;
+  deleted: string | null;
+  retrieved: string | null;
+  queued: string | null;
+  processing: string | null;
+  completed: string | null;
+  rejected: string | null;
+  failed: string | null;
+  expired: string | null;
 }
 
 interface ResultsDownloadLog {

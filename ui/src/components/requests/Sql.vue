@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Fieldset legend="Beschreibung" :toggleable="true" class="flex w-auto m-2">
+        <Fieldset legend="SQL-Syntax" :toggleable="true" class="flex w-auto m-2">
             <template v-if="editable">
                 <Textarea class="h-30rem" v-model="localModelValue" @input="updateModelValue" />
             </template>
@@ -17,7 +17,7 @@
         </Fieldset>
     </div>
     <!-- TODO Textarea widht -->
-    <!-- TODO Text nur ASCII -->
+    <!-- TODO SQL Validator -->
 </template>
 
 <script lang="ts">

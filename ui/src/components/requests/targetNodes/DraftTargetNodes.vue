@@ -1,7 +1,7 @@
 <template>
     <div class="flex m-2 max-w-20rem grid">
         <template v-if="editable">
-            <p>EDITABLE</p>
+            <EditTargetNodes v-model="localModelValue"></EditTargetNodes>
         </template>
         <template v-else>
             <DataTable v-model:filters="filters" :value="localModelValue" tableStyle="min-width: 50rem" sortField="id"
@@ -50,6 +50,7 @@ import Button from 'primevue/button';
 import { ManagerNode } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
 import TagChip from '@/components/common/TagChip.vue';
+import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 
 export default {
     components: {
@@ -60,6 +61,7 @@ export default {
         InputText,
         TagChip,
         Button,
+        EditTargetNodes
     },
     props: {
         modelValue: { type: Array as () => number[], required: true },

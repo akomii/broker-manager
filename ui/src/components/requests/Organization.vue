@@ -6,12 +6,7 @@
                     optionLabel="name" placeholder="Auswertestellen auswählen" class="w-24rem" />
             </template>
             <template v-else>
-                <ScrollPanel class="w-24rem max-h-11rem" :pt="{
-                    wrapper: {
-                        style: { 'border-right': '10px solid var(--surface-ground)' }
-                    },
-                    bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
-                }">
+                <ScrollPanel class="w-24rem max-h-11rem" >
                     <template v-for="organization in localModelValue">
                         <div class="hover:surface-100">
                             <p class="text-left text-xl p-2 m-auto">{{ organization.name }}</p>

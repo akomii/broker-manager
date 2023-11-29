@@ -5,12 +5,7 @@
                 <Textarea class="h-30rem" v-model="localModelValue" @input="updateModelValue" />
             </template>
             <template v-else>
-                <ScrollPanel class="max-h-30rem" :pt="{
-                    wrapper: {
-                        style: { 'border-right': '7px solid var(--surface-ground)' }
-                    },
-                    bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
-                }">
+                <ScrollPanel class="max-h-30rem">
                     <p>{{ localModelValue }}</p>
                 </ScrollPanel>
             </template>

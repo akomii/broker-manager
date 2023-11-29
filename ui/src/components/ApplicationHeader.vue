@@ -23,7 +23,7 @@ import TabMenu from 'primevue/tabmenu';
 import Divider from 'primevue/divider';
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
-import UserRole from '@/enums/UserRole.ts';
+import  { UserRole } from '@/utils/Enums.ts';
 
 export default {
     components: {

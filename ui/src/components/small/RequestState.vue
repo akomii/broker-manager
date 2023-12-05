@@ -8,7 +8,7 @@ import { RequestState } from '@/utils/Enums.ts';
 
 export default {
     components: {
-        Tag,
+        Tag
     },
     props: {
         state: {

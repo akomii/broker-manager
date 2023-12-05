@@ -15,11 +15,19 @@ export default {
         InputText
     },
     props: {
-        searchTerm: { type: String, required: true },
-        filterMethod: { type: Function, required: true },
+        searchTerm: {
+            type: String,
+            required: true
+        },
+        filterMethod: {
+            type: Function,
+            required: true
+        },
     },
     data() {
-        return { localSearchTerm: this.searchTerm };
+        return {
+            localSearchTerm: this.searchTerm
+        };
     },
     methods: {
         onSearchTermChange() {

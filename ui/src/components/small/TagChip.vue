@@ -12,7 +12,7 @@ import Chip from 'primevue/chip';
 
 export default {
     components: {
-        Chip,
+        Chip
     },
 }
 </script>

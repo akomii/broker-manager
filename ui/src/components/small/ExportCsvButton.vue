@@ -1,5 +1,5 @@
 <template>
-    <Button icon="pi pi-external-link" label="Export" class="mt-2" @click="exportCSV" />
+    <Button icon="pi pi-external-link" label="Tabelle exportieren" outlined class="mt-2" @click="exportCSV" />
 </template>
   
 <script lang="ts">
@@ -9,10 +9,17 @@ export default {
     components: {
         Button
     },
-    emits: ['exportCSV'],
+    props: {
+        datatableRef: {
+            type: Object,
+            required: true
+        }
+    },
     methods: {
         exportCSV() {
-            this.$emit('exportCSV');
+            if (this.datatableRef) {
+                this.datatableRef.exportCSV();
+            }
         }
     }
 };

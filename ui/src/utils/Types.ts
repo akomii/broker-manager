@@ -10,7 +10,7 @@ interface ManagerRequest {
   requestState: RequestState;
   modificationHistory: ModificationHistoryItem[];
   query: Query;
-  executions: Execution[];
+  executions: RequestExecution[];
 }
 
 interface SingleRequest extends ManagerRequest {}
@@ -61,7 +61,7 @@ interface RepeatedExecution {
   intervalHours: string;
 }
 
-interface Execution {
+export interface RequestExecution {
   sequenceId: number;
   externalId: number;
   referenceDate: string;

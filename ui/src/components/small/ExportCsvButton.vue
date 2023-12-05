@@ -1,7 +1,7 @@
 <template>
-    <Button icon="pi pi-external-link" label="Tabelle exportieren" outlined class="mt-2" @click="exportCSV" />
+    <Button icon="pi pi-external-link" label="Aktuelle Tabelle exportieren" outlined class="mt-2" @click="exportCSV" />
 </template>
-  
+
 <script lang="ts">
 import Button from 'primevue/button';
 

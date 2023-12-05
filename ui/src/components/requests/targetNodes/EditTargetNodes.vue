@@ -1,23 +1,21 @@
 <template>
     <div class="flex flex-wrap m-2">
-        <PickList v-model="pickListNodes" dataKey="id" :pt="{
-            sourceList: { style: { height: '350px', width: '360px' } },
-            targetList: { style: { height: '350px', width: '360px' } },
-            sourcecontrols: { style: { display: 'none' } },
-            targetcontrols: { style: { display: 'none' } },
-            moveToTargetButton: { root: { class: 'bg-red-600' } },
-            moveAllToTargetButton: { root: { class: 'bg-red-600' } },
-            moveToSourceButton: { root: { class: 'bg-green-500' } },
-            moveAllToSourceButton: { root: { class: 'bg-green-500' } },
-            item: ({ context }) => ({ class: [{ 'bg-gray-100': !context.active && context.focused }] }),
-        }" @update:modelValue="(pickList) => $emit('update:modelValue', pickList[0])">
+        <div class="flex justify-content-end w-full">
+            <SearchInput @inputChange="filterPickListNodes" />
+        </div>
+        <PickList v-model="pickListNodes" @update:modelValue="handleListChange" dataKey="id" :showSourceControls=false
+            :showTargetControls=false :targetListProps="{ class: 'h-25rem w-25rem' }"
+            :sourceListProps="{ class: 'h-25rem w-25rem' }" :moveToTargetProps="{ class: 'bg-red-600' }"
+            :moveAllToTargetProps="{ class: 'bg-red-600' }" :moveToSourceProps="{ class: 'bg-green-500' }"
+            :moveAllToSourceProps="{ class: 'bg-green-500' }"
+            :pt="{ item: ({ context }) => ({ class: [{ 'bg-gray-100': !context.active && context.focused }] }), }">
             <template #sourceheader>Ausgewählte Standorte</template>
             <template #targetheader>Verfügbare Standorte</template>
             <template #item="slotProps">
                 <div class="flex flex-wrap align-items-center m-auto">
-                    <div class="flex flex flex-column w-20rem">
+                    <div class="flex flex-wrap flex-column w-20rem">
                         <span class="font-bold">[{{ slotProps.item.id }}] {{ slotProps.item.clientDN.O }}</span>
-                        <div class="p-flex p-flex-wrap">
+                        <div class="flex flex-wrap">
                             <TagChip v-for="tag in slotProps.item.tags">
                                 {{ tag }}
                             </TagChip>
@@ -26,57 +24,82 @@
                 </div>
             </template>
         </PickList>
-        <!-- TODO color for items in source/target -->
-        <!-- TODO search -->
     </div>
-    {{ modelValue }}
+    <!-- TODO color for items in source/target -->
+    <!-- TODO Filter wird resetted wenn mit Filter die PickList geupdated wird -->
 </template>
 
 <script lang="ts">
 import PickList from 'primevue/picklist';
-import TagChip from '@/components/common/TagChip.vue';
-import { TestDataService } from '@/service/TestDataService';
+import TagChip from '@/components/small/TagChip.vue';
+import SearchInput from '@/components/small/SearchInput.vue';
 import { ManagerNode } from '@/utils/Types';
 
 export default {
     components: {
         PickList,
         TagChip,
+        SearchInput,
     },
     props: {
-        modelValue: { type: Array as () => ManagerNode[], required: true },
+        modelValue: {
+            type: Array as () => number[],
+            required: true
+        },
+        allManagerNodes: {
+            type: Array as () => ManagerNode[],
+            required: true
+        }
     },
     data() {
         return {
-            allManagerNodes: [] as ManagerNode[],
-            pickListNodes: [[] as ManagerNode[], [] as ManagerNode[]],
+            pickListNodes: [[] as ManagerNode[], [] as ManagerNode[]]
         };
     },
     computed: {
-        availableNodes() {
-            const selectedIds = new Set(this.modelValue.map(node => node.id));
-            return this.allManagerNodes.filter(node => !selectedIds.has(node.id)).sort((a, b) => a.id - b.id);
+        selectedNodes() {
+            return this.allManagerNodes.filter(node => this.modelValue.includes(node.id)).sort((a, b) => a.id - b.id);
         },
+        availableNodes() {
+            return this.allManagerNodes.filter(node => !this.modelValue.includes(node.id)).sort((a, b) => a.id - b.id);
+        }
     },
     watch: {
         modelValue: {
             immediate: true,
             handler() {
-                this.updatePickListNodes();
-            },
-        },
-    },
-    mounted() {
-        TestDataService.getNodes().then((data: ManagerNode[]) => {
-            this.allManagerNodes = data;
-            this.updatePickListNodes();
-        });
+                this.filterPickListNodes('');
+            }
+        }
     },
     methods: {
-        updatePickListNodes() {
-            const sortedModelValue = this.modelValue.slice().sort((a, b) => a.id - b.id);
-            this.pickListNodes = [sortedModelValue, this.availableNodes];
+        filterPickListNodes(searchTerm: string) {
+            const filteredSelectedNodes = this.filterNodesBySearchTerm(this.selectedNodes, searchTerm);
+            const filteredAvailableNodes = this.filterNodesBySearchTerm(this.availableNodes, searchTerm);
+            this.pickListNodes = [filteredSelectedNodes, filteredAvailableNodes];
         },
+        filterNodesBySearchTerm(nodes: ManagerNode[], searchTerm: string): ManagerNode[] {
+            if (!searchTerm) return nodes;
+            return nodes.filter(node =>
+                node.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+                node.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                node.clientDN.O.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        },
+        handleListChange() {
+            let updatedModelValue = [...this.modelValue];
+            // Add items to updatedModelValue from selectedNodes if not already present
+            this.pickListNodes[0].forEach(node => {
+                if (!updatedModelValue.includes(node.id)) {
+                    updatedModelValue.push(node.id);
+                }
+            });
+            // Remove items from updatedModelValue that are in availableNodes
+            updatedModelValue = updatedModelValue.filter(id =>
+                !this.pickListNodes[1].some(node => node.id === id)
+            );
+            this.$emit('update:modelValue', updatedModelValue);
+        }
     }
 };
 </script>

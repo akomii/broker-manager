@@ -1,21 +1,16 @@
 <template>
     <div class="flex m-2 max-w-20rem grid">
         <template v-if="editable">
-            <EditTargetNodes v-model="localModelValue"></EditTargetNodes>
+            <EditTargetNodes :modelValue="modelValue" @update:modelValue="handleModelValueChange"
+                :allManagerNodes="allManagerNodes" />
         </template>
         <template v-else>
-            <DataTable v-model:filters="filters" :value="localModelValue" tableStyle="min-width: 50rem" sortField="id"
-                :sortOrder="1" :globalFilterFields="['id', 'clientDN.L', 'tags', 'lastContact']" scrollable
+            <div class="flex justify-content-end w-full">
+                <SearchInput @inputChange="updateGlobalFilter" />
+            </div>
+            <DataTable ref="dt" v-model:filters="filters" :value="selectedNodes" tableStyle="min-width: 50rem"
+                sortField="id" :sortOrder="1" :globalFilterFields="['id', 'clientDN.L', 'tags', 'lastContact']" scrollable
                 scrollHeight="500px">
-                <template #header>
-                    <div class="flex justify-content-between flex-wrap">
-                        <h2>Angezielte Standorte</h2>
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Suche..." />
-                        </span>
-                    </div>
-                </template>
                 <Column field="id" header="ID" sortable></Column>
                 <Column field="clientDN.L" header="Standort" sortable></Column>
                 <Column field="tags" header="Tags" sortable>
@@ -29,11 +24,11 @@
                 </Column>
                 <Column field="lastContact" header="Letzter Kontakt" sortable>
                     <template #body="slotProps">
-                        {{ formatGermanDate(slotProps.data.lastContact) }}
+                        {{ formatToGermanDate(slotProps.data.lastContact) }}
                     </template>
                 </Column>
             </DataTable>
-            <Button icon="pi pi-external-link" label="Export" class="mt-2" @click="exportCSV($event)" />
+            <ExportCsvButton v-if="$refs.dt" :datatableRef="$refs.dt" />
         </template>
     </div>
 </template>
@@ -49,8 +44,11 @@ import Button from 'primevue/button';
 
 import { ManagerNode } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
-import TagChip from '@/components/common/TagChip.vue';
+import TagChip from '@/components/small/TagChip.vue';
+import ExportCsvButton from '@/components/small/ExportCsvButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
+import { formatToGermanDate } from '@/utils/Helper.ts';
+import SearchInput from '@/components/small/SearchInput.vue';
 
 export default {
     components: {
@@ -61,56 +59,46 @@ export default {
         InputText,
         TagChip,
         Button,
-        EditTargetNodes
+        EditTargetNodes,
+        ExportCsvButton,
+        SearchInput
     },
     props: {
-        modelValue: { type: Array as () => number[], required: true },
-        editable: { type: Boolean, default: false },
+        modelValue: {
+            type: Array as () => number[],
+            required: true
+        },
+        editable: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
             allManagerNodes: [] as ManagerNode[],
-            localModelValue: [] as ManagerNode[],
             filters: {
-                global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+                global: { value: '', matchMode: FilterMatchMode.CONTAINS },
             }
         };
+    },
+    computed: {
+        selectedNodes() {
+            return this.allManagerNodes.filter(node => this.modelValue.includes(node.id));
+        }
     },
     mounted() {
         TestDataService.getNodes().then((data: ManagerNode[]) => {
             this.allManagerNodes = data;
-            this.localModelValue = this.allManagerNodes.filter(node => this.modelValue.includes(node.id));
         });
     },
-    watch: {
-        modelValue: {
-            immediate: true,
-            handler(newValue) {
-                if (newValue && newValue.length > 0) {
-                    if (this.allManagerNodes.length > 0) {
-                        this.localModelValue = this.allManagerNodes.filter(node =>
-                            this.modelValue.includes(node.id)
-                        );
-                    }
-                }
-            },
-        },
-    },
     methods: {
-        updateModelValue() {
-            this.$emit('update:modelValue', this.localModelValue.map(node => node.id));
+        formatToGermanDate,
+        updateGlobalFilter(searchTerm: string) {
+            this.filters.global.value = searchTerm;
         },
-        formatGermanDate(dateString) {
-            const date = new Date(dateString);
-            const options = {
-                year: 'numeric', month: '2-digit', day: '2-digit',
-                hour: '2-digit', minute: '2-digit', hour12: false
-            };
-            return new Intl.DateTimeFormat('de-DE', options).format(date);
+        handleModelValueChange(newModelValue: ManagerNode[]) {
+            this.$emit('update:modelValue', newModelValue);
         },
-        exportCSV() {
-            this.$refs.dt.exportCSV();
-        }
     }
 };
 </script>

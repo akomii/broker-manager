@@ -1,7 +1,7 @@
 <template>
     <Tag :value="state" :severity="tagColor" rounded />
 </template>
-  
+
 <script lang="ts">
 import Tag from 'primevue/tag';
 import { RequestState } from '@/utils/Enums.ts';

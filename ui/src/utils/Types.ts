@@ -79,7 +79,7 @@ export interface RequestExecution {
   resultsDownloadLog: ResultsDownloadLog[];
 }
 
-interface NodeStatusInfo {
+export interface NodeStatusInfo {
   nodeId: number;
   statusMessage: string | null;
   deleted: string | null;

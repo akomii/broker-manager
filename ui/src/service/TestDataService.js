@@ -133,21 +133,21 @@ export const TestDataService = {
                     userOrgs: ["RKI"],
                     date: "2024-01-06T09:15",
                     hashValue: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
-                    hashAlgorithm: "sha1"
+                    hashAlgorithm: "sha1",
                   },
                   {
                     user: "asmith",
                     userOrgs: ["AKTIN"],
                     date: "2024-01-06T08:30",
                     hashValue: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
-                    hashAlgorithm: "sha1"
+                    hashAlgorithm: "sha1",
                   },
                   {
                     user: "kjohnson",
                     userOrgs: ["RKI", "AKTIN"],
                     date: "2024-01-07T10:00",
                     hashValue: "9c4a6a156b9c51d57227be4dbf6149d1122b85b1",
-                    hashAlgorithm: "sha1"
+                    hashAlgorithm: "sha1",
                   },
                 ],
               },
@@ -299,7 +299,7 @@ export const TestDataService = {
                   },
                   {
                     statusMessage:
-                      "Failed with error: Node 3 processing error.",
+                      "java.io.IOException: org.postgresql.util.PSQLException: ERROR: column reference 'concept_cd' is ambiguous\nPosition: 97\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.SQLHandler.execute(SQLHandler.java:42)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.executeRequestSource(RequestExecution.java:59)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.run(RequestExecution.java:97)\nat org.jboss.as.ee@18.0.0.Final//org.jboss.as.ee.concurrent.ControlPointUtils$ControlledRunnable.run(ControlPointUtils.java:105)\nat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\nat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.internal.ManagedFutureTask.run(ManagedFutureTask.java:141)\nat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\nat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\nat java.base/java.lang.Thread.run(Thread.java:829)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.ManagedThreadFactoryImpl$ManagedThread.run(ManagedThreadFactoryImpl.java:250)\nCaused by: org.postgresql.util.PSQLException: ERROR: column reference 'concept_cd' is ambiguous\nPosition: 97\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:246)\nat org.jboss.ironjacamar.jdbcadapters@1.4.17.Final//org.jboss.jca.adapters.jdbc.WrappedStatement.executeUpdate(WrappedStatement.java:430)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.Execution.runStatements(Execution.java:82)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.Execution.generateTables(Execution.java:247)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.SQLHandler.execute(SQLHandler.java:36)\n... 10 more",
                     nodeId: 3,
                     deleted: null,
                     retrieved: "2023-12-20T08:00",

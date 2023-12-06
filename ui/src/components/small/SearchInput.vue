@@ -1,6 +1,6 @@
 <template>
     <span class="p-input-icon-right">
-        <InputText @input="onInput" placeholder="Suche..." class="w-15rem mb-2" />
+        <InputText @input="onInput" placeholder="Suche..." class="w-15rem" />
         <i class="pi pi-search" />
     </span>
 </template>

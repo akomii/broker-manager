@@ -7,7 +7,7 @@ export const TestDataService = {
             id: 1,
             tags: ["urgent", "medical", "diagnosis"],
             authorizedOrgs: [1, 2],
-            targetNodes: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            targetNodes: [1, 2, 3, 4, 5],
             requestState: "ONLINE",
             modificationHistory: [
               {

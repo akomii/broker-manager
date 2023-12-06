@@ -4,9 +4,26 @@
                 :allManagerNodes="allManagerNodes" />
         </template>
         <template v-else>
-            <div class="flex flex-wrap w-full justify-content-end align-items-end">
+            <div class="grid nested-grid flex flex-wrap w-full">
+                <div class="col-6">
+                    <div class="grid">
+                        <div class="col-12">
+                            <p class="font-semibold text-primary text-lg underline m-0">
+                                Aktuelle Ausführung: {{ execution.sequenceId }}
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <p class="font-semibold text-primary text-2xl m-0">
+                                Zustimmung: {{ executionConsent }} / {{ execution.nodeStatusInfos.length }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 flex flex-wrap justify-content-end align-items-end">
                     <SearchInput @inputChange="updateGlobalFilter" />
+                </div>
             </div>
+
             <DataTable ref="dt" v-model:filters="filters" :value="selectedNodes" tableStyle="min-width: 50rem"
                 sortField="id" :sortOrder="1" :globalFilterFields="['id', 'clientDN.L', 'tags', 'lastContact']" scrollable
                 scrollHeight="500px">
@@ -26,6 +43,12 @@
                         {{ formatToGermanDate(slotProps.data.lastContact) }}
                     </template>
                 </Column>
+                <Column field="state" header="Bearbeitungsstatus">
+                    <template #body="slotProps">
+                        TODO
+                        OVERLAYPANEL + TIMELINE
+                    </template>
+                </Column>
             </DataTable>
             <ExportCsvButton :datatableRef="$refs.dt" />
         </template>
@@ -40,7 +63,7 @@ import { FilterMatchMode } from 'primevue/api';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 
-import { ManagerNode } from '@/utils/Types';
+import { ManagerNode, RequestExecution } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
 import TagChip from '@/components/small/TagChip.vue';
 import ExportCsvButton from '@/components/small/ExportCsvButton.vue';
@@ -66,6 +89,10 @@ export default {
             type: Array as () => number[],
             required: true
         },
+        execution: {
+            type: Object as () => RequestExecution,
+            required: true
+        },
         editable: {
             type: Boolean,
             default: false
@@ -82,6 +109,9 @@ export default {
     computed: {
         selectedNodes() {
             return this.allManagerNodes.filter(node => this.modelValue.includes(node.id));
+        },
+        executionConsent() {
+            return this.execution.nodeStatusInfos.filter(nodeInfo => nodeInfo.completed !== null).length;
         }
     },
     mounted() {

@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-wrap m-2">
-        <div class="flex justify-content-end w-full">
+    <div class="grid flex flex-wrap m-2 w-full">
+        <div class="col-12 flex flex-wrap justify-content-end align-items-end">
             <SearchInput @inputChange="filterPickListNodes" />
         </div>
         <PickList v-model="pickListNodes" @update:modelValue="handleListChange" dataKey="id" :showSourceControls=false
-            :showTargetControls=false :targetListProps="{ class: 'h-25rem w-25rem' }"
-            :sourceListProps="{ class: 'h-25rem w-25rem' }" :moveToTargetProps="{ class: 'bg-red-600' }"
+            :showTargetControls=false :targetListProps="{ class: 'h-25rem w-auto' }" class="col-12"
+            :sourceListProps="{ class: 'h-25rem w-auto' }" :moveToTargetProps="{ class: 'bg-red-600' }"
             :moveAllToTargetProps="{ class: 'bg-red-600' }" :moveToSourceProps="{ class: 'bg-green-500' }"
             :moveAllToSourceProps="{ class: 'bg-green-500' }"
             :pt="{ item: ({ context }) => ({ class: [{ 'bg-gray-100': !context.active && context.focused }] }), }">

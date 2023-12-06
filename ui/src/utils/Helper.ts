@@ -1,4 +1,7 @@
 export function formatToGermanDate(dateString: string): string {
+  if (!dateString || isNaN(Date.parse(dateString))) {
+    return "";
+  }
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
     year: "2-digit",

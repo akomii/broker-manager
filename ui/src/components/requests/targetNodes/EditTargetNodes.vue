@@ -1,5 +1,5 @@
 <template>
-    <div class="grid flex flex-wrap m-2 w-full">
+    <div class="grid flex flex-wrap w-full">
         <div class="col-12 flex flex-wrap justify-content-end align-items-end">
             <SearchInput @inputChange="filterPickListNodes" />
         </div>
@@ -88,13 +88,11 @@ export default {
         },
         handleListChange() {
             let updatedModelValue = [...this.modelValue];
-            // Add items to updatedModelValue from selectedNodes if not already present
             this.pickListNodes[0].forEach(node => {
                 if (!updatedModelValue.includes(node.id)) {
                     updatedModelValue.push(node.id);
                 }
             });
-            // Remove items from updatedModelValue that are in availableNodes
             updatedModelValue = updatedModelValue.filter(id =>
                 !this.pickListNodes[1].some(node => node.id === id)
             );

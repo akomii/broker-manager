@@ -16,3 +16,13 @@ export enum ExecutionState {
   CLOSED = "CLOSED",
   ARCHIVED = "ARCHIVED",
 }
+
+export enum NodeState {
+  RETRIEVED = "retrieved",
+  QUEUED = "queued",
+  PROCESSING = "processing",
+  COMPLETED = "completed",
+  REJECTED = "rejected",
+  FAILED = "failed",
+  EXPIRED = "expired",
+}

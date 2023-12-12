@@ -2,7 +2,9 @@
     <div class="mx-2">
         <div class="flex flex-wrap justify-content-between">
             <div class="flex flex-wrap justify-content-start align-items-center">
-                <Button class="mx-2" icon="pi pi-chevron-left text-xl" outlined />
+                <div class="mx-2">
+                    <GoBackButton />
+                </div>
 
                 <!-- Title Section -->
                 <div class="flex flex-wrap justify-content-start align-items-center">
@@ -47,24 +49,24 @@
 </template>
 
 <script lang="ts">
-import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
 
 import TagList from '@/components/small/tags/TagList.vue';
 import TagCreator from '@/components/small/tags/TagCreator.vue';
 import MenuButton from '@/components/small/buttons/MenuButton.vue';
+import GoBackButton from '@/components/small/buttons/GoBackButton.vue';
 import RequestState from '@/components/small/RequestState.vue';
 import { UserRole } from '@/utils/Enums.ts';
 
 export default {
     components: {
-        Button,
         Divider,
         InputText,
         TagList,
         TagCreator,
         MenuButton,
+        GoBackButton,
         RequestState
     },
     props: {

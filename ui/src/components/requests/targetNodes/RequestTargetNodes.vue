@@ -76,7 +76,7 @@ import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue'
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';
 import SearchInput from '@/components/small/SearchInput.vue';
-import NodeStatusInfoTimeline from '@/components/small/NodeStatusInfoTimeline.vue'
+import NodeStatusInfoTimeline from '@/components/requests/common/NodeStatusInfoTimeline.vue'
 
 export default {
     components: {

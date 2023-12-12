@@ -56,7 +56,7 @@ import TagList from '@/components/small/tags/TagList.vue';
 import TagCreator from '@/components/small/tags/TagCreator.vue';
 import MenuButton from '@/components/small/buttons/MenuButton.vue';
 import GoBackButton from '@/components/small/buttons/GoBackButton.vue';
-import RequestState from '@/components/small/RequestState.vue';
+import RequestState from '@/components/requests/common/RequestState.vue';
 import { UserRole } from '@/utils/Enums.ts';
 
 export default {

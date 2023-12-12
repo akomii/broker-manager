@@ -9,28 +9,22 @@
                 <TabMenu :model="routing" class="mr-2" />
                 <Divider layout="vertical" class="ml-2" />
             </div>
-            <div>
-                <Button type="button" icon="pi pi-user" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
-                <Menu ref="menu" id="overlay_menu" :model="usermenu" :popup="true" />
-            </div>
+            <MenuButton :icon="'pi pi-user'" :menu="usermenu" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue';
 import TabMenu from 'primevue/tabmenu';
 import Divider from 'primevue/divider';
-import Button from 'primevue/button';
-import Menu from 'primevue/menu';
+import MenuButton from '@/components/small/buttons/MenuButton.vue';
 import  { UserRole } from '@/utils/Enums.ts';
 
 export default {
     components: {
         TabMenu,
         Divider,
-        Button,
-        Menu
+        MenuButton,
     },
     data() {
         return {
@@ -55,11 +49,5 @@ export default {
             return this.userRole === UserRole.IT;
         },
     },
-    methods: {
-        toggle(event: MouseEvent) {
-            const menu = this.$refs.menu as Vue;
-            menu.toggle(event);
-        }
-    }
 };
 </script>

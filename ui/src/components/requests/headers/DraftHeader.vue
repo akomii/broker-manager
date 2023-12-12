@@ -10,7 +10,7 @@
                     <RequestState class="text-lg" :state="state" />
                 </div>
                 <div class="flex flex-wrap max-w-30rem mx-2">
-                    <TagList :tags="tags"/>
+                    <TagList :tags="tags" />
                 </div>
             </div>
             <div class="flex flex-wrap justify-content-end align-items-center">

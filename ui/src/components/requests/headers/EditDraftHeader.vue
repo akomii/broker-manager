@@ -13,13 +13,11 @@
                 <div class="mx-2">
                     <RequestState class="text-lg" :state="state" />
                 </div>
-
                 <div class="flex flex-wrap max-w-30rem mx-2">
                     <TagList :tags="localTags" :removable="true" @update:tags="localTags = $event" />
                     <TagCreator :tags="localTags" @update:tags="localTags = $event" />
                 </div>
             </div>
-
             <div class="flex flex-wrap justify-content-end align-items-center">
                 <div class="mx-2">
                     <MenuButton :icon="'pi pi-chevron-down'" :menu="menu" />

@@ -5,10 +5,19 @@ export const TestDataService = {
         resolve([
           {
             id: 1,
-            tags: ["urgent", "medical", "diagnosis"],
-            authorizedOrgs: [1, 2],
-            targetNodes: [1, 2, 3, 4, 5],
-            requestState: "ONLINE",
+            tags: new Set([
+              "urgent",
+              "medical",
+              "diagnosis",
+              "tag1",
+              "tag2",
+              "tag3",
+              "tag4",
+              "tag5",
+            ]),
+            authorizedOrgs: new Set([1, 2]),
+            targetNodes: new Set([1, 2, 3, 4, 5]),
+            requestState: "DRAFT",
             modificationHistory: [
               {
                 date: "2023-08-05T11:15",
@@ -33,7 +42,7 @@ export const TestDataService = {
             seriesArchiveDate: "2024-01-01T00:00",
             query: {
               title:
-                "Request for Patient Data Number and a really really long title",
+                "2019-003: Wochenbericht der Notaufnahmesurveillance am RKI",
               description:
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse",
               sql: "<sql xmlns=\"http://aktin.org/ns/i2b2/sql\"><temporary-table name=\"temp_data\"/><source type=\"application/sql\">SELECT a.id AS AccountID, a.name AS AccountName, p.name AS PlanName, SUM(t.amount) AS TotalTransactionAmount, COUNT(DISTINCT t.id) AS NumberOfTransactions, MAX(t.date) AS LastTransactionDate, CASE WHEN a.status = 'active' THEN 'Active Account' ELSE 'Inactive Account' END AS AccountStatus, COALESCE(c.comment, 'No Comments') AS LatestComment FROM accounts a INNER JOIN transactions t ON a.id = t.account_id LEFT JOIN plans p ON a.plan_id = p.id LEFT JOIN ( SELECT account_id, MAX(date) AS latest_comment_date FROM comments GROUP BY account_id ) lc ON a.id = lc.account_id LEFT JOIN comments c ON a.id = c.account_id AND lc.latest_comment_date = c.date WHERE a.creation_date BETWEEN '2021-01-01' AND '2023-01-01' AND t.status IN ('completed', 'pending') GROUP BY a.id, a.name, p.name, a.status, c.comment HAVING SUM(t.amount) > 1000 ORDER BY TotalTransactionAmount DESC, LastTransactionDate DESC LIMIT 100;</source><anonymize><ref table=\"temp_data\" column=\"encounter_num\"/></anonymize><export destination=\"technical_report\" table=\"temp_data\"/></sql>",
@@ -488,16 +497,16 @@ export const TestDataService = {
           },
           {
             id: 2,
-            tags: [
+            tags: new Set([
               "physical-therapy",
               "cardiology",
               "radiology",
               "dermatology",
               "allergy",
               "orthopedics",
-            ],
-            authorizedOrgs: [1],
-            targetNodes: [1, 3, 5],
+            ]),
+            authorizedOrgs: new Set([1]),
+            targetNodes: new Set([1, 3, 5]),
             requestState: "ONLINE",
             modificationHistory: [
               {
@@ -618,7 +627,7 @@ export const TestDataService = {
         resolve([
           {
             apiKey: "a4f8b2e1",
-            tags: ["cardiology", "patient-care", "emergency-care"],
+            tags: new Set(["cardiology", "patient-care", "emergency-care"]),
             notes: {
               "2023-01-01": "Note content for 2023-01-01",
               "2023-02-15": "Another note for 2023-02-15",
@@ -633,7 +642,7 @@ export const TestDataService = {
           },
           {
             apiKey: "c7e3f5d2",
-            tags: ["diagnostics"],
+            tags: new Set(["diagnostics"]),
             notes: {
               "2023-03-05": "Note content for 2023-03-05",
               "2023-04-20": "Additional note for 2023-04-20",
@@ -648,7 +657,7 @@ export const TestDataService = {
           },
           {
             apiKey: "f9a1b4e6",
-            tags: ["orthopedics", "physical-therapy", "urology", "oncology"],
+            tags: new Set(["orthopedics", "physical-therapy", "urology", "oncology"]),
             notes: {
               "2023-06-12": "Note content for 2023-06-12",
             },
@@ -662,7 +671,7 @@ export const TestDataService = {
           },
           {
             apiKey: "d1e2a3d4",
-            tags: ["dermatology", "allergy", "radiology"],
+            tags: new Set(["dermatology", "allergy", "radiology"]),
             notes: {
               "2023-09-30": "Note content for 2023-09-30",
               "2023-10-18": "Additional note for 2023-10-18",
@@ -677,7 +686,7 @@ export const TestDataService = {
           },
           {
             apiKey: "b5c6d7e8",
-            tags: ["neurology", "mental-health"],
+            tags: new Set(["neurology", "mental-health"]),
             notes: {},
             id: 5,
             clientDN: {
@@ -689,7 +698,7 @@ export const TestDataService = {
           },
           {
             apiKey: "g3h1i5k7",
-            tags: ["pediatrics", "general-medicine"],
+            tags: new Set(["pediatrics", "general-medicine"]),
             notes: {
               "2023-11-15": "Pediatric care update",
               "2023-12-01": "General medicine overview",
@@ -704,7 +713,7 @@ export const TestDataService = {
           },
           {
             apiKey: "j4k6m8n0",
-            tags: ["surgery", "rehabilitation"],
+            tags: new Set(["surgery", "rehabilitation"]),
             notes: {
               "2023-10-22": "Surgery procedure enhancements",
               "2023-11-05": "Rehabilitation techniques review",
@@ -719,7 +728,7 @@ export const TestDataService = {
           },
           {
             apiKey: "p3q6s9v2",
-            tags: ["endocrinology", "nutrition"],
+            tags: new Set(["endocrinology", "nutrition"]),
             notes: {
               "2023-08-30": "Endocrinology department update",
               "2023-09-12": "Nutritional advice for patients",
@@ -734,7 +743,7 @@ export const TestDataService = {
           },
           {
             apiKey: "r5t8w1y3",
-            tags: ["cardiac-care", "emergency-services"],
+            tags: new Set(["cardiac-care", "emergency-services"]),
             notes: {
               "2023-07-21": "Advanced cardiac care techniques",
               "2023-08-08": "Emergency response improvements",
@@ -749,7 +758,7 @@ export const TestDataService = {
           },
           {
             apiKey: "u7x0z3c6",
-            tags: ["gastroenterology", "general-surgery"],
+            tags: new Set(["gastroenterology", "general-surgery"]),
             notes: {
               "2023-06-19": "Gastroenterology department news",
               "2023-07-03": "Updates in general surgery",
@@ -764,7 +773,7 @@ export const TestDataService = {
           },
           {
             apiKey: "a2b3c4d5",
-            tags: ["ophthalmology", "optometry"],
+            tags: new Set(["ophthalmology", "optometry"]),
             notes: {
               "2023-12-05": "Ophthalmology conference summary",
               "2024-01-10": "Optometry equipment update",
@@ -779,7 +788,7 @@ export const TestDataService = {
           },
           {
             apiKey: "e3f4g5h6",
-            tags: ["psychiatry", "neuropsychology"],
+            tags: new Set(["psychiatry", "neuropsychology"]),
             notes: {
               "2023-10-30": "New psychiatric treatment methods",
               "2023-11-25": "Neuropsychology research findings",
@@ -794,7 +803,7 @@ export const TestDataService = {
           },
           {
             apiKey: "i7j8k9l0",
-            tags: ["dentistry", "oral-health"],
+            tags: new Set(["dentistry", "oral-health"]),
             notes: {
               "2024-02-20": "Advanced dental care techniques",
               "2024-03-15": "Oral health awareness programs",
@@ -809,7 +818,7 @@ export const TestDataService = {
           },
           {
             apiKey: "m1n2o3p4",
-            tags: ["pediatric-surgery", "neonatology"],
+            tags: new Set(["pediatric-surgery", "neonatology"]),
             notes: {
               "2024-01-05": "Pediatric surgical innovations",
               "2024-02-10": "Advancements in neonatology",
@@ -824,7 +833,7 @@ export const TestDataService = {
           },
           {
             apiKey: "q5r6s7t8",
-            tags: ["vascular-surgery", "angiography"],
+            tags: new Set(["vascular-surgery", "angiography"]),
             notes: {
               "2023-11-10": "Vascular surgery techniques review",
               "2023-12-20": "Latest in angiography",

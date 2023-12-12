@@ -29,7 +29,7 @@
 import Button from 'primevue/button';
 import Divider from 'primevue/divider';
 import RequestState from '@/components/small/RequestState.vue';
-import TagChip from '@/components/small/TagChip.vue';
+import TagChip from '@/components/small/tags/TagChip.vue';
 import MenuButton from '@/components/small/buttons/MenuButton.vue';
 
 export default {

@@ -42,7 +42,7 @@ import Button from 'primevue/button';
 
 import { ManagerNode } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
-import TagChip from '@/components/small/TagChip.vue';
+import TagChip from '@/components/small/tags/TagChip.vue';
 import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';

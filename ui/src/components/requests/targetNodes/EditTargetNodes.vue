@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import PickList from 'primevue/picklist';
-import TagChip from '@/components/small/TagChip.vue';
+import TagChip from '@/components/small/tags/TagChip.vue';
 import SearchInput from '@/components/small/SearchInput.vue';
 import { ManagerNode } from '@/utils/Types';
 

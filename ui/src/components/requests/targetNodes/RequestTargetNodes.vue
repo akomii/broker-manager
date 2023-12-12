@@ -32,9 +32,7 @@
             <Column field="tags" header="Tags" sortable>
                 <template #body="slotProps">
                     <div class="p-flex p-flex-wrap">
-                        <TagChip v-for="tag in slotProps.data.tags">
-                            {{ tag }}
-                        </TagChip>
+                        <TagList :tags="slotProps.data.tags" />
                     </div>
                 </template>
             </Column>
@@ -73,7 +71,7 @@ import Button from 'primevue/button';
 
 import { ManagerNode, RequestExecution, NodeStatusInfo } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
-import TagChip from '@/components/small/tags/TagChip.vue';
+import TagList from '@/components/small/tags/TagList.vue';
 import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';
@@ -87,7 +85,7 @@ export default {
         Column,
         Row,
         InputText,
-        TagChip,
+        TagList,
         Button,
         EditTargetNodes,
         ExportTableButton,

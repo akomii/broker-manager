@@ -1,34 +1,32 @@
 <template>
-        <template v-if="editable">
-            <EditTargetNodes :modelValue="modelValue" @update:modelValue="handleModelValueChange"
-                :allManagerNodes="allManagerNodes" />
-        </template>
-        <template v-else>
-            <div class="flex flex-wrap w-full justify-content-end align-items-end">
-                    <SearchInput @inputChange="updateGlobalFilter" />
-            </div>
-            <DataTable ref="dt" v-model:filters="filters" :value="selectedNodes" tableStyle="min-width: 50rem"
-                sortField="id" :sortOrder="1" :globalFilterFields="['id', 'clientDN.L', 'tags', 'lastContact']" scrollable
-                scrollHeight="500px">
-                <Column field="id" header="ID" sortable></Column>
-                <Column field="clientDN.L" header="Standort" sortable></Column>
-                <Column field="tags" header="Tags" sortable>
-                    <template #body="slotProps">
-                        <div class="p-flex p-flex-wrap">
-                            <TagChip v-for="tag in slotProps.data.tags">
-                                {{ tag }}
-                            </TagChip>
-                        </div>
-                    </template>
-                </Column>
-                <Column field="lastContact" header="Letzter Kontakt" sortable>
-                    <template #body="slotProps">
-                        {{ formatToGermanDate(slotProps.data.lastContact) }}
-                    </template>
-                </Column>
-            </DataTable>
-            <ExportTableButton :datatableRef="$refs.dt" />
-        </template>
+    <template v-if="editable">
+        <EditTargetNodes :modelValue="modelValue" @update:modelValue="handleModelValueChange"
+            :allManagerNodes="allManagerNodes" />
+    </template>
+    <template v-else>
+        <div class="flex flex-wrap w-full justify-content-end align-items-end">
+            <SearchInput @inputChange="updateGlobalFilter" />
+        </div>
+        <DataTable ref="dt" v-model:filters="filters" :value="selectedNodes" tableStyle="min-width: 50rem" sortField="id"
+            :sortOrder="1" :globalFilterFields="['id', 'clientDN.L', 'tags', 'lastContact']" scrollable
+            scrollHeight="500px">
+            <Column field="id" header="ID" sortable></Column>
+            <Column field="clientDN.L" header="Standort" sortable></Column>
+            <Column field="tags" header="Tags" sortable>
+                <template #body="slotProps">
+                    <div class="p-flex p-flex-wrap">
+                        <TagList :tags="slotProps.data.tags" />
+                    </div>
+                </template>
+            </Column>
+            <Column field="lastContact" header="Letzter Kontakt" sortable>
+                <template #body="slotProps">
+                    {{ formatToGermanDate(slotProps.data.lastContact) }}
+                </template>
+            </Column>
+        </DataTable>
+        <ExportTableButton :datatableRef="$refs.dt" />
+    </template>
 </template>
 
 <script lang="ts">
@@ -42,7 +40,7 @@ import Button from 'primevue/button';
 
 import { ManagerNode } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
-import TagChip from '@/components/small/tags/TagChip.vue';
+import TagList from '@/components/small/tags/TagList.vue';
 import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';
@@ -55,7 +53,7 @@ export default {
         Column,
         Row,
         InputText,
-        TagChip,
+        TagList,
         Button,
         EditTargetNodes,
         ExportTableButton,

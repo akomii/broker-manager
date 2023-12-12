@@ -16,9 +16,7 @@
                     <div class="flex flex-wrap flex-column w-20rem">
                         <span class="font-bold">[{{ slotProps.item.id }}] {{ slotProps.item.clientDN.O }}</span>
                         <div class="flex flex-wrap">
-                            <TagChip v-for="tag in slotProps.item.tags">
-                                {{ tag }}
-                            </TagChip>
+                            <TagList :tags="slotProps.item.tags" />
                         </div>
                     </div>
                 </div>
@@ -31,14 +29,14 @@
 
 <script lang="ts">
 import PickList from 'primevue/picklist';
-import TagChip from '@/components/small/tags/TagChip.vue';
+import TagList from '@/components/small/tags/TagList.vue';
 import SearchInput from '@/components/small/SearchInput.vue';
 import { ManagerNode } from '@/utils/Types';
 
 export default {
     components: {
         PickList,
-        TagChip,
+        TagList,
         SearchInput,
     },
     props: {

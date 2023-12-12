@@ -56,7 +56,7 @@
                 </template>
             </Column>
         </DataTable>
-        <ExportCsvButton :datatableRef="$refs.dt" />
+        <ExportTableButton :datatableRef="$refs.dt" />
     </template>
     <!-- TODO Search does not work for state -->
     <!-- TODO Search does not work for date -->
@@ -74,7 +74,7 @@ import Button from 'primevue/button';
 import { ManagerNode, RequestExecution, NodeStatusInfo } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
 import TagChip from '@/components/small/TagChip.vue';
-import ExportCsvButton from '@/components/small/ExportCsvButton.vue';
+import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';
 import SearchInput from '@/components/small/SearchInput.vue';
@@ -90,7 +90,7 @@ export default {
         TagChip,
         Button,
         EditTargetNodes,
-        ExportCsvButton,
+        ExportTableButton,
         SearchInput,
         NodeStatusInfoTimeline,
     },

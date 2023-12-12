@@ -52,10 +52,10 @@
 import Divider from 'primevue/divider';
 import InputText from 'primevue/inputtext';
 
-import TagList from '@/components/small/tags/TagList.vue';
-import TagCreator from '@/components/small/tags/TagCreator.vue';
-import MenuButton from '@/components/small/buttons/MenuButton.vue';
-import GoBackButton from '@/components/small/buttons/GoBackButton.vue';
+import TagList from '@/components/common/tags/TagList.vue';
+import TagCreator from '@/components/common/tags/TagCreator.vue';
+import MenuButton from '@/components/common/buttons/MenuButton.vue';
+import GoBackButton from '@/components/common/buttons/GoBackButton.vue';
 import RequestState from '@/components/requests/common/RequestState.vue';
 import { UserRole } from '@/utils/Enums.ts';
 

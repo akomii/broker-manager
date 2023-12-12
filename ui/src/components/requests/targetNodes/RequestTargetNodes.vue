@@ -71,11 +71,11 @@ import Button from 'primevue/button';
 
 import { ManagerNode, RequestExecution, NodeStatusInfo } from '@/utils/Types';
 import { TestDataService } from '@/service/TestDataService';
-import TagList from '@/components/small/tags/TagList.vue';
-import ExportTableButton from '@/components/small/buttons/ExportTableButton.vue';
+import TagList from '@/components/common/tags/TagList.vue';
+import ExportTableButton from '@/components/common/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
 import { formatToGermanDate } from '@/utils/Helper.ts';
-import SearchInput from '@/components/small/SearchInput.vue';
+import SearchInput from '@/components/common/SearchInput.vue';
 import NodeStatusInfoTimeline from '@/components/requests/common/NodeStatusInfoTimeline.vue'
 
 export default {

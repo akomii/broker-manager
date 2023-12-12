@@ -5,7 +5,7 @@
             <h2 class="text-700">Broker Manager</h2>
         </div>
         <div class="flex align-items-center">
-            <div v-if="isTabMenuShown" class="flex">
+            <div v-if="hasUserRoleIT" class="flex">
                 <TabMenu :model="routing" class="mr-2" />
                 <Divider layout="vertical" class="ml-2" />
             </div>
@@ -45,7 +45,7 @@ export default {
         };
     },
     computed: {
-        isTabMenuShown() {
+        hasUserRoleIT() {
             return this.userRole === UserRole.IT;
         },
     },

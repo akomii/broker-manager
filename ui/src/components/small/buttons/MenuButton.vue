@@ -1,6 +1,6 @@
 <template>
     <Button :icon="icon" @click="toggle"/>
-    <Menu ref="menu" :model="menu" :popup="true" class="mt-1"/>
+    <Menu ref="menu" :model="menu" :popup="true" class="mt-2"/>
 </template>
 
 <script lang="ts">

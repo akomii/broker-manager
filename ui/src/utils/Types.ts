@@ -4,9 +4,9 @@ export type Request = SingleRequest | SeriesRequest;
 
 interface ManagerRequest {
   id: number;
-  tags: string[];
-  authorizedOrgs: number[]; // Organization IDs
-  targetNodes: number[]; // ManagerNode IDs
+  tags: Set<string>;
+  authorizedOrgs: Set<number>; // Organization IDs
+  targetNodes: Set<number>; // ManagerNode IDs
   requestState: RequestState;
   modificationHistory: ModificationHistoryItem[];
   query: Query;
@@ -94,7 +94,7 @@ export interface NodeStatusInfo {
 
 interface ResultsDownloadLog {
   user: string;
-  userOrgs: number[]; // Organization IDs
+  userOrgs: Set<number>; // Organization IDs
   date: string;
   hashValue: string;
   hashAlgorithm: string;
@@ -102,7 +102,7 @@ interface ResultsDownloadLog {
 
 export interface ManagerNode {
   id: number;
-  tags: string[];
+  tags: Set<string>;
   clientDN: ClientDN;
   lastContact: string;
   apiKey: string;

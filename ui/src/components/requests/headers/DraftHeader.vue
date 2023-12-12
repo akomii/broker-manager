@@ -52,7 +52,8 @@ export default {
             required: true,
         },
         tags: {
-            type: Array as () => string[]
+            type: Set<string>,
+            required: true
         }
     },
     data() {

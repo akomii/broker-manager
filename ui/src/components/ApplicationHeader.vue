@@ -18,7 +18,7 @@
 import TabMenu from 'primevue/tabmenu';
 import Divider from 'primevue/divider';
 import MenuButton from '@/components/common/buttons/MenuButton.vue';
-import  { UserRole } from '@/utils/Enums.ts';
+import { UserRole } from '@/utils/Enums.ts';
 
 export default {
     components: {
@@ -32,8 +32,14 @@ export default {
                 {
                     label: '<username>',
                     items: [
-                        { label: 'Settings' },
-                        { label: 'Logout' },
+                        {
+                            label: 'Settings',
+                            icon: 'pi pi-cog'
+                        },
+                        {
+                            label: 'Logout',
+                            icon: 'pi pi-sign-out'
+                        },
                     ]
                 }
             ],

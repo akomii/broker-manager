@@ -24,6 +24,7 @@
                 </div>
 
                 <!-- Tags Section -->
+                <!-- TODO ARCHIVED CANNOT BE CHANGED ANYMORE-->
                 <div class="flex flex-wrap max-w-30rem mx-2">
                     <TagList :tags="editable ? localTags : tags" :removable="editable" @update:tags="localTags = $event" />
                     <TagCreator v-if="editable" :tags="localTags" @update:tags="localTags = $event" />

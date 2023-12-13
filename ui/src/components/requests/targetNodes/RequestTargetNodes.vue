@@ -38,7 +38,7 @@
             </Column>
             <Column field="lastContact" header="Letzter Kontakt" sortable>
                 <template #body="slotProps">
-                    {{ formatToGermanDate(slotProps.data.lastContact) }}
+                    {{ formatToLocalDate(slotProps.data.lastContact) }}
                 </template>
             </Column>
             <Column field="state" header="Bearbeitungsstatus">
@@ -74,7 +74,7 @@ import { TestDataService } from '@/service/TestDataService';
 import TagList from '@/components/common/tags/TagList.vue';
 import ExportTableButton from '@/components/common/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
-import { formatToGermanDate } from '@/utils/Helper.ts';
+import { DateFormatter } from '@/utils/DateFormatter.ts';
 import SearchInput from '@/components/common/SearchInput.vue';
 import NodeStatusInfoTimeline from '@/components/requests/common/NodeStatusInfoTimeline.vue'
 
@@ -128,7 +128,9 @@ export default {
         });
     },
     methods: {
-        formatToGermanDate,
+        formatToLocalDate(date: Date): String {
+            return DateFormatter.getInstance().formatToLocalDate(date);
+        },
         updateGlobalFilter(searchTerm: string) {
             this.filters.global.value = searchTerm;
         },

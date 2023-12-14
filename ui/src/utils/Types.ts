@@ -65,7 +65,7 @@ export interface RequestExecution {
   sequenceId: number;
   externalId: number;
   referenceDate: string;
-  scheduledExecutionDate: string;
+  executionDate: string;
   scheduledPublishDate: string;
   publishedDate: string | null;
   scheduledClosingDate: string;

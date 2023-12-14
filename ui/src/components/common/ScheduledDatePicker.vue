@@ -7,11 +7,11 @@
     </div>
     <div v-else>
         <div v-if="actualDate">
-            {{ formatToLocalDate(actualDate) }}
+            {{ formatDateToGermanLocale(actualDate) }}
         </div>
         <div v-else-if="scheduledDate" v-tooltip.bottom="`Geplantes ${label}`">
             <span class="text-gray-700">
-                {{ formatToLocalDate(scheduledDate) }}
+                {{ formatDateToGermanLocale(scheduledDate) }}
                 <i class="pi pi-calendar-times" />
             </span>
         </div>
@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Calendar from 'primevue/calendar';
-import { DateFormatter } from '@/utils/DateFormatter.ts';
+import MomentWrapper from '@/utils/MomentWrapper';
 
 export default {
     components: {
@@ -53,8 +53,8 @@ export default {
         }
     },
     methods: {
-        formatToLocalDate(date: Date): String {
-            return DateFormatter.getInstance().formatToLocalDate(date);
+        formatDateToGermanLocale(date: Date): String {
+            return MomentWrapper.formatDateToGermanLocale(date);
         }
     }
 };

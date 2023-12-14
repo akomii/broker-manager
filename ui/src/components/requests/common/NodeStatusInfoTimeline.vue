@@ -30,7 +30,7 @@ import Timeline from 'primevue/timeline';
 
 import { NodeStatusInfo } from "@/utils/Types";
 import { NodeState } from "@/utils/Enums";
-import { DateFormatter } from '@/utils/DateFormatter.ts';
+import MomentWrapper from '@/utils/MomentWrapper';
 
 const orderedStates: NodeState[] = [
     NodeState.RETRIEVED,
@@ -83,7 +83,7 @@ export default {
                 const key = state as keyof NodeStatusInfo;
                 const timestamp = this.nodeStatusInfo[key];
                 if (timestamp) {
-                    const formattedDate = DateFormatter.getInstance().formatToLocalDate(timestamp);
+                    const formattedDate = MomentWrapper.formatDateToGermanLocale(timestamp);
                     statusArray.push({ status: germanTranslations[state], date: formattedDate });
                 }
             }

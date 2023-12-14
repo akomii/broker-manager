@@ -6,13 +6,13 @@
         </span>
     </div>
     <div v-else>
-        {{ formatToLocalDate(date) }}
+        {{ formatDateToGermanLocale(date) }}
     </div>
 </template>
 
 <script lang="ts">
 import Calendar from 'primevue/calendar';
-import { DateFormatter } from '@/utils/DateFormatter.ts';
+import MomentWrapper from '@/utils/MomentWrapper';
 
 export default {
     components: {
@@ -42,8 +42,8 @@ export default {
         }
     },
     methods: {
-        formatToLocalDate(date: Date): String {
-            return DateFormatter.getInstance().formatToLocalDate(date);
+        formatDateToGermanLocale(date: Date): String {
+            return MomentWrapper.formatDateToGermanLocale(date);
         }
     }
 };

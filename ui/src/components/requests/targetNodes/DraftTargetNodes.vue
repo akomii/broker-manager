@@ -21,7 +21,7 @@
             </Column>
             <Column field="lastContact" header="Letzter Kontakt" sortable>
                 <template #body="slotProps">
-                    {{ formatToLocalDate(slotProps.data.lastContact) }}
+                    {{ formatDateToGermanLocale(slotProps.data.lastContact) }}
                 </template>
             </Column>
         </DataTable>
@@ -43,7 +43,7 @@ import { TestDataService } from '@/service/TestDataService';
 import TagList from '@/components/common/tags/TagList.vue';
 import ExportTableButton from '@/components/common/buttons/ExportTableButton.vue';
 import EditTargetNodes from '@/components/requests/targetNodes/EditTargetNodes.vue';
-import { DateFormatter } from '@/utils/DateFormatter.ts';
+import MomentWrapper from '@/utils/MomentWrapper';
 import SearchInput from '@/components/common/SearchInput.vue';
 
 export default {
@@ -88,8 +88,8 @@ export default {
         });
     },
     methods: {
-        formatToLocalDate(date: Date): String {
-            return DateFormatter.getInstance().formatToLocalDate(date);
+        formatDateToGermanLocale(date: Date): String {
+            return MomentWrapper.formatDateToGermanLocale(date);
         },
         updateGlobalFilter(searchTerm: string) {
             this.filters.global.value = searchTerm;

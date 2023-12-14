@@ -1,4 +1,5 @@
 import { RequestState, ExecutionState } from "@/utils/enums";
+import { MomentDuration } from "@/utils/MomentWrapper";
 
 export type Request = SingleRequest | SeriesRequest;
 
@@ -18,8 +19,8 @@ interface SingleRequest extends ManagerRequest {}
 interface SeriesRequest extends ManagerRequest {
   anchoredSequenceIdRef: number;
   isAutoPublishing: boolean;
-  seriesClosingDate: string | null;
-  seriesArchiveDate: string | null;
+  seriesClosingDate: Date | null;
+  seriesArchiveDate: Date | null;
 }
 
 export interface Organization {
@@ -28,7 +29,7 @@ export interface Organization {
 }
 
 interface ModificationHistoryItem {
-  date: string;
+  date: Date;
   user: string;
   clob: string;
 }
@@ -51,29 +52,30 @@ export interface Principal {
 }
 
 interface SingleExecution {
-  duration: string;
+  duration: MomentDuration;
 }
 
+// TODO check if interval/intervalHours is necessary
 interface RepeatedExecution {
   id: number;
-  duration: string;
-  interval: string;
-  intervalHours: string;
+  duration: MomentDuration;
+  interval: number;
+  intervalHours: number;
 }
 
 export interface RequestExecution {
   sequenceId: number;
-  externalId: number;
-  referenceDate: string;
-  executionDate: string;
-  scheduledPublishDate: string;
-  publishedDate: string | null;
-  scheduledClosingDate: string;
-  closedDate: string | null;
-  scheduledArchiveDate: string;
-  archivedDate: string | null;
+  externalId: number | null;
+  referenceDate: Date;
+  executionDate: Date;
+  scheduledPublishDate: Date;
+  publishedDate: Date | null;
+  scheduledClosingDate: Date;
+  closedDate: Date | null;
+  scheduledArchiveDate: Date;
+  archivedDate: Date | null;
   creator: string;
-  createdDate: string;
+  createdDate: Date;
   executionState: ExecutionState;
   nodeStatusInfos: NodeStatusInfo[];
   resultsDownloadLog: ResultsDownloadLog[];
@@ -82,20 +84,20 @@ export interface RequestExecution {
 export interface NodeStatusInfo {
   nodeId: number;
   statusMessage: string | null;
-  deleted: string | null;
-  retrieved: string | null;
-  queued: string | null;
-  processing: string | null;
-  completed: string | null;
-  rejected: string | null;
-  failed: string | null;
-  expired: string | null;
+  deleted: Date | null;
+  retrieved: Date | null;
+  queued: Date | null;
+  processing: Date | null;
+  completed: Date | null;
+  rejected: Date | null;
+  failed: Date | null;
+  expired: Date | null;
 }
 
 interface ResultsDownloadLog {
   user: string;
   userOrgs: Set<number>; // Organization IDs
-  date: string;
+  date: Date;
   hashValue: string;
   hashAlgorithm: string;
 }
@@ -104,7 +106,7 @@ export interface ManagerNode {
   id: number;
   tags: Set<string>;
   clientDN: ClientDN;
-  lastContact: string;
+  lastContact: Date;
   apiKey: string;
   notes: { [key: string]: string };
 }

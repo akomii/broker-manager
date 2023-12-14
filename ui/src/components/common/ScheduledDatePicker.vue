@@ -1,12 +1,20 @@
 <template>
-    <div v-if="editable">
+    <div v-if="editable && !actualDate">
         <span class="p-float-label">
-            <Calendar v-model="compDate" showIcon showButtonBar showTime hourFormat="24" />
+            <Calendar v-model="compScheduledDate" showIcon showButtonBar showTime hourFormat="24" />
             <label>{{ label }}</label>
         </span>
     </div>
     <div v-else>
-        {{ formatToLocalDate(date) }}
+        <div v-if="actualDate">
+            {{ formatToLocalDate(actualDate) }}
+        </div>
+        <div v-else-if="scheduledDate" v-tooltip.bottom="`Geplantes ${label}`">
+            <span class="text-gray-700">
+                {{ formatToLocalDate(scheduledDate) }}
+                <i class="pi pi-calendar-times" />
+            </span>
+        </div>
     </div>
 </template>
 
@@ -23,7 +31,10 @@ export default {
             type: String,
             required: true
         },
-        date: {
+        scheduledDate: {
+            type: Date,
+        },
+        actualDate: {
             type: Date,
         },
         editable: {
@@ -33,12 +44,12 @@ export default {
     },
     data() {
         return {
-            compDate: this.date
+            compScheduledDate: this.scheduledDate
         };
     },
     watch: {
-        compDate(newDate: Date) {
-            this.$emit('update:date', newDate);
+        compScheduledDate(newDate: Date) {
+            this.$emit('update:scheduledDate', newDate);
         }
     },
     methods: {

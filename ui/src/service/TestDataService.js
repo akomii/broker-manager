@@ -5,7 +5,7 @@ export const TestDataService = {
         resolve([
           {
             id: 1,
-            tags: new Set([
+            tags: [
               "urgent",
               "medical",
               "diagnosis",
@@ -14,9 +14,9 @@ export const TestDataService = {
               "tag3",
               "tag4",
               "tag5",
-            ]),
-            authorizedOrgs: new Set([1, 2]),
-            targetNodes: new Set([1, 2, 3, 4, 5]),
+            ],
+            authorizedOrgs: [1, 2],
+            targetNodes: [1, 2, 3, 4, 5],
             requestState: "DRAFT",
             modificationHistory: [
               {
@@ -63,16 +63,16 @@ export const TestDataService = {
               {
                 sequenceId: 1,
                 externalId: 101,
-                referenceDate: new Date("2023-11-25T00:00"),
-                executionDate: new Date("2023-12-02T00:00"),
-                scheduledPublishDate: new Date("2023-12-03T00:00"),
-                publishedDate: new Date("2023-12-03T00:00"),
-                scheduledClosingDate: new Date("2023-12-10T00:00"),
-                closedDate: new Date("2023-12-10T00:00"),
-                scheduledArchiveDate: new Date("2023-12-15T00:00"),
-                archivedDate: new Date("2023-12-15T00:00"),
+                referenceDate: "2023-12-14T12:00:48+01:00",
+                executionDate: "2023-12-02T00:00",
+                scheduledPublishDate: "2023-12-03T00:00",
+                publishedDate: "2023-12-03T00:00",
+                scheduledClosingDate: "2023-12-10T00:00",
+                closedDate: "2023-12-10T00:00",
+                scheduledArchiveDate: "2023-12-15T00:00",
+                archivedDate: null,
                 creator: "jsmith123",
-                createdDate: new Date("2023-11-20T00:00"),
+                createdDate: "2023-11-20T00:00",
                 executionState: "ARCHIVED",
                 nodeStatusInfos: [
                   {
@@ -497,16 +497,16 @@ export const TestDataService = {
           },
           {
             id: 2,
-            tags: new Set([
+            tags: [
               "physical-therapy",
               "cardiology",
               "radiology",
               "dermatology",
               "allergy",
               "orthopedics",
-            ]),
-            authorizedOrgs: new Set([1]),
-            targetNodes: new Set([1, 3, 5]),
+            ],
+            authorizedOrgs: [1],
+            targetNodes: [1, 3, 5],
             requestState: "ONLINE",
             modificationHistory: [
               {
@@ -627,7 +627,7 @@ export const TestDataService = {
         resolve([
           {
             apiKey: "a4f8b2e1",
-            tags: new Set(["cardiology", "patient-care", "emergency-care"]),
+            tags: ["cardiology", "patient-care", "emergency-care"],
             notes: {
               "2023-01-01": "Note content for 2023-01-01",
               "2023-02-15": "Another note for 2023-02-15",
@@ -642,7 +642,7 @@ export const TestDataService = {
           },
           {
             apiKey: "c7e3f5d2",
-            tags: new Set(["diagnostics"]),
+            tags: ["diagnostics"],
             notes: {
               "2023-03-05": "Note content for 2023-03-05",
               "2023-04-20": "Additional note for 2023-04-20",
@@ -657,12 +657,12 @@ export const TestDataService = {
           },
           {
             apiKey: "f9a1b4e6",
-            tags: new Set([
+            tags: [
               "orthopedics",
               "physical-therapy",
               "urology",
               "oncology",
-            ]),
+            ],
             notes: {
               "2023-06-12": "Note content for 2023-06-12",
             },
@@ -676,7 +676,7 @@ export const TestDataService = {
           },
           {
             apiKey: "d1e2a3d4",
-            tags: new Set(["dermatology", "allergy", "radiology"]),
+            tags: ["dermatology", "allergy", "radiology"],
             notes: {
               "2023-09-30": "Note content for 2023-09-30",
               "2023-10-18": "Additional note for 2023-10-18",
@@ -691,7 +691,7 @@ export const TestDataService = {
           },
           {
             apiKey: "b5c6d7e8",
-            tags: new Set(["neurology", "mental-health"]),
+            tags: ["neurology", "mental-health"],
             notes: {},
             id: 5,
             clientDN: {
@@ -703,7 +703,7 @@ export const TestDataService = {
           },
           {
             apiKey: "g3h1i5k7",
-            tags: new Set(["pediatrics", "general-medicine"]),
+            tags: ["pediatrics", "general-medicine"],
             notes: {
               "2023-11-15": "Pediatric care update",
               "2023-12-01": "General medicine overview",
@@ -718,7 +718,7 @@ export const TestDataService = {
           },
           {
             apiKey: "j4k6m8n0",
-            tags: new Set(["surgery", "rehabilitation"]),
+            tags: ["surgery", "rehabilitation"],
             notes: {
               "2023-10-22": "Surgery procedure enhancements",
               "2023-11-05": "Rehabilitation techniques review",
@@ -733,7 +733,7 @@ export const TestDataService = {
           },
           {
             apiKey: "p3q6s9v2",
-            tags: new Set(["endocrinology", "nutrition"]),
+            tags: ["endocrinology", "nutrition"],
             notes: {
               "2023-08-30": "Endocrinology department update",
               "2023-09-12": "Nutritional advice for patients",
@@ -748,7 +748,7 @@ export const TestDataService = {
           },
           {
             apiKey: "r5t8w1y3",
-            tags: new Set(["cardiac-care", "emergency-services"]),
+            tags: ["cardiac-care", "emergency-services"],
             notes: {
               "2023-07-21": "Advanced cardiac care techniques",
               "2023-08-08": "Emergency response improvements",
@@ -763,7 +763,7 @@ export const TestDataService = {
           },
           {
             apiKey: "u7x0z3c6",
-            tags: new Set(["gastroenterology", "general-surgery"]),
+            tags: ["gastroenterology", "general-surgery"],
             notes: {
               "2023-06-19": "Gastroenterology department news",
               "2023-07-03": "Updates in general surgery",
@@ -778,7 +778,7 @@ export const TestDataService = {
           },
           {
             apiKey: "a2b3c4d5",
-            tags: new Set(["ophthalmology", "optometry"]),
+            tags: ["ophthalmology", "optometry"],
             notes: {
               "2023-12-05": "Ophthalmology conference summary",
               "2024-01-10": "Optometry equipment update",
@@ -793,7 +793,7 @@ export const TestDataService = {
           },
           {
             apiKey: "e3f4g5h6",
-            tags: new Set(["psychiatry", "neuropsychology"]),
+            tags: ["psychiatry", "neuropsychology"],
             notes: {
               "2023-10-30": "New psychiatric treatment methods",
               "2023-11-25": "Neuropsychology research findings",
@@ -808,7 +808,7 @@ export const TestDataService = {
           },
           {
             apiKey: "i7j8k9l0",
-            tags: new Set(["dentistry", "oral-health"]),
+            tags: ["dentistry", "oral-health"],
             notes: {
               "2024-02-20": "Advanced dental care techniques",
               "2024-03-15": "Oral health awareness programs",
@@ -823,7 +823,7 @@ export const TestDataService = {
           },
           {
             apiKey: "m1n2o3p4",
-            tags: new Set(["pediatric-surgery", "neonatology"]),
+            tags: ["pediatric-surgery", "neonatology"],
             notes: {
               "2024-01-05": "Pediatric surgical innovations",
               "2024-02-10": "Advancements in neonatology",
@@ -838,7 +838,7 @@ export const TestDataService = {
           },
           {
             apiKey: "q5r6s7t8",
-            tags: new Set(["vascular-surgery", "angiography"]),
+            tags: ["vascular-surgery", "angiography"],
             notes: {
               "2023-11-10": "Vascular surgery techniques review",
               "2023-12-20": "Latest in angiography",

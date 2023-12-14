@@ -4,17 +4,16 @@
             <Button :label="editable ? 'Änderungen speichern' : 'Antragssteller editieren'" @click="click" />
         </div>
 
-        <Header :id="request.id" :title="request.query.title" :state="'DRAFT'" :tags="request.tags" :editable="false" />
+        <SingleMeta :execution="request.executions[0]" :editable="editable" />
 
-        <Header :id="request.id" :title="request.query.title" :state="'DRAFT'" :tags="request.tags" :editable="true"
-            @update:tags="request.tags = $event" @update:title="request.query.title = $event" />
-
-        <Header :id="request.id" :title="request.query.title" :state="'ONLINE'" :tags="request.tags" :editable="false" />
-
-        <Header :id="request.id" :title="request.query.title" :state="'ONLINE'" :tags="request.tags" :editable="true"
-            @update:tags="request.tags = $event" @update:title="request.query.title = $event" />
 
         <!--
+        <Header :id="request.id" :title="request.query.title" :state="'DRAFT'" :tags="request.tags" :editable="editable"
+            @update:tags="request.tags = $event" @update:title="request.query.title = $event" />
+
+        <Header :id="request.id" :title="request.query.title" :state="'ONLINE'" :tags="request.tags" :editable="editable"
+            @update:tags="request.tags = $event" @update:title="request.query.title = $event" />
+
         <div class="grid">
             <div class="col">
                 <DraftTargetNodes v-model="request.targetNodes" :editable="editable" />
@@ -49,6 +48,7 @@ import Divider from 'primevue/divider';
 import { TestDataService } from '@/service/TestDataService';
 import { Request } from '@/utils/Types';
 import Header from '@/components/requests/Header.vue';
+import SingleMeta from '@/components/requests/meta/SingleMeta.vue';
 
 export default {
     components: {
@@ -61,7 +61,8 @@ export default {
         ProgressSpinner,
         Divider,
         SQL,
-        Header
+        Header,
+        SingleMeta,
     },
     data() {
         return {

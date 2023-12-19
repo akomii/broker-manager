@@ -5,7 +5,7 @@ import {
     OrganizationParser,
 } from "@/service/Parser.ts";
 
-const requests = JSON.parse([
+const requests = [
     {
         id: 1,
         tags: [
@@ -25,17 +25,17 @@ const requests = JSON.parse([
             {
                 date: "2023-08-05T11:15",
                 user: "jdoe123",
-                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequenceId minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequenceId></xsd:complexType><xsd:complexType name="bookType"><xsd:sequenceId><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequenceId><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequenceId><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequenceId></xsd:complexType></xsd:schema>',
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
             },
             {
                 date: "2023-09-15T14:30",
                 user: "asmith456",
-                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequenceId minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequenceId></xsd:complexType><xsd:complexType name="bookType"><xsd:sequenceId><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequenceId><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequenceId><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequenceId></xsd:complexType></xsd:schema>',
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
             },
             {
                 date: "2023-10-20T09:45",
                 user: "kjohnson789",
-                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequenceId minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequenceId></xsd:complexType><xsd:complexType name="bookType"><xsd:sequenceId><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequenceId><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequenceId><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequenceId></xsd:complexType></xsd:schema>',
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
             },
         ],
         type: "SeriesRequest",
@@ -47,7 +47,7 @@ const requests = JSON.parse([
             title: "2019-003: Wochenbericht der Notaufnahmesurveillance am RKI",
             description:
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse",
-            sql: "<sql xmlns=\"http://aktin.org/ns/i2b2/sql\"><temporary-table name=\"temp_data\"/><source type=\"application/sql\">SELECT a.id AS AccountID, a.name AS AccountName, p.name AS PlanName, SUM(t.amount) AS TotalTransactionAmount, COUNT(DISTINCT t.id) AS NumberOfTransactions, MAX(t.date) AS LastTransactionDate, CASE WHEN a.status = 'active' THEN 'Active Account' ELSE 'Inactive Account' END AS AccountStatus, COALESCE(c.comment, 'No Comments') AS LatestComment FROM accounts a INNER JOIN transactions t ON a.id = t.account_id LEFT JOIN plans p ON a.plan_id = p.id LEFT JOIN ( SELECT account_id, MAX(date) AS latest_comment_date FROM comments GROUP BY account_id ) lc ON a.id = lc.account_id LEFT JOIN comments c ON a.id = c.account_id AND lc.latest_comment_date = c.date WHERE a.creation_date BETWEEN '2021-01-01' AND '2023-01-01' AND t.status IN ('completed', 'pending') GROUP BY a.id, a.name, p.name, a.status, c.comment HAVING SUM(t.amount) > 1000 ORDER BY TotalTransactionAmount DESC, LastTransactionDate DESC LIMIT 100;</source><anonymize><ref table=\"temp_data\" column=\"encounter_num\"/></anonymize><export destination=\"technical_report\" table=\"temp_data\"/></sql>",
+            sql: '"<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SELECT a."id" AS AccountID, a."name" AS AccountName, p."name" AS PlanName, SUM(t.amount) AS TotalTransactionAmount, COUNT(DISTINCT t."id") AS NumberOfTransactions, MAX(t.date) AS LastTransactionDate, CASE WHEN a.status = active THEN Active Account ELSE Inactive Account END AS AccountStatus, COALESCE(c.comment, No Comments) AS LatestComment FROM accounts a INNER JOIN transactions t ON a."id" = t.account_id LEFT JOIN plans p ON a.plan_id = p."id" LEFT JOIN ( SELECT account_id, MAX(date) AS latest_comment_date FROM comments GROUP BY account_id ) lc ON a."id" = lc.account_id LEFT JOIN comments c ON a."id" = c.account_id AND lc.latest_comment_date = c.date WHERE a.creation_date BETWEEN 2021-01-01 AND 2023-01-01 AND t.status IN ("completed", pending) GROUP BY a."id", a."name", p."name", a.status, c.comment HAVING SUM(t.amount) > 1000 ORDER BY TotalTransactionAmount DESC, LastTransactionDate DESC LIMIT 100;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">"',
             principal: {
                 name: "Dr. Allen Smith",
                 organization: "HealthOrg of healthy organisation",
@@ -175,7 +175,7 @@ const requests = JSON.parse([
                 archivedDate: "2023-12-17T00:00",
                 creator: "auto",
                 createdDate: "2023-11-23T00:00",
-                requestExecutionState: "ARCHIVED",
+                executionState: "ARCHIVED",
                 nodeStatusInfos: [
                     {
                         statusMessage: null,
@@ -282,7 +282,7 @@ const requests = JSON.parse([
                 archivedDate: null,
                 creator: "auto",
                 createdDate: "2023-11-26T00:00",
-                requestExecutionState: "CLOSED",
+                executionState: "CLOSED",
                 nodeStatusInfos: [
                     {
                         statusMessage: null,
@@ -310,7 +310,7 @@ const requests = JSON.parse([
                     },
                     {
                         statusMessage:
-                            "java.io.IOException: org.postgresql.util.PSQLException: ERROR: column reference 'concept_cd' is ambiguous\nPosition: 97\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.SQLHandler.execute(SQLHandler.java:42)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.executeRequestSource(RequestExecution.java:59)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.run(RequestExecution.java:97)\nat org.jboss.as.ee@18.0.0.Final//org.jboss.as.ee.concurrent.ControlPointUtils$ControlledRunnable.run(ControlPointUtils.java:105)\nat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\nat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.internal.ManagedFutureTask.run(ManagedFutureTask.java:141)\nat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\nat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\nat java.base/java.lang.Thread.run(Thread.java:829)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.ManagedThreadFactoryImpl$ManagedThread.run(ManagedThreadFactoryImpl.java:250)\nCaused by: org.postgresql.util.PSQLException: ERROR: column reference 'concept_cd' is ambiguous\nPosition: 97\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:246)\nat org.jboss.ironjacamar.jdbcadapters@1.4.17.Final//org.jboss.jca.adapters.jdbc.WrappedStatement.executeUpdate(WrappedStatement.java:430)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.Execution.runStatements(Execution.java:82)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.Execution.generateTables(Execution.java:247)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker.query.sql.SQLHandler.execute(SQLHandler.java:36)\n... 10 more",
+                            'java.io.IOException: org.postgresql.util.PSQLException: ERROR: column reference concept_cd is ambiguous\nPosition: 97\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker."query"."sql".SQLHandler.execute(SQLHandler.java:42)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.executeRequestSource(RequestExecution.java:59)\nat deployment.dwh-j2ee-1.5.1rc1.ear.request-manager-0.13.jar//org.aktin.request.manager.RequestExecution.run(RequestExecution.java:97)\nat org.jboss.as.ee@18.0.0.Final//org.jboss.as.ee.concurrent.ControlPointUtils$ControlledRunnable.run(ControlPointUtils.java:105)\nat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\nat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.internal.ManagedFutureTask.run(ManagedFutureTask.java:141)\nat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\nat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\nat java.base/java.lang.Thread.run(Thread.java:829)\nat org.glassfish.javax.enterprise.concurrent//org.glassfish.enterprise.concurrent.ManagedThreadFactoryImpl$ManagedThread.run(ManagedThreadFactoryImpl.java:250)\nCaused by: org.postgresql.util.PSQLException: ERROR: column reference concept_cd is ambiguous\nPosition: 97\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)\nat deployment.postgresql-42.2.8.jar//org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)\nat deployment.postgresql-42.2.8.jar//org.postgresql.jdbc.PgStatement.executeUpdate(PgStatement.java:246)\nat org.jboss.ironjacamar.jdbcadapters@1.4.17.Final//org.jboss.jca.adapters.jdbc.WrappedStatement.executeUpdate(WrappedStatement.java:430)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker."query"."sql".Execution.runStatements(Execution.java:82)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker."query"."sql".Execution.generateTables(Execution.java:247)\nat deployment.dwh-j2ee-1.5.1rc1.ear//org.aktin.broker."query"."sql".SQLHandler.execute(SQLHandler.java:36)\n... 10 more',
                         nodeId: 3,
                         deleted: null,
                         retrieved: "2023-12-20T08:00",
@@ -405,7 +405,7 @@ const requests = JSON.parse([
                 archivedDate: null,
                 creator: "auto",
                 createdDate: "2023-11-30T00:00",
-                requestExecutionState: "PUBLISHED",
+                executionState: "PUBLISHED",
                 nodeStatusInfos: [
                     {
                         statusMessage: null,
@@ -491,7 +491,7 @@ const requests = JSON.parse([
                 archivedDate: null,
                 creator: "auto",
                 createdDate: "2023-12-05T00:00",
-                requestExecutionState: "PENDING",
+                executionState: "PENDING",
                 nodeStatusInfos: [],
                 resultsDownloadLog: [],
             },
@@ -514,12 +514,12 @@ const requests = JSON.parse([
             {
                 date: "2023-11-25T13:45",
                 user: "lsanders987",
-                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequenceId minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequenceId></xsd:complexType><xsd:complexType name="bookType"><xsd:sequenceId><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequenceId><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequenceId><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequenceId></xsd:complexType></xsd:schema>',
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
             },
             {
                 date: "2023-12-15T10:20",
                 user: "rsmith789",
-                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequenceId minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequenceId></xsd:complexType><xsd:complexType name="bookType"><xsd:sequenceId><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequenceId><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequenceId><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequenceId></xsd:complexType></xsd:schema>',
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
             },
         ],
         type: "SingleRequest",
@@ -527,7 +527,7 @@ const requests = JSON.parse([
             title: "Research Data Collection for Cardiovascular Studies",
             description:
                 "This request aims to gather comprehensive data on cardiovascular diseases for a large-scale research project. The data will be used to analyze trends, treatment outcomes, and patient demographics across various healthcare institutions. The study focuses on improving diagnostic methods and treatment strategies for cardiovascular conditions. We are looking for detailed patient records, treatment histories, and follow-up data from participating organizations. The data should be anonymized to ensure patient confidentiality and comply with all relevant data protection regulations.",
-            sql: '<sql xmlns="http://aktin.org/ns/i2b2/sql"><temporary-table name="temp_data"/><source type="application/sql">SSELECT p.patient_id, p.name, p.age, p.gender, d.diagnosis, t.treatment, t.outcome, t.follow_up_date FROM patients p INNER JOIN diagnoses d ON p.patient_id = d.patient_id INNER JOIN treatments t ON p.patient_id = t.patient_id WHERE d.condition = \'Cardiovascular\' AND t.treatment_date BETWEEN \'2022-01-01\' AND \'2023-01-01\' ORDER BY t.follow_up_date;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></sql>',
+            sql: '<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SSELECT p.patient_id, p."name", p.age, p.gender, d.diagnosis, t.treatment, t.outcome, t.follow_up_date FROM patients p INNER JOIN diagnoses d ON p.patient_id = d.patient_id INNER JOIN treatments t ON p.patient_id = t.patient_id WHERE d.condition = \'Cardiovascular\' AND t.treatment_date BETWEEN \'2022-01-01\' AND \'2023-01-01\' ORDER BY t.follow_up_date;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">',
             principal: {
                 name: "Dr. Emily Johnson",
                 organization: "Cardio Research Institute",
@@ -618,9 +618,9 @@ const requests = JSON.parse([
             },
         ],
     },
-]);
+];
 
-const nodes = JSON.parse([
+const nodes = [
     {
         apiKey: "a4f8b2e1",
         tags: ["cardiology", "patient-care", "emergency-care"],
@@ -842,9 +842,9 @@ const nodes = JSON.parse([
         },
         lastContact: "2024-01-20T11:00",
     },
-]);
+];
 
-const organizations = JSON.parse([
+const organizations = [
     { name: "NuHeal", id: 1 },
     { name: "AllWellth", id: 2 },
     { name: "PalmHealth", id: 3 },
@@ -855,9 +855,9 @@ const organizations = JSON.parse([
     { name: "SafeMed", id: 8 },
     { name: "MindHeal", id: 9 },
     { name: "ProHealthy", id: 10 },
-]);
+];
 
-const principals = JSON.parse([
+const principals = [
     {
         name: "John Doe",
         organization: "City General Hospital",
@@ -916,7 +916,7 @@ const principals = JSON.parse([
         email: "william.clark@example.com",
         phone: "234-345-6789",
     },
-]);
+];
 
 function createAsyncOperation(parser, data) {
     return new Promise((resolve) => {

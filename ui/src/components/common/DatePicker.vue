@@ -43,7 +43,7 @@ export default {
         };
     },
     computed: {
-        formattedDate() {
+        formattedDate(): string {
             return MomentWrapper.formatDateToGermanLocale(this.date);
         },
     },

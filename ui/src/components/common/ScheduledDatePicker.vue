@@ -38,7 +38,11 @@ export default {
         actualDate: {
             type: Date,
             validator: function (value) {
-                return value === null || value instanceof Date;
+                return (
+                    value === null ||
+                    value === undefined ||
+                    value instanceof Date
+                );
             },
         },
         editable: {

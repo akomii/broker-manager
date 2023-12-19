@@ -1,4 +1,9 @@
-import { RequestParser, ManagerNodeParser, PrincipalParser, OrganizationParser } from '@/service/Parser.ts';
+import {
+    RequestParser,
+    ManagerNodeParser,
+    PrincipalParser,
+    OrganizationParser,
+} from "@/service/Parser.ts";
 
 const requests = JSON.parse([
     {
@@ -39,8 +44,7 @@ const requests = JSON.parse([
         seriesClosingDate: null,
         seriesArchiveDate: "2024-01-01T00:00",
         query: {
-            title:
-                "2019-003: Wochenbericht der Notaufnahmesurveillance am RKI",
+            title: "2019-003: Wochenbericht der Notaufnahmesurveillance am RKI",
             description:
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse",
             sql: "<sql xmlns=\"http://aktin.org/ns/i2b2/sql\"><temporary-table name=\"temp_data\"/><source type=\"application/sql\">SELECT a.id AS AccountID, a.name AS AccountName, p.name AS PlanName, SUM(t.amount) AS TotalTransactionAmount, COUNT(DISTINCT t.id) AS NumberOfTransactions, MAX(t.date) AS LastTransactionDate, CASE WHEN a.status = 'active' THEN 'Active Account' ELSE 'Inactive Account' END AS AccountStatus, COALESCE(c.comment, 'No Comments') AS LatestComment FROM accounts a INNER JOIN transactions t ON a.id = t.account_id LEFT JOIN plans p ON a.plan_id = p.id LEFT JOIN ( SELECT account_id, MAX(date) AS latest_comment_date FROM comments GROUP BY account_id ) lc ON a.id = lc.account_id LEFT JOIN comments c ON a.id = c.account_id AND lc.latest_comment_date = c.date WHERE a.creation_date BETWEEN '2021-01-01' AND '2023-01-01' AND t.status IN ('completed', 'pending') GROUP BY a.id, a.name, p.name, a.status, c.comment HAVING SUM(t.amount) > 1000 ORDER BY TotalTransactionAmount DESC, LastTransactionDate DESC LIMIT 100;</source><anonymize><ref table=\"temp_data\" column=\"encounter_num\"/></anonymize><export destination=\"technical_report\" table=\"temp_data\"/></sql>",
@@ -588,27 +592,28 @@ const requests = JSON.parse([
                         expired: null,
                     },
                 ],
-                resultsDownloadLog: [{
-                    user: "asmith",
-                    userOrgs: ["AKTIN"],
-                    date: "2024-01-13T14:45",
-                    hashValue: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
-                    hashAlgorithm: "sha1",
-                },
-                {
-                    user: "asmith",
-                    userOrgs: ["AKTIN"],
-                    date: "2024-01-13T15:30",
-                    hashValue: "9c4a6a156b9c51d57227be4dbf6149d1122b85b1",
-                    hashAlgorithm: "sha1",
-                },
-                {
-                    user: "kjohnson",
-                    userOrgs: ["AKTIN", "RKI"],
-                    date: "2024-01-14T09:00",
-                    hashValue: "d8e8fca2dc0f896fd7cb4cb0031ba2499cc77390",
-                    hashAlgorithm: "sha1",
-                },
+                resultsDownloadLog: [
+                    {
+                        user: "asmith",
+                        userOrgs: ["AKTIN"],
+                        date: "2024-01-13T14:45",
+                        hashValue: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
+                        hashAlgorithm: "sha1",
+                    },
+                    {
+                        user: "asmith",
+                        userOrgs: ["AKTIN"],
+                        date: "2024-01-13T15:30",
+                        hashValue: "9c4a6a156b9c51d57227be4dbf6149d1122b85b1",
+                        hashAlgorithm: "sha1",
+                    },
+                    {
+                        user: "kjohnson",
+                        userOrgs: ["AKTIN", "RKI"],
+                        date: "2024-01-14T09:00",
+                        hashValue: "d8e8fca2dc0f896fd7cb4cb0031ba2499cc77390",
+                        hashAlgorithm: "sha1",
+                    },
                 ],
             },
         ],
@@ -648,12 +653,7 @@ const nodes = JSON.parse([
     },
     {
         apiKey: "f9a1b4e6",
-        tags: [
-            "orthopedics",
-            "physical-therapy",
-            "urology",
-            "oncology",
-        ],
+        tags: ["orthopedics", "physical-therapy", "urology", "oncology"],
         notes: {
             "2023-06-12": "Note content for 2023-06-12",
         },

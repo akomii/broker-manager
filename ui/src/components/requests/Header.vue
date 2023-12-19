@@ -1,17 +1,27 @@
 <template>
     <div class="mx-2">
         <div class="flex flex-wrap justify-content-between">
-            <div class="flex flex-wrap justify-content-start align-items-center">
+            <div
+                class="flex flex-wrap justify-content-start align-items-center"
+            >
                 <div class="mx-2">
                     <GoBackButton />
                 </div>
 
                 <!-- Title Section -->
-                <div class="flex flex-wrap justify-content-start align-items-center">
-                    <p v-if="id !== undefined" class="text-2xl mx-2">[{{ id }}]</p>
+                <div
+                    class="flex flex-wrap justify-content-start align-items-center"
+                >
+                    <p v-if="id !== undefined" class="text-2xl mx-2">
+                        [{{ id }}]
+                    </p>
                     <template v-if="editable && state === 'DRAFT'">
                         <span class="p-float-label">
-                            <InputText size="large" class="flex w-30rem text-2xl" v-model="localTitle" />
+                            <InputText
+                                size="large"
+                                class="flex w-30rem text-2xl"
+                                v-model="localTitle"
+                            />
                             <label>Titel</label>
                         </span>
                     </template>
@@ -26,8 +36,16 @@
                 <!-- Tags Section -->
                 <!-- TODO ARCHIVED CANNOT BE CHANGED ANYMORE-->
                 <div class="flex flex-wrap max-w-30rem mx-2">
-                    <TagList :tags="editable ? localTags : tags" :removable="editable" @update:tags="localTags = $event" />
-                    <TagCreator v-if="editable" :tags="localTags" @update:tags="localTags = $event" />
+                    <TagList
+                        :tags="editable ? localTags : tags"
+                        :removable="editable"
+                        @update:tags="localTags = $event"
+                    />
+                    <TagCreator
+                        v-if="editable"
+                        :tags="localTags"
+                        @update:tags="localTags = $event"
+                    />
                 </div>
             </div>
 
@@ -35,12 +53,26 @@
             <div class="flex flex-wrap justify-content-end align-items-center">
                 <div class="mx-2">
                     <div v-if="editable">
-                        <MenuButton :icon="'pi pi-chevron-down'"
-                            :menu="state === 'DRAFT' ? editDraftMenu : editRequestMenu" />
+                        <MenuButton
+                            :icon="'pi pi-chevron-down'"
+                            :menu="
+                                state === 'DRAFT'
+                                    ? editDraftMenu
+                                    : editRequestMenu
+                            "
+                        />
                     </div>
                     <div v-else>
-                        <MenuButton :icon="'pi pi-chevron-down'"
-                            :menu="state === 'DRAFT' ? draftMenu : (hasUserRoleIT ? requestMenuIT : requestMenuDAC)" />
+                        <MenuButton
+                            :icon="'pi pi-chevron-down'"
+                            :menu="
+                                state === 'DRAFT'
+                                    ? draftMenu
+                                    : hasUserRoleIT
+                                    ? requestMenuIT
+                                    : requestMenuDAC
+                            "
+                        />
                     </div>
                 </div>
             </div>
@@ -50,15 +82,15 @@
 </template>
 
 <script lang="ts">
-import Divider from 'primevue/divider';
-import InputText from 'primevue/inputtext';
+import Divider from "primevue/divider";
+import InputText from "primevue/inputtext";
 
-import TagList from '@/components/common/tags/TagList.vue';
-import TagCreator from '@/components/common/tags/TagCreator.vue';
-import MenuButton from '@/components/common/buttons/MenuButton.vue';
-import GoBackButton from '@/components/common/buttons/GoBackButton.vue';
-import RequestState from '@/components/requests/common/RequestState.vue';
-import { UserRole } from '@/utils/Enums.ts';
+import TagList from "@/components/common/tags/TagList.vue";
+import TagCreator from "@/components/common/tags/TagCreator.vue";
+import MenuButton from "@/components/common/buttons/MenuButton.vue";
+import GoBackButton from "@/components/common/buttons/GoBackButton.vue";
+import RequestState from "@/components/requests/common/RequestState.vue";
+import { UserRole } from "@/utils/Enums.ts";
 
 export default {
     components: {
@@ -68,16 +100,16 @@ export default {
         TagCreator,
         MenuButton,
         GoBackButton,
-        RequestState
+        RequestState,
     },
     props: {
         id: {
             type: Number,
-            required: true
+            required: true,
         },
         title: {
             type: String,
-            required: true
+            required: true,
         },
         state: {
             type: String,
@@ -85,58 +117,58 @@ export default {
         },
         tags: {
             type: Set<string>,
-            required: true
+            required: true,
         },
         editable: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     data() {
         return {
             draftMenu: [
-                { label: 'Draft als Anfrage veröffentlichen' },
-                { label: 'Draft duplizieren' },
-                { label: 'Draft löschen' },
-                { label: 'Draft bearbeiten' },
+                { label: "Draft als Anfrage veröffentlichen" },
+                { label: "Draft duplizieren" },
+                { label: "Draft löschen" },
+                { label: "Draft bearbeiten" },
             ],
             editDraftMenu: [
-                { label: 'Draft speichern' },
-                { label: 'Abbrechen' },
+                { label: "Draft speichern" },
+                { label: "Abbrechen" },
             ],
             requestMenuIT: [
-                { label: 'Ergebnisübersicht' },
-                { label: 'Als Draft duplizieren' },
-                { label: 'Anfrage schließen' },
-                { label: 'Anfrage archivieren' },
-                { label: 'Anfrage bearbeiten' },
+                { label: "Ergebnisübersicht" },
+                { label: "Als Draft duplizieren" },
+                { label: "Anfrage schließen" },
+                { label: "Anfrage archivieren" },
+                { label: "Anfrage bearbeiten" },
             ],
             requestMenuDAC: [
-                { label: 'Ergebnisübersicht' },
-                { label: 'Anfrage schließen' },
-                { label: 'Anfrage archivieren' },
+                { label: "Ergebnisübersicht" },
+                { label: "Anfrage schließen" },
+                { label: "Anfrage archivieren" },
             ],
             editRequestMenu: [
-                { label: 'Anfrage speichern' },
-                { label: 'Abbrechen' },
+                { label: "Anfrage speichern" },
+                { label: "Abbrechen" },
             ],
             localTitle: this.title,
             localTags: this.tags,
-            userRole: UserRole.IT // TODO: grab userRole from Keycloak response
+            userRole: UserRole.IT, // TODO: grab userRole from Keycloak response
         };
     },
     computed: {
         hasUserRoleIT() {
             return this.userRole === UserRole.IT;
-        }
+        },
     },
     watch: {
         localTitle(newTitle) {
-            this.$emit('update:title', newTitle);
+            this.$emit("update:title", newTitle);
         },
         localTags(updatedTags) {
-            this.$emit('update:tags', updatedTags);
-        }
-    }
+            this.$emit("update:tags", updatedTags);
+        },
+    },
 };
 </script>

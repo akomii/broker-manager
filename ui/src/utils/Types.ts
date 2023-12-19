@@ -1,9 +1,9 @@
-import { RequestState, ExecutionState } from "@/utils/enums";
-import { MomentDuration } from "@/utils/MomentWrapper";
+import { RequestState, ExecutionState } from "@/utils/Enums";
+import type { MomentDuration } from "@/utils/MomentWrapper";
 
 export type Request = SingleRequest | SeriesRequest;
 
-interface ManagerRequest {
+export interface ManagerRequest {
     id: number;
     tags: Set<string>;
     authorizedOrgs: Set<number>; // Organization IDs
@@ -14,9 +14,9 @@ interface ManagerRequest {
     executions: RequestExecution[];
 }
 
-interface SingleRequest extends ManagerRequest { }
+export interface SingleRequest extends ManagerRequest {}
 
-interface SeriesRequest extends ManagerRequest {
+export interface SeriesRequest extends ManagerRequest {
     anchoredSequenceIdRef: number;
     isAutoPublishing: boolean;
     seriesClosingDate: Date | null;
@@ -34,7 +34,7 @@ export interface ModificationHistoryItem {
     clob: string;
 }
 
-interface Query {
+export interface Query {
     title: string;
     description: string;
     sql: string;
@@ -51,12 +51,12 @@ export interface Principal {
     phone: string | null;
 }
 
-interface SingleExecution {
+export interface SingleExecution {
     duration: MomentDuration;
 }
 
 // TODO check if interval/intervalHours is necessary
-interface RepeatedExecution {
+export interface RepeatedExecution {
     id: number;
     duration: MomentDuration;
     interval: number;
@@ -111,7 +111,7 @@ export interface ManagerNode {
     notes: Record<string, string>;
 }
 
-interface ClientDN {
+export interface ClientDN {
     CN: string;
     O: string;
     L: string;

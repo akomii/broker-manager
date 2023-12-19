@@ -3,11 +3,11 @@
 </template>
 
 <script lang="ts">
-import Button from 'primevue/button';
+import Button from "primevue/button";
 
 export default {
     components: {
-        Button
-    }
-}
+        Button,
+    },
+};
 </script>

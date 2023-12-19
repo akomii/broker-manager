@@ -3,35 +3,36 @@
 </template>
 
 <script lang="ts">
-import Tag from 'primevue/tag';
-import { RequestState } from '@/utils/Enums.ts';
+import Tag from "primevue/tag";
+import { RequestState } from "@/utils/Enums.ts";
 
 export default {
     components: {
-        Tag
+        Tag,
     },
     props: {
         state: {
             type: String,
             required: true,
-            validator: value => Object.values(RequestState).includes(value as RequestState)
-        }
+            validator: (value) =>
+                Object.values(RequestState).includes(value as RequestState),
+        },
     },
     computed: {
         tagColor() {
             switch (this.state) {
                 case RequestState.DRAFT:
-                    return 'warning';
+                    return "warning";
                 case RequestState.ONLINE:
-                    return 'success';
+                    return "success";
                 case RequestState.CLOSED:
-                    return 'danger';
+                    return "danger";
                 case RequestState.ARCHIVED:
-                    return 'info';
+                    return "info";
                 default:
-                    return 'secondary';
+                    return "secondary";
             }
-        }
-    }
+        },
+    },
 };
 </script>

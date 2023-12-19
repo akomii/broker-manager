@@ -1,8 +1,16 @@
 <template>
     <div>
-        <Fieldset legend="Beschreibung" :toggleable="true" class="flex w-auto m-2">
+        <Fieldset
+            legend="Beschreibung"
+            :toggleable="true"
+            class="flex w-auto m-2"
+        >
             <template v-if="editable">
-                <Textarea class="h-30rem" v-model="localModelValue" @input="updateModelValue" />
+                <Textarea
+                    class="h-30rem"
+                    v-model="localModelValue"
+                    @input="updateModelValue"
+                />
             </template>
             <template v-else>
                 <ScrollPanel class="max-h-30rem">
@@ -16,15 +24,15 @@
 </template>
 
 <script lang="ts">
-import Fieldset from 'primevue/fieldset';
-import Textarea from 'primevue/textarea';
-import ScrollPanel from 'primevue/scrollpanel';
+import Fieldset from "primevue/fieldset";
+import Textarea from "primevue/textarea";
+import ScrollPanel from "primevue/scrollpanel";
 
 export default {
     components: {
         Fieldset,
         ScrollPanel,
-        Textarea
+        Textarea,
     },
     props: {
         modelValue: { type: String as () => string, required: true },
@@ -40,14 +48,14 @@ export default {
             immediate: true,
             handler(newValue) {
                 this.localModelValue = newValue;
-            }
-        }
+            },
+        },
     },
     methods: {
         updateModelValue() {
-            this.$emit('update:modelValue', this.localModelValue);
-        }
-    }
+            this.$emit("update:modelValue", this.localModelValue);
+        },
+    },
 };
 </script>
 

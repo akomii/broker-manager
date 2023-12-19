@@ -3,18 +3,36 @@
         <div class="col-12 flex flex-wrap justify-content-end align-items-end">
             <SearchInput @inputChange="filterPickListNodes" />
         </div>
-        <PickList v-model="pickListNodes" @update:modelValue="handleListChange" dataKey="id" :showSourceControls=false
-            :showTargetControls=false :targetListProps="{ class: 'h-25rem w-auto' }" class="col-12"
-            :sourceListProps="{ class: 'h-25rem w-auto' }" :moveToTargetProps="{ class: 'bg-red-600' }"
-            :moveAllToTargetProps="{ class: 'bg-red-600' }" :moveToSourceProps="{ class: 'bg-green-500' }"
+        <PickList
+            v-model="pickListNodes"
+            @update:modelValue="handleListChange"
+            dataKey="id"
+            :showSourceControls="false"
+            :showTargetControls="false"
+            :targetListProps="{ class: 'h-25rem w-auto' }"
+            class="col-12"
+            :sourceListProps="{ class: 'h-25rem w-auto' }"
+            :moveToTargetProps="{ class: 'bg-red-600' }"
+            :moveAllToTargetProps="{ class: 'bg-red-600' }"
+            :moveToSourceProps="{ class: 'bg-green-500' }"
             :moveAllToSourceProps="{ class: 'bg-green-500' }"
-            :pt="{ item: ({ context }) => ({ class: [{ 'bg-gray-100': !context.active && context.focused }] }), }">
+            :pt="{
+                item: ({ context }) => ({
+                    class: [
+                        { 'bg-gray-100': !context.active && context.focused },
+                    ],
+                }),
+            }"
+        >
             <template #sourceheader>Ausgewählte Standorte</template>
             <template #targetheader>Verfügbare Standorte</template>
             <template #item="slotProps">
                 <div class="flex flex-wrap align-items-center m-auto">
                     <div class="flex flex-wrap flex-column w-20rem">
-                        <span class="font-bold">[{{ slotProps.item.id }}] {{ slotProps.item.clientDN.O }}</span>
+                        <span class="font-bold"
+                            >[{{ slotProps.item.id }}]
+                            {{ slotProps.item.clientDN.O }}</span
+                        >
                         <div class="flex flex-wrap">
                             <TagList :tags="slotProps.item.tags" />
                         </div>
@@ -28,10 +46,10 @@
 </template>
 
 <script lang="ts">
-import PickList from 'primevue/picklist';
-import TagList from '@/components/common/tags/TagList.vue';
-import SearchInput from '@/components/common/SearchInput.vue';
-import { ManagerNode } from '@/utils/Types';
+import PickList from "primevue/picklist";
+import TagList from "@/components/common/tags/TagList.vue";
+import SearchInput from "@/components/common/SearchInput.vue";
+import { ManagerNode } from "@/utils/Types";
 
 export default {
     components: {
@@ -42,60 +60,84 @@ export default {
     props: {
         modelValue: {
             type: Array as () => number[],
-            required: true
+            required: true,
         },
         allManagerNodes: {
             type: Array as () => ManagerNode[],
-            required: true
-        }
+            required: true,
+        },
     },
     data() {
         return {
-            pickListNodes: [[] as ManagerNode[], [] as ManagerNode[]]
+            pickListNodes: [[] as ManagerNode[], [] as ManagerNode[]],
         };
     },
     computed: {
         selectedNodes() {
-            return this.allManagerNodes.filter(node => this.modelValue.includes(node.id)).sort((a, b) => a.id - b.id);
+            return this.allManagerNodes
+                .filter((node) => this.modelValue.includes(node.id))
+                .sort((a, b) => a.id - b.id);
         },
         availableNodes() {
-            return this.allManagerNodes.filter(node => !this.modelValue.includes(node.id)).sort((a, b) => a.id - b.id);
-        }
+            return this.allManagerNodes
+                .filter((node) => !this.modelValue.includes(node.id))
+                .sort((a, b) => a.id - b.id);
+        },
     },
     watch: {
         modelValue: {
             immediate: true,
             handler() {
-                this.filterPickListNodes('');
-            }
-        }
+                this.filterPickListNodes("");
+            },
+        },
     },
     methods: {
         filterPickListNodes(searchTerm: string) {
-            const filteredSelectedNodes = this.filterNodesBySearchTerm(this.selectedNodes, searchTerm);
-            const filteredAvailableNodes = this.filterNodesBySearchTerm(this.availableNodes, searchTerm);
-            this.pickListNodes = [filteredSelectedNodes, filteredAvailableNodes];
+            const filteredSelectedNodes = this.filterNodesBySearchTerm(
+                this.selectedNodes,
+                searchTerm
+            );
+            const filteredAvailableNodes = this.filterNodesBySearchTerm(
+                this.availableNodes,
+                searchTerm
+            );
+            this.pickListNodes = [
+                filteredSelectedNodes,
+                filteredAvailableNodes,
+            ];
         },
-        filterNodesBySearchTerm(nodes: ManagerNode[], searchTerm: string): ManagerNode[] {
+        filterNodesBySearchTerm(
+            nodes: ManagerNode[],
+            searchTerm: string
+        ): ManagerNode[] {
             if (!searchTerm) return nodes;
-            return nodes.filter(node =>
-                node.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-                node.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                node.clientDN.O.toLowerCase().includes(searchTerm.toLowerCase())
+            return nodes.filter(
+                (node) =>
+                    node.id
+                        .toString()
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                    node.tags.some((tag) =>
+                        tag.toLowerCase().includes(searchTerm.toLowerCase())
+                    ) ||
+                    node.clientDN.O.toLowerCase().includes(
+                        searchTerm.toLowerCase()
+                    )
             );
         },
         handleListChange() {
             let updatedModelValue = [...this.modelValue];
-            this.pickListNodes[0].forEach(node => {
+            this.pickListNodes[0].forEach((node) => {
                 if (!updatedModelValue.includes(node.id)) {
                     updatedModelValue.push(node.id);
                 }
             });
-            updatedModelValue = updatedModelValue.filter(id =>
-                !this.pickListNodes[1].some(node => node.id === id)
+            updatedModelValue = updatedModelValue.filter(
+                (id) => !this.pickListNodes[1].some((node) => node.id === id)
             );
-            this.$emit('update:modelValue', updatedModelValue);
-        }
-    }
+            this.$emit("update:modelValue", updatedModelValue);
+        },
+    },
 };
 </script>

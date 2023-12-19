@@ -24,13 +24,13 @@
 </template>
 
 <script lang="ts">
-import Button from 'primevue/button';
-import OverlayPanel from 'primevue/overlaypanel';
-import Timeline from 'primevue/timeline';
+import Button from "primevue/button";
+import OverlayPanel from "primevue/overlaypanel";
+import Timeline from "primevue/timeline";
 
 import { NodeStatusInfo } from "@/utils/Types";
 import { NodeState } from "@/utils/Enums";
-import MomentWrapper from '@/utils/MomentWrapper';
+import MomentWrapper from "@/utils/MomentWrapper";
 
 const orderedStates: NodeState[] = [
     NodeState.RETRIEVED,
@@ -61,16 +61,20 @@ export default {
     props: {
         nodeStatusInfo: {
             type: Object as () => NodeStatusInfo,
-            required: true
-        }
+            required: true,
+        },
     },
     methods: {
         getCurrentState(): string {
             let currentState: NodeState = NodeState.RETRIEVED;
             let latestTimestamp = null;
             for (const state of orderedStates) {
-                const timestamp = this.nodeStatusInfo[state as keyof NodeStatusInfo];
-                if (timestamp && (!latestTimestamp || timestamp > latestTimestamp)) {
+                const timestamp =
+                    this.nodeStatusInfo[state as keyof NodeStatusInfo];
+                if (
+                    timestamp &&
+                    (!latestTimestamp || timestamp > latestTimestamp)
+                ) {
                     latestTimestamp = timestamp;
                     currentState = state;
                 }
@@ -83,8 +87,12 @@ export default {
                 const key = state as keyof NodeStatusInfo;
                 const timestamp = this.nodeStatusInfo[key];
                 if (timestamp) {
-                    const formattedDate = MomentWrapper.formatDateToGermanLocale(timestamp);
-                    statusArray.push({ status: germanTranslations[state], date: formattedDate });
+                    const formattedDate =
+                        MomentWrapper.formatDateToGermanLocale(timestamp);
+                    statusArray.push({
+                        status: germanTranslations[state],
+                        date: formattedDate,
+                    });
                 }
             }
             return statusArray;
@@ -94,7 +102,7 @@ export default {
             if (overlayPanel && overlayPanel.toggle) {
                 overlayPanel.toggle(event);
             }
-        }
-    }
+        },
+    },
 };
 </script>

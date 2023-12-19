@@ -1,7 +1,13 @@
 <template>
     <div v-if="editable && !actualDate">
         <span class="p-float-label">
-            <Calendar v-model="compScheduledDate" showIcon showButtonBar showTime hourFormat="24" />
+            <Calendar
+                v-model="compScheduledDate"
+                showIcon
+                showButtonBar
+                showTime
+                hourFormat="24"
+            />
             <label>{{ label }}</label>
         </span>
     </div>
@@ -19,8 +25,8 @@
 </template>
 
 <script lang="ts">
-import Calendar from 'primevue/calendar';
-import MomentWrapper from '@/utils/MomentWrapper';
+import Calendar from "primevue/calendar";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
@@ -29,7 +35,7 @@ export default {
     props: {
         label: {
             type: String,
-            required: true
+            required: true,
         },
         scheduledDate: {
             type: Date,
@@ -40,22 +46,22 @@ export default {
         editable: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     data() {
         return {
-            compScheduledDate: this.scheduledDate
+            compScheduledDate: this.scheduledDate,
         };
     },
     watch: {
         compScheduledDate(newDate: Date) {
-            this.$emit('update:scheduledDate', newDate);
-        }
+            this.$emit("update:scheduledDate", newDate);
+        },
     },
     methods: {
         formatDateToGermanLocale(date: Date): String {
             return MomentWrapper.formatDateToGermanLocale(date);
-        }
-    }
+        },
+    },
 };
 </script>

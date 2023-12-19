@@ -6,16 +6,16 @@
 </template>
 
 <script lang="ts">
-import InputText from 'primevue/inputtext';
+import InputText from "primevue/inputtext";
 
 export default {
     components: {
-        InputText
+        InputText,
     },
     methods: {
         onInput(event) {
-            this.$emit('inputChange', event.target.value);
-        }
-    }
+            this.$emit("inputChange", event.target.value);
+        },
+    },
 };
 </script>

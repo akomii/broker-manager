@@ -1,7 +1,13 @@
 <template>
     <div v-if="editable">
         <span class="p-float-label">
-            <Calendar v-model="compDate" showIcon showButtonBar showTime hourFormat="24" />
+            <Calendar
+                v-model="compDate"
+                showIcon
+                showButtonBar
+                showTime
+                hourFormat="24"
+            />
             <label>{{ label }}</label>
         </span>
     </div>
@@ -11,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import Calendar from 'primevue/calendar';
-import MomentWrapper from '@/utils/MomentWrapper';
+import Calendar from "primevue/calendar";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
@@ -21,7 +27,7 @@ export default {
     props: {
         label: {
             type: String,
-            required: true
+            required: true,
         },
         date: {
             type: Date,
@@ -29,22 +35,22 @@ export default {
         editable: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     data() {
         return {
-            compDate: this.date
+            compDate: this.date,
         };
     },
     watch: {
         compDate(newDate: Date) {
-            this.$emit('update:date', newDate);
-        }
+            this.$emit("update:date", newDate);
+        },
     },
     methods: {
         formatDateToGermanLocale(date: Date): String {
             return MomentWrapper.formatDateToGermanLocale(date);
-        }
-    }
+        },
+    },
 };
 </script>

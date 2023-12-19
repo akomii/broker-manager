@@ -18,7 +18,7 @@ import {
 import { MomentWrapper } from "@/utils/MomentWrapper";
 import { ExecutionState, RequestState } from "@/utils/Enums";
 
-class RequestParser {
+export class RequestParser {
     static parse(requestJson: any): Request {
         const commonFields: ManagerRequest = {
             id: requestJson.id,
@@ -80,7 +80,7 @@ class RequestParser {
         requests.map(this.parse);
 }
 
-class OrganizationParser {
+export class OrganizationParser {
     static parse(organizationJson: any): Organization {
         return {
             id: organizationJson.id,
@@ -106,7 +106,7 @@ class ModificationHistoryItemParser {
     ): ModificationHistoryItem[] => modificationHistoryItems.map(this.parse);
 }
 
-class PrincipalParser {
+export class PrincipalParser {
     static parse(principalJson: any): Principal {
         return {
             name: principalJson.name,
@@ -213,7 +213,7 @@ class ResultsDownloadLogParser {
         resultsDownloadLogs.map(this.parse);
 }
 
-class ManagerNodeParser {
+export class ManagerNodeParser {
     static parse(managerNodeJson: any): ManagerNode {
         return {
             id: managerNodeJson.id,

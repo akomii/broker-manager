@@ -30,7 +30,7 @@
 
                 <!-- Request State -->
                 <div class="mx-2">
-                    <RequestState class="text-lg" :state="state" />
+                    <EnumState class="text-lg" :state="state" :stateColorMap="requestStateColorMap" />
                 </div>
 
                 <!-- Tags Section -->
@@ -89,7 +89,8 @@ import TagList from "@/components/common/tags/TagList.vue";
 import TagCreator from "@/components/common/tags/TagCreator.vue";
 import MenuButton from "@/components/common/buttons/MenuButton.vue";
 import GoBackButton from "@/components/common/buttons/GoBackButton.vue";
-import RequestState from "@/components/requests/common/RequestState.vue";
+import EnumState from "@/components/common/EnumState.vue";
+import { requestStateColorMap } from "@/utils/Constants.ts";
 import { UserRole } from "@/utils/Enums.ts";
 
 export default {
@@ -100,7 +101,7 @@ export default {
         TagCreator,
         MenuButton,
         GoBackButton,
-        RequestState,
+        EnumState,
     },
     props: {
         id: {

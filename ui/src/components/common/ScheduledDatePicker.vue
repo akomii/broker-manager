@@ -1,23 +1,18 @@
 <template>
-    <div v-if="editable && !actualDate">
-        <span class="p-float-label">
-            <Calendar
-                v-model="compScheduledDate"
-                showIcon
-                showButtonBar
-                showTime
-                hourFormat="24"
-            />
-            <label>{{ label }}</label>
-        </span>
-    </div>
+    <DatePicker
+        v-if="editable && !actualDate"
+        :label="label"
+        :date="scheduledDate"
+        :editable="editable"
+        @update:date="updateScheduledDate"
+    />
     <div v-else>
         <div v-if="actualDate">
-            {{ formatDateToGermanLocale(actualDate) }}
+            {{ formattedActualDate }}
         </div>
         <div v-else-if="scheduledDate" v-tooltip.bottom="`Geplantes ${label}`">
             <span class="text-gray-700">
-                {{ formatDateToGermanLocale(scheduledDate) }}
+                {{ formattedScheduledDate }}
                 <i class="pi pi-calendar-times" />
             </span>
         </div>
@@ -25,12 +20,12 @@
 </template>
 
 <script lang="ts">
-import Calendar from "primevue/calendar";
-import MomentWrapper from "@/utils/MomentWrapper";
+import DatePicker from "@/components/common/DatePicker.vue";
+import MomentWrapper from "@/utils/MomentWrapper.ts";
 
 export default {
     components: {
-        Calendar,
+        DatePicker,
     },
     props: {
         label: {
@@ -42,25 +37,26 @@ export default {
         },
         actualDate: {
             type: Date,
+            validator: function (value) {
+                return value === null || value instanceof Date;
+            },
         },
         editable: {
             type: Boolean,
             default: false,
         },
     },
-    data() {
-        return {
-            compScheduledDate: this.scheduledDate,
-        };
-    },
-    watch: {
-        compScheduledDate(newDate: Date) {
-            this.$emit("update:scheduledDate", newDate);
+    computed: {
+        formattedActualDate(): string {
+            return MomentWrapper.formatDateToGermanLocale(this.actualDate);
+        },
+        formattedScheduledDate(): string {
+            return MomentWrapper.formatDateToGermanLocale(this.scheduledDate);
         },
     },
     methods: {
-        formatDateToGermanLocale(date: Date): String {
-            return MomentWrapper.formatDateToGermanLocale(date);
+        updateScheduledDate(newDate: Date) {
+            this.$emit("update:scheduledDate", newDate);
         },
     },
 };

@@ -12,13 +12,13 @@
         </span>
     </div>
     <div v-else>
-        {{ formatDateToGermanLocale(date) }}
+        {{ formattedDate }}
     </div>
 </template>
 
 <script lang="ts">
 import Calendar from "primevue/calendar";
-import MomentWrapper from "@/utils/MomentWrapper";
+import MomentWrapper from "@/utils/MomentWrapper.ts";
 
 export default {
     components: {
@@ -42,14 +42,14 @@ export default {
             compDate: this.date,
         };
     },
+    computed: {
+        formattedDate() {
+            return MomentWrapper.formatDateToGermanLocale(this.date);
+        },
+    },
     watch: {
         compDate(newDate: Date) {
             this.$emit("update:date", newDate);
-        },
-    },
-    methods: {
-        formatDateToGermanLocale(date: Date): String {
-            return MomentWrapper.formatDateToGermanLocale(date);
         },
     },
 };

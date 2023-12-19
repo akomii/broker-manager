@@ -1,6 +1,10 @@
 <template>
     <span class="p-input-icon-right">
-        <InputText @input="onInput" placeholder="Suche..." class="w-15rem" />
+        <InputText
+            @input="updateInput"
+            placeholder="Suche..."
+            class="w-15rem"
+        />
         <i class="pi pi-search" />
     </span>
 </template>
@@ -13,8 +17,11 @@ export default {
         InputText,
     },
     methods: {
-        onInput(event) {
-            this.$emit("inputChange", event.target.value);
+        updateInput(event: Event) {
+            this.$emit(
+                "update:input",
+                (event.target as HTMLInputElement).value
+            );
         },
     },
 };

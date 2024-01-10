@@ -40,8 +40,8 @@
 import Fieldset from "primevue/fieldset";
 
 import { RequestExecution } from "@/utils/Types";
-import ScheduledDatePicker from "@/components/common/ScheduledDatePicker.vue";
-import DatePicker from "@/components/common/DatePicker.vue";
+import ScheduledDatePicker from "@/components/datePickers/ScheduledDatePicker.vue";
+import DatePicker from "@/components/datePickers/DatePicker.vue";
 
 export default {
     components: {

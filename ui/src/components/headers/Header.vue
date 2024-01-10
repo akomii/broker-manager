@@ -85,11 +85,11 @@
 import Divider from "primevue/divider";
 import InputText from "primevue/inputtext";
 
-import TagList from "@/components/common/tags/TagList.vue";
-import TagCreator from "@/components/common/tags/TagCreator.vue";
-import MenuButton from "@/components/common/buttons/MenuButton.vue";
-import GoBackButton from "@/components/common/buttons/GoBackButton.vue";
-import EnumState from "@/components/common/EnumState.vue";
+import TagList from "@/components/tags/TagList.vue";
+import TagCreator from "@/components/tags/TagCreator.vue";
+import MenuButton from "@/components/buttons/MenuButton.vue";
+import GoBackButton from "@/components/buttons/GoBackButton.vue";
+import EnumState from "@/components/states/EnumState.vue";
 import { requestStateColorMap } from "@/utils/Constants.ts";
 import { UserRole } from "@/utils/Enums.ts";
 

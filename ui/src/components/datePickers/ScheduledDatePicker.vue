@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import DatePicker from "@/components/common/DatePicker.vue";
+import DatePicker from "@/components/datePickers/DatePicker.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
 
 export default {

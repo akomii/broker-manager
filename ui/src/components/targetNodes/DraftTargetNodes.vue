@@ -51,11 +51,11 @@ import Button from "primevue/button";
 
 import { ManagerNode } from "@/utils/Types";
 import { TestDataService } from "@/service/TestDataService";
-import TagList from "@/components/common/tags/TagList.vue";
-import ExportTableButton from "@/components/common/buttons/ExportTableButton.vue";
-import EditTargetNodes from "@/components/requests/targetNodes/EditTargetNodes.vue";
+import TagList from "@/components/tags/TagList.vue";
+import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
+import EditTargetNodes from "@/components/targetNodes/EditTargetNodes.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
-import SearchInput from "@/components/common/SearchInput.vue";
+import SearchInput from "@/components/inputs/SearchInput.vue";
 
 export default {
     components: {

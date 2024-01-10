@@ -16,6 +16,7 @@ export default {
         Button,
     },
     props: {
+        // datatableRef should be a reference to a DataTable component
         datatableRef: {
             type: Object,
             required: true,

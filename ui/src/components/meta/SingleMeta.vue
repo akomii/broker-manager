@@ -53,15 +53,15 @@
             <p>Referenzzeitraum</p>
             <DatePicker
                 :label="'Referenzdatum Start'"
-                :date="execution.referenceDate"
-                @update:date="execution.referenceDate = $event"
+                :date="dummyDate"
+                @update:date="dummyDate = $event"
                 :editable="editable"
             />
             <br />
             <DatePicker
                 :label="'Referenzdatum Ende'"
-                :date="dummyDate"
-                @update:date="dummyDate = $event"
+                :date="execution.referenceDate"
+                @update:date="execution.referenceDate = $event"
                 :editable="editable"
             />
         </Fieldset>

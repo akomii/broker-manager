@@ -1,4 +1,9 @@
-import { RequestState, ExecutionState } from "@/utils/Enums.ts";
+import { RequestType, RequestState, ExecutionState } from "@/utils/Enums.ts";
+
+export const requestTypeColorMap = {
+    [RequestType.SINGLE]: "primary",
+    [RequestType.SERIES]: "primary",
+};
 
 export const requestStateColorMap = {
     [RequestState.DRAFT]: "warning",

@@ -3,6 +3,11 @@ export enum UserRole {
     EC = "ROLE_EC",
 }
 
+export enum RequestType {
+    SINGLE = "SINGLE",
+    SERIES = "SERIES",
+}
+
 export enum RequestState {
     DRAFT = "DRAFT",
     ONLINE = "ONLINE",

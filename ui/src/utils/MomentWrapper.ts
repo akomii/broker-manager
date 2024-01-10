@@ -8,6 +8,12 @@ export class MomentWrapper {
     static createDuration(value: any): Duration {
         return moment.duration(value);
     }
+
+    static computePeriod(date1: Date, date2: Date): Duration {
+        const roundedDate1 = moment(date1).startOf("minute");
+        const roundedDate2 = moment(date2).startOf("minute");
+        return moment.duration(roundedDate1.diff(roundedDate2));
+    }
 }
 
 export type MomentDuration = Duration;

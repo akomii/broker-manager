@@ -4,8 +4,8 @@ export enum UserRole {
 }
 
 export enum RequestType {
-    SINGLE = "SINGLE",
-    SERIES = "SERIES",
+    SINGLE = "Einzelanfrage",
+    SERIES = "Serienanfrage",
 }
 
 export enum RequestState {

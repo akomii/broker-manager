@@ -90,7 +90,7 @@ import TagCreator from "@/components/tags/TagCreator.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
 import EnumState from "@/components/states/EnumState.vue";
-import { requestStateColorMap } from "@/utils/Constants.ts";
+import { requestStateColorMap } from "@/utils/ColorMaps.ts";
 import { UserRole } from "@/utils/Enums.ts";
 
 export default {

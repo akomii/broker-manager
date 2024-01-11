@@ -5,7 +5,7 @@
         <InputText
             class="w-9rem h-2rem"
             v-model="newTag"
-            placeholder="Neuer Tag..."
+            :placeholder="$t('tag.placeholder')"
             @keyup.enter="addTag"
         />
     </span>
@@ -32,7 +32,7 @@ export default {
         };
     },
     methods: {
-        addTag() {
+        addTag(): void {
             const tag = this.newTag.trim();
             if (tag) {
                 const updatedTags = new Set(this.tags);
@@ -40,7 +40,7 @@ export default {
                     this.$toast.add({
                         severity: "info",
                         summary: "Info",
-                        detail: `Tag \"${tag}\" existiert bereits im Objekt`,
+                        detail: this.$t("tag.exists", { tag: tag }),
                         life: 3000,
                     });
                 } else {

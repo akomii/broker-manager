@@ -151,5 +151,9 @@
         "zoomOut": "Verkleinern",
         "rotateRight": "Nach rechts drehen",
         "rotateLeft": "Nach links drehen"
+    },
+    "tag": {
+        "placeholder": "Neuer Tag...",
+        "exists": "Tag \"{tag}\" existiert bereits im Objekt"
     }
 }

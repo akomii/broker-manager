@@ -1,6 +1,8 @@
 <template>
-    <template v-for="tag in tags" :key="tag">
+    <div>
         <Chip
+            v-for="tag in tags"
+            :key="tag"
             class="py-1 px-2 m-1"
             :removable="removable"
             @remove="removeTag(tag)"
@@ -10,7 +12,7 @@
                 {{ tag }}
             </span>
         </Chip>
-    </template>
+    </div>
 </template>
 
 <script lang="ts">
@@ -31,8 +33,8 @@ export default {
         },
     },
     methods: {
-        removeTag(tagToRemove: string) {
-            const updatedTags = new Set(this.tags);
+        removeTag(tagToRemove: string): void {
+            const updatedTags = new Set([...this.tags]);
             updatedTags.delete(tagToRemove);
             this.$emit("update:tags", updatedTags);
         },

@@ -14,6 +14,10 @@ export class MomentWrapper {
         const roundedDate2 = moment(date2).startOf("minute");
         return moment.duration(roundedDate1.diff(roundedDate2));
     }
+
+    static addDurationToDate(referenceDate: Date, duration: Duration): Date {
+        return moment(referenceDate).add(duration).toDate();
+    }
 }
 
 export type MomentDuration = Duration;

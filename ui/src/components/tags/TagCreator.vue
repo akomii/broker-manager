@@ -3,7 +3,7 @@
     <span class="p-input-icon-left">
         <i class="pi pi-tags" />
         <InputText
-            class="w-9rem h-2rem"
+            class="w-10rem h-2rem"
             v-model="newTag"
             :placeholder="$t('tag.placeholder')"
             @keyup.enter="addTag"

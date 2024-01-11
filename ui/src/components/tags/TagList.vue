@@ -1,18 +1,16 @@
 <template>
-    <div>
-        <Chip
-            v-for="tag in tags"
-            :key="tag"
-            class="py-1 px-2 m-1"
-            :removable="removable"
-            @remove="removeTag(tag)"
-        >
-            <span class="pi pi-tag"></span>
-            <span class="ml-1 text-sm">
-                {{ tag }}
-            </span>
-        </Chip>
-    </div>
+    <Chip
+        v-for="tag in tags"
+        :key="tag"
+        class="py-1 px-2 m-1"
+        :removable="removable"
+        @remove="removeTag(tag)"
+    >
+        <span class="pi pi-tag"></span>
+        <span class="ml-1 text-sm">
+            {{ tag }}
+        </span>
+    </Chip>
 </template>
 
 <script lang="ts">

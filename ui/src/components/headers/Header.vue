@@ -1,25 +1,17 @@
 <template>
     <div class="mx-2">
-        <div class="flex flex-wrap justify-content-between">
-            <div
-                class="flex flex-wrap justify-content-start align-items-center"
-            >
-                <div class="mx-2">
-                    <GoBackButton />
-                </div>
+        <div class="flex justify-content-between">
+            <div class="flex flex-wrap align-items-center">
+                <GoBackButton class="mx-2" />
 
-                <!-- Title Section -->
-                <div
-                    class="flex flex-wrap justify-content-start align-items-center"
-                >
-                    <p v-if="id !== undefined" class="text-2xl mx-2">
-                        [{{ id }}]
-                    </p>
-                    <template v-if="editable && state === 'DRAFT'">
+                <div class="flex align-items-center w-5">
+                    <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>
+                    <template v-if="editable && isDraft()">
                         <span class="p-float-label">
+                            <!-- TODO increase text width-->
                             <InputText
                                 size="large"
-                                class="flex w-30rem text-2xl"
+                                class="text-2xl"
                                 v-model="localTitle"
                             />
                             <label>Titel</label>
@@ -28,53 +20,24 @@
                     <p v-else class="text-2xl mx-1">{{ title }}</p>
                 </div>
 
-                <!-- Request State -->
-                <div class="mx-2">
-                    <EnumState class="text-lg" :state="state" :stateColorMap="requestStateColorMap" />
-                </div>
+                <RequestStateLabel class="text-lg mx-1" :state="state" />
 
-                <!-- Tags Section -->
-                <!-- TODO ARCHIVED CANNOT BE CHANGED ANYMORE-->
-                <div class="flex flex-wrap max-w-30rem mx-2">
+                <div class="flex flex-wrap w-5">
                     <TagList
-                        :tags="editable ? localTags : tags"
-                        :removable="editable"
+                        :tags="isEditableAndNotArchived() ? localTags : tags"
+                        :removable="isEditableAndNotArchived()"
                         @update:tags="localTags = $event"
                     />
                     <TagCreator
-                        v-if="editable"
+                        v-if="isEditableAndNotArchived()"
                         :tags="localTags"
                         @update:tags="localTags = $event"
                     />
                 </div>
             </div>
 
-            <!-- Menu Button -->
-            <div class="flex flex-wrap justify-content-end align-items-center">
-                <div class="mx-2">
-                    <div v-if="editable">
-                        <MenuButton
-                            :icon="'pi pi-chevron-down'"
-                            :menu="
-                                state === 'DRAFT'
-                                    ? editDraftMenu
-                                    : editRequestMenu
-                            "
-                        />
-                    </div>
-                    <div v-else>
-                        <MenuButton
-                            :icon="'pi pi-chevron-down'"
-                            :menu="
-                                state === 'DRAFT'
-                                    ? draftMenu
-                                    : hasUserRoleIT
-                                    ? requestMenuIT
-                                    : requestMenuDAC
-                            "
-                        />
-                    </div>
-                </div>
+            <div class="flex align-items-center">
+                <MenuButton :icon="'pi pi-chevron-down'" :menu="getMenu()" />
             </div>
         </div>
         <Divider class="mt-0" />
@@ -89,9 +52,8 @@ import TagList from "@/components/tags/TagList.vue";
 import TagCreator from "@/components/tags/TagCreator.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
-import EnumState from "@/components/states/EnumState.vue";
-import { requestStateColorMap } from "@/utils/ColorMaps.ts";
-import { UserRole } from "@/utils/Enums.ts";
+import RequestStateLabel from "@/components/states/RequestStateLabel.vue";
+import { UserRole, RequestState } from "@/utils/Enums.ts";
 
 export default {
     components: {
@@ -101,7 +63,7 @@ export default {
         TagCreator,
         MenuButton,
         GoBackButton,
-        EnumState,
+        RequestStateLabel,
     },
     props: {
         id: {
@@ -113,7 +75,7 @@ export default {
             required: true,
         },
         state: {
-            type: String,
+            type: String as () => keyof typeof RequestState,
             required: true,
         },
         tags: {
@@ -128,46 +90,66 @@ export default {
     data() {
         return {
             draftMenu: [
-                { label: "Draft als Anfrage veröffentlichen" },
-                { label: "Draft duplizieren" },
-                { label: "Draft löschen" },
-                { label: "Draft bearbeiten" },
+                // TODO: add routing and services
+                { label: this.$t("menu.draft.publish") },
+                { label: this.$t("menu.draft.duplicate") },
+                { label: this.$t("menu.draft.delete") },
+                { label: this.$t("menu.draft.edit") },
             ],
             editDraftMenu: [
-                { label: "Draft speichern" },
-                { label: "Abbrechen" },
+                { label: this.$t("menu.draft.save") },
+                { label: this.$t("menu.cancel") },
             ],
             requestMenuIT: [
-                { label: "Ergebnisübersicht" },
-                { label: "Als Draft duplizieren" },
-                { label: "Anfrage schließen" },
-                { label: "Anfrage archivieren" },
-                { label: "Anfrage bearbeiten" },
+                { label: this.$t("menu.request.results") },
+                { label: this.$t("menu.request.duplicateDraft") },
+                { label: this.$t("menu.request.close") },
+                { label: this.$t("menu.request.archive") },
+                { label: this.$t("menu.request.edit") },
             ],
             requestMenuDAC: [
-                { label: "Ergebnisübersicht" },
-                { label: "Anfrage schließen" },
-                { label: "Anfrage archivieren" },
+                { label: this.$t("menu.request.results") },
+                { label: this.$t("menu.request.close") },
+                { label: this.$t("menu.request.archive") },
             ],
             editRequestMenu: [
-                { label: "Anfrage speichern" },
-                { label: "Abbrechen" },
+                { label: this.$t("menu.request.save") },
+                { label: this.$t("menu.cancel") },
             ],
             localTitle: this.title,
             localTags: this.tags,
             userRole: UserRole.IT, // TODO: grab userRole from Keycloak response
         };
     },
-    computed: {
-        hasUserRoleIT() {
+    methods: {
+        getMenu(): Array<any> {
+            if (this.editable) {
+                return this.isDraft()
+                    ? this.editDraftMenu
+                    : this.editRequestMenu;
+            } else {
+                return this.isDraft()
+                    ? this.draftMenu
+                    : this.hasUserRoleIT()
+                    ? this.requestMenuIT
+                    : this.requestMenuDAC;
+            }
+        },
+        isDraft(): boolean {
+            return this.state === RequestState.DRAFT;
+        },
+        isEditableAndNotArchived() {
+            return this.editable && this.state != RequestState.ARCHIVED;
+        },
+        hasUserRoleIT(): boolean {
             return this.userRole === UserRole.IT;
         },
     },
     watch: {
-        localTitle(newTitle) {
+        localTitle(newTitle: string): void {
             this.$emit("update:title", newTitle);
         },
-        localTags(updatedTags) {
+        localTags(updatedTags: Set<string>): void {
             this.$emit("update:tags", updatedTags);
         },
     },

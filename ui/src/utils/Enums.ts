@@ -23,11 +23,11 @@ export enum ExecutionState {
 }
 
 export enum NodeState {
-    RETRIEVED = "retrieved",
-    QUEUED = "queued",
-    PROCESSING = "processing",
-    COMPLETED = "completed",
-    REJECTED = "rejected",
-    FAILED = "failed",
-    EXPIRED = "expired",
+    RETRIEVED = "RETRIEVED",
+    QUEUED = "QUEUED",
+    PROCESSING = "PROCESSING",
+    COMPLETED = "COMPLETED",
+    REJECTED = "REJECTED",
+    FAILED = "FAILED",
+    EXPIRED = "EXPIRED",
 }

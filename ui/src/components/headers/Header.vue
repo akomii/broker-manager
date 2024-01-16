@@ -4,6 +4,7 @@
             <div class="flex flex-wrap align-items-center">
                 <GoBackButton class="mx-2" />
 
+                <!-- TODO set somehow min-width to content and max-widht to 41.6667% -->
                 <div class="flex align-items-center w-5">
                     <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>
                     <template v-if="editable && isDraft()">

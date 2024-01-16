@@ -19,7 +19,7 @@
 <script lang="ts">
 import TabMenu from "primevue/tabmenu";
 import Divider from "primevue/divider";
-import MenuButton from "@/components/buttons/MenuButton.vue";
+import MenuButton from "./MenuButton.vue";
 import { UserRole } from "@/utils/Enums.ts";
 
 export default {
@@ -46,7 +46,7 @@ export default {
                     ],
                 },
             ],
-            // TODO fix routing
+            // TODO add routing and services
             routing: [
                 {
                     label: this.$t("applicationHeader.requests"),
@@ -58,7 +58,7 @@ export default {
         };
     },
     computed: {
-        hasUserRoleIT() {
+        hasUserRoleIT(): boolean {
             return this.userRole === UserRole.IT;
         },
     },

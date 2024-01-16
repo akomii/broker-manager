@@ -50,8 +50,8 @@ import Divider from "primevue/divider";
 import InputText from "primevue/inputtext";
 import TagList from "@/components/tags/TagList.vue";
 import TagCreator from "@/components/tags/TagCreator.vue";
-import MenuButton from "@/components/buttons/MenuButton.vue";
-import GoBackButton from "@/components/buttons/GoBackButton.vue";
+import MenuButton from "./MenuButton.vue";
+import GoBackButton from "./GoBackButton.vue";
 import RequestStateLabel from "@/components/states/RequestStateLabel.vue";
 import { UserRole, RequestState } from "@/utils/Enums.ts";
 
@@ -138,7 +138,7 @@ export default {
         isDraft(): boolean {
             return this.state === RequestState.DRAFT;
         },
-        isEditableAndNotArchived() {
+        isEditableAndNotArchived(): boolean {
             return this.editable && this.state != RequestState.ARCHIVED;
         },
         hasUserRoleIT(): boolean {

@@ -185,7 +185,7 @@
     },
     "requestState": {
         "DRAFT": "Entwurf",
-        "PUBLISHED": "Veröffentlicht",
+        "ONLINE": "Online",
         "CLOSED": "Geschlossen",
         "ARCHIVED": "Archiviert"
     },

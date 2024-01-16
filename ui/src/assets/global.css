@@ -1,0 +1,49 @@
+/* Supplementary classes for PrimeFlex */
+
+.max-w-1 {
+    max-width: 8.3333%;
+}
+
+.max-w-2 {
+    max-width: 16.6667%;
+}
+
+.max-w-3 {
+    max-width: 25%;
+}
+
+.max-w-4 {
+    max-width: 33.3333%;
+}
+
+.max-w-5 {
+    max-width: 41.6667%;
+}
+
+.max-w-6 {
+    max-width: 50%;
+}
+
+.max-w-7 {
+    max-width: 58.3333%;
+}
+
+.max-w-8 {
+    max-width: 66.6667%;
+}
+
+.max-w-9 {
+    max-width: 75%;
+}
+
+.max-w-10 {
+    max-width: 83.3333%;
+}
+
+.max-w-11 {
+    max-width: 91.6667%;
+}
+
+.max-w-12 {
+    max-width: 100%;
+}

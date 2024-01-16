@@ -46,7 +46,7 @@ export default {
         },
     },
     methods: {
-        toggle(event: MouseEvent) {
+        toggle(event: MouseEvent): void {
             const menu = this.$refs.menu as Vue;
             menu.toggle(event);
         },

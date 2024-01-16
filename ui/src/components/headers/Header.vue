@@ -15,7 +15,7 @@
                                 class="text-2xl"
                                 v-model="localTitle"
                             />
-                            <label>Titel</label>
+                            <label>{{ $t("requestHeader.title") }}</label>
                         </span>
                     </template>
                     <p v-else class="text-2xl mx-1">{{ title }}</p>
@@ -92,30 +92,30 @@ export default {
         return {
             draftMenu: [
                 // TODO: add routing and services
-                { label: this.$t("menu.draft.publish") },
-                { label: this.$t("menu.draft.duplicate") },
-                { label: this.$t("menu.draft.delete") },
-                { label: this.$t("menu.draft.edit") },
+                { label: this.$t("requestHeader.menu.draft.publish") },
+                { label: this.$t("requestHeader.menu.draft.duplicate") },
+                { label: this.$t("requestHeader.menu.draft.delete") },
+                { label: this.$t("requestHeader.menu.draft.edit") },
             ],
             editDraftMenu: [
-                { label: this.$t("menu.draft.save") },
-                { label: this.$t("menu.cancel") },
+                { label: this.$t("requestHeader.menu.draft.save") },
+                { label: this.$t("requestHeader.menu.cancel") },
             ],
             requestMenuIT: [
-                { label: this.$t("menu.request.results") },
-                { label: this.$t("menu.request.duplicateDraft") },
-                { label: this.$t("menu.request.close") },
-                { label: this.$t("menu.request.archive") },
-                { label: this.$t("menu.request.edit") },
+                { label: this.$t("requestHeader.menu.request.results") },
+                { label: this.$t("requestHeader.menu.request.duplicateDraft") },
+                { label: this.$t("requestHeader.menu.request.close") },
+                { label: this.$t("requestHeader.menu.request.archive") },
+                { label: this.$t("requestHeader.menu.request.edit") },
             ],
             requestMenuDAC: [
-                { label: this.$t("menu.request.results") },
-                { label: this.$t("menu.request.close") },
-                { label: this.$t("menu.request.archive") },
+                { label: this.$t("requestHeader.menu.request.results") },
+                { label: this.$t("requestHeader.menu.request.close") },
+                { label: this.$t("requestHeader.menu.request.archive") },
             ],
             editRequestMenu: [
-                { label: this.$t("menu.request.save") },
-                { label: this.$t("menu.cancel") },
+                { label: this.$t("requestHeader.menu.request.save") },
+                { label: this.$t("requestHeader.menu.cancel") },
             ],
             localTitle: this.title,
             localTags: this.tags,

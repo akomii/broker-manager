@@ -156,26 +156,32 @@
         "placeholder": "Neuer Tag...",
         "exists": "Tag \"{tag}\" existiert bereits im Objekt"
     },
-    "menu": {
-        "draft": {
-            "publish": "Draft als Anfrage veröffentlichen",
-            "duplicate": "Draft duplizieren",
-            "delete": "Draft löschen",
-            "edit": "Draft bearbeiten",
-            "save": "Draft speichern"
-        },
-        "request": {
-            "results": "Ergebnisübersicht",
-            "duplicateDraft": "Als Draft duplizieren",
-            "close": "Anfrage schließen",
-            "archive": "Anfrage archivieren",
-            "edit": "Anfrage bearbeiten",
-            "save": "Anfrage speichern"
-        },
-        "cancel": "Abbrechen"
+    "requestHeader": {
+        "title": "Titel",
+        "menu": {
+            "draft": {
+                "publish": "Draft als Anfrage veröffentlichen",
+                "duplicate": "Draft duplizieren",
+                "delete": "Draft löschen",
+                "edit": "Draft bearbeiten",
+                "save": "Draft speichern"
+            },
+            "request": {
+                "results": "Ergebnisübersicht",
+                "duplicateDraft": "Als Draft duplizieren",
+                "close": "Anfrage schließen",
+                "archive": "Anfrage archivieren",
+                "edit": "Anfrage bearbeiten",
+                "save": "Anfrage speichern"
+            },
+            "cancel": "Abbrechen"
+        }
     },
-    "header": {
-        "title": "Titel"
+    "applicationHeader": {
+        "settings": "Einstellungen",
+        "logout": "Abmelden",
+        "requests": "Anfragen",
+        "clinics": "Kliniken"
     },
     "requestState": {
         "DRAFT": "Entwurf",

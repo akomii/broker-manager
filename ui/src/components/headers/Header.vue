@@ -48,7 +48,6 @@
 <script lang="ts">
 import Divider from "primevue/divider";
 import InputText from "primevue/inputtext";
-
 import TagList from "@/components/tags/TagList.vue";
 import TagCreator from "@/components/tags/TagCreator.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";

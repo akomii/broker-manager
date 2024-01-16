@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex justify-content-between flex-wrap border-solid border-200 p-3"
+        class="flex flex-wrap justify-content-between border-solid border-200 p-3"
     >
         <div class="flex align-items-center">
             <img src="@/assets/aktin_logo.png" class="max-h-4rem mr-2" />
@@ -11,7 +11,7 @@
                 <TabMenu :model="routing" class="mr-2" />
                 <Divider layout="vertical" class="ml-2" />
             </div>
-            <MenuButton :icon="'pi pi-user'" :menu="usermenu" />
+            <MenuButton icon="pi pi-user" :menu="usermenu" />
         </div>
     </div>
 </template>
@@ -30,24 +30,29 @@ export default {
     },
     data() {
         return {
+            // TODO add Keycloak integration and routing
             usermenu: [
                 {
                     label: "<username>",
                     items: [
                         {
-                            label: "Settings",
+                            label: this.$t("applicationHeader.settings"),
                             icon: "pi pi-cog",
                         },
                         {
-                            label: "Logout",
+                            label: this.$t("applicationHeader.logout"),
                             icon: "pi pi-sign-out",
                         },
                     ],
                 },
             ],
+            // TODO fix routing
             routing: [
-                { label: "Anfragen", to: "/requests" },
-                { label: "Kliniken", to: "/clinics" },
+                {
+                    label: this.$t("applicationHeader.requests"),
+                    to: "/requests",
+                },
+                { label: this.$t("applicationHeader.clinics"), to: "/clinics" },
             ],
             userRole: UserRole.IT, // TODO: grab userRole from Keycloak response
         };

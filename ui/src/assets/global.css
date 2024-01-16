@@ -47,3 +47,51 @@
 .max-w-12 {
     max-width: 100%;
 }
+
+.min-w-1 {
+    min-width: 8.3333%;
+}
+
+.min-w-2 {
+    min-width: 16.6667%;
+}
+
+.min-w-3 {
+    min-width: 25%;
+}
+
+.min-w-4 {
+    min-width: 33.3333%;
+}
+
+.min-w-5 {
+    min-width: 41.6667%;
+}
+
+.min-w-6 {
+    min-width: 50%;
+}
+
+.min-w-7 {
+    min-width: 58.3333%;
+}
+
+.min-w-8 {
+    min-width: 66.6667%;
+}
+
+.min-w-9 {
+    min-width: 75%;
+}
+
+.min-w-10 {
+    min-width: 83.3333%;
+}
+
+.min-w-11 {
+    min-width: 91.6667%;
+}
+
+.min-w-12 {
+    min-width: 100%;
+}

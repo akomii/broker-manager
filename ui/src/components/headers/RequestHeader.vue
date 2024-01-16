@@ -1,42 +1,41 @@
 <template>
     <div class="mx-2">
-        <div class="flex justify-content-between">
-            <div class="flex flex-wrap align-items-center">
+        <div class="grid align-items-center">
+            <div class="col">
                 <GoBackButton class="mx-2" />
-
-                <div class="flex align-items-center max-w-5">
-                    <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>
-                    <template v-if="editable && isDraft()">
-                        <span class="p-float-label">
-                            <!-- TODO increase text width-->
-                            <InputText
-                                size="large"
-                                class="text-2xl"
-                                v-model="localTitle"
-                            />
-                            <label>{{ $t("requestHeader.title") }}</label>
-                        </span>
-                    </template>
-                    <p v-else class="text-2xl mx-1">{{ title }}</p>
-                </div>
-
+            </div>
+            <!-- TODO clear empty space -->
+            <div class="col-5 flex align-items-center">
+                <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>
+                <template v-if="editable && isDraft()">
+                    <span class="p-float-label">
+                        <!-- TODO increase text width-->
+                        <InputText
+                            size="large"
+                            class="text-2xl"
+                            v-model="localTitle"
+                        />
+                        <label>{{ $t("requestHeader.title") }}</label>
+                    </span>
+                </template>
+                <p v-else class="text-2xl mx-1">{{ title }}</p>
                 <RequestStateLabel class="text-lg mx-1" :state="state" />
-
-                <div class="flex flex-wrap max-w-5">
-                    <TagList
-                        :tags="isEditableAndNotArchived() ? localTags : tags"
-                        :removable="isEditableAndNotArchived()"
-                        @update:tags="localTags = $event"
-                    />
-                    <TagCreator
-                        v-if="isEditableAndNotArchived()"
-                        :tags="localTags"
-                        @update:tags="localTags = $event"
-                    />
-                </div>
             </div>
 
-            <div class="flex align-items-center">
+            <div class="col-5">
+                <TagList
+                    :tags="isEditableAndNotArchived() ? localTags : tags"
+                    :removable="isEditableAndNotArchived()"
+                    @update:tags="localTags = $event"
+                />
+                <TagCreator
+                    v-if="isEditableAndNotArchived()"
+                    :tags="localTags"
+                    @update:tags="localTags = $event"
+                />
+            </div>
+
+            <div class="col flex justify-content-end">
                 <MenuButton :icon="'pi pi-chevron-down'" :menu="getMenu()" />
             </div>
         </div>

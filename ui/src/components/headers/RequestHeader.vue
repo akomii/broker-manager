@@ -116,7 +116,6 @@ export default {
             ],
             localTitle: this.title,
             localTags: this.tags,
-            userRole: UserRole.IT, // TODO: grab userRole from Keycloak response
         };
     },
     methods: {
@@ -139,8 +138,9 @@ export default {
         isEditableAndNotArchived(): boolean {
             return this.editable && this.state != RequestState.ARCHIVED;
         },
+        // TODO: grab userRole from Keycloak response
         hasUserRoleIT(): boolean {
-            return this.userRole === UserRole.IT;
+            return this.$userRole === UserRole.IT;
         },
     },
     watch: {

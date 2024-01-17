@@ -54,12 +54,12 @@ export default {
                 },
                 { label: this.$t("applicationHeader.clinics"), to: "/clinics" },
             ],
-            userRole: UserRole.IT, // TODO: grab userRole from Keycloak response
         };
     },
     computed: {
+        // TODO: grab userRole from Keycloak response
         hasUserRoleIT(): boolean {
-            return this.userRole === UserRole.IT;
+            return this.$userRole === UserRole.IT;
         },
     },
 };

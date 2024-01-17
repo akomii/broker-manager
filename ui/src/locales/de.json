@@ -216,5 +216,7 @@
     "name": "Name",
     "organization": "Organisation",
     "email": "E-Mail",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "organizations": "Auswertestell(en)",
+    "selectOrgsPlaceholder": "Auswertestelle(n) auswählen..."
 }

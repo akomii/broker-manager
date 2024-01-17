@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         // TODO remove the fetch from TestDataService
-        fetchPrincipals(): void {
+        async fetchPrincipals() {
             TestDataService.getPrincipals().then(
                 (data: Principal[]) => (this.allPrincipals = data)
             );

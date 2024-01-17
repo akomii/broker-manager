@@ -1,35 +1,27 @@
 <template>
-    <div>
-        <Fieldset
-            legend="Auswertestelle(n)"
-            :toggleable="true"
-            class="flex w-25rem m-2"
-        >
-            <template v-if="editable">
-                <MultiSelect
-                    v-model="localModelValue"
-                    @change="updateModelValue"
-                    :options="allOrganizations"
-                    filter
-                    optionLabel="name"
-                    placeholder="Auswertestellen auswählen"
-                    class="w-24rem"
-                />
-            </template>
-            <template v-else>
-                <ScrollPanel class="w-24rem max-h-11rem">
-                    <template v-for="organization in localModelValue">
-                        <div class="hover:surface-100">
-                            <p class="text-left text-xl p-2 m-auto">
-                                {{ organization.name }}
-                            </p>
-                        </div>
-                    </template>
-                </ScrollPanel>
-            </template>
-        </Fieldset>
-    </div>
-    <!-- TODO display only the dropdown without the text input -->
+    <Fieldset :legend="$t('organizations')" :toggleable="true">
+        <template v-if="editable">
+            <!-- TODO display only the dropdown without the text input -->
+            <MultiSelect
+                class="w-full"
+                v-model="organizationsDummy"
+                optionLabel="name"
+                filter
+                :options="allOrganizations"
+                :placeholder="$t('selectOrgsPlaceholder')"
+                @change="onOrganizationSelected"
+            />
+        </template>
+        <template v-else>
+            <ScrollPanel class="max-h-11rem">
+                <template v-for="organization in organizationsDummy">
+                    <p class="hover:surface-100 text-xl p-2 m-auto">
+                        {{ organization.name }}
+                    </p>
+                </template>
+            </ScrollPanel>
+        </template>
+    </Fieldset>
 </template>
 
 <script lang="ts">
@@ -46,45 +38,43 @@ export default {
         MultiSelect,
     },
     props: {
-        modelValue: { type: Array as () => number[], required: true },
-        editable: { type: Boolean, default: false },
+        organizationIds: {
+            type: Set<number>,
+            required: true,
+        },
+        editable: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
             allOrganizations: [] as Organization[],
-            localModelValue: [] as Organization[],
+            organizationsDummy: [] as Organization[],
         };
     },
     mounted() {
-        TestDataService.getOrganizations().then((data: Organization[]) => {
+        this.fetchOrganizations();
+    },
+    methods: {
+        // TODO remove the fetch from TestDataService
+        async fetchOrganizations() {
+            const data: Organization[] =
+                await TestDataService.getOrganizations();
             this.allOrganizations = data.sort((a, b) =>
                 a.name.localeCompare(b.name)
             );
-            this.localModelValue = this.allOrganizations.filter((org) =>
-                this.modelValue.includes(org.id)
+            this.organizationsDummy = this.allOrganizations.filter((org) =>
+                this.organizationIds.has(org.id)
             );
-        });
-    },
-    watch: {
-        modelValue: {
-            immediate: true,
-            handler(newValue) {
-                if (newValue && newValue.length > 0) {
-                    if (this.allOrganizations.length > 0) {
-                        this.localModelValue = this.allOrganizations.filter(
-                            (org) => this.modelValue.includes(org.id)
-                        );
-                    }
-                }
-            },
         },
-    },
-    methods: {
-        updateModelValue() {
-            this.localModelValue.sort((a, b) => a.name.localeCompare(b.name));
+        onOrganizationSelected() {
+            this.organizationsDummy.sort((a, b) =>
+                a.name.localeCompare(b.name)
+            );
             this.$emit(
-                "update:modelValue",
-                this.localModelValue.map((org) => org.id)
+                "update:organizationIds",
+                this.organizationsDummy.map((org) => org.id)
             );
         },
     },

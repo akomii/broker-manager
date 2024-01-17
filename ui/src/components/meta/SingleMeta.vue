@@ -1,155 +1,132 @@
 <template>
-    <Fieldset legend="Meta" :toggleable="true" class="m-2">
-        <div class="flex flex-wrap justify-content-center">
-            <div class="grid nested-grid w-6">
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.requestType") }}</p>
-                        </div>
-                        <div class="col-8">
+    <Fieldset legend="Meta" :toggleable="true">
+        <!-- TODO REFACTOR THE HTML -->
+        <div class="flex justify-content-center">
+            <div class="w-6">
+                <div class="flex-column">
+                    <div class="flex flex-wrap align-items-center">
+                        <span class="w-6">{{
+                            $t("enums.requestType.label")
+                        }}</span>
+                        <span class="w-6">
                             <RequestTypeLabel
                                 class="text-sm"
                                 :state="RequestType.SINGLE"
-                            />
-                        </div>
+                        /></span>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.externalId") }}</p>
-                        </div>
-                        <div class="col-8">
+                    <div class="flex flex-wrap align-items-center">
+                        <span class="w-6">{{ $t("externalId") }}</span>
+                        <span class="w-6">
                             <p v-if="execution.externalId">
                                 {{ execution.externalId }}
                             </p>
                             <i v-else class="pi pi-minus" />
-                        </div>
+                        </span>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.referenceDate.start") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <DatePicker
-                                :label="$t('meta.referenceDate.start')"
-                                :date="dummyReferenceStart"
-                                :editable="editable"
-                                @update:date="dummyReferenceStart = $event"
-                            />
-                        </div>
+                    <div class="flex flex-wrap">
+                        <p v-if="!editable" class="my-0">
+                            {{ $t("dates.referenceDate.start") }}
+                        </p>
+                        <DatePicker
+                            class="mb-3"
+                            :label="$t('dates.referenceDate.start')"
+                            :date="dummyReferenceStart"
+                            :editable="editable"
+                            @update:date="dummyReferenceStart = $event"
+                        />
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.referenceDate.end") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <DatePicker
-                                :label="$t('meta.referenceDate.end')"
-                                :date="execution.referenceDate"
-                                :editable="editable"
-                                @update:date="execution.referenceDate = $event"
-                            />
-                        </div>
+                    <div class="flex flex-wrap">
+                        <p v-if="!editable" class="my-0">
+                            {{ $t("dates.referenceDate.end") }}
+                        </p>
+                        <DatePicker
+                            class="mb-3"
+                            :label="$t('dates.referenceDate.end')"
+                            :date="execution.referenceDate"
+                            :editable="editable"
+                            @update:date="execution.referenceDate = $event"
+                        />
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <p>TODO BUTTON FÜR ÄNDERUNGSHISTORIE</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-12 border-solid">
+                            TODO BUTTON FÜR ÄNDERUNGSHISTORIE
+                        </span>
                     </div>
                 </div>
             </div>
 
             <Divider layout="vertical" />
 
-            <div class="grid nested-grid w-6">
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.executionState") }}</p>
-                        </div>
-                        <div class="col-8">
+            <div class="w-6">
+                <div class="flex-column">
+                    <div class="flex flex-wrap align-items-center mb-3">
+                        <span class="w-7">{{
+                            $t("enums.executionState.label")
+                        }}</span>
+                        <span class="w-5">
                             <ExecutionStateLabel
                                 v-if="execution.executionState"
                                 class="text-sm"
                                 :state="execution.executionState"
                             />
                             <i v-else class="pi pi-minus" />
-                        </div>
+                        </span>
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.publishDate") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <ScheduledDatePicker
-                                :label="$t('meta.publishDate')"
-                                :actualDate="execution.publishedDate"
-                                :scheduledDate="execution.scheduledPublishDate"
-                                :editable="editable"
-                                @update:scheduledDate="
-                                    execution.scheduledPublishDate = $event
-                                "
-                            />
-                        </div>
+                    <div class="flex flex-wrap">
+                        <p
+                            v-if="!editable || execution.publishedDate"
+                            class="my-0 mr-4"
+                        >
+                            {{ $t("dates.publishDate") }}
+                        </p>
+                        <ScheduledDatePicker
+                            class="mb-3"
+                            :label="$t('dates.publishDate')"
+                            :actualDate="execution.publishedDate"
+                            :scheduledDate="execution.scheduledPublishDate"
+                            :editable="editable"
+                            @update:scheduledDate="
+                                execution.scheduledPublishDate = $event
+                            "
+                        />
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.executionDate") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <DatePicker
-                                :label="$t('meta.executionDate')"
-                                :date="execution.executionDate"
-                                :editable="editable"
-                                @update:date="execution.executionDate = $event"
-                            />
-                        </div>
+
+                    <div class="flex flex-wrap">
+                        <p
+                            v-if="!editable || execution.closedDate"
+                            class="my-0 mr-4"
+                        >
+                            {{ $t("dates.closingDate") }}
+                        </p>
+                        <ScheduledDatePicker
+                            class="mb-3"
+                            :label="$t('dates.closingDate')"
+                            :actualDate="execution.closedDate"
+                            :scheduledDate="execution.scheduledClosingDate"
+                            :editable="editable"
+                            @update:scheduledDate="
+                                execution.scheduledClosingDate = $event
+                            "
+                        />
                     </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.closingDate") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <ScheduledDatePicker
-                                :label="$t('meta.closingDate')"
-                                :actualDate="execution.closedDate"
-                                :scheduledDate="execution.scheduledClosingDate"
-                                :editable="editable"
-                                @update:scheduledDate="
-                                    execution.scheduledClosingDate = $event
-                                "
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="grid align-items-center">
-                        <div class="col-4">
-                            <p>{{ $t("meta.archiveDate") }}</p>
-                        </div>
-                        <div class="col-8">
-                            <ScheduledDatePicker
-                                :label="$t('meta.archiveDate')"
-                                :actualDate="execution.archivedDate"
-                                :scheduledDate="execution.scheduledArchiveDate"
-                                :editable="editable"
-                                @update:scheduledDate="
-                                    execution.scheduledArchiveDate = $event
-                                "
-                            />
-                        </div>
+
+                    <div class="flex flex-wrap">
+                        <p
+                            v-if="!editable || execution.archivedDate"
+                            class="my-0 mr-4"
+                        >
+                            {{ $t("dates.archiveDate") }}
+                        </p>
+                        <ScheduledDatePicker
+                            class="mb-3"
+                            :label="$t('dates.archiveDate')"
+                            :actualDate="execution.archivedDate"
+                            :scheduledDate="execution.scheduledArchiveDate"
+                            :editable="editable"
+                            @update:scheduledDate="
+                                execution.scheduledArchiveDate = $event
+                            "
+                        />
                     </div>
                 </div>
             </div>

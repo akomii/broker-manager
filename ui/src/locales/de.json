@@ -212,5 +212,9 @@
     "title": "Titel",
     "tagExistsAlready": "Tag \"{tag}\" existiert bereits",
     "newTagPlaceholder": "Neuer Tag...",
-    "searchPlaceholder": "Suche..."
+    "searchPlaceholder": "Suche...",
+    "name": "Name",
+    "organization": "Organisation",
+    "email": "E-Mail",
+    "phone": "Telefon"
 }

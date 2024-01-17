@@ -2,7 +2,7 @@
     <div v-if="editable">
         <span class="p-float-label">
             <Calendar
-                v-model="compDate"
+                v-model="dummyDate"
                 showIcon
                 showButtonBar
                 showTime
@@ -31,6 +31,7 @@ export default {
         },
         date: {
             type: Date,
+            required: true,
         },
         editable: {
             type: Boolean,
@@ -39,7 +40,7 @@ export default {
     },
     data() {
         return {
-            compDate: this.date,
+            dummyDate: this.date,
         };
     },
     computed: {
@@ -48,7 +49,7 @@ export default {
         },
     },
     watch: {
-        compDate(newDate: Date) {
+        dummyDate(newDate: Date) {
             this.$emit("update:date", newDate);
         },
     },

@@ -10,7 +10,12 @@
         <div v-if="actualDate">
             {{ formattedActualDate }}
         </div>
-        <div v-else-if="scheduledDate" v-tooltip.bottom="`Geplantes ${label}`">
+        <div
+            v-else-if="scheduledDate"
+            v-tooltip.bottom="
+                $t('datePicker.scheduledDate', { dateLabel: label })
+            "
+        >
             <span class="text-gray-700">
                 {{ formattedScheduledDate }}
                 <i class="pi pi-calendar-times" />
@@ -34,6 +39,7 @@ export default {
         },
         scheduledDate: {
             type: Date,
+            required: true,
         },
         actualDate: {
             type: Date,

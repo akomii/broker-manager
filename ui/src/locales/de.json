@@ -194,5 +194,9 @@
         "PUBLISHED": "Veröffentlicht",
         "CLOSED": "Geschlossen",
         "ARCHIVED": "Archiviert"
+    },
+    "requestType": {
+        "SINGLE": "Einzelanfrage",
+        "SERIES": "Serienanfrage"
     }
 }

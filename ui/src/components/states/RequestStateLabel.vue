@@ -6,7 +6,7 @@
 import Tag from "primevue/tag";
 import { RequestState } from "@/utils/Enums";
 
-const requestStateColorMap = {
+const requestStateColorMap: Record<keyof typeof RequestState, string> = {
     [RequestState.DRAFT]: "warning",
     [RequestState.ONLINE]: "success",
     [RequestState.CLOSED]: "danger",
@@ -24,10 +24,10 @@ export default {
         },
     },
     computed: {
-        tagColor() {
+        tagColor(): string {
             return requestStateColorMap[this.state] || "secondary";
         },
-        localizedState() {
+        localizedState(): string {
             return this.$t(`requestState.${this.state}`);
         },
     },

@@ -6,7 +6,7 @@
 import Tag from "primevue/tag";
 import { ExecutionState } from "@/utils/Enums";
 
-export const executionStateColorMap = {
+export const executionStateColorMap: Record<keyof typeof ExecutionState, string> = {
     [ExecutionState.PENDING]: "warning",
     [ExecutionState.PUBLISHED]: "success",
     [ExecutionState.CLOSED]: "danger",
@@ -24,10 +24,11 @@ export default {
         },
     },
     computed: {
-        tagColor() {
+        tagColor(): string {
             return executionStateColorMap[this.state] || "secondary";
         },
-        localizedState() {
+
+        localizedState(): string {
             return this.$t(`executionState.${this.state}`);
         },
     },

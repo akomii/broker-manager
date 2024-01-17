@@ -158,8 +158,6 @@
         "requests": "Anfragen",
         "settings": "Einstellungen"
     },
-    "externalId": "Externe ID",
-    "title": "Titel",
     "menu": {
         "cancel": "Abbrechen",
         "draft": {
@@ -189,10 +187,6 @@
         },
         "scheduledDate": "Geplantes {dateLabel}"
     },
-    "tag": {
-        "exists": "Tag \"{tag}\" existiert bereits",
-        "placeholder": "Neuer Tag..."
-    },
     "enums": {
         "requestState": {
             "label": "Anfragestatus",
@@ -213,5 +207,10 @@
             "SINGLE": "Einzelanfrage",
             "SERIES": "Serienanfrage"
         }
-    }
+    },
+    "externalId": "Externe ID",
+    "title": "Titel",
+    "tagExistsAlready": "Tag \"{tag}\" existiert bereits",
+    "newTagPlaceholder": "Neuer Tag...",
+    "searchPlaceholder": "Suche..."
 }

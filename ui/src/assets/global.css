@@ -95,3 +95,16 @@
 .min-w-12 {
     min-width: 100%;
 }
+
+.custom-scrollbar {
+    overflow-y: scroll !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 8px;
+}

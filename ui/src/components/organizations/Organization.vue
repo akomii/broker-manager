@@ -13,7 +13,7 @@
             />
         </template>
         <template v-else>
-            <ScrollPanel class="max-h-11rem">
+            <ScrollPanel class="max-h-9rem custom-scrollbar">
                 <template v-for="organization in organizationsDummy">
                     <p class="hover:surface-100 text-xl p-2 m-auto">
                         {{ organization.name }}

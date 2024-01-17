@@ -4,6 +4,7 @@
             <div class="col">
                 <GoBackButton class="mx-2" />
             </div>
+            <!-- TODO RequestStatelabel is placed under Tags when window too small-->
             <!-- TODO clear empty space -->
             <div class="col-5 flex align-items-center">
                 <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>

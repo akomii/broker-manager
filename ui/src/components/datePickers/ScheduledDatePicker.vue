@@ -12,9 +12,7 @@
         </div>
         <div
             v-else-if="scheduledDate"
-            v-tooltip.bottom="
-                $t('dates.scheduledDate', { dateLabel: label })
-            "
+            v-tooltip.bottom="$t('dates.scheduledDate', { dateLabel: label })"
         >
             <span class="text-gray-700">
                 {{ formattedScheduledDate }}

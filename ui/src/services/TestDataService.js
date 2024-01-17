@@ -3,7 +3,7 @@ import {
     ManagerNodeParser,
     PrincipalParser,
     OrganizationParser,
-} from "@/service/Parser.ts";
+} from "@/services/Parser.ts";
 
 const requests = [
     {

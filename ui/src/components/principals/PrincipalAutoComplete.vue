@@ -19,7 +19,7 @@
 <script lang="ts">
 import AutoComplete from "primevue/autocomplete";
 import type { AutoCompleteCompleteEvent } from "primevue/autocomplete";
-import { TestDataService } from "@/service/TestDataService";
+import { TestDataService } from "@/services/TestDataService";
 import { Principal } from "@/utils/Types";
 
 export default {

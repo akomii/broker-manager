@@ -37,7 +37,7 @@ import Fieldset from "primevue/fieldset";
 import ScrollPanel from "primevue/scrollpanel";
 import MultiSelect from "primevue/multiselect";
 import { Organization } from "@/utils/Types";
-import { TestDataService } from "@/service/TestDataService";
+import { TestDataService } from "@/services/TestDataService";
 
 export default {
     components: {

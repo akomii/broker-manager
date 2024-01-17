@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { TestDataService } from '@/service/TestDataService';
+import { TestDataService } from '@/services/TestDataService';
 //import RequestState from '@/components/requests/common/RequestState.vue';
 
 import DataTable from 'primevue/datatable';

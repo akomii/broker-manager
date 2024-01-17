@@ -50,7 +50,7 @@ import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 
 import { ManagerNode } from "@/utils/Types";
-import { TestDataService } from "@/service/TestDataService";
+import { TestDataService } from "@/services/TestDataService";
 import TagList from "@/components/tags/TagList.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import EditTargetNodes from "@/components/targetNodes/EditTargetNodes.vue";

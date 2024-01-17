@@ -110,7 +110,7 @@ import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
-import { TestDataService } from "@/service/TestDataService";
+import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
 import RequestHeader from "@/components/headers/RequestHeader.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";

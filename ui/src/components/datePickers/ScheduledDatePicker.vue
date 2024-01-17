@@ -13,7 +13,7 @@
         <div
             v-else-if="scheduledDate"
             v-tooltip.bottom="
-                $t('datePicker.scheduledDate', { dateLabel: label })
+                $t('dates.scheduledDate', { dateLabel: label })
             "
         >
             <span class="text-gray-700">

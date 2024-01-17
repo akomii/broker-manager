@@ -36,11 +36,11 @@ export default {
                     label: "<username>",
                     items: [
                         {
-                            label: this.$t("applicationHeader.settings"),
+                            label: this.$t("navigation.settings"),
                             icon: "pi pi-cog",
                         },
                         {
-                            label: this.$t("applicationHeader.logout"),
+                            label: this.$t("navigation.logout"),
                             icon: "pi pi-sign-out",
                         },
                     ],
@@ -49,10 +49,10 @@ export default {
             // TODO add routing and services
             routing: [
                 {
-                    label: this.$t("applicationHeader.requests"),
+                    label: this.$t("navigation.requests"),
                     to: "/requests",
                 },
-                { label: this.$t("applicationHeader.clinics"), to: "/clinics" },
+                { label: this.$t("navigation.clinics"), to: "/clinics" },
             ],
         };
     },

@@ -152,67 +152,66 @@
         "rotateRight": "Nach rechts drehen",
         "rotateLeft": "Nach links drehen"
     },
-    "tag": {
-        "placeholder": "Neuer Tag...",
-        "exists": "Tag \"{tag}\" existiert bereits"
-    },
-    "requestHeader": {
-        "title": "Titel",
-        "menu": {
-            "draft": {
-                "publish": "Draft als Anfrage veröffentlichen",
-                "duplicate": "Draft duplizieren",
-                "delete": "Draft löschen",
-                "edit": "Draft bearbeiten",
-                "save": "Draft speichern"
-            },
-            "request": {
-                "results": "Ergebnisübersicht",
-                "duplicateDraft": "Als Draft duplizieren",
-                "close": "Anfrage schließen",
-                "archive": "Anfrage archivieren",
-                "edit": "Anfrage bearbeiten",
-                "save": "Anfrage speichern"
-            },
-            "cancel": "Abbrechen"
-        }
-    },
-    "applicationHeader": {
-        "settings": "Einstellungen",
+    "navigation": {
+        "clinics": "Kliniken",
         "logout": "Abmelden",
         "requests": "Anfragen",
-        "clinics": "Kliniken"
+        "settings": "Einstellungen"
     },
-    "requestState": {
-        "DRAFT": "Entwurf",
-        "ONLINE": "Online",
-        "CLOSED": "Geschlossen",
-        "ARCHIVED": "Archiviert"
+    "externalId": "Externe ID",
+    "title": "Titel",
+    "menu": {
+        "cancel": "Abbrechen",
+        "draft": {
+            "delete": "Draft löschen",
+            "duplicate": "Draft duplizieren",
+            "edit": "Draft bearbeiten",
+            "publish": "Draft als Anfrage veröffentlichen",
+            "save": "Draft speichern"
+        },
+        "request": {
+            "archive": "Anfrage archivieren",
+            "close": "Anfrage schließen",
+            "duplicateDraft": "Als Draft duplizieren",
+            "edit": "Anfrage bearbeiten",
+            "results": "Ergebnisübersicht",
+            "save": "Anfrage speichern"
+        }
     },
-    "executionState": {
-        "PENDING": "In Warteschlange",
-        "PUBLISHED": "Veröffentlicht",
-        "CLOSED": "Geschlossen",
-        "ARCHIVED": "Archiviert"
-    },
-    "requestType": {
-        "SINGLE": "Einzelanfrage",
-        "SERIES": "Serienanfrage"
-    },
-    "meta": {
-        "requestType": "Typ",
-        "externalId": "Externe ID",
-        "executionState": "Ausführungsstatus",
+    "dates": {
+        "archiveDate": "Archivierungsdatum",
+        "closingDate": "Schließdatum",
+        "executionDate": "Ausführungsdatum",
+        "publishDate": "Veröffentlichungsdatum",
         "referenceDate": {
             "start": "Referenzzeitraum Start",
             "end": "Referenzzeitraum Ende"
         },
-        "publishDate": "Veröffentlichungsdatum",
-        "executionDate": "Ausführungsdatum",
-        "closingDate": "Schließdatum",
-        "archiveDate": "Archivierungsdatum"
+        "scheduledDate": "Geplantes {dateLabel}"
     },
-    "datePicker": {
-        "scheduledDate": "Geplanetes {dateLabel}"
+    "tag": {
+        "exists": "Tag \"{tag}\" existiert bereits",
+        "placeholder": "Neuer Tag..."
+    },
+    "enums": {
+        "requestState": {
+            "label": "Anfragestatus",
+            "DRAFT": "Entwurf",
+            "ONLINE": "Online",
+            "CLOSED": "Geschlossen",
+            "ARCHIVED": "Archiviert"
+        },
+        "executionState": {
+            "label": "Ausführungsstatus",
+            "PENDING": "In Warteschlange",
+            "PUBLISHED": "Veröffentlicht",
+            "CLOSED": "Geschlossen",
+            "ARCHIVED": "Archiviert"
+        },
+        "requestType": {
+            "label": "Typ",
+            "SINGLE": "Einzelanfrage",
+            "SERIES": "Serienanfrage"
+        }
     }
 }

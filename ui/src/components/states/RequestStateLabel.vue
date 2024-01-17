@@ -28,7 +28,7 @@ export default {
             return requestStateColorMap[this.state] || "secondary";
         },
         localizedState(): string {
-            return this.$t(`requestState.${this.state}`);
+            return this.$t(`enums.requestState.${this.state}`);
         },
     },
 };

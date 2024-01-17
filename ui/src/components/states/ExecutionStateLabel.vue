@@ -29,7 +29,7 @@ export default {
         },
 
         localizedState(): string {
-            return this.$t(`executionState.${this.state}`);
+            return this.$t(`enums.executionState.${this.state}`);
         },
     },
 };

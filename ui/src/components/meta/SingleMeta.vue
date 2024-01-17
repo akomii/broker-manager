@@ -1,93 +1,181 @@
 <template>
-    <div>
-        <Fieldset legend="Meta" :toggleable="true" class="flex w-auto m-2">
-            <p>Typ</p>
-            <EnumState
-                class="text-sm"
-                :state="RequestType.SINGLE"
-                :stateColorMap="requestTypeColorMap"
-            />
+    <Fieldset legend="Meta" :toggleable="true" class="m-2">
+        <div class="flex flex-wrap justify-content-center">
+            <div class="grid nested-grid w-6">
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.requestType") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <RequestTypeLabel
+                                class="text-sm"
+                                :state="RequestType.SINGLE"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.externalId") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <p v-if="execution.externalId">
+                                {{ execution.externalId }}
+                            </p>
+                            <i v-else class="pi pi-minus" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.referenceDate.start") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <DatePicker
+                                :label="$t('meta.referenceDate.start')"
+                                :date="dummyReferenceStart"
+                                :editable="editable"
+                                @update:date="dummyReferenceStart = $event"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.referenceDate.end") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <DatePicker
+                                :label="$t('meta.referenceDate.end')"
+                                :date="execution.referenceDate"
+                                :editable="editable"
+                                @update:date="execution.referenceDate = $event"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <p>TODO BUTTON FÜR ÄNDERUNGSHISTORIE</p>
+                    </div>
+                </div>
+            </div>
 
-            <p>Externe ID</p>
-            <p>{{ execution.externalId }}</p>
+            <Divider layout="vertical" />
 
-            <p>Ausführungsstatus</p>
-            <EnumState
-                class="text-sm"
-                :state="execution.executionState"
-                :stateColorMap="requestStateColorMap"
-            />
-
-            <p>Veröffentlichungsdatum</p>
-            <ScheduledDatePicker
-                :label="'Veröffentlichungsdatum'"
-                :actualDate="execution.publishedDate"
-                :scheduledDate="execution.scheduledPublishDate"
-                @update:scheduledDate="execution.scheduledPublishDate = $event"
-                :editable="editable"
-            />
-            <p>Ausführungsdatum</p>
-            <DatePicker
-                :label="'Auführungsdatum'"
-                :date="execution.executionDate"
-                @update:date="execution.executionDate = $event"
-                :editable="editable"
-            />
-            <p>Schließdatum</p>
-            <ScheduledDatePicker
-                :label="'Schließdatum'"
-                :actualDate="execution.closedDate"
-                :scheduledDate="execution.scheduledClosingDate"
-                @update:scheduledDate="execution.scheduledClosingDate = $event"
-                :editable="editable"
-            />
-            <p>Archivierungsdatum</p>
-            <ScheduledDatePicker
-                :label="'Archivierungsdatum'"
-                :actualDate="execution.archivedDate"
-                :scheduledDate="execution.scheduledArchiveDate"
-                @update:scheduledDate="execution.scheduledArchiveDate = $event"
-                :editable="editable"
-            />
-
-            <p>Referenzzeitraum</p>
-            <DatePicker
-                :label="'Referenzdatum Start'"
-                :date="dummyDate"
-                @update:date="dummyDate = $event"
-                :editable="editable"
-            />
-            <br />
-            <DatePicker
-                :label="'Referenzdatum Ende'"
-                :date="execution.referenceDate"
-                @update:date="execution.referenceDate = $event"
-                :editable="editable"
-            />
-        </Fieldset>
-    </div>
+            <div class="grid nested-grid w-6">
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.executionState") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <ExecutionStateLabel
+                                v-if="execution.executionState"
+                                class="text-sm"
+                                :state="execution.executionState"
+                            />
+                            <i v-else class="pi pi-minus" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.publishDate") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <ScheduledDatePicker
+                                :label="$t('meta.publishDate')"
+                                :actualDate="execution.publishedDate"
+                                :scheduledDate="execution.scheduledPublishDate"
+                                :editable="editable"
+                                @update:scheduledDate="
+                                    execution.scheduledPublishDate = $event
+                                "
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.executionDate") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <DatePicker
+                                :label="$t('meta.executionDate')"
+                                :date="execution.executionDate"
+                                :editable="editable"
+                                @update:date="execution.executionDate = $event"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.closingDate") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <ScheduledDatePicker
+                                :label="$t('meta.closingDate')"
+                                :actualDate="execution.closedDate"
+                                :scheduledDate="execution.scheduledClosingDate"
+                                :editable="editable"
+                                @update:scheduledDate="
+                                    execution.scheduledClosingDate = $event
+                                "
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grid align-items-center">
+                        <div class="col-4">
+                            <p>{{ $t("meta.archiveDate") }}</p>
+                        </div>
+                        <div class="col-8">
+                            <ScheduledDatePicker
+                                :label="$t('meta.archiveDate')"
+                                :actualDate="execution.archivedDate"
+                                :scheduledDate="execution.scheduledArchiveDate"
+                                :editable="editable"
+                                @update:scheduledDate="
+                                    execution.scheduledArchiveDate = $event
+                                "
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Fieldset>
 </template>
 
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
-
-import { RequestExecution, SingleExecution } from "@/utils/Types";
+import Divider from "primevue/divider";
 import ScheduledDatePicker from "@/components/datePickers/ScheduledDatePicker.vue";
 import DatePicker from "@/components/datePickers/DatePicker.vue";
-import MomentWrapper from "@/utils/MomentWrapper";
-import EnumState from "@/components/states/EnumState.vue";
-import {
-    requestTypeColorMap,
-    requestStateColorMap,
-} from "@/utils/Constants.ts";
+import RequestTypeLabel from "@/components/states/RequestTypeLabel.vue";
+import ExecutionStateLabel from "../states/ExecutionStateLabel.vue";
+import { RequestExecution, SingleExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
         Fieldset,
         ScheduledDatePicker,
         DatePicker,
-        EnumState,
+        RequestTypeLabel,
+        ExecutionStateLabel,
+        Divider,
     },
     props: {
         execution: {
@@ -106,15 +194,16 @@ export default {
     data() {
         return {
             RequestType,
-            requestTypeColorMap,
-            requestStateColorMap,
-            dummyDate: new Date(),
+            dummyReferenceStart: MomentWrapper.addDurationToDate(
+                this.execution.referenceDate,
+                this.querySchedule.duration
+            ),
         };
     },
     computed: {
         duration() {
             return MomentWrapper.computePeriod(
-                this.dummyDate,
+                this.dummyReferenceStart,
                 this.execution.referenceDate
             );
         },
@@ -136,7 +225,8 @@ export default {
             this.$emit("update:execution", this.execution);
         },
         duration(newVal) {
-            this.$emit("update:querySchedule", newVal);
+            this.querySchedule.duration = newVal;
+            this.$emit("update:querySchedule", this.querySchedule);
         },
     },
 };

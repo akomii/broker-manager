@@ -154,7 +154,7 @@
     },
     "tag": {
         "placeholder": "Neuer Tag...",
-        "exists": "Tag \"{tag}\" existiert bereits im Objekt"
+        "exists": "Tag \"{tag}\" existiert bereits"
     },
     "requestHeader": {
         "title": "Titel",
@@ -198,5 +198,21 @@
     "requestType": {
         "SINGLE": "Einzelanfrage",
         "SERIES": "Serienanfrage"
+    },
+    "meta": {
+        "requestType": "Typ",
+        "externalId": "Externe ID",
+        "executionState": "Ausführungsstatus",
+        "referenceDate": {
+            "start": "Referenzzeitraum Start",
+            "end": "Referenzzeitraum Ende"
+        },
+        "publishDate": "Veröffentlichungsdatum",
+        "executionDate": "Ausführungsdatum",
+        "closingDate": "Schließdatum",
+        "archiveDate": "Archivierungsdatum"
+    },
+    "datePicker": {
+        "scheduledDate": "Geplanetes {dateLabel}"
     }
 }

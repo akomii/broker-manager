@@ -217,6 +217,8 @@
     "organization": "Organisation",
     "email": "E-Mail",
     "phone": "Telefon",
-    "organizations": "Auswertestell(en)",
-    "selectOrgsPlaceholder": "Auswertestelle(n) auswählen..."
+    "organizations": "Auswertestelle(n)",
+    "selectOrgsPlaceholder": "Auswertestelle(n) auswählen...",
+    "noOrgsSelected": "Keine Auswertestelle(n) ausgewählt",
+    "orgsSelected": "{numOrgs} Auswertestellen ausgewählt"
 }

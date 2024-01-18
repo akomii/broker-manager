@@ -1,23 +1,34 @@
 <template>
     <Fieldset :legend="$t('organizations')" :toggleable="true">
         <template v-if="editable">
-            <!-- TODO display only the dropdown without the text input -->
             <MultiSelect
                 class="w-full"
                 v-model="organizationsDummy"
-                optionLabel="name"
                 filter
+                :filterPlaceholder="$t('searchPlaceholder')"
+                optionLabel="name"
                 :options="allOrganizations"
+                :maxSelectedLabels="4"
+                :selectedItemsLabel="
+                    $t('orgsSelected', { numOrgs: organizationsDummy.length })
+                "
                 :placeholder="$t('selectOrgsPlaceholder')"
                 @change="onOrganizationSelected"
             />
         </template>
         <template v-else>
-            <ScrollPanel class="max-h-9rem custom-scrollbar">
-                <template v-for="organization in organizationsDummy">
-                    <p class="hover:surface-100 text-xl p-2 m-auto">
-                        {{ organization.name }}
-                    </p>
+            <ScrollPanel class="max-h-8rem custom-scrollbar">
+                <template
+                    v-for="organization in organizationsDummy"
+                    v-if="organizationsDummy.length"
+                >
+                    <div class="flex align-items-center hover:surface-100">
+                        <i class="pi pi-angle-double-right mr-2 text-sm" />
+                        <p>{{ organization.name }}</p>
+                    </div>
+                </template>
+                <template v-else>
+                    <p>{{ $t("noOrgsSelected") }}</p>
                 </template>
             </ScrollPanel>
         </template>

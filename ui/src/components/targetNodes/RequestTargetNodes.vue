@@ -108,8 +108,8 @@ import TagList from "@/components/tags/TagList.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import EditTargetNodes from "@/components/targetNodes/EditTargetNodes.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
-import SearchInput from "@/components/inputs/SearchInput.vue";
-import NodeStatusInfoTimeline from "@/components/timelines/NodeStatusInfoTimeline.vue";
+import SearchInput from "./SearchInput.vue";
+import NodeStatusInfoTimeline from "./NodeStatusInfoTimeline.vue";
 
 export default {
     components: {

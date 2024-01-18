@@ -55,7 +55,7 @@ import TagList from "@/components/tags/TagList.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import EditTargetNodes from "@/components/targetNodes/EditTargetNodes.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
-import SearchInput from "@/components/inputs/SearchInput.vue";
+import SearchInput from "./SearchInput.vue";
 
 export default {
     components: {

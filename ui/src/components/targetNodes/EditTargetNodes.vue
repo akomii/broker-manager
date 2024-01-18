@@ -48,7 +48,7 @@
 <script lang="ts">
 import PickList from "primevue/picklist";
 import TagList from "@/components/tags/TagList.vue";
-import SearchInput from "@/components/inputs/SearchInput.vue";
+import SearchInput from "./SearchInput.vue";
 import { ManagerNode } from "@/utils/Types";
 
 export default {

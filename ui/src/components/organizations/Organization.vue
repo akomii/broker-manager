@@ -64,24 +64,30 @@ export default {
             organizationsDummy: [] as Organization[],
         };
     },
-    mounted() {
-        this.fetchOrganizations();
+    async mounted() {
+        await this.fetchAndSortOrganizations();
     },
     methods: {
         // TODO remove the fetch from TestDataService
-        async fetchOrganizations() {
+        async fetchAndSortOrganizations(): Promise<void> {
             const data: Organization[] =
                 await TestDataService.getOrganizations();
-            this.allOrganizations = data.sort((a, b) =>
-                a.name.localeCompare(b.name)
+            this.allOrganizations = this.sortOrganizationsByName(data);
+            this.organizationsDummy = this.filterOrganizationsById(
+                this.allOrganizations
             );
-            this.organizationsDummy = this.allOrganizations.filter((org) =>
+        },
+        sortOrganizationsByName(organizations: Organization[]): Organization[] {
+            return organizations.sort((a, b) => a.name.localeCompare(b.name));
+        },
+        filterOrganizationsById(organizations: Organization[]): Organization[] {
+            return organizations.filter((org) =>
                 this.organizationIds.has(org.id)
             );
         },
-        onOrganizationSelected() {
-            this.organizationsDummy.sort((a, b) =>
-                a.name.localeCompare(b.name)
+        onOrganizationSelected(): void {
+            this.organizationsDummy = this.sortOrganizationsByName(
+                this.organizationsDummy
             );
             this.$emit(
                 "update:organizationIds",

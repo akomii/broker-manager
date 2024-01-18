@@ -29,15 +29,13 @@ export default {
             selectedPrincipal: {} as Principal,
         };
     },
-    mounted() {
-        this.fetchPrincipals();
+    async mounted() {
+        await this.fetchPrincipals();
     },
     methods: {
         // TODO remove the fetch from TestDataService
-        async fetchPrincipals() {
-            TestDataService.getPrincipals().then(
-                (data: Principal[]) => (this.allPrincipals = data)
-            );
+        async fetchPrincipals(): Promise<void> {
+            this.allPrincipals = await TestDataService.getPrincipals();
         },
         searchPrincipals(event: AutoCompleteCompleteEvent): void {
             const query = event.query.toLowerCase();

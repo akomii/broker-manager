@@ -10,8 +10,17 @@
         -->
         </template>
         <template v-else>
-            <div class="flex justify-content-end">
-                <SearchInput @update:input="updateGlobalFilter" />
+            <div class="flex justify-content-between flex-wrap">
+                <div class="flex align-items-center">
+                    <p class="font-semibold text-primary text-2xl m-0">
+                        [{{ execution.sequenceId }}] {{ $t("acceptance") }}:
+                        {{ requestExecutionOnNodes }} /
+                        {{ execution.nodeStatusInfos.length }}
+                    </p>
+                </div>
+                <div class="flex align-items-center">
+                    <SearchInput @update:input="updateGlobalFilter" />
+                </div>
             </div>
 
             <DataTable
@@ -25,7 +34,7 @@
                     'clientDN.L',
                     'tags',
                     'lastContact',
-                    'state'
+                    'state',
                 ]"
                 scrollable
             >
@@ -47,6 +56,31 @@
                         }}
                     </template>
                 </Column>
+                <template v-if="isNotDraft()">
+                    <Column field="state" :header="$t('processingState')">
+                        <template #body="slotProps">
+                            <NodeStatusInfoTimeline
+                                :nodeStatusInfo="
+                                    getNodeStatusInfoForNode(slotProps.data.id)
+                                "
+                            />
+                        </template>
+                    </Column>
+                    <Column field="msg" header="" class="border-solid">
+                        <template #body="slotProps">
+                            <Button
+                                v-if="
+                                    getNodeStatusInfoForNode(slotProps.data.id)
+                                        .statusMessage
+                                "
+                                @click="showStatusMessage(slotProps.data.id)"
+                                icon="pi pi-exclamation-circle text-xl text-blue-600 m-0"
+                                text
+                                rounded
+                            />
+                        </template>
+                    </Column>
+                </template>
             </DataTable>
             <!-- TODO make globalFilterFields conditionally -->
             <!-- TODO Search does not work for state -->
@@ -63,26 +97,30 @@
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Button from "primevue/button";
 import { FilterMatchMode } from "primevue/api";
 
-import TagList from "@/components/tags/TagList.vue";
-import { TestDataService } from "@/services/TestDataService";
-import { RequestState } from "@/utils/Enums";
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
+import { RequestState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
+import { TestDataService } from "@/services/TestDataService";
+import TagList from "@/components/tags/TagList.vue";
 import ExportTableButton from "./ExportTableButton.vue";
 import EditTargetNodes from "./EditTargetNodes.vue";
 import SearchInput from "./SearchInput.vue";
+import NodeStatusInfoTimeline from "./NodeStatusInfoTimeline.vue";
 
 export default {
     components: {
         Fieldset,
         DataTable,
         Column,
+        Button,
         TagList,
         EditTargetNodes,
         ExportTableButton,
         SearchInput,
+        NodeStatusInfoTimeline,
     },
     props: {
         targetNodeIds: {
@@ -137,6 +175,9 @@ export default {
         },
         onTargetNodeIdsChange(newModelValue: ManagerNode[]) {
             this.$emit("update:targetNodeIds", newModelValue);
+        },
+        isNotDraft(): boolean {
+            return !(this.requestState === RequestState.DRAFT);
         },
         getNodeStatusInfoForNode(nodeId: number): NodeStatusInfo {
             return this.execution.nodeStatusInfos.find(

@@ -1,9 +1,8 @@
 <template>
     <Button
         icon="pi pi-external-link"
-        label="Aktuelle Tabelle exportieren"
+        :label="$t('exportCurrentTable')"
         outlined
-        class="mt-2"
         @click="exportTable"
     />
 </template>

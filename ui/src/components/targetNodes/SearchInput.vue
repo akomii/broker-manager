@@ -2,8 +2,7 @@
     <span class="p-input-icon-right">
         <InputText
             @input="updateInput"
-            placeholder="Suche..."
-            class="w-15rem"
+            :placeholder="$t('searchPlaceholder')"
         />
         <i class="pi pi-search" />
     </span>

@@ -206,6 +206,15 @@
             "label": "Typ",
             "SINGLE": "Einzelanfrage",
             "SERIES": "Serienanfrage"
+        },
+        "nodeState": {
+            "RETRIEVED": "Abgeholt",
+            "QUEUED": "In Warteschlange",
+            "PROCESSING": "In Bearbeitung",
+            "COMPLETED": "Abgeschlossen",
+            "REJECTED": "Abgelehnt",
+            "FAILED": "Fehlgeschlagen",
+            "EXPIRED": "Abgelaufen"
         }
     },
     "meta": "Meta",
@@ -227,6 +236,8 @@
     "tags": "Tags",
     "node": "Standort",
     "id": "ID",
-    "lastContact": "Letzer Kontakt",
-    "exportCurrentTable": "Aktuelle Tabelle exportieren"
+    "lastContact": "Letzter Kontakt",
+    "exportCurrentTable": "Aktuelle Tabelle exportieren",
+    "acceptance": "Zustimmung",
+    "processingState": "Bearbeitungsstatus"
 }

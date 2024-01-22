@@ -1,26 +1,22 @@
 <template>
-    <div class="flex flex-wrap align-items-center">
-        <template v-if="!nodeStatusInfo">
-            <div class="flex-wrap flex justify-content-center w-full">
-                <i class="pi pi-minus text-gray-700" />
-            </div>
-        </template>
-        <template v-else>
-            <Button @click="togglePanel" plain text>
-                {{ getCurrentState() }}
-            </Button>
-            <OverlayPanel ref="op" showCloseIcon>
-                <Timeline :value="convertToStatusArray()">
-                    <template #opposite="timelineSlotProps">
-                        <small>{{ timelineSlotProps.item.date }}</small>
-                    </template>
-                    <template #content="timelineSlotProps">
-                        <small>{{ timelineSlotProps.item.status }}</small>
-                    </template>
-                </Timeline>
-            </OverlayPanel>
-        </template>
-    </div>
+    <template v-if="!nodeStatusInfo">
+        <i class="pi pi-minus text-gray-700" />
+    </template>
+    <template v-else>
+        <Button @click="togglePanel" plain text>
+            {{ getCurrentState() }}
+        </Button>
+        <OverlayPanel ref="panel" showCloseIcon>
+            <Timeline :value="convertToStatusArray()">
+                <template #opposite="timelineSlotProps">
+                    <small>{{ timelineSlotProps.item.date }}</small>
+                </template>
+                <template #content="timelineSlotProps">
+                    <small>{{ timelineSlotProps.item.status }}</small>
+                </template>
+            </Timeline>
+        </OverlayPanel>
+    </template>
 </template>
 
 <script lang="ts">
@@ -42,16 +38,6 @@ const orderedStates: NodeState[] = [
     NodeState.EXPIRED,
 ];
 
-const germanTranslations: { [key in NodeState]: string } = {
-    [NodeState.RETRIEVED]: "Abgeholt",
-    [NodeState.QUEUED]: "Warteschlange",
-    [NodeState.PROCESSING]: "In Bearbeitung",
-    [NodeState.REJECTED]: "Abgelehnt",
-    [NodeState.COMPLETED]: "Abgeschlossen",
-    [NodeState.FAILED]: "Fehlgeschlagen",
-    [NodeState.EXPIRED]: "Abgelaufen",
-};
-
 export default {
     components: {
         Button,
@@ -67,10 +53,11 @@ export default {
     methods: {
         getCurrentState(): string {
             let currentState: NodeState = NodeState.RETRIEVED;
-            let latestTimestamp = null;
+            let latestTimestamp: Date | null = null;
             for (const state of orderedStates) {
-                const timestamp =
-                    this.nodeStatusInfo[state as keyof NodeStatusInfo];
+                const timestamp = (this.nodeStatusInfo as any)[
+                    state.toLowerCase()
+                ] as Date | null;
                 if (
                     timestamp &&
                     (!latestTimestamp || timestamp > latestTimestamp)
@@ -79,29 +66,35 @@ export default {
                     currentState = state;
                 }
             }
-            return germanTranslations[currentState];
+            return this.$t(`enums.nodeState.${currentState}`);
         },
         convertToStatusArray(): { status: string; date: string }[] {
-            const statusArray: { status: string; date: string }[] = [];
-            for (const state of orderedStates) {
-                const key = state as keyof NodeStatusInfo;
-                const timestamp = this.nodeStatusInfo[key];
-                if (timestamp) {
-                    const formattedDate =
-                        MomentWrapper.formatDateToGermanLocale(timestamp);
-                    statusArray.push({
-                        status: germanTranslations[state],
+            return orderedStates
+                .filter(
+                    (state) => (this.nodeStatusInfo as any)[state.toLowerCase()]
+                )
+                .map((state) => {
+                    const dateValue = (this.nodeStatusInfo as any)[
+                        state.toLowerCase()
+                    ];
+                    let formattedDate = "";
+                    if (dateValue instanceof Date) {
+                        formattedDate =
+                            MomentWrapper.formatDateToGermanLocale(dateValue);
+                    } else if (typeof dateValue === "string") {
+                        formattedDate = MomentWrapper.formatDateToGermanLocale(
+                            new Date(dateValue)
+                        );
+                    }
+                    return {
+                        status: this.$t(`enums.nodeState.${state}`),
                         date: formattedDate,
-                    });
-                }
-            }
-            return statusArray;
+                    };
+                });
         },
         togglePanel(event: Event) {
-            const overlayPanel = this.$refs.op as OverlayPanel;
-            if (overlayPanel && overlayPanel.toggle) {
-                overlayPanel.toggle(event);
-            }
+            const overlayPanel = this.$refs.panel as OverlayPanel;
+            overlayPanel?.toggle(event);
         },
     },
 };

@@ -196,7 +196,7 @@
             "ARCHIVED": "Archiviert"
         },
         "executionState": {
-            "label": "Ausführungsstatus",
+            "label": "Status",
             "PENDING": "In Warteschlange",
             "PUBLISHED": "Veröffentlicht",
             "CLOSED": "Geschlossen",

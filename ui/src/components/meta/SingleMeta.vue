@@ -5,17 +5,23 @@
             <div class="w-6">
                 <div class="flex-column">
                     <div class="flex flex-wrap align-items-center">
-                        <span class="w-6">{{
-                            $t("enums.requestType.label")
-                        }}</span>
+                        <span class="w-5 flex align-items-center gap-2">
+                            {{ $t("enums.requestType.label") }}
+                            <Button
+                                icon="pi pi-prime"
+                                class="text-sm"
+                                outlined
+                            />
+                            </span                        >
                         <span class="w-6">
                             <RequestTypeLabel
                                 class="text-sm"
                                 :state="RequestType.SINGLE"
-                        /></span>
+                            />
+                        </span>
                     </div>
                     <div class="flex flex-wrap align-items-center">
-                        <span class="w-6">{{ $t("externalId") }}</span>
+                        <span class="w-5">{{ $t("externalId") }}</span>
                         <span class="w-6">
                             <p v-if="execution.externalId">
                                 {{ execution.externalId }}
@@ -60,10 +66,10 @@
             <div class="w-6">
                 <div class="flex-column">
                     <div class="flex flex-wrap align-items-center mb-3">
-                        <span class="w-7">{{
+                        <span class="min-w-4 max-w-6">{{
                             $t("enums.executionState.label")
                         }}</span>
-                        <span class="w-5">
+                        <span class="min-w-6 max-w-8">
                             <ExecutionStateLabel
                                 v-if="execution.executionState"
                                 class="text-sm"
@@ -137,10 +143,11 @@
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
 import Divider from "primevue/divider";
+import Button from "primevue/button";
 import ScheduledDatePicker from "@/components/datePickers/ScheduledDatePicker.vue";
 import DatePicker from "@/components/datePickers/DatePicker.vue";
 import RequestTypeLabel from "@/components/states/RequestTypeLabel.vue";
-import ExecutionStateLabel from "../states/ExecutionStateLabel.vue";
+import ExecutionStateLabel from "@/components/states/ExecutionStateLabel.vue";
 import { RequestExecution, SingleExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
@@ -148,11 +155,12 @@ import MomentWrapper from "@/utils/MomentWrapper";
 export default {
     components: {
         Fieldset,
+        Divider,
+        Button,
         ScheduledDatePicker,
         DatePicker,
         RequestTypeLabel,
         ExecutionStateLabel,
-        Divider,
     },
     props: {
         execution: {

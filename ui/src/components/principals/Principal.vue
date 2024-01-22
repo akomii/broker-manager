@@ -1,5 +1,5 @@
 <template>
-    <Fieldset legend="Antragssteller" :toggleable="true">
+    <Fieldset :legend='$t("principal")' :toggleable="true">
         <div v-if="editable">
             <div class="flex justify-content-center mb-3">
                 <PrincipalSearch @update:principal="onPrincipalSelected" />

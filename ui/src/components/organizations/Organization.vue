@@ -8,7 +8,7 @@
                 :filterPlaceholder="$t('searchPlaceholder')"
                 optionLabel="name"
                 :options="allOrganizations"
-                :maxSelectedLabels="4"
+                :maxSelectedLabels="3"
                 :selectedItemsLabel="
                     $t('orgsSelected', { numOrgs: organizationsDummy.length })
                 "

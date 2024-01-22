@@ -1,5 +1,5 @@
 <template>
-    <Fieldset legend="Meta" :toggleable="true">
+    <Fieldset :legend='$t("meta")' :toggleable="true">
         <!-- TODO REFACTOR THE HTML -->
         <div class="flex justify-content-center">
             <div class="w-6">

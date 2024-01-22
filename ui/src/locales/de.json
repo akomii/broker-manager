@@ -208,11 +208,13 @@
             "SERIES": "Serienanfrage"
         }
     },
+    "meta": "Meta",
     "externalId": "Externe ID",
     "title": "Titel",
     "tagExistsAlready": "Tag \"{tag}\" existiert bereits",
     "newTagPlaceholder": "Neuer Tag...",
     "searchPlaceholder": "Suche...",
+    "principal": "Antragssteller",
     "name": "Name",
     "organization": "Organisation",
     "email": "E-Mail",
@@ -220,5 +222,11 @@
     "organizations": "Auswertestelle(n)",
     "selectOrgsPlaceholder": "Auswertestelle(n) auswählen...",
     "noOrgsSelected": "Keine Auswertestelle(n) ausgewählt",
-    "orgsSelected": "{numOrgs} Auswertestellen ausgewählt"
+    "orgsSelected": "{numOrgs} Auswertestellen ausgewählt",
+    "targetNodes": "Angezielte Standorte",
+    "tags": "Tags",
+    "node": "Standort",
+    "id": "ID",
+    "lastContact": "Letzer Kontakt",
+    "exportCurrentTable": "Aktuelle Tabelle exportieren"
 }

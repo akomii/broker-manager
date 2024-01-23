@@ -238,6 +238,6 @@
     "id": "ID",
     "lastContact": "Letzter Kontakt",
     "exportCurrentTable": "Aktuelle Tabelle exportieren",
-    "acceptance": "Zustimmung",
+    "executionAcceptanceOfNode": "Zustimmung von Ausführung",
     "processingState": "Bearbeitungsstatus"
 }

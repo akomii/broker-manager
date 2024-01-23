@@ -4,23 +4,25 @@
             <!--
         <EditTargetNodes
             :modelValue="targetNodeIds"
-            @update:modelValue="onTargetNodeIdsChange"
             :allManagerNodes="allManagerNodes"
+            @update:modelValue="onTargetNodeIdsChange"
         />
         -->
         </template>
         <template v-else>
-            <div class="flex justify-content-between flex-wrap">
+            <div class="flex flex-wrap justify-content-between mb-2">
                 <div class="flex align-items-center">
-                    <p class="font-semibold text-primary text-2xl m-0">
-                        [{{ execution.sequenceId }}] {{ $t("acceptance") }}:
-                        {{ requestExecutionOnNodes }} /
+                    <p
+                        v-if="isNotDraft()"
+                        class="font-semibold text-primary text-2xl m-0"
+                    >
+                        {{ $t("executionAcceptanceOfNode") }} [{{
+                            execution.sequenceId
+                        }}] : {{ requestExecutionOnNodes }} /
                         {{ execution.nodeStatusInfos.length }}
                     </p>
                 </div>
-                <div class="flex align-items-center">
-                    <SearchInput @update:input="updateGlobalFilter" />
-                </div>
+                <SearchInput @update:input="updateGlobalFilter" />
             </div>
 
             <DataTable
@@ -66,7 +68,7 @@
                             />
                         </template>
                     </Column>
-                    <Column field="msg" header="" class="border-solid">
+                    <Column field="msg" header="">
                         <template #body="slotProps">
                             <Button
                                 v-if="
@@ -74,7 +76,7 @@
                                         .statusMessage
                                 "
                                 @click="showStatusMessage(slotProps.data.id)"
-                                icon="pi pi-exclamation-circle text-xl text-blue-600 m-0"
+                                icon="pi pi-exclamation-circle text-xl text-blue-600"
                                 text
                                 rounded
                             />
@@ -83,11 +85,10 @@
                 </template>
             </DataTable>
             <!-- TODO make globalFilterFields conditionally -->
-            <!-- TODO Search does not work for state -->
             <!-- TODO Search does not work for date -->
 
             <!-- Filter by Tag does not work -->
-            <!-- ToDo Somehow does not work???-->
+            <!-- ToDo export table does not work???-->
             <ExportTableButton class="mt-3" :datatableRef="$refs.dt" />
         </template>
     </Fieldset>
@@ -180,19 +181,23 @@ export default {
             return !(this.requestState === RequestState.DRAFT);
         },
         getNodeStatusInfoForNode(nodeId: number): NodeStatusInfo {
-            return this.execution.nodeStatusInfos.find(
-                (info) => info.nodeId === nodeId
+            return (
+                this.execution.nodeStatusInfos.find(
+                    (info) => info.nodeId === nodeId
+                ) || ({} as NodeStatusInfo)
             );
         },
         showStatusMessage(nodeId: number) {
             const nodeInfo = this.getNodeStatusInfoForNode(nodeId);
-            if (nodeInfo && nodeInfo.statusMessage) {
+            if (nodeInfo?.statusMessage) {
                 const newWindow = window.open("", "_blank");
-                newWindow.document.write(
-                    `<pre>${nodeInfo.statusMessage}</pre>`
-                );
-                newWindow.document.title = `Status Message for Node ${nodeId}`;
-                newWindow.document.close();
+                if (newWindow) {
+                    newWindow.document.write(
+                        `<pre>${nodeInfo.statusMessage}</pre>`
+                    );
+                    newWindow.document.title = `Status Message for Node ${nodeId}`;
+                    newWindow.document.close();
+                }
             }
         },
     },

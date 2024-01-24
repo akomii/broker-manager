@@ -238,10 +238,12 @@
     "xNodes": "{numNodes} Standorte",
     "id": "ID",
     "lastContact": "Letzter Kontakt",
-    "exportCurrentTable": "Aktuelle Tabelle exportieren",
+    "exportCurrentTable": "TODO: Aktuelle Tabelle exportieren",
     "executionAcceptanceOfNode": "Zustimmung von Ausführung",
     "processingState": "Bearbeitungsstatus",
     "selectedNodes": "Ausgewählte Standorte",
     "availableNodes": "Verfügbare Standorte",
-    "nodeStatusMessage": "Statusmeldung von Standort {nodeId}"
+    "nodeStatusMessage": "Statusmeldung von Standort {nodeId}",
+    "description": "Beschreibung",
+    "sql": "SQL"
 }

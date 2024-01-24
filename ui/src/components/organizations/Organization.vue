@@ -10,7 +10,7 @@
                 :options="allOrganizations"
                 :maxSelectedLabels="3"
                 :selectedItemsLabel="
-                    $t('orgsSelected', { numOrgs: organizationsDummy.length })
+                    $t('xOrgsSelected', { numOrgs: organizationsDummy.length })
                 "
                 :placeholder="$t('selectOrgsPlaceholder')"
                 @change="onOrganizationSelected"

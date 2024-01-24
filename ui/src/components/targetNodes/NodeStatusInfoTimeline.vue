@@ -4,7 +4,7 @@
     </template>
     <template v-else>
         <Button @click="togglePanel" plain text>
-            {{ getCurrentState() }}
+            {{ getMostActualState() }}
         </Button>
         <OverlayPanel ref="panel" showCloseIcon>
             <Timeline :value="convertToStatusArray()">
@@ -51,7 +51,7 @@ export default {
         },
     },
     methods: {
-        getCurrentState(): string {
+        getMostActualState(): string {
             let currentState: NodeState = NodeState.RETRIEVED;
             let latestTimestamp: Date | null = null;
             for (const state of orderedStates) {

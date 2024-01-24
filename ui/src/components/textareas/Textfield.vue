@@ -41,7 +41,7 @@ export default {
         },
         fieldSetHeight: {
             type: String as () => string,
-            required: true,
+            default: "h-22rem",
         },
         editable: {
             type: Boolean,

@@ -1,90 +1,85 @@
 <template>
-    <Fieldset :legend="$t('meta')" :toggleable="true">
-        <!-- TODO REFACTOR THE HTML -->
-        <div class="flex justify-content-center">
-            <div class="w-6">
-                <div class="flex-column">
-                    <div class="flex flex-wrap align-items-center">
-                        <span class="w-5 flex align-items-center gap-2">
-                            {{ $t("enums.requestType.label") }}
-                            <Button
-                                icon="pi pi-prime"
-                                class="text-sm"
-                                outlined
-                            />
-                        </span>
-                        <span class="w-6">
-                            <RequestTypeLabel
-                                class="text-sm"
-                                :state="RequestType.SINGLE"
-                            />
-                        </span>
-                    </div>
-                    <div class="flex flex-wrap align-items-center">
-                        <span class="w-5">{{ $t("externalId") }}</span>
-                        <span class="w-6">
-                            <p v-if="execution.externalId">
-                                {{ execution.externalId }}
-                            </p>
-                            <i v-else class="pi pi-minus" />
-                        </span>
-                    </div>
-                    <div class="flex flex-wrap">
+    <Fieldset :legend="$t('meta')">
+        <!-- Request Type-->
+        <div class="field grid">
+            <label class="col-3 text-lg">
+                {{ $t("enums.requestType.label") }}
+            </label>
+            <div class="col-9 flex align-items-center gap-2">
+                <RequestTypeLabel class="text-sm" :state="RequestType.SINGLE" />
+                <ConvertRequestButton v-if="editable" />
+            </div>
+        </div>
+        <!-- External ID and request state -->
+        <div class="field grid">
+            <label class="col-3 text-lg">
+                {{ $t("externalId") }}
+            </label>
+            <div class="col-3 flex align-items-center gap-2">
+                <p v-if="execution.externalId">{{ execution.externalId }}</p>
+                <i v-else class="pi pi-minus text-lg" />
+            </div>
+            <label class="col-3 text-lg">
+                {{ $t("enums.executionState.label") }}
+            </label>
+            <div class="col-3 flex align-items-center gap-2">
+                <ExecutionStateLabel
+                    v-if="execution.executionState"
+                    class="text-sm"
+                    :state="execution.executionState"
+                />
+                <i v-else class="pi pi-minus text-lg" />
+            </div>
+        </div>
+
+        <!-- Lower (date) elements -->
+        <div class="flex justify-content-center column-gap-3">
+            <div class="w-6 mt-3">
+                <div class="grid row-gap-3">
+                    <!-- ReferenceDate Start -->
+                    <div>
                         <p v-if="!editable" class="my-0">
                             {{ $t("dates.referenceDate.start") }}
                         </p>
                         <DatePicker
-                            class="mb-3"
                             :label="$t('dates.referenceDate.start')"
                             :date="dummyReferenceStart"
                             :editable="editable"
                             @update:date="dummyReferenceStart = $event"
                         />
                     </div>
-                    <div class="flex flex-wrap">
+                    <!-- ReferenceDate End -->
+                    <div>
                         <p v-if="!editable" class="my-0">
                             {{ $t("dates.referenceDate.end") }}
                         </p>
                         <DatePicker
-                            class="mb-3"
                             :label="$t('dates.referenceDate.end')"
                             :date="execution.referenceDate"
                             :editable="editable"
                             @update:date="execution.referenceDate = $event"
                         />
                     </div>
-                    <div class="flex flex-wrap justify-content-center">
+                    <div
+                        v-if="!editable"
+                        class="flex flex-wrap justify-content-center"
+                    >
                         <RequestHistoryButton />
                     </div>
                 </div>
             </div>
-
             <Divider layout="vertical" />
-
-            <div class="w-6">
-                <div class="flex-column">
-                    <div class="flex flex-wrap align-items-center mb-3">
-                        <span class="min-w-4 max-w-6">{{
-                            $t("enums.executionState.label")
-                        }}</span>
-                        <span class="min-w-6 max-w-8">
-                            <ExecutionStateLabel
-                                v-if="execution.executionState"
-                                class="text-sm"
-                                :state="execution.executionState"
-                            />
-                            <i v-else class="pi pi-minus" />
-                        </span>
-                    </div>
-                    <div class="flex flex-wrap">
+            <div class="w-6 mt-3">
+                <div class="grid row-gap-3">
+                    <!-- PublishDate -->
+                    <div>
                         <p
                             v-if="!editable || execution.publishedDate"
-                            class="my-0 mr-4"
+                            class="my-0"
                         >
                             {{ $t("dates.publishDate") }}
                         </p>
                         <ScheduledDatePicker
-                            class="mb-3"
                             :label="$t('dates.publishDate')"
                             :actualDate="execution.publishedDate"
                             :scheduledDate="execution.scheduledPublishDate"
@@ -94,16 +89,27 @@
                             "
                         />
                     </div>
-
-                    <div class="flex flex-wrap">
+                    <!-- ExecutioDate -->
+                    <div>
+                        <p v-if="!editable" class="my-0">
+                            {{ $t("dates.executionDate") }}
+                        </p>
+                        <DatePicker
+                            :label="$t('dates.executionDate')"
+                            :date="execution.executionDate"
+                            :editable="editable"
+                            @update:date="execution.executionDate = $event"
+                        />
+                    </div>
+                    <!-- ClosingDate -->
+                    <div>
                         <p
                             v-if="!editable || execution.closedDate"
-                            class="my-0 mr-4"
+                            class="my-0"
                         >
                             {{ $t("dates.closingDate") }}
                         </p>
                         <ScheduledDatePicker
-                            class="mb-3"
                             :label="$t('dates.closingDate')"
                             :actualDate="execution.closedDate"
                             :scheduledDate="execution.scheduledClosingDate"
@@ -113,16 +119,15 @@
                             "
                         />
                     </div>
-
-                    <div class="flex flex-wrap">
+                    <!-- ArchiveDate -->
+                    <div>
                         <p
                             v-if="!editable || execution.archivedDate"
-                            class="my-0 mr-4"
+                            class="my-0"
                         >
                             {{ $t("dates.archiveDate") }}
                         </p>
                         <ScheduledDatePicker
-                            class="mb-3"
                             :label="$t('dates.archiveDate')"
                             :actualDate="execution.archivedDate"
                             :scheduledDate="execution.scheduledArchiveDate"
@@ -149,6 +154,7 @@ import ExecutionStateLabel from "@/components/states/ExecutionStateLabel.vue";
 import { RequestExecution, SingleExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
+import ConvertRequestButton from "./ConvertRequestButton.vue";
 import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
 
 export default {
@@ -161,6 +167,7 @@ export default {
         RequestTypeLabel,
         ExecutionStateLabel,
         RequestHistoryButton,
+        ConvertRequestButton,
     },
     props: {
         execution: {

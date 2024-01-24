@@ -247,5 +247,6 @@
     "nodeStatusMessage": "Statusmeldung von Standort {nodeId}",
     "description": "Beschreibung",
     "sql": "SQL",
-    "showRequestHistory": "TODO: Änderungshistorie anzeigen"
+    "showRequestHistory": "TODO: Änderungshistorie anzeigen",
+    "convertRequest": "TODO Anfrage umwandeln"
 }

@@ -231,13 +231,17 @@
     "organizations": "Auswertestelle(n)",
     "selectOrgsPlaceholder": "Auswertestelle(n) auswählen...",
     "noOrgsSelected": "Keine Auswertestelle(n) ausgewählt",
-    "orgsSelected": "{numOrgs} Auswertestellen ausgewählt",
+    "xOrgsSelected": "{numOrgs} Auswertestellen ausgewählt",
     "targetNodes": "Angezielte Standorte",
     "tags": "Tags",
     "node": "Standort",
+    "xNodes": "{numNodes} Standorte",
     "id": "ID",
     "lastContact": "Letzter Kontakt",
     "exportCurrentTable": "Aktuelle Tabelle exportieren",
     "executionAcceptanceOfNode": "Zustimmung von Ausführung",
-    "processingState": "Bearbeitungsstatus"
+    "processingState": "Bearbeitungsstatus",
+    "selectedNodes": "Ausgewählte Standorte",
+    "availableNodes": "Verfügbare Standorte",
+    "nodeStatusMessage": "Statusmeldung von Standort {nodeId}"
 }

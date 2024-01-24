@@ -96,6 +96,10 @@
     min-width: 100%;
 }
 
+.h-34rem {
+    height: 34rem;
+}
+
 .custom-scrollbar {
     overflow-y: scroll !important;
 }

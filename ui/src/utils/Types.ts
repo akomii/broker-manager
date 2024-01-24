@@ -5,7 +5,7 @@ export type Request = SingleRequest | SeriesRequest;
 
 export interface ManagerRequest {
     id: number;
-    tags: Set<string>;
+    tags: Array<string>;
     authorizedOrgs: Set<number>; // Organization IDs
     targetNodes: Set<number>; // ManagerNode IDs
     requestState: RequestState;
@@ -104,7 +104,7 @@ export interface ResultsDownloadLog {
 
 export interface ManagerNode {
     id: number;
-    tags: Set<string>;
+    tags: Array<string>;
     clientDN: ClientDN;
     lastContact: Date;
     apiKey: string;

@@ -22,7 +22,7 @@ export default {
     },
     props: {
         tags: {
-            type: Set<string>,
+            type: Array<string>,
             required: true,
         },
         removable: {
@@ -32,8 +32,7 @@ export default {
     },
     methods: {
         removeTag(tagToRemove: string): void {
-            const updatedTags = new Set([...this.tags]);
-            updatedTags.delete(tagToRemove);
+            const updatedTags = this.tags.filter((tag) => tag !== tagToRemove);
             this.$emit("update:tags", updatedTags);
         },
     },

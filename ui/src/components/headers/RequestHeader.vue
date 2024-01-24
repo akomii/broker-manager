@@ -78,7 +78,7 @@ export default {
             required: true,
         },
         tags: {
-            type: Set<string>,
+            type: Array<string>,
             required: true,
         },
         editable: {

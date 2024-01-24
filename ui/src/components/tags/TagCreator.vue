@@ -22,7 +22,7 @@ export default {
     },
     props: {
         tags: {
-            type: Set<string>,
+            type: Array<string>,
             required: true,
         },
     },
@@ -35,8 +35,7 @@ export default {
         addTag(): void {
             const tag = this.newTag.trim();
             if (tag) {
-                const updatedTags = new Set(this.tags);
-                if (updatedTags.has(tag)) {
+                if (this.tags.includes(tag)) {
                     this.$toast.add({
                         severity: "info",
                         summary: "Info",
@@ -44,8 +43,8 @@ export default {
                         life: 3000,
                     });
                 } else {
-                    updatedTags.add(tag);
-                    this.$emit("update:tags", updatedTags);
+                    this.tags.push(tag);
+                    this.$emit("update:tags", this.tags);
                 }
                 this.newTag = "";
             }

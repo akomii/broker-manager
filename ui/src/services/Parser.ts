@@ -22,7 +22,7 @@ export class RequestParser {
     static parse(requestJson: any): Request {
         const commonFields: ManagerRequest = {
             id: requestJson.id,
-            tags: new Set(requestJson.tags),
+            tags: [...requestJson.tags],
             authorizedOrgs: new Set(requestJson.authorizedOrgs),
             targetNodes: new Set(requestJson.targetNodes),
             requestState: requestJson.requestState as RequestState,
@@ -217,7 +217,7 @@ export class ManagerNodeParser {
     static parse(managerNodeJson: any): ManagerNode {
         return {
             id: managerNodeJson.id,
-            tags: new Set(managerNodeJson.tags),
+            tags: [...managerNodeJson.tags],
             clientDN: {
                 CN: managerNodeJson.clientDN.CN,
                 O: managerNodeJson.clientDN.O,

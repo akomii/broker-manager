@@ -1,5 +1,5 @@
 <template>
-    <Fieldset :legend="$t('organizations')" :toggleable="true">
+    <Fieldset :legend="$t('organizations')">
         <template v-if="editable">
             <MultiSelect
                 class="w-full"
@@ -17,7 +17,7 @@
             />
         </template>
         <template v-else>
-            <ScrollPanel class="max-h-8rem custom-scrollbar">
+            <ScrollPanel class="custom-scrollbar" :class="scrollPanelHeight">
                 <template
                     v-for="organization in organizationsDummy"
                     v-if="organizationsDummy.length"
@@ -28,7 +28,9 @@
                     </div>
                 </template>
                 <template v-else>
-                    <p>{{ $t("noOrgsSelected") }}</p>
+                    <p class="flex justify-content-center">
+                        {{ $t("noOrgsSelected") }}
+                    </p>
                 </template>
             </ScrollPanel>
         </template>
@@ -56,6 +58,10 @@ export default {
         editable: {
             type: Boolean,
             default: false,
+        },
+        scrollPanelHeight: {
+            type: String,
+            default: "max-h-9rem",
         },
     },
     data() {

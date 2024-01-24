@@ -44,6 +44,7 @@
                         />
                         <Organization
                             :organizationIds="request.authorizedOrgs"
+                            :scrollPanelHeight="'max-h-9rem'"
                             :editable="editable"
                             @update:organizationIds="
                                 request.authorizedOrgs = new Set($event)

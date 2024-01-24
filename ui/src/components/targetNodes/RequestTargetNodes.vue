@@ -1,13 +1,13 @@
 <template>
-    <Fieldset :legend="$t('targetNodes')" :toggleable="true">
+    <Fieldset :legend="$t('targetNodes')" :class="fieldSetHeight">
         <template v-if="editable">
             <SearchInput
                 class="flex flex-wrap justify-content-end mb-2"
                 @update:input="filterPickListNodes"
             />
             <!-- TODO Optional: red/green color for items in source/target -->
-            <!-- TOOD order by id when moving-->
-            <!-- TODO increase height -->
+            <!-- TODO order by id when moving-->
+            <!-- TODO fix height of Picklist-->
             <PickList
                 v-model="pickListNodes"
                 @update:modelValue="handleListChange"
@@ -51,15 +51,14 @@
                 </div>
                 <SearchInput @update:input="filterDataTableNodes" />
             </div>
-
             <DataTable
                 ref="dt"
-                class="h-34rem"
+                :class="dataTableHeight"
                 :value="dataTableNodes"
                 sortField="id"
                 :sortOrder="1"
                 scrollable
-                scrollHeight="500px"
+                scrollHeight="flex"
             >
                 <Column field="id" :header="$t('id')" sortable />
                 <Column field="clientDN.CN" :header="$t('node')" sortable />
@@ -104,17 +103,19 @@
                         </template>
                     </Column>
                 </template>
-                <!-- TODO edge case if only 1 node -->
                 <template #footer>
                     {{
-                        $t("xNodes", {
-                            numNodes: selectedNodes ? selectedNodes.length : 0,
-                        })
+                        selectedNodes.length === 1
+                            ? $t("oneNode")
+                            : $t("xNodes", {
+                                  numNodes: selectedNodes
+                                      ? selectedNodes.length
+                                      : 0,
+                              })
                     }}
                 </template>
             </DataTable>
-            <!-- ToDo export table does not work???-->
-            <ExportTableButton class="mt-3" :datatableRef="$refs.dt" />
+            <ExportTableButton class="mt-3" />
         </template>
     </Fieldset>
 </template>
@@ -160,6 +161,10 @@ export default {
             type: String as () => keyof typeof RequestState,
             required: true,
         },
+        fieldSetHeight: {
+            type: String as () => string,
+            default: "h-48-4rem",
+        },
         editable: {
             type: Boolean,
             default: false,
@@ -183,10 +188,15 @@ export default {
                 .filter((node) => !this.targetNodeIds.has(node.id))
                 .sort((a, b) => a.id - b.id);
         },
-        requestExecutionOnNodes() {
+        requestExecutionOnNodes(): number {
             return this.execution.nodeStatusInfos.filter(
                 (nodeInfo) => nodeInfo.completed !== null
             ).length;
+        },
+        dataTableHeight() {
+            const parts = this.fieldSetHeight.split("-");
+            const heightNumber = Number(parts[1]);
+            return `h-${heightNumber - 12}-${parts[2]}`;
         },
     },
     async mounted() {
@@ -233,7 +243,7 @@ export default {
                         .toString()
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase()) ||
-                    [...node.tags].some((tag) =>
+                    node.tags.some((tag) =>
                         tag.toLowerCase().includes(searchTerm.toLowerCase())
                     ) ||
                     node.clientDN.CN.toLowerCase().includes(

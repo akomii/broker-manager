@@ -235,6 +235,7 @@
     "targetNodes": "Angezielte Standorte",
     "tags": "Tags",
     "node": "Standort",
+    "oneNode": "1 Standort",
     "xNodes": "{numNodes} Standorte",
     "id": "ID",
     "lastContact": "Letzter Kontakt",

@@ -105,8 +105,6 @@ import { Request } from "@/utils/Types";
 import RequestHeader from "@/components/headers/RequestHeader.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
 
-import { ExecutionState, RequestState } from "@/utils/Enums";
-
 export default {
     components: {
         Principal,
@@ -129,10 +127,7 @@ export default {
         TestDataService.getRequests()
             .then((data: Request[]) => {
                 if (data.length > 0) {
-                    this.request = data[1] as Request;
-                    this.request.requestState = RequestState.DRAFT;
-                    this.request.executions[0].executionState =
-                        ExecutionState.PENDING;
+                    this.request = data[2] as Request;
                 }
             })
             .catch((error) => {

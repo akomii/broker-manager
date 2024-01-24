@@ -618,6 +618,67 @@ const requests = [
             },
         ],
     },
+    {
+        id: 3,
+        tags: [
+            "physical-therapy",
+            "cardiology",
+            "radiology",
+            "dermatology",
+            "allergy",
+            "orthopedics",
+        ],
+        authorizedOrgs: [1, 2, 3, 4, 5],
+        targetNodes: [1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        requestState: "DRAFT",
+        modificationHistory: [
+            {
+                date: "2023-11-25T13:45",
+                user: "lsanders987",
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
+            },
+            {
+                date: "2023-12-15T10:20",
+                user: "rsmith789",
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
+            },
+        ],
+        type: "SingleRequest",
+        query: {
+            title: "Research Data Collection for Cardiovascular Studies",
+            description:
+                "This request aims to gather comprehensive data on cardiovascular diseases for a large-scale research project. The data will be used to analyze trends, treatment outcomes, and patient demographics across various healthcare institutions. The study focuses on improving diagnostic methods and treatment strategies for cardiovascular conditions. We are looking for detailed patient records, treatment histories, and follow-up data from participating organizations. The data should be anonymized to ensure patient confidentiality and comply with all relevant data protection regulations.",
+            sql: '<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SSELECT p.patient_id, p."name", p.age, p.gender, d.diagnosis, t.treatment, t.outcome, t.follow_up_date FROM patients p INNER JOIN diagnoses d ON p.patient_id = d.patient_id INNER JOIN treatments t ON p.patient_id = t.patient_id WHERE d.condition = \'Cardiovascular\' AND t.treatment_date BETWEEN \'2022-01-01\' AND \'2023-01-01\' ORDER BY t.follow_up_date;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">',
+            principal: {
+                name: "Dr. Emily Johnson",
+                organization: "Cardio Research Institute",
+                email: "dr.johnson@cardio-reserach-institute.com",
+                phone: "1111-2222-3333-4444-5555",
+            },
+            singleExecution: {
+                duration: "-P1Y2D",
+            },
+        },
+        executions: [
+            {
+                sequenceId: 1,
+                externalId: null,
+                referenceDate: "2023-12-15T00:00",
+                executionDate: "2023-12-22T00:00",
+                scheduledPublishDate: "2023-12-23T00:00",
+                publishedDate: null,
+                scheduledClosingDate: "2023-12-30T00:00",
+                closedDate: null,
+                scheduledArchiveDate: "2024-01-04T00:00",
+                archivedDate: null,
+                creator: "tgreen456",
+                createdDate: "2023-12-10T00:00",
+                executionState: null,
+                nodeStatusInfos: [],
+                resultsDownloadLog: [],
+            },
+        ],
+    },
 ];
 
 const nodes = [

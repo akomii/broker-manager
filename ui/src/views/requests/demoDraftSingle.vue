@@ -26,7 +26,7 @@
                 <div class="grid">
                     <div class="col-7">
                         <SingleMeta
-                            class="ml-3"
+                            class="ml-3 h-25-3rem"
                             :execution="request.executions[0]"
                             :querySchedule="request.query.singleExecution"
                             :editable="editable"
@@ -69,6 +69,7 @@
                     :targetNodeIds="request.targetNodes"
                     :execution="request.executions[0]"
                     :requestState="request.requestState"
+                    :fieldSetHeight="'h-48-4rem'"
                     :editable="editable"
                     @update:targetNodeIds="
                         request.targetNodes = new Set($event)
@@ -77,7 +78,7 @@
             </div>
             <div class="col-12">
                 <Textfield
-                    class="mx-3"
+                    class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
                     :fieldSetHeight="'h-22rem'"

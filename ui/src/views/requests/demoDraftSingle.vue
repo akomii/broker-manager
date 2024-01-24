@@ -1,6 +1,6 @@
 <template>
     <div v-if="request">
-        <div class="flex justify-content-center flex-wrap mt-5 mb-8">
+        <div class="flex justify-content-center flex-wrap">
             <Button
                 :label="
                     editable
@@ -21,79 +21,71 @@
             @update:title="request.query.title = $event"
         />
 
-        <div class="grid">
-            <div class="col-4 border-solid">
-                <SingleMeta
+        <div class="grid nested-grid">
+            <div class="col-7">
+                <div class="grid">
+                    <div class="col-7">
+                        <SingleMeta
+                            class="ml-3"
+                            :execution="request.executions[0]"
+                            :querySchedule="request.query.singleExecution"
+                            :editable="editable"
+                            @update:execution="request.executions[0] = $event"
+                            @update:querySchedule="
+                                request.query.singleExecution = $event
+                            "
+                        />
+                    </div>
+                    <div class="col-5">
+                        <Principal
+                            :principal="request.query.principal"
+                            :editable="editable"
+                            @update:principal="request.query.principal = $event"
+                        />
+                        <Organization
+                            :organizationIds="request.authorizedOrgs"
+                            :editable="editable"
+                            @update:organizationIds="
+                                request.authorizedOrgs = new Set($event)
+                            "
+                        />
+                    </div>
+                    <div class="col-12">
+                        <Textfield
+                            class="ml-3"
+                            :content="request.query.description"
+                            :label="$t('description')"
+                            :fieldSetHeight="'h-22rem'"
+                            :editable="editable"
+                            @update:content="request.query.description = $event"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <RequestTargetNodes
+                    class="mr-3"
+                    :targetNodeIds="request.targetNodes"
                     :execution="request.executions[0]"
-                    :querySchedule="request.query.singleExecution"
+                    :requestState="request.requestState"
                     :editable="editable"
-                    @update:execution="request.executions[0] = $event"
-                    @update:querySchedule="
-                        request.query.singleExecution = $event
+                    @update:targetNodeIds="
+                        request.targetNodes = new Set($event)
                     "
                 />
             </div>
-            <div class="col-3 border-solid"></div>
-            <div class="col-5 border-solid"></div>
-        </div>
-
-        <!--
-
-                    <div class="grid">
-            <div class="col-3">
-                <SingleMeta
-                    :execution="request.executions[0]"
-                    @update:execution="request.executions[0] = $event"
-                    :querySchedule="request.query.singleExecution"
-                    @update:querySchedule="
-                        request.query.singleExecution.duration = $event
-                    "
+            <div class="col-12">
+                <Textfield
+                    class="mx-3"
+                    :content="request.query.sql"
+                    :label="$t('sql')"
+                    :fieldSetHeight="'h-22rem'"
                     :editable="editable"
+                    @update:content="request.query.sql = $event"
                 />
             </div>
-
-            <div class="col-3 border-solid">
-                <Principal class="border-solid"
-                    v-model="request.query.principal"
-                    :editable="editable"
-                />
-                <Organization
-                    class="w-26rem "
-                    v-model="request.authorizedOrgs"
-                    :editable="editable"
-                ></Organization>
-            </div>
-
-            <div class="col-6 border-solid">
-                    <RequestTargetNodes
-                        v-model="request.targetNodes"
-                        :execution="request.executions[0]"
-                        :editable="editable"
-                    />
-            </div>
-
-            <div class="col-12"></div>
         </div>
-
-
-
-        <Header :id="request.id" :title="request.query.title" :state="'ONLINE'" :tags="request.tags" :editable="editable"
-        @update:tags="request.tags = $event" @update:title="request.query.title = $event" />
-
-        <div class="grid">
-            <div class="col">
-                <DraftTargetNodes v-model="request.targetNodes" :editable="editable" />
-            </div>
-            <Divider layout="vertical" />
-            <div class="col">
-                <RequestTargetNodes v-model="request.targetNodes" :execution="request.executions[2]" :editable="editable" />
-            </div>
-        </div>
-
-
-        <SQL v-model="request.query.sql" :editable="editable"></SQL>
-        <Description v-model="request.query.description" :editable="editable"></Description>
-    --></div>
+    </div>
     <div v-else class="flex justify-content-center flex-wrap py-4">
         <ProgressSpinner />
     </div>
@@ -102,9 +94,7 @@
 <script lang="ts">
 import Principal from "@/components/principals/Principal.vue";
 import Organization from "@/components/organizations/Organization.vue";
-import Description from "@/components/textareas/Description.vue";
-import SQL from "@/components/textareas/Sql.vue";
-import DraftTargetNodes from "@/components/targetNodes/DraftTargetNodes.vue";
+import Textfield from "@/components/textareas/Textfield.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
@@ -115,19 +105,17 @@ import { Request } from "@/utils/Types";
 import RequestHeader from "@/components/headers/RequestHeader.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
 
-import { RequestState } from "@/utils/Enums";
+import { ExecutionState, RequestState } from "@/utils/Enums";
 
 export default {
     components: {
         Principal,
         Button,
         Organization,
-        Description,
-        DraftTargetNodes,
         RequestTargetNodes,
         ProgressSpinner,
         Divider,
-        SQL,
+        Textfield,
         RequestHeader,
         SingleMeta,
     },
@@ -143,6 +131,8 @@ export default {
                 if (data.length > 0) {
                     this.request = data[1] as Request;
                     this.request.requestState = RequestState.DRAFT;
+                    this.request.executions[0].executionState =
+                        ExecutionState.PENDING;
                 }
             })
             .catch((error) => {

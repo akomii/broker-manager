@@ -1,5 +1,5 @@
 <template>
-    <Fieldset :legend='$t("meta")' :toggleable="true">
+    <Fieldset :legend="$t('meta')" :toggleable="true">
         <!-- TODO REFACTOR THE HTML -->
         <div class="flex justify-content-center">
             <div class="w-6">
@@ -12,7 +12,7 @@
                                 class="text-sm"
                                 outlined
                             />
-                            </span                        >
+                        </span>
                         <span class="w-6">
                             <RequestTypeLabel
                                 class="text-sm"
@@ -53,10 +53,8 @@
                             @update:date="execution.referenceDate = $event"
                         />
                     </div>
-                    <div class="flex flex-wrap">
-                        <span class="w-12 border-solid">
-                            TODO BUTTON FÜR ÄNDERUNGSHISTORIE
-                        </span>
+                    <div class="flex flex-wrap justify-content-center">
+                        <RequestHistoryButton />
                     </div>
                 </div>
             </div>
@@ -151,6 +149,7 @@ import ExecutionStateLabel from "@/components/states/ExecutionStateLabel.vue";
 import { RequestExecution, SingleExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
+import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
 
 export default {
     components: {
@@ -161,6 +160,7 @@ export default {
         DatePicker,
         RequestTypeLabel,
         ExecutionStateLabel,
+        RequestHistoryButton,
     },
     props: {
         execution: {

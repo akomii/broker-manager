@@ -1,6 +1,6 @@
 <template>
     <Button
-        icon="pi pi-external-link"
+        icon="pi pi-download"
         :label="$t('exportCurrentTable')"
         outlined
         @click="exportTable"

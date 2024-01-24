@@ -245,5 +245,6 @@
     "availableNodes": "Verfügbare Standorte",
     "nodeStatusMessage": "Statusmeldung von Standort {nodeId}",
     "description": "Beschreibung",
-    "sql": "SQL"
+    "sql": "SQL",
+    "showRequestHistory": "TODO: Änderungshistorie anzeigen"
 }

@@ -1,8 +1,8 @@
 <template>
-    <div class="mx-2">
+    <div class="mx-3">
         <div class="grid align-items-center">
             <div class="col">
-                <GoBackButton class="mx-2" />
+                <GoBackButton />
             </div>
             <!-- TODO RequestStatelabel is placed under Tags when window too small-->
             <!-- TODO clear empty space -->
@@ -19,8 +19,8 @@
                         <label>{{ $t("title") }}</label>
                     </span>
                 </template>
-                <p v-else class="text-2xl mx-1">{{ title }}</p>
-                <RequestStateLabel class="text-lg mx-1" :state="state" />
+                <p v-else class="text-2xl">{{ title }}</p>
+                <RequestStateLabel class="text-lg mx-2" :state="state" />
             </div>
 
             <div class="col-5">

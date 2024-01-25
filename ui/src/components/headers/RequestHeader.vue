@@ -26,14 +26,10 @@
             <div class="col-5">
                 <TagList
                     :tags="isEditableAndNotArchived() ? localTags : tags"
-                    :removable="isEditableAndNotArchived()"
+                    :editable="true"
                     @update:tags="localTags = $event"
                 />
-                <TagCreator
-                    v-if="isEditableAndNotArchived()"
-                    :tags="localTags"
-                    @update:tags="localTags = $event"
-                />
+
             </div>
 
             <div class="col flex justify-content-end">
@@ -48,7 +44,6 @@
 import Divider from "primevue/divider";
 import InputText from "primevue/inputtext";
 import TagList from "@/components/tags/TagList.vue";
-import TagCreator from "@/components/tags/TagCreator.vue";
 import MenuButton from "./MenuButton.vue";
 import GoBackButton from "./GoBackButton.vue";
 import RequestStateLabel from "@/components/states/RequestStateLabel.vue";
@@ -59,7 +54,6 @@ export default {
         Divider,
         InputText,
         TagList,
-        TagCreator,
         MenuButton,
         GoBackButton,
         RequestStateLabel,
@@ -138,7 +132,7 @@ export default {
             return this.state === RequestState.DRAFT;
         },
         isEditableAndNotArchived(): boolean {
-            return this.editable && this.state != RequestState.ARCHIVED;
+            return this.state != RequestState.ARCHIVED;
         },
         // TODO: grab userRole from Keycloak response
         hasUserRoleIT(): boolean {

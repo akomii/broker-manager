@@ -1,19 +1,18 @@
 <template>
-    <Tag :value="localizedState" :severity="tagColor" rounded />
+    <Label
+        :state="state"
+        :colorMap="requestTypeColorMap"
+        localizationPath="enums.requestType."
+    />
 </template>
 
 <script lang="ts">
-import Tag from "primevue/tag";
+import Label from "./Label.vue";
 import { RequestType } from "@/utils/Enums";
-
-const requestTypeColorMap: Record<keyof typeof RequestType, string> = {
-    [RequestType.SINGLE]: "primary",
-    [RequestType.SERIES]: "primary",
-};
 
 export default {
     components: {
-        Tag,
+        Label,
     },
     props: {
         state: {
@@ -22,11 +21,11 @@ export default {
         },
     },
     computed: {
-        tagColor(): string {
-            return requestTypeColorMap[this.state] || "secondary";
-        },
-        localizedState(): string {
-            return this.$t(`enums.requestType.${this.state}`);
+        requestTypeColorMap(): Record<keyof typeof RequestType, string> {
+            return {
+                [RequestType.SINGLE]: "primary",
+                [RequestType.SERIES]: "primary",
+            };
         },
     },
 };

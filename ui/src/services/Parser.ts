@@ -16,7 +16,7 @@ import {
     ModificationHistoryItem,
 } from "@/utils/Types";
 import { MomentWrapper } from "@/utils/MomentWrapper";
-import { ExecutionState, RequestState } from "@/utils/Enums";
+import { ExecutionState, RequestState, RequestType } from "@/utils/Enums";
 
 export class RequestParser {
     static parse(requestJson: any): Request {
@@ -26,6 +26,7 @@ export class RequestParser {
             authorizedOrgs: new Set(requestJson.authorizedOrgs),
             targetNodes: new Set(requestJson.targetNodes),
             requestState: requestJson.requestState as RequestState,
+            requestType: RequestType.SINGLE,
             modificationHistory: ModificationHistoryItemParser.parseMultiple(
                 requestJson.modificationHistory
             ),
@@ -62,6 +63,7 @@ export class RequestParser {
         if ("anchoredSequenceIdRef" in requestJson) {
             return {
                 ...commonFields,
+                requestType: RequestType.SERIES,
                 anchoredSequenceIdRef: requestJson.anchoredSequenceIdRef,
                 isAutoPublishing: requestJson.isAutoPublishing,
                 seriesClosingDate: requestJson.seriesClosingDate

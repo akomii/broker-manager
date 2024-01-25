@@ -1,4 +1,4 @@
-import { RequestState, ExecutionState } from "@/utils/Enums";
+import { RequestState, ExecutionState, RequestType } from "@/utils/Enums";
 import type { MomentDuration } from "@/utils/MomentWrapper";
 
 export type Request = SingleRequest | SeriesRequest;
@@ -14,9 +14,12 @@ export interface ManagerRequest {
     executions: RequestExecution[];
 }
 
-export interface SingleRequest extends ManagerRequest {}
+export interface SingleRequest extends ManagerRequest {
+    requestType: RequestType.SINGLE;
+}
 
 export interface SeriesRequest extends ManagerRequest {
+    requestType: RequestType.SERIES;
     anchoredSequenceIdRef: number;
     isAutoPublishing: boolean;
     seriesClosingDate: Date | null;

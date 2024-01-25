@@ -37,7 +37,7 @@ export default {
         async fetchPrincipals(): Promise<void> {
             this.allPrincipals = await TestDataService.getPrincipals();
         },
-        searchPrincipals(event: AutoCompleteCompleteEvent): void {
+        searchPrincipals(event: AutoCompleteCompleteEvent) {
             const query = event.query.toLowerCase();
             setTimeout(() => {
                 this.filteredPrincipals = this.filterPrincipals(query);
@@ -48,7 +48,7 @@ export default {
                 principal.name.toLowerCase().includes(query)
             );
         },
-        onPrincipalSelected(): void {
+        onPrincipalSelected() {
             this.$emit("update:principal", { ...this.selectedPrincipal });
         },
     },

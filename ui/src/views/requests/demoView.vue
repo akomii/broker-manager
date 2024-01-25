@@ -26,12 +26,7 @@
                         />
                     </div>
                     <div class="col-5">
-                        <Principal
-                            :principal="request.query.principal"
-                            :state="request.requestState"
-                            :editable="editable"
-                            @update:principal="request.query.principal = $event"
-                        />
+                        <PrincipalView :principal="request.query.principal" />
                         <Organization
                             :organizationIds="request.authorizedOrgs"
                             :scrollPanelHeight="'max-h-9rem'"
@@ -87,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import Principal from "@/components/principals/Principal.vue";
+import PrincipalView from "@/components/principals/PrincipalView.vue";
 import Organization from "@/components/organizations/Organization.vue";
 import Textfield from "@/components/textareas/Textfield.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
@@ -102,7 +97,7 @@ import SingleMeta from "@/components/meta/SingleMeta.vue";
 
 export default {
     components: {
-        Principal,
+        PrincipalView,
         Button,
         Organization,
         RequestTargetNodes,
@@ -119,8 +114,8 @@ export default {
     },
     mounted() {
         const requestId = this.$route.params.id;
-        console.log(requestId)
-        console.log(typeof requestId)
+        console.log(requestId);
+        console.log(typeof requestId);
         TestDataService.getRequestById(requestId)
             .then((data: Request) => {
                 this.request = data;

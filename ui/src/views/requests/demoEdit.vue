@@ -43,14 +43,20 @@
                         />
                     </div>
                     <div class="col-12">
-                        <Textfield
+                        <TextFieldEdit
+                            v-if="isDraft()"
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
-                            :state="request.requestState"
                             :fieldSetHeight="'h-22rem'"
-                            :editable="editable"
                             @update:content="request.query.description = $event"
+                        />
+                        <TextFieldView
+                            v-else
+                            class="ml-3"
+                            :content="request.query.description"
+                            :label="$t('description')"
+                            :fieldSetHeight="'h-22rem'"
                         />
                     </div>
                 </div>
@@ -70,14 +76,20 @@
                 />
             </div>
             <div class="col-12">
-                <Textfield
+                <TextFieldEdit
+                    v-if="isDraft()"
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
-                    :state="request.requestState"
                     :fieldSetHeight="'h-22rem'"
-                    :editable="editable"
                     @update:content="request.query.sql = $event"
+                />
+                <TextFieldView
+                    v-else
+                    class="mx-3 mb-3"
+                    :content="request.query.sql"
+                    :label="$t('sql')"
+                    :fieldSetHeight="'h-22rem'"
                 />
             </div>
         </div>
@@ -91,7 +103,8 @@
 import PrincipalView from "@/components/principals/PrincipalView.vue";
 import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
 import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
-import Textfield from "@/components/textareas/Textfield.vue";
+import TextFieldView from "@/components/textfields/TextFieldView.vue";
+import TextFieldEdit from "@/components/textfields/TextFieldEdit.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
@@ -112,7 +125,8 @@ export default {
         RequestTargetNodes,
         ProgressSpinner,
         Divider,
-        Textfield,
+        TextFieldView,
+        TextFieldEdit,
         RequestHeader,
         SingleMeta,
     },
@@ -123,8 +137,6 @@ export default {
     },
     mounted() {
         const requestId = this.$route.params.id;
-        console.log(requestId);
-        console.log(typeof requestId);
         TestDataService.getRequestById(requestId)
             .then((data: Request) => {
                 this.request = data;

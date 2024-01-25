@@ -33,14 +33,11 @@
                         />
                     </div>
                     <div class="col-12">
-                        <Textfield
+                        <TextFieldView
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
-                            :state="request.requestState"
                             :fieldSetHeight="'h-22rem'"
-                            :editable="editable"
-                            @update:content="request.query.description = $event"
                         />
                     </div>
                 </div>
@@ -60,14 +57,11 @@
                 />
             </div>
             <div class="col-12">
-                <Textfield
+                <TextFieldView
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
-                    :state="request.requestState"
                     :fieldSetHeight="'h-22rem'"
-                    :editable="editable"
-                    @update:content="request.query.sql = $event"
                 />
             </div>
         </div>
@@ -80,7 +74,7 @@
 <script lang="ts">
 import PrincipalView from "@/components/principals/PrincipalView.vue";
 import OrganizationView from "@/components/organizations/OrganizationView.vue";
-import Textfield from "@/components/textareas/Textfield.vue";
+import TextFieldView from "@/components/textfields/TextFieldView.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
@@ -99,7 +93,7 @@ export default {
         RequestTargetNodes,
         ProgressSpinner,
         Divider,
-        Textfield,
+        TextFieldView,
         RequestHeader,
         SingleMeta,
     },
@@ -110,8 +104,6 @@ export default {
     },
     mounted() {
         const requestId = this.$route.params.id;
-        console.log(requestId);
-        console.log(typeof requestId);
         TestDataService.getRequestById(requestId)
             .then((data: Request) => {
                 this.request = data;

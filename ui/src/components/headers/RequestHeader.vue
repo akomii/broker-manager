@@ -87,6 +87,7 @@ export default {
         },
     },
     data() {
+        //TODO move Menus as input
         return {
             draftMenu: [
                 // TODO: add routing and services

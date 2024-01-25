@@ -1,33 +1,34 @@
 <template>
+    <!-- TODO add editing conditions -->
     <Fieldset :legend="$t('meta')">
         <!-- Request Type-->
-        <div class="field grid">
-            <label class="col-3 text-lg">
+        <div class="field grid mb-1">
+            <div class="col-3 flex align-items-center text-lg">
                 {{ $t("enums.requestType.label") }}
-            </label>
+            </div>
             <div class="col-9 flex align-items-center gap-2">
                 <RequestTypeLabel class="text-sm" :state="RequestType.SINGLE" />
                 <ConvertRequestButton v-if="editable" />
             </div>
         </div>
         <!-- External ID and request state -->
-        <div class="field grid">
-            <label class="col-3 text-lg">
-                {{ $t("externalId") }}
-            </label>
-            <div class="col-3 flex align-items-center gap-2">
-                <p v-if="execution.externalId">{{ execution.externalId }}</p>
-                <i v-else class="pi pi-minus text-lg" />
-            </div>
-            <label class="col-3 text-lg">
+        <div class="field grid mb-1" style="min-height: 40px">
+            <div class="col-3 flex align-items-center text-lg">
                 {{ $t("enums.executionState.label") }}
-            </label>
+            </div>
             <div class="col-3 flex align-items-center gap-2">
                 <ExecutionStateLabel
                     v-if="execution.executionState"
                     class="text-sm"
                     :state="execution.executionState"
                 />
+                <i v-else class="pi pi-minus text-lg" />
+            </div>
+            <div class="col-3 flex align-items-center text-lg">
+                {{ $t("externalId") }}
+            </div>
+            <div class="col-3 flex align-items-center gap-2">
+                <p v-if="execution.externalId">{{ execution.externalId }}</p>
                 <i v-else class="pi pi-minus text-lg" />
             </div>
         </div>
@@ -131,7 +132,7 @@
                             :label="$t('dates.archiveDate')"
                             :actualDate="execution.archivedDate"
                             :scheduledDate="execution.scheduledArchiveDate"
-                            :editable="editable"
+                            :editable="editable && isDraft()"
                             @update:scheduledDate="
                                 execution.scheduledArchiveDate = $event
                             "
@@ -152,10 +153,11 @@ import DatePicker from "@/components/datePickers/DatePicker.vue";
 import RequestTypeLabel from "@/components/states/RequestTypeLabel.vue";
 import ExecutionStateLabel from "@/components/states/ExecutionStateLabel.vue";
 import { RequestExecution, SingleExecution } from "@/utils/Types";
-import { RequestType } from "@/utils/Enums.ts";
+import { RequestType, RequestState } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
 import ConvertRequestButton from "./ConvertRequestButton.vue";
 import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
+import { isDuration } from "moment";
 
 export default {
     components: {
@@ -176,6 +178,10 @@ export default {
         },
         querySchedule: {
             type: Object as () => SingleExecution,
+            required: true,
+        },
+        state: {
+            type: String as () => keyof typeof RequestState,
             required: true,
         },
         editable: {
@@ -221,5 +227,10 @@ export default {
             this.$emit("update:querySchedule", this.querySchedule);
         },
     },
+    methods: {
+        isDraft(): boolean {
+            return this.state === RequestState.DRAFT;
+        },
+    }
 };
 </script>

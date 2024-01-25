@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Requests from "@/views/requests/requests.vue";
+import RequestList from "@/views/requests/requests.vue";
+import RequestView from "@/views/requests/demoView.vue";
+import RequestEdit from "@/views/requests/demoEdit.vue";
 import Clinics from "@/views/clinics/clinics.vue";
-import DemoView from "@/views/requests/demoView.vue";
 
 const routes = [
     {
@@ -10,11 +11,15 @@ const routes = [
     },
     {
         path: "/requests",
-        component: Requests,
+        component: RequestList,
     },
     {
-        path: "/request/:id",
-        component: DemoView,
+        path: "/requests/:id",
+        component: RequestView,
+    },
+    {
+        path: "/requests/:id/edit",
+        component: RequestEdit,
     },
     {
         path: "/clinics",

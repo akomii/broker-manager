@@ -24,12 +24,11 @@
             </div>
 
             <div class="col-5">
-                <TagList
+                <EditableTagListView
                     :tags="isEditableAndNotArchived() ? localTags : tags"
                     :editable="true"
                     @update:tags="localTags = $event"
                 />
-
             </div>
 
             <div class="col flex justify-content-end">
@@ -43,7 +42,7 @@
 <script lang="ts">
 import Divider from "primevue/divider";
 import InputText from "primevue/inputtext";
-import TagList from "@/components/tags/TagList.vue";
+import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import MenuButton from "./MenuButton.vue";
 import GoBackButton from "./GoBackButton.vue";
 import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
@@ -53,7 +52,7 @@ export default {
     components: {
         Divider,
         InputText,
-        TagList,
+        EditableTagListView,
         MenuButton,
         GoBackButton,
         RequestStateLabel,

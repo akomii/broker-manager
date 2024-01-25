@@ -31,7 +31,7 @@
                             {{ slotProps.item.clientDN.CN }}
                         </span>
                         <span class="flex flex-wrap">
-                            <TagList :tags="slotProps.item.tags" />
+                            <EditableTagListView :tags="slotProps.item.tags" />
                         </span>
                     </div>
                 </template>
@@ -65,7 +65,7 @@
                 <Column field="clientDN.CN" :header="$t('node')" sortable />
                 <Column field="tags" :header="$t('tags')" sortable>
                     <template #body="slotProps">
-                        <TagList :tags="slotProps.data.tags" />
+                        <EditableTagListView :tags="slotProps.data.tags" />
                     </template>
                 </Column>
                 <Column
@@ -132,7 +132,7 @@ import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { TestDataService } from "@/services/TestDataService";
-import TagList from "@/components/tags/TagList.vue";
+import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import ExportTableButton from "./ExportTableButton.vue";
 import SearchInput from "./SearchInput.vue";
 import NodeStatusInfoTimeline from "./NodeStatusInfoTimeline.vue";
@@ -144,7 +144,7 @@ export default {
         Column,
         Button,
         PickList,
-        TagList,
+        EditableTagListView,
         ExportTableButton,
         SearchInput,
         NodeStatusInfoTimeline,

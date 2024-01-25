@@ -26,14 +26,10 @@
                         />
                     </div>
                     <div class="col-5">
-                        <PrincipalEdit
-                            v-if="isDraft()"
+                        <component
+                            :is="isDraft() ? 'PrincipalEdit' : 'PrincipalView'"
                             :principal="request.query.principal"
                             @update:principal="request.query.principal = $event"
-                        />
-                        <PrincipalView
-                            v-else
-                            :principal="request.query.principal"
                         />
                         <OrganizationEdit
                             :organizationIds="request.authorizedOrgs"
@@ -43,20 +39,13 @@
                         />
                     </div>
                     <div class="col-12">
-                        <TextFieldEdit
-                            v-if="isDraft()"
+                        <component
+                            :is="isDraft() ? 'TextFieldEdit' : 'TextFieldView'"
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
                             :fieldSetHeight="'h-22rem'"
                             @update:content="request.query.description = $event"
-                        />
-                        <TextFieldView
-                            v-else
-                            class="ml-3"
-                            :content="request.query.description"
-                            :label="$t('description')"
-                            :fieldSetHeight="'h-22rem'"
                         />
                     </div>
                 </div>
@@ -76,20 +65,13 @@
                 />
             </div>
             <div class="col-12">
-                <TextFieldEdit
-                    v-if="isDraft()"
+                <component
+                    :is="isDraft() ? 'TextFieldEdit' : 'TextFieldView'"
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
                     :fieldSetHeight="'h-22rem'"
                     @update:content="request.query.sql = $event"
-                />
-                <TextFieldView
-                    v-else
-                    class="mx-3 mb-3"
-                    :content="request.query.sql"
-                    :label="$t('sql')"
-                    :fieldSetHeight="'h-22rem'"
                 />
             </div>
         </div>

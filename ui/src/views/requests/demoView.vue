@@ -130,14 +130,15 @@ export default {
         };
     },
     mounted() {
-        TestDataService.getRequests()
-            .then((data: Request[]) => {
-                if (data.length > 0) {
-                    this.request = data[1] as Request;
-                }
+        const requestId = this.$route.params.id;
+        console.log(requestId)
+        console.log(typeof requestId)
+        TestDataService.getRequestById(requestId)
+            .then((data: Request) => {
+                this.request = data;
             })
             .catch((error) => {
-                console.error("Error fetching requests:", error);
+                console.error("Error fetching request:", error);
             });
     },
     methods: {

@@ -992,6 +992,16 @@ export const TestDataService = {
         return createAsyncOperation(RequestParser, requests);
     },
 
+    getRequestById(id) {
+        return createAsyncOperation(RequestParser, requests).then(
+            (parsedRequests) => {
+                return (
+                    parsedRequests.find((request) => request.id === Number(id)) || null
+                );
+            }
+        );
+    },
+
     getNodes() {
         return createAsyncOperation(ManagerNodeParser, nodes);
     },

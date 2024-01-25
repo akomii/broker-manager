@@ -35,11 +35,8 @@
                             v-else
                             :principal="request.query.principal"
                         />
-
-                        <Organization
+                        <OrganizationEdit
                             :organizationIds="request.authorizedOrgs"
-                            :scrollPanelHeight="'max-h-9rem'"
-                            :editable="editable"
                             @update:organizationIds="
                                 request.authorizedOrgs = new Set($event)
                             "
@@ -93,7 +90,7 @@
 <script lang="ts">
 import PrincipalView from "@/components/principals/PrincipalView.vue";
 import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
-import Organization from "@/components/organizations/Organization.vue";
+import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
 import Textfield from "@/components/textareas/Textfield.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
 import Button from "primevue/button";
@@ -110,8 +107,8 @@ export default {
     components: {
         PrincipalView,
         PrincipalEdit,
+        OrganizationEdit,
         Button,
-        Organization,
         RequestTargetNodes,
         ProgressSpinner,
         Divider,

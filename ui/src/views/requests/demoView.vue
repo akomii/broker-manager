@@ -27,13 +27,9 @@
                     </div>
                     <div class="col-5">
                         <PrincipalView :principal="request.query.principal" />
-                        <Organization
+                        <OrganizationView
                             :organizationIds="request.authorizedOrgs"
                             :scrollPanelHeight="'max-h-9rem'"
-                            :editable="editable"
-                            @update:organizationIds="
-                                request.authorizedOrgs = new Set($event)
-                            "
                         />
                     </div>
                     <div class="col-12">
@@ -83,7 +79,7 @@
 
 <script lang="ts">
 import PrincipalView from "@/components/principals/PrincipalView.vue";
-import Organization from "@/components/organizations/Organization.vue";
+import OrganizationView from "@/components/organizations/OrganizationView.vue";
 import Textfield from "@/components/textareas/Textfield.vue";
 import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
 import Button from "primevue/button";
@@ -99,7 +95,7 @@ export default {
     components: {
         PrincipalView,
         Button,
-        Organization,
+        OrganizationView,
         RequestTargetNodes,
         ProgressSpinner,
         Divider,

@@ -39,6 +39,7 @@
                     <div class="col-5">
                         <Principal
                             :principal="request.query.principal"
+                            :state="request.requestState"
                             :editable="editable"
                             @update:principal="request.query.principal = $event"
                         />
@@ -56,6 +57,7 @@
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
+                            :state="request.requestState"
                             :fieldSetHeight="'h-22rem'"
                             :editable="editable"
                             @update:content="request.query.description = $event"
@@ -69,6 +71,7 @@
                     :targetNodeIds="request.targetNodes"
                     :execution="request.executions[0]"
                     :requestState="request.requestState"
+                    :requestType="request.requestType"
                     :fieldSetHeight="'h-48-4rem'"
                     :editable="editable"
                     @update:targetNodeIds="
@@ -81,6 +84,7 @@
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
+                    :state="request.requestState"
                     :fieldSetHeight="'h-22rem'"
                     :editable="editable"
                     @update:content="request.query.sql = $event"

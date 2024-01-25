@@ -1,6 +1,6 @@
 <template>
     <Fieldset :legend="$t('targetNodes')" :class="fieldSetHeight">
-        <template v-if="editable">
+        <template v-if="editable && isRequestSingleAndStillPending()">
             <SearchInput
                 class="flex flex-wrap justify-content-end mb-2"
                 @update:input="filterPickListNodes"
@@ -8,6 +8,7 @@
             <!-- TODO Optional: red/green color for items in source/target -->
             <!-- TODO order by id when moving-->
             <!-- TODO fix height of Picklist-->
+
             <PickList
                 v-model="pickListNodes"
                 @update:modelValue="handleListChange"
@@ -128,7 +129,7 @@ import Button from "primevue/button";
 import PickList from "primevue/picklist";
 
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
-import { RequestState } from "@/utils/Enums";
+import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { TestDataService } from "@/services/TestDataService";
 import TagList from "@/components/tags/TagList.vue";
@@ -164,6 +165,10 @@ export default {
         fieldSetHeight: {
             type: String as () => string,
             default: "h-48-4rem",
+        },
+        requestType: {
+            type: String as () => keyof typeof RequestType,
+            required: true,
         },
         editable: {
             type: Boolean,
@@ -287,6 +292,12 @@ export default {
                     newWindow.document.close();
                 }
             }
+        },
+        isRequestSingleAndStillPending(): boolean {
+            return (
+                this.requestType === RequestType.SINGLE &&
+                this.execution.executionState === ExecutionState.PENDING
+            );
         },
     },
 };

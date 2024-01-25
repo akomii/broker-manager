@@ -11,24 +11,6 @@
             />
         </div>
 
-        <!-- TODO CHECK WHAT IS ALLOWED TO CHANGE AND WHAT NOT
-
-        UI CHECK
-
-        Anfrage umwandeln
-        Referenzzeitraum
-        Asufürhungsdatum
-
-        Principal
-        Auswertestellen
-
-        Beschreibung
-        SQL
-
-        Standorte
-
-        -->
-
         <RequestHeader
             :id="request.id"
             :title="request.query.title"

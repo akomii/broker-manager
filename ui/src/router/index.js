@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Requests from "@/views/requests/requests.vue";
 import Clinics from "@/views/clinics/clinics.vue";
-import DemoDraftSingle from "@/views/requests/demoDraftSingle.vue";
-import DemoOnlineSingle from "@/views/requests/demoOnlineSingle.vue";
+import DemoSingleDraft from "@/views/requests/demoSingleDraft.vue";
+import DemoSingleOnline from "@/views/requests/demoSingleOnline.vue";
 
 const routes = [
     {
@@ -15,11 +15,11 @@ const routes = [
     },
     {
         path: "/request/1",
-        component: DemoDraftSingle,
+        component: DemoSingleDraft,
     },
     {
         path: "/request/2",
-        component: DemoOnlineSingle,
+        component: DemoSingleOnline,
     },
     {
         path: "/clinics",

@@ -1,6 +1,6 @@
 <template>
-    <Fieldset :legend='$t("principal")'>
-        <div v-if="editable">
+    <Fieldset :legend="$t('principal')">
+        <div v-if="editable && isDraft()">
             <div class="flex justify-content-center mb-3">
                 <PrincipalSearch @update:principal="onPrincipalSelected" />
             </div>
@@ -41,6 +41,7 @@ import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
 import PrincipalSearch from "./PrincipalSearch.vue";
 import { Principal } from "@/utils/Types";
+import { RequestState } from "@/utils/Enums";
 
 export default {
     components: {
@@ -53,6 +54,10 @@ export default {
     props: {
         principal: {
             type: Object as () => Principal,
+            required: true,
+        },
+        state: {
+            type: String as () => keyof typeof RequestState,
             required: true,
         },
         editable: {
@@ -89,6 +94,9 @@ export default {
     methods: {
         onPrincipalSelected(selectedPrincipal: Principal): void {
             this.$emit("update:principal", { ...selectedPrincipal });
+        },
+        isDraft(): boolean {
+            return this.state === RequestState.DRAFT;
         },
     },
 };

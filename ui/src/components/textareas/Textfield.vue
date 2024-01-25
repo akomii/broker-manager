@@ -1,6 +1,6 @@
 <template>
     <Fieldset :legend="label" :class="fieldSetHeight">
-        <template v-if="editable">
+        <template v-if="editable && isDraft()">
             <Textarea
                 v-model="contentDummy"
                 @input="updateContent"
@@ -23,6 +23,7 @@
 import Fieldset from "primevue/fieldset";
 import Textarea from "primevue/textarea";
 import ScrollPanel from "primevue/scrollpanel";
+import { RequestState } from "@/utils/Enums";
 
 export default {
     components: {
@@ -42,6 +43,10 @@ export default {
         fieldSetHeight: {
             type: String as () => string,
             default: "h-22rem",
+        },
+        state: {
+            type: String as () => keyof typeof RequestState,
+            required: true,
         },
         editable: {
             type: Boolean,
@@ -64,6 +69,9 @@ export default {
     methods: {
         updateContent() {
             this.$emit("update:content", this.contentDummy);
+        },
+        isDraft(): boolean {
+            return this.state === RequestState.DRAFT;
         },
     },
 };

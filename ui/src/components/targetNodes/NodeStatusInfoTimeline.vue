@@ -2,7 +2,7 @@
     <template v-if="!nodeStatusInfo">
         <i class="pi pi-minus text-gray-700" />
     </template>
-    <template v-else>
+    <template v-if="getMostActualState()">
         <Button @click="togglePanel" plain text>
             {{ getMostActualState() }}
         </Button>
@@ -17,6 +17,7 @@
             </Timeline>
         </OverlayPanel>
     </template>
+    <i v-else class="pi pi-minus flex justify-content-center" />
 </template>
 
 <script lang="ts">
@@ -51,20 +52,24 @@ export default {
         },
     },
     methods: {
-        getMostActualState(): string {
+        getMostActualState(): string | null {
             let currentState: NodeState = NodeState.RETRIEVED;
             let latestTimestamp: Date | null = null;
+            let allStatesNull = true;
             for (const state of orderedStates) {
                 const timestamp = (this.nodeStatusInfo as any)[
                     state.toLowerCase()
                 ] as Date | null;
-                if (
-                    timestamp &&
-                    (!latestTimestamp || timestamp > latestTimestamp)
-                ) {
-                    latestTimestamp = timestamp;
-                    currentState = state;
+                if (timestamp) {
+                    allStatesNull = false;
+                    if (!latestTimestamp || timestamp > latestTimestamp) {
+                        latestTimestamp = timestamp;
+                        currentState = state;
+                    }
                 }
+            }
+            if (allStatesNull) {
+                return null;
             }
             return this.$t(`enums.nodeState.${currentState}`);
         },

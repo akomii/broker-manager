@@ -150,8 +150,8 @@ import Divider from "primevue/divider";
 import Button from "primevue/button";
 import ScheduledDatePicker from "@/components/datePickers/ScheduledDatePicker.vue";
 import DatePicker from "@/components/datePickers/DatePicker.vue";
-import RequestTypeLabel from "@/components/states/RequestTypeLabel.vue";
-import ExecutionStateLabel from "@/components/states/ExecutionStateLabel.vue";
+import RequestTypeLabel from "@/components/labels/RequestTypeLabel.vue";
+import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import { RequestExecution, SingleExecution } from "@/utils/Types";
 import { RequestType, RequestState } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
@@ -231,6 +231,6 @@ export default {
         isDraft(): boolean {
             return this.state === RequestState.DRAFT;
         },
-    }
+    },
 };
 </script>

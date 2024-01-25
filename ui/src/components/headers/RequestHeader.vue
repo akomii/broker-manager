@@ -46,7 +46,7 @@ import InputText from "primevue/inputtext";
 import TagList from "@/components/tags/TagList.vue";
 import MenuButton from "./MenuButton.vue";
 import GoBackButton from "./GoBackButton.vue";
-import RequestStateLabel from "@/components/states/RequestStateLabel.vue";
+import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
 import { UserRole, RequestState } from "@/utils/Enums.ts";
 
 export default {

@@ -1,16 +1,19 @@
 <template>
     <RequestHeaderCommon :id="id" :state="state" :menu="menu">
-        <template v-slot:title>
+        <template #title>
             <p v-if="isTitleEditingDisabled" class="text-2xl">
                 {{ title }}
             </p>
-            <span v-else class="p-float-label">
-                <!-- TODO increase text width-->
-                <InputText size="large" class="text-2xl" v-model="dummyTitle" />
+            <span v-else class="p-float-label w-9">
+                <InputText
+                    class="text-2xl w-12"
+                    size="large"
+                    v-model="dummyTitle"
+                />
                 <label>{{ $t("title") }}</label>
             </span>
         </template>
-        <template v-slot:tags>
+        <template #tags>
             <EditableTagListView
                 :tags="dummyTags"
                 :editable="true"
@@ -53,10 +56,10 @@ export default {
         };
     },
     watch: {
-        dummyTitle(updatedTitle: string) {
+        dummyTitle: function (updatedTitle: string) {
             this.$emit("update:title", updatedTitle);
         },
-        dummyTags(updatedTags: Set<string>) {
+        dummyTags: function (updatedTags: string[]) {
             this.$emit("update:tags", updatedTags);
         },
     },

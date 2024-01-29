@@ -1,9 +1,9 @@
 <template>
     <RequestHeaderCommon :id="id" :state="state" :menu="menu">
-        <template v-slot:title>
+        <template #title>
             <p class="text-2xl">{{ title }}</p>
         </template>
-        <template v-slot:tags>
+        <template #tags>
             <EditableTagListView :tags="tags" />
         </template>
     </RequestHeaderCommon>

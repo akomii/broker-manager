@@ -1,29 +1,19 @@
 <template>
-    <div class="mx-3">
-        <div class="grid align-items-center">
-            <div class="col">
-                <GoBackButton />
-            </div>
-            <!-- TODO RequestStatelabel is placed under Tags when window too small-->
-            <!-- TODO clear empty space -->
-            <div class="col-5 flex align-items-center">
-                <p v-if="id" class="text-2xl mx-2">[{{ id }}]</p>
-                <slot name="title"></slot>
-                <RequestStateLabel class="text-lg mx-2" :state="state" />
-            </div>
-            <div class="col-5">
-                <slot name="tags"></slot>
-            </div>
-            <div class="col flex justify-content-end">
-                <MenuButton
-                    v-if="menu"
-                    :icon="'pi pi-chevron-down'"
-                    :menu="menu"
-                />
-            </div>
+    <div class="mx-3 flex flex-wrap align-items-center">
+        <div class="w-6 flex flex-wrap align-items-center column-gap-2">
+            <GoBackButton />
+            <p v-if="id" class="text-2xl">[{{ id }}]</p>
+            <slot name="title"></slot>
+            <RequestStateLabel class="text-lg" :state="state" />
         </div>
-        <Divider class="mt-0" />
+        <div class="w-5">
+            <slot name="tags"></slot>
+        </div>
+        <div class="w-1 flex flex-wrap justify-content-end">
+            <MenuButton v-if="menu" :icon="'pi pi-chevron-down'" :menu="menu" />
+        </div>
     </div>
+    <Divider class="mt-0" />
 </template>
 
 <script lang="ts">
@@ -48,7 +38,7 @@ export default {
             required: true,
         },
         state: {
-            type: String as () => keyof typeof RequestState,
+            type: String as PropType<keyof typeof RequestState>,
             required: true,
         },
         menu: {

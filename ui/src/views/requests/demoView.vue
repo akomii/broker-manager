@@ -1,13 +1,11 @@
 <template>
     <div v-if="request">
-        <RequestHeader
+        <RequestHeaderView
             :id="request.id"
             :title="request.query.title"
             :state="request.requestState"
             :tags="request.tags"
-            :editable="editable"
-            @update:tags="request.tags = $event"
-            @update:title="request.query.title = $event"
+            :menu="getMenu()"
         />
 
         <div class="grid nested-grid">
@@ -82,8 +80,9 @@ import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
-import RequestHeader from "@/components/headers/RequestHeader.vue";
+import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
+import { UserRole, RequestState } from "@/utils/Enums";
 
 export default {
     components: {
@@ -94,12 +93,31 @@ export default {
         ProgressSpinner,
         Divider,
         TextFieldView,
-        RequestHeader,
+        RequestHeaderView,
         SingleMeta,
     },
     data() {
         return {
             request: null as Request | null,
+            // TODO: add routing and services
+            draftMenu: [
+                { label: this.$t("menu.draft.publish") },
+                { label: this.$t("menu.draft.duplicate") },
+                { label: this.$t("menu.draft.delete") },
+                { label: this.$t("menu.draft.edit") },
+            ],
+            requestMenuIT: [
+                { label: this.$t("menu.request.results") },
+                { label: this.$t("menu.request.duplicateDraft") },
+                { label: this.$t("menu.request.close") },
+                { label: this.$t("menu.request.archive") },
+                { label: this.$t("menu.request.edit") },
+            ],
+            requestMenuDAC: [
+                { label: this.$t("menu.request.results") },
+                { label: this.$t("menu.request.close") },
+                { label: this.$t("menu.request.archive") },
+            ],
         };
     },
     mounted() {
@@ -111,6 +129,27 @@ export default {
             .catch((error) => {
                 console.error("Error fetching request:", error);
             });
+    },
+    methods: {
+        isDraft(): boolean {
+            return this.request?.requestState === RequestState.DRAFT;
+        },
+        isArchived(): boolean {
+            return this.request?.requestState === RequestState.ARCHIVED;
+        },
+        hasUserRoleIT(): boolean {
+            return this.$userRole === UserRole.IT;
+        },
+        getMenu() {
+            if (this.isArchived()) {
+                return undefined;
+            }
+            return this.isDraft()
+                ? this.draftMenu
+                : this.hasUserRoleIT()
+                ? this.requestMenuIT
+                : this.requestMenuDAC;
+        },
     },
 };
 </script>

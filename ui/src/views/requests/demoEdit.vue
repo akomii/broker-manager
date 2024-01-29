@@ -1,11 +1,12 @@
 <template>
     <div v-if="request">
-        <RequestHeader
+        <RequestHeaderEdit
             :id="request.id"
             :title="request.query.title"
             :state="request.requestState"
             :tags="request.tags"
-            :editable="editable"
+            :menu="isDraft() ? editDraftMenu : editRequestMenu"
+            :isTitleEditingDisabled="!isDraft()"
             @update:tags="request.tags = $event"
             @update:title="request.query.title = $event"
         />
@@ -94,7 +95,7 @@ import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
-import RequestHeader from "@/components/headers/RequestHeader.vue";
+import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
 import { RequestState } from "@/utils/Enums";
 
@@ -109,12 +110,21 @@ export default {
         Divider,
         TextFieldView,
         TextFieldEdit,
-        RequestHeader,
+        RequestHeaderEdit,
         SingleMeta,
     },
     data() {
         return {
             request: null as Request | null,
+            // TODO: add routing and services
+            editDraftMenu: [
+                { label: this.$t("menu.draft.save") },
+                { label: this.$t("menu.cancel") },
+            ],
+            editRequestMenu: [
+                { label: this.$t("menu.request.save") },
+                { label: this.$t("menu.cancel") },
+            ],
         };
     },
     mounted() {

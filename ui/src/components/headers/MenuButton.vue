@@ -1,19 +1,29 @@
 <template>
-    <Button :icon="icon" @click="toggle" />
+    <Button :icon="icon" @click="toggleMenu" />
     <Menu ref="menu" :model="menu" :popup="true" class="mt-2" />
 </template>
 
 <script lang="ts">
-import { PropType, Vue } from "vue";
+import { PropType } from "vue";
 import Button from "primevue/button";
 import Menu from "primevue/menu";
 
-interface MenuItem {
+export interface MenuItem {
     label: string;
     icon?: string;
     command?: () => void;
     items?: MenuItem[];
 }
+
+const isValidMenuItem = (item: MenuItem): boolean => {
+    return (
+        item.hasOwnProperty("label") &&
+        (!item.icon || typeof item.icon === "string") &&
+        (!item.command || typeof item.command === "function") &&
+        (!item.items ||
+            (Array.isArray(item.items) && item.items.every(isValidMenuItem)))
+    );
+};
 
 export default {
     components: {
@@ -28,27 +38,16 @@ export default {
         menu: {
             type: Array as PropType<MenuItem[]>,
             required: true,
-            validator: (menuItems: MenuItem[]) => {
-                const isValidMenuItem = (item: MenuItem): boolean => {
-                    if (!item.hasOwnProperty("label")) return false;
-                    if (item.icon && typeof item.icon !== "string")
-                        return false;
-                    if (item.command && typeof item.command !== "function")
-                        return false;
-                    if (item.items) {
-                        if (!Array.isArray(item.items)) return false;
-                        return item.items.every(isValidMenuItem);
-                    }
-                    return true;
-                };
-                return menuItems.every(isValidMenuItem);
-            },
+            validator: (menuItems: MenuItem[]) =>
+                menuItems.every(isValidMenuItem),
         },
     },
     methods: {
-        toggle(event: MouseEvent): void {
-            const menu = this.$refs.menu as Vue;
-            menu.toggle(event);
+        toggleMenu(event: MouseEvent) {
+            const menu = this.$refs.menu as Menu;
+            if (menu) {
+                menu.toggle(event);
+            }
         },
     },
 };

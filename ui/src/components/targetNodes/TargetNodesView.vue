@@ -85,8 +85,8 @@ import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import { RequestState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
-import ExportTableButton from "./ExportTableButton.vue";
-import SearchInput from "./SearchInput.vue";
+import ExportTableButton from "@/components/common/ExportTableButton.vue";
+import SearchInput from "@/components/common/SearchInput.vue";
 import NodeStatusInfoTimeline from "./NodeStatusInfoTimeline.vue";
 import TargetNodesCommon from "./TargetNodesCommon.vue";
 

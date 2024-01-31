@@ -41,7 +41,7 @@ import Fieldset from "primevue/fieldset";
 import PickList from "primevue/picklist";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import { ManagerNode } from "@/utils/Types";
-import SearchInput from "./SearchInput.vue";
+import SearchInput from "@/components/common/SearchInput.vue";
 import TargetNodesCommon from "./TargetNodesCommon.vue";
 
 export default {

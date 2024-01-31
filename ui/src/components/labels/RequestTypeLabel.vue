@@ -1,6 +1,6 @@
 <template>
     <Label
-        :state="state"
+        :state="type"
         :colorMap="requestTypeColorMap"
         localizationPath="enums.requestType."
     />
@@ -15,7 +15,7 @@ export default {
         Label,
     },
     props: {
-        state: {
+        type: {
             type: String as () => keyof typeof RequestType,
             required: true,
         },

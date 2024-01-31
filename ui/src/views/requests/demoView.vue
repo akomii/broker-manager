@@ -12,15 +12,11 @@
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
-                        <SingleMeta
+                        <SingleMetaView
                             class="ml-3 h-25-3rem"
+                            :type="request.requestType"
                             :execution="request.executions[0]"
                             :querySchedule="request.query.singleExecution"
-                            :editable="editable"
-                            @update:execution="request.executions[0] = $event"
-                            @update:querySchedule="
-                                request.query.singleExecution = $event
-                            "
                         />
                     </div>
                     <div class="col-5">
@@ -77,7 +73,7 @@ import Divider from "primevue/divider";
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
 import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
-import SingleMeta from "@/components/meta/SingleMeta.vue";
+import SingleMetaView from "@/components/meta/SingleMetaView.vue";
 import { UserRole, RequestState } from "@/utils/Enums";
 
 export default {
@@ -90,7 +86,7 @@ export default {
         Divider,
         TextFieldView,
         RequestHeaderView,
-        SingleMeta,
+        SingleMetaView,
     },
     data() {
         return {

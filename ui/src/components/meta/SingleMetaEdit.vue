@@ -1,0 +1,90 @@
+<template>
+    <SingleMetaCommon
+        :type="type"
+        :execution="execution"
+        :querySchedule="querySchedule"
+    >
+        <template #request-type-extra>
+            <ConvertRequestButton />
+        </template>
+        <template #left-section>
+            <DatePick
+                :label="$t('dates.referenceDate.start')"
+                :date="dummyReferenceStart"
+                @update:date="dummyReferenceStart = $event"
+            />
+            <DatePick
+                :label="$t('dates.referenceDate.end')"
+                :date="execution.referenceDate"
+                @update:date="execution.referenceDate = $event"
+            />
+        </template>
+        <template #right-section>
+            <DatePick
+                :label="$t('dates.publishDate')"
+                :date="execution.scheduledPublishDate"
+                @update:date="execution.scheduledPublishDate = $event"
+            />
+            <DatePick
+                :label="$t('dates.executionDate')"
+                :date="execution.executionDate"
+                @update:date="execution.executionDate = $event"
+            />
+            <DatePick
+                :label="$t('dates.closingDate')"
+                :date="execution.scheduledClosingDate"
+                @update:date="execution.scheduledClosingDate = $event"
+            />
+            <DatePick
+                :label="$t('dates.archiveDate')"
+                :date="execution.scheduledArchiveDate"
+                @update:date="execution.scheduledArchiveDate = $event"
+            />
+        </template>
+    </SingleMetaCommon>
+</template>
+
+<script lang="ts">
+import DatePick from "@/components/datePickers/DatePick.vue";
+import MomentWrapper from "@/utils/MomentWrapper";
+import ConvertRequestButton from "./ConvertRequestButton.vue";
+import SingleMetaCommon from "./SingleMetaCommon.vue";
+
+export default {
+    components: {
+        DatePick,
+        ConvertRequestButton,
+        SingleMetaCommon,
+    },
+    mixins: [SingleMetaCommon],
+    computed: {
+        duration() {
+            return MomentWrapper.computePeriod(
+                this.dummyReferenceStart,
+                this.execution.referenceDate
+            );
+        },
+    },
+    watch: {
+        "execution.scheduledPublishDate": function () {
+            this.$emit("update:execution", this.execution);
+        },
+        "execution.executionDate": function () {
+            this.$emit("update:execution", this.execution);
+        },
+        "execution.scheduledClosingDate": function () {
+            this.$emit("update:execution", this.execution);
+        },
+        "execution.scheduledArchiveDate": function () {
+            this.$emit("update:execution", this.execution);
+        },
+        "execution.referenceDate": function () {
+            this.$emit("update:execution", this.execution);
+        },
+        duration(newVal) {
+            this.querySchedule.duration = newVal;
+            this.$emit("update:querySchedule", this.querySchedule);
+        },
+    },
+};
+</script>

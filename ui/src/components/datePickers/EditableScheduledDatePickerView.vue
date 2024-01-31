@@ -1,5 +1,5 @@
 <template>
-    <DatePicker
+    <EditableDatePickerView
         v-if="editable && !actualDate"
         :label="label"
         :date="scheduledDate"
@@ -23,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import DatePicker from "@/components/datePickers/DatePicker.vue";
+import EditableDatePickerView from "./EditableDatePickerView.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
 
 export default {
     components: {
-        DatePicker,
+        EditableDatePickerView,
     },
     props: {
         label: {

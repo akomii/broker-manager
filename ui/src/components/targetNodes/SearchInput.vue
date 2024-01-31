@@ -1,7 +1,7 @@
 <template>
     <span class="p-input-icon-right">
         <InputText
-            @input="updateInput"
+            v-model="inputValue"
             :placeholder="$t('searchPlaceholder')"
         />
         <i class="pi pi-search" />
@@ -15,12 +15,14 @@ export default {
     components: {
         InputText,
     },
-    methods: {
-        updateInput(event: Event) {
-            this.$emit(
-                "update:input",
-                (event.target as HTMLInputElement).value
-            );
+    data() {
+        return {
+            inputValue: "",
+        };
+    },
+    watch: {
+        inputValue(newValue: string) {
+            this.$emit("update:input", newValue);
         },
     },
 };

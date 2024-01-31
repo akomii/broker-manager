@@ -1,13 +1,10 @@
 <template>
-    <template v-if="!nodeStatusInfo">
-        <i class="pi pi-minus text-gray-700" />
-    </template>
-    <template v-if="getMostActualState()">
+    <div v-if="mostActualState">
         <Button @click="togglePanel" plain text>
-            {{ getMostActualState() }}
+            {{ mostActualState }}
         </Button>
         <OverlayPanel ref="panel" showCloseIcon>
-            <Timeline :value="convertToStatusArray()">
+            <Timeline :value="statusArray">
                 <template #opposite="timelineSlotProps">
                     <small>{{ timelineSlotProps.item.date }}</small>
                 </template>
@@ -16,15 +13,14 @@
                 </template>
             </Timeline>
         </OverlayPanel>
-    </template>
-    <i v-else class="pi pi-minus flex justify-content-center" />
+    </div>
+    <i v-else class="pi pi-minus text-gray-700 flex justify-content-center" />
 </template>
 
 <script lang="ts">
 import Button from "primevue/button";
 import OverlayPanel from "primevue/overlaypanel";
 import Timeline from "primevue/timeline";
-
 import { NodeStatusInfo } from "@/utils/Types";
 import { NodeState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
@@ -51,8 +47,8 @@ export default {
             required: true,
         },
     },
-    methods: {
-        getMostActualState(): string | null {
+    computed: {
+        mostActualState(): string | null {
             let currentState: NodeState = NodeState.RETRIEVED;
             let latestTimestamp: Date | null = null;
             let allStatesNull = true;
@@ -73,7 +69,7 @@ export default {
             }
             return this.$t(`enums.nodeState.${currentState}`);
         },
-        convertToStatusArray(): { status: string; date: string }[] {
+        statusArray(): { status: string; date: string }[] {
             return orderedStates
                 .filter(
                     (state) => (this.nodeStatusInfo as any)[state.toLowerCase()]
@@ -97,6 +93,8 @@ export default {
                     };
                 });
         },
+    },
+    methods: {
         togglePanel(event: Event) {
             const overlayPanel = this.$refs.panel as OverlayPanel;
             overlayPanel?.toggle(event);

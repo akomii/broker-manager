@@ -13,6 +13,7 @@
                 <div class="grid">
                     <div class="col-7">
                         <SingleMetaView
+                            v-if="isSingleRequest()"
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
                             :execution="request.executions[0]"
@@ -74,7 +75,7 @@ import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
 import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
 import SingleMetaView from "@/components/meta/SingleMetaView.vue";
-import { UserRole, RequestState } from "@/utils/Enums";
+import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {
     components: {
@@ -131,6 +132,9 @@ export default {
         },
         hasUserRoleIT(): boolean {
             return this.$userRole === UserRole.IT;
+        },
+        isSingleRequest(): boolean {
+            return this.request?.requestType === RequestType.SINGLE;
         },
         getMenu() {
             if (this.isArchived()) {

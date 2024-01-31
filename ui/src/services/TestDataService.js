@@ -20,7 +20,7 @@ const requests = [
         ],
         authorizedOrgs: [1, 2],
         targetNodes: [1, 2, 3, 4, 5],
-        requestState: "DRAFT",
+        requestState: "ONLINE",
         modificationHistory: [
             {
                 date: "2023-08-05T11:15",
@@ -500,6 +500,63 @@ const requests = [
     {
         id: 2,
         tags: [
+            "urgent",
+            "medical",
+            "diagnosis",
+            "tag1",
+            "tag2",
+            "tag3",
+            "tag4",
+            "tag5",
+        ],
+        authorizedOrgs: [1, 2],
+        targetNodes: [1, 2, 3, 4, 5],
+        requestState: "DRAFT",
+        modificationHistory: [
+            {
+                date: "2023-08-05T11:15",
+                user: "jdoe123",
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
+            },
+            {
+                date: "2023-09-15T14:30",
+                user: "asmith456",
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
+            },
+            {
+                date: "2023-10-20T09:45",
+                user: "kjohnson789",
+                clob: '<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>',
+            },
+        ],
+        type: "SeriesRequest",
+        anchoredSequenceIdRef: null,
+        isAutoPublishing: false,
+        seriesClosingDate: null,
+        seriesArchiveDate: null,
+        query: {
+            title: "2019-003: Wochenbericht der Notaufnahmesurveillance am RKI",
+            description:
+                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse",
+            sql: '"<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SELECT a."id" AS AccountID, a."name" AS AccountName, p."name" AS PlanName, SUM(t.amount) AS TotalTransactionAmount, COUNT(DISTINCT t."id") AS NumberOfTransactions, MAX(t.date) AS LastTransactionDate, CASE WHEN a.status = active THEN Active Account ELSE Inactive Account END AS AccountStatus, COALESCE(c.comment, No Comments) AS LatestComment FROM accounts a INNER JOIN transactions t ON a."id" = t.account_id LEFT JOIN plans p ON a.plan_id = p."id" LEFT JOIN ( SELECT account_id, MAX(date) AS latest_comment_date FROM comments GROUP BY account_id ) lc ON a."id" = lc.account_id LEFT JOIN comments c ON a."id" = c.account_id AND lc.latest_comment_date = c.date WHERE a.creation_date BETWEEN 2021-01-01 AND 2023-01-01 AND t.status IN ("completed", pending) GROUP BY a."id", a."name", p."name", a.status, c.comment HAVING SUM(t.amount) > 1000 ORDER BY TotalTransactionAmount DESC, LastTransactionDate DESC LIMIT 100;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">"',
+            principal: {
+                name: "Dr. Allen Smith",
+                organization: "HealthOrg of healthy organisation",
+                email: "dr.smith@healthorg.com",
+                phone: "1111-2222-3333-4444-5555",
+            },
+            repeatedExecution: {
+                duration: "-P2M",
+                interval: "P2Y3M10D",
+                intervalHours: "8",
+                id: "1",
+            },
+        },
+        executions: [],
+    },
+    {
+        id: 3,
+        tags: [
             "physical-therapy",
             "cardiology",
             "radiology",
@@ -619,7 +676,7 @@ const requests = [
         ],
     },
     {
-        id: 3,
+        id: 4,
         tags: [
             "physical-therapy",
             "cardiology",
@@ -996,7 +1053,9 @@ export const TestDataService = {
         return createAsyncOperation(RequestParser, requests).then(
             (parsedRequests) => {
                 return (
-                    parsedRequests.find((request) => request.id === Number(id)) || null
+                    parsedRequests.find(
+                        (request) => request.id === Number(id)
+                    ) || null
                 );
             }
         );

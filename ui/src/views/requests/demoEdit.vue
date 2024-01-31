@@ -16,6 +16,7 @@
                 <div class="grid">
                     <div class="col-7">
                         <component
+                            v-if="isSingleRequest()"
                             :is="
                                 isDraft() ? 'SingleMetaEdit' : 'SingleMetaView'
                             "
@@ -151,6 +152,9 @@ export default {
     methods: {
         isDraft(): boolean {
             return this.request?.requestState === RequestState.DRAFT;
+        },
+        isSingleRequest(): boolean {
+            return this.request?.requestType === RequestType.SINGLE;
         },
         isRequestSingleAndStillPending(): boolean {
             if (this.request?.requestType === RequestType.SINGLE) {

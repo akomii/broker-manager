@@ -52,14 +52,18 @@
                 </div>
             </div>
             <div class="col-5">
-                <RequestTargetNodes
+                <component
+                    :is="
+                        isDraft() || isRequestSingleAndStillPending()
+                            ? 'TargetNodesEdit'
+                            : 'TargetNodesView'
+                    "
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
-                    :execution="request.executions[0]"
-                    :requestState="request.requestState"
-                    :requestType="request.requestType"
                     :fieldSetHeight="'h-48-4rem'"
-                    :editable="editable"
+                    :execution="getMostActualRequestExecution()"
+                    :requestState="request.requestState"
+                    :showProcessingStateInfo="!isDraft()"
                     @update:targetNodeIds="
                         request.targetNodes = new Set($event)
                     "
@@ -88,7 +92,8 @@ import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
 import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
 import TextFieldView from "@/components/textfields/TextFieldView.vue";
 import TextFieldEdit from "@/components/textfields/TextFieldEdit.vue";
-import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
+import TargetNodesEdit from "@/components/targetNodes/TargetNodesEdit.vue";
+import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
@@ -97,7 +102,7 @@ import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
 import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
-import { RequestState } from "@/utils/Enums";
+import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 
 export default {
     components: {
@@ -105,7 +110,8 @@ export default {
         PrincipalEdit,
         OrganizationEdit,
         Button,
-        RequestTargetNodes,
+        TargetNodesEdit,
+        TargetNodesView,
         ProgressSpinner,
         Divider,
         TextFieldView,
@@ -140,6 +146,28 @@ export default {
     methods: {
         isDraft(): boolean {
             return this.request?.requestState === RequestState.DRAFT;
+        },
+        isRequestSingleAndStillPending(): boolean {
+            if (this.request?.requestType === RequestType.SINGLE) {
+                const actualExecution = this.getMostActualRequestExecution();
+                if (actualExecution.executionState === ExecutionState.PENDING) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        getMostActualRequestExecution(): RequestExecution | undefined {
+            const executions = this.request?.executions;
+            if (executions.length === 0) {
+                return undefined;
+            }
+            let mostActualExecution = executions[0];
+            for (const execution of executions) {
+                if (execution.sequenceId > mostActualExecution.sequenceId) {
+                    mostActualExecution = execution;
+                }
+            }
+            return mostActualExecution;
         },
     },
 };

@@ -41,17 +41,13 @@
                 </div>
             </div>
             <div class="col-5">
-                <RequestTargetNodes
+                <TargetNodesView
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
-                    :execution="request.executions[0]"
-                    :requestState="request.requestState"
-                    :requestType="request.requestType"
                     :fieldSetHeight="'h-48-4rem'"
-                    :editable="editable"
-                    @update:targetNodeIds="
-                        request.targetNodes = new Set($event)
-                    "
+                    :execution="getMostActualRequestExecution()"
+                    :requestState="request.requestState"
+                    :showProcessingStateInfo="!isDraft()"
                 />
             </div>
             <div class="col-12">
@@ -73,13 +69,13 @@
 import PrincipalView from "@/components/principals/PrincipalView.vue";
 import OrganizationView from "@/components/organizations/OrganizationView.vue";
 import TextFieldView from "@/components/textfields/TextFieldView.vue";
-import RequestTargetNodes from "@/components/targetNodes/RequestTargetNodes.vue";
+import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
-import { Request } from "@/utils/Types";
+import { Request, RequestExecution } from "@/utils/Types";
 import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
 import SingleMeta from "@/components/meta/SingleMeta.vue";
 import { UserRole, RequestState } from "@/utils/Enums";
@@ -89,7 +85,7 @@ export default {
         PrincipalView,
         Button,
         OrganizationView,
-        RequestTargetNodes,
+        TargetNodesView,
         ProgressSpinner,
         Divider,
         TextFieldView,
@@ -149,6 +145,19 @@ export default {
                 : this.hasUserRoleIT()
                 ? this.requestMenuIT
                 : this.requestMenuDAC;
+        },
+        getMostActualRequestExecution(): RequestExecution | undefined {
+            const executions = this.request?.executions;
+            if (executions.length === 0) {
+                return undefined;
+            }
+            let mostActualExecution = executions[0];
+            for (const execution of executions) {
+                if (execution.sequenceId > mostActualExecution.sequenceId) {
+                    mostActualExecution = execution;
+                }
+            }
+            return mostActualExecution;
         },
     },
 };

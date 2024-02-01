@@ -7,6 +7,7 @@
             @input="updateContent"
             class="w-full"
             :class="contentHeight"
+            :disabled="disabled"
         />
     </Fieldset>
 </template>
@@ -22,6 +23,12 @@ export default {
         Textarea,
     },
     mixins: [TextFieldCommon],
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             contentDummy: this.content as string,

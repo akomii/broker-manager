@@ -44,12 +44,12 @@
                         />
                     </div>
                     <div class="col-12">
-                        <component
-                            :is="isDraft() ? 'TextFieldEdit' : 'TextFieldView'"
+                        <TextFieldEdit
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
                             :fieldSetHeight="'h-22rem'"
+                            :disabled="!isDraft()"
                             @update:content="request.query.description = $event"
                         />
                     </div>
@@ -74,12 +74,12 @@
                 />
             </div>
             <div class="col-12">
-                <component
-                    :is="isDraft() ? 'TextFieldEdit' : 'TextFieldView'"
+                <TextFieldEdit
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
                     :fieldSetHeight="'h-22rem'"
+                    :disabled="!isDraft()"
                     @update:content="request.query.sql = $event"
                 />
             </div>
@@ -93,7 +93,6 @@
 <script lang="ts">
 import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
 import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
-import TextFieldView from "@/components/textfields/TextFieldView.vue";
 import TextFieldEdit from "@/components/textfields/TextFieldEdit.vue";
 import TargetNodesEdit from "@/components/targetNodes/TargetNodesEdit.vue";
 import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
@@ -116,7 +115,6 @@ export default {
         TargetNodesView,
         ProgressSpinner,
         Divider,
-        TextFieldView,
         TextFieldEdit,
         RequestHeaderEdit,
         SingleMetaEdit,

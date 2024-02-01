@@ -1,5 +1,5 @@
 <template>
-    <Button :icon="icon" @click="toggleMenu" />
+    <Button :icon="icon" @click="toggleMenu" :outlined="outlined" />
     <Menu ref="menu" :model="menu" :popup="true" class="mt-2" />
 </template>
 
@@ -40,6 +40,10 @@ export default {
             required: true,
             validator: (menuItems: MenuItem[]) =>
                 menuItems.every(isValidMenuItem),
+        },
+        outlined: {
+            type: Boolean,
+            default: false,
         },
     },
     methods: {

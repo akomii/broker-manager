@@ -6,6 +6,7 @@
             showButtonBar
             showTime
             hourFormat="24"
+            :disabled="disabled"
         />
         <label>{{ label }}</label>
     </span>
@@ -26,6 +27,10 @@ export default {
         date: {
             type: Date,
             required: true,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

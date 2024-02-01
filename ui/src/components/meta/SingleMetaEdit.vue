@@ -5,17 +5,19 @@
         :querySchedule="querySchedule"
     >
         <template #request-type-extra>
-            <ConvertRequestButton />
+            <ConvertRequestButton :disabled="disabled" />
         </template>
         <template #left-section>
             <DatePick
                 :label="$t('dates.referenceDate.start')"
                 :date="dummyReferenceStart"
+                :disabled="disabled"
                 @update:date="dummyReferenceStart = $event"
             />
             <DatePick
                 :label="$t('dates.referenceDate.end')"
                 :date="execution.referenceDate"
+                :disabled="disabled"
                 @update:date="execution.referenceDate = $event"
             />
         </template>
@@ -23,21 +25,25 @@
             <DatePick
                 :label="$t('dates.publishDate')"
                 :date="execution.scheduledPublishDate"
+                :disabled="disabled"
                 @update:date="execution.scheduledPublishDate = $event"
             />
             <DatePick
                 :label="$t('dates.executionDate')"
                 :date="execution.executionDate"
+                :disabled="disabled"
                 @update:date="execution.executionDate = $event"
             />
             <DatePick
                 :label="$t('dates.closingDate')"
                 :date="execution.scheduledClosingDate"
+                :disabled="disabled"
                 @update:date="execution.scheduledClosingDate = $event"
             />
             <DatePick
                 :label="$t('dates.archiveDate')"
                 :date="execution.scheduledArchiveDate"
+                :disabled="disabled"
                 @update:date="execution.scheduledArchiveDate = $event"
             />
         </template>
@@ -57,6 +63,12 @@ export default {
         SingleMetaCommon,
     },
     mixins: [SingleMetaCommon],
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
     computed: {
         duration() {
             return MomentWrapper.computePeriod(

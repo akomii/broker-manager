@@ -16,15 +16,13 @@
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
-                        <component
+                        <SingleMetaEdit
                             v-if="isSingleRequest()"
-                            :is="
-                                isDraft() ? 'SingleMetaEdit' : 'SingleMetaView'
-                            "
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
                             :execution="request.executions[0]"
                             :querySchedule="request.query.singleExecution"
+                            :disabled="!isDraft()"
                             @update:execution="request.executions[0] = $event"
                             @update:querySchedule="
                                 request.query.singleExecution = $event
@@ -107,7 +105,6 @@ import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
 import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
-import SingleMetaView from "@/components/meta/SingleMetaView.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 
 export default {
@@ -124,7 +121,6 @@ export default {
         TextFieldEdit,
         RequestHeaderEdit,
         SingleMetaEdit,
-        SingleMetaView,
     },
     data() {
         return {

@@ -4,6 +4,7 @@
             v-model="selectedPrincipal"
             :placeholder="$t('searchPlaceholder')"
             :suggestions="filteredPrincipals"
+            :disabled="disabled"
             optionLabel="name"
             loadingIcon="null"
             @complete="searchPrincipals"
@@ -21,6 +22,12 @@ import { Principal } from "@/utils/Types";
 export default {
     components: {
         AutoComplete,
+    },
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {

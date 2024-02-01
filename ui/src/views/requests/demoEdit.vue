@@ -30,9 +30,9 @@
                         />
                     </div>
                     <div class="col-5">
-                        <component
-                            :is="isDraft() ? 'PrincipalEdit' : 'PrincipalView'"
+                        <PrincipalEdit
                             :principal="request.query.principal"
+                            :disabled="!isDraft()"
                             @update:principal="request.query.principal = $event"
                         />
                         <OrganizationEdit
@@ -90,7 +90,6 @@
 </template>
 
 <script lang="ts">
-import PrincipalView from "@/components/principals/PrincipalView.vue";
 import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
 import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
 import TextFieldView from "@/components/textfields/TextFieldView.vue";
@@ -109,7 +108,6 @@ import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 
 export default {
     components: {
-        PrincipalView,
         PrincipalEdit,
         OrganizationEdit,
         Button,

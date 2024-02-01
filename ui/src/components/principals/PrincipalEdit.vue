@@ -1,7 +1,10 @@
 <template>
     <Fieldset :legend="$t('principal')">
         <div class="flex justify-content-center mb-3">
-            <PrincipalSearch @update:principal="onPrincipalSelected" />
+            <PrincipalSearch
+                @update:principal="onPrincipalSelected"
+                :disabled="disabled"
+            />
         </div>
         <!-- TODO input validation -->
         <div v-for="(field, index) in principalFields" :key="index">
@@ -10,7 +13,11 @@
                     <i :class="field.icon" class="text-xl" />
                 </InputGroupAddon>
                 <span class="p-float-label">
-                    <InputText size="small" v-model="principal[field.key]" />
+                    <InputText
+                        size="small"
+                        v-model="principal[field.key]"
+                        :disabled="disabled"
+                    />
                     <label>{{ field.label }}</label>
                 </span>
             </InputGroup>
@@ -37,6 +44,12 @@ export default {
         PrincipalCommon,
     },
     mixins: [PrincipalCommon],
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
     methods: {
         onPrincipalSelected(selectedPrincipal: Principal) {
             this.$emit("update:principal", { ...selectedPrincipal });

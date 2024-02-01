@@ -243,6 +243,7 @@
     "lastContact": "Letzter Kontakt",
     "exportCurrentTable": "TODO: Aktuelle Tabelle exportieren",
     "executionAcceptanceOfNode": "Zustimmung von Ausführung",
+    "acceptance": "Zustimmung",
     "processingState": "Bearbeitungsstatus",
     "selectedNodes": "Ausgewählte Standorte",
     "availableNodes": "Verfügbare Standorte",
@@ -251,5 +252,12 @@
     "sql": "SQL",
     "showRequestHistory": "TODO: Änderungshistorie anzeigen",
     "convertRequest": "TODO Anfrage umwandeln",
-    "noNodesFound": "Keine Standorte gefunden"
+    "noNodesFound": "Keine Standorte gefunden",
+    "executions": "Ausführungen",
+    "sequenceId": "Laufende ID",
+    "creator": "Ersteller",
+    "XofY": "{x} von {y}",
+    "closeExecution": "Ausführung schließen",
+    "archiveExecution": "Ausführung archivieren",
+    "goToResults": "Zu den Ergebnissen"
 }

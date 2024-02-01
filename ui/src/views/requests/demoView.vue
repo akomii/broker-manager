@@ -9,6 +9,13 @@
         />
 
         <div class="grid nested-grid">
+            <div class="col-12" v-if="!isSingleRequest()">
+                <ExecutionTableView
+                    class="mx-3 mb-3"
+                    :executions="request.executions"
+                />
+            </div>
+
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
@@ -70,6 +77,7 @@ import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
+import ExecutionTableView from "@/components/tables/ExecutionTableView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
@@ -88,6 +96,7 @@ export default {
         TextFieldView,
         RequestHeaderView,
         SingleMetaView,
+        ExecutionTableView,
     },
     data() {
         return {
@@ -146,6 +155,7 @@ export default {
                 ? this.requestMenuIT
                 : this.requestMenuDAC;
         },
+        // TODO: Get most actual execution that is not pending?
         getMostActualRequestExecution(): RequestExecution | undefined {
             const executions = this.request?.executions;
             if (executions.length === 0) {

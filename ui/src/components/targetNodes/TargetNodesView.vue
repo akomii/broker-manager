@@ -60,6 +60,11 @@
                     </template>
                 </Column>
             </template>
+            <template #empty
+                ><p class="flex justify-content-center">
+                    {{ $t("noNodesFound") }}
+                </p>
+            </template>
             <template #footer>
                 {{
                     selectedNodes.length === 1

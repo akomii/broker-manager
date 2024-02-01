@@ -19,7 +19,7 @@
 <script lang="ts">
 import TabMenu from "primevue/tabmenu";
 import Divider from "primevue/divider";
-import MenuButton from "./MenuButton.vue";
+import MenuButton from "@/components/common/MenuButton.vue";
 import { UserRole } from "@/utils/Enums.ts";
 
 export default {

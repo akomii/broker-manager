@@ -22,8 +22,8 @@ import Divider from "primevue/divider";
 import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
 import { RequestState } from "@/utils/Enums";
 import GoBackButton from "./GoBackButton.vue";
-import MenuButton from "./MenuButton.vue";
-import { MenuItem } from "./MenuButton.vue";
+import MenuButton from "@/components/common/MenuButton.vue";
+import { MenuItem } from "@/components/common/MenuButton.vue";
 
 export default {
     components: {

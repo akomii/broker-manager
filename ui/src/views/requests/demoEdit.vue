@@ -37,6 +37,7 @@
                         />
                         <OrganizationEdit
                             :organizationIds="request.authorizedOrgs"
+                            :disabled="isArchived()"
                             @update:organizationIds="
                                 request.authorizedOrgs = new Set($event)
                             "

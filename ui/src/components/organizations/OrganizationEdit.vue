@@ -13,6 +13,7 @@
             "
             :placeholder="$t('selectOrgsPlaceholder')"
             @change="onOrganizationSelected"
+            :disabled="disabled"
         />
     </Fieldset>
 </template>
@@ -28,6 +29,12 @@ export default {
         MultiSelect,
     },
     mixins: [OrganizationCommon],
+    props: {
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
     methods: {
         onOrganizationSelected(): void {
             this.organizationsDummy = this.sortOrganizationsByName(

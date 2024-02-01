@@ -1,16 +1,15 @@
 <template>
-    <DateView v-if="actualDate" :label="label" :date="actualDate" />
+    <DateView v-if="actualDate" :date="actualDate" />
     <div
         v-else
-        v-tooltip.bottom="$t('dates.scheduledDate', { dateLabel: label })"
+        v-tooltip.bottom="
+            $t('dates.scheduledDate', { dateLabel: tooltipLabel })
+        "
     >
-        <p class="my-0">
-            {{ label }}
-        </p>
-        <p class="my-0 text-gray-700">
+        <span class="text-gray-700">
             {{ formattedScheduledDate }}
             <i class="pi pi-calendar-times" />
-        </p>
+        </span>
     </div>
 </template>
 
@@ -23,7 +22,7 @@ export default {
         DateView,
     },
     props: {
-        label: {
+        tooltipLabel: {
             type: String,
             required: true,
         },

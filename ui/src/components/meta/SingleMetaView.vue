@@ -5,38 +5,53 @@
         :querySchedule="querySchedule"
     >
         <template #left-section>
-            <DateView
-                :label="$t('dates.referencePeriod.start')"
-                :date="dummyReferenceStart"
-            />
-            <DateView
-                :label="$t('dates.referencePeriod.end')"
-                :date="execution.referenceDate"
-            />
+            <div>
+                {{ $t("dates.referencePeriod.start") }}
+                <br />
+                <DateView :date="dummyReferenceStart" />
+            </div>
+            <div>
+                {{ $t("dates.referencePeriod.end") }}
+                <br />
+                <DateView :date="execution.referenceDate" />
+            </div>
             <div class="flex flex-wrap justify-content-center">
                 <RequestHistoryButton />
             </div>
         </template>
         <template #right-section>
-            <ScheduledDateView
-                :label="$t('dates.publishDate')"
-                :scheduledDate="execution.scheduledPublishDate"
-                :actualDate="execution.publishedDate"
-            />
-            <DateView
-                :label="$t('dates.executionDate')"
-                :date="execution.executionDate"
-            />
-            <ScheduledDateView
-                :label="$t('dates.closingDate')"
-                :scheduledDate="execution.scheduledClosingDate"
-                :actualDate="execution.closedDate"
-            />
-            <ScheduledDateView
-                :label="$t('dates.archiveDate')"
-                :scheduledDate="execution.scheduledArchiveDate"
-                :actualDate="execution.archivedDate"
-            />
+            <div>
+                {{ $t("dates.publishDate") }}
+                <br />
+                <ScheduledDateView
+                    :tooltipLabel="$t('dates.publishDate')"
+                    :scheduledDate="execution.scheduledPublishDate"
+                    :actualDate="execution.publishedDate"
+                />
+            </div>
+            <div>
+                {{ $t("dates.executionDate") }}
+                <br />
+                <DateView :date="execution.executionDate" />
+            </div>
+            <div>
+                {{ $t("dates.closingDate") }}
+                <br />
+                <ScheduledDateView
+                    :tooltipLabel="$t('dates.closingDate')"
+                    :scheduledDate="execution.scheduledClosingDate"
+                    :actualDate="execution.closedDate"
+                />
+            </div>
+            <div>
+                {{ $t("dates.archiveDate") }}
+                <br />
+                <ScheduledDateView
+                    :tooltipLabel="$t('dates.archiveDate')"
+                    :scheduledDate="execution.scheduledArchiveDate"
+                    :actualDate="execution.archivedDate"
+                />
+            </div>
         </template>
     </SingleMetaCommon>
 </template>

@@ -7,6 +7,7 @@
             :tags="request.tags"
             :menu="isDraft() ? editDraftMenu : editRequestMenu"
             :isTitleEditingDisabled="!isDraft()"
+            :isTagEditingDisabled="isArchived()"
             @update:tags="request.tags = $event"
             @update:title="request.query.title = $event"
         />
@@ -152,6 +153,9 @@ export default {
     methods: {
         isDraft(): boolean {
             return this.request?.requestState === RequestState.DRAFT;
+        },
+        isArchived(): boolean {
+            return this.request?.requestState === RequestState.ARCHIVED;
         },
         isSingleRequest(): boolean {
             return this.request?.requestType === RequestType.SINGLE;

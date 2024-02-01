@@ -1,14 +1,12 @@
 <template>
     <RequestHeaderCommon :id="id" :state="state" :menu="menu">
         <template #title>
-            <p v-if="isTitleEditingDisabled" class="text-2xl">
-                {{ title }}
-            </p>
-            <span v-else class="p-float-label w-9">
+            <span class="p-float-label w-9">
                 <InputText
                     class="text-2xl w-12"
                     size="large"
                     v-model="dummyTitle"
+                    :disabled="isTitleEditingDisabled"
                 />
                 <label>{{ $t("title") }}</label>
             </span>
@@ -16,7 +14,7 @@
         <template #tags>
             <EditableTagListView
                 :tags="dummyTags"
-                :editable="true"
+                :editable="!isTagEditingDisabled"
                 @update:tags="dummyTags = $event"
             />
         </template>
@@ -45,6 +43,10 @@ export default {
             required: true,
         },
         isTitleEditingDisabled: {
+            type: Boolean,
+            default: false,
+        },
+        isTagEditingDisabled: {
             type: Boolean,
             default: false,
         },

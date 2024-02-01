@@ -6,11 +6,11 @@
     >
         <template #left-section>
             <DateView
-                :label="$t('dates.referenceDate.start')"
+                :label="$t('dates.referencePeriod.start')"
                 :date="dummyReferenceStart"
             />
             <DateView
-                :label="$t('dates.referenceDate.end')"
+                :label="$t('dates.referencePeriod.end')"
                 :date="execution.referenceDate"
             />
             <div class="flex flex-wrap justify-content-center">

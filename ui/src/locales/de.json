@@ -181,11 +181,13 @@
         "closingDate": "Schließdatum",
         "executionDate": "Ausführungsdatum",
         "publishDate": "Veröffentlichungsdatum",
-        "referenceDate": {
+        "referenceDate": "Referenzdatum",
+        "referencePeriod": {
             "start": "Referenzzeitraum Start",
             "end": "Referenzzeitraum Ende"
         },
-        "scheduledDate": "Geplantes {dateLabel}"
+        "scheduledDate": "Geplantes {dateLabel}",
+        "createdDate": "Erstellungsdatum"
     },
     "enums": {
         "requestState": {

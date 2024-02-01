@@ -9,13 +9,13 @@
         </template>
         <template #left-section>
             <DatePick
-                :label="$t('dates.referenceDate.start')"
+                :label="$t('dates.referencePeriod.start')"
                 :date="dummyReferenceStart"
                 :disabled="disabled"
                 @update:date="dummyReferenceStart = $event"
             />
             <DatePick
-                :label="$t('dates.referenceDate.end')"
+                :label="$t('dates.referencePeriod.end')"
                 :date="execution.referenceDate"
                 :disabled="disabled"
                 @update:date="execution.referenceDate = $event"

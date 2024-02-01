@@ -56,22 +56,16 @@
                 </div>
             </div>
             <div class="col-5">
-                <component
-                    :is="
-                        isDraft() || isRequestSingleAndStillPending()
-                            ? 'TargetNodesEdit'
-                            : 'TargetNodesView'
-                    "
+                <TargetNodesEdit
+                    v-if="isDraft() || isRequestSingleAndStillPending()"
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
                     :fieldSetHeight="'h-48-4rem'"
-                    :execution="getMostActualRequestExecution()"
-                    :requestState="request.requestState"
-                    :showProcessingStateInfo="!isDraft()"
                     @update:targetNodeIds="
                         request.targetNodes = new Set($event)
                     "
                 />
+                <p v-else>ToDo disabled</p>
             </div>
             <div class="col-12">
                 <TextFieldEdit

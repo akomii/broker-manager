@@ -1,19 +1,5 @@
 <template>
     <Fieldset :legend="$t('targetNodes')" :class="fieldSetHeight">
-        <div class="flex flex-wrap justify-content-between mb-2">
-            <div class="flex align-items-center">
-                <p
-                    v-if="showProcessingStateInfo"
-                    class="font-semibold text-primary text-2xl m-0"
-                >
-                    {{ $t("executionAcceptanceOfNode") }} [{{
-                        execution.sequenceId
-                    }}] : {{ requestExecutionOnNodes }} /
-                    {{ execution.nodeStatusInfos.length }}
-                </p>
-            </div>
-            <SearchInput @update:input="filterDataTableNodes" />
-        </div>
         <DataTable
             ref="dt"
             :class="dataTableHeight"
@@ -23,6 +9,22 @@
             scrollable
             scrollHeight="flex"
         >
+            <template #header>
+                <div class="flex flex-wrap justify-content-between">
+                    <div class="flex align-items-center">
+                        <span
+                            v-if="showProcessingStateInfo"
+                            class="font-semibold text-primary text-xl m-0"
+                        >
+                            {{ $t("executionAcceptanceOfNode") }} [{{
+                                execution.sequenceId
+                            }}] : {{ requestExecutionOnNodes }} /
+                            {{ execution.nodeStatusInfos.length }}
+                        </span>
+                    </div>
+                    <SearchInput @update:input="filterDataTableNodes" />
+                </div>
+            </template>
             <Column field="id" :header="$t('id')" sortable />
             <Column field="clientDN.CN" :header="$t('node')" sortable />
             <Column field="tags" :header="$t('tags')" sortable>
@@ -60,24 +62,28 @@
                     </template>
                 </Column>
             </template>
-            <template #empty
-                ><p class="flex justify-content-center">
+            <template #empty>
+                <p class="flex justify-content-center">
                     {{ $t("noNodesFound") }}
                 </p>
             </template>
             <template #footer>
-                {{
-                    selectedNodes.length === 1
-                        ? $t("oneNode")
-                        : $t("xNodes", {
-                              numNodes: selectedNodes
-                                  ? selectedNodes.length
-                                  : 0,
-                          })
-                }}
+                <div class="flex flex-wrap justify-content-between">
+                    <span>
+                        {{
+                            dataTableNodes.length === 1
+                                ? $t("oneNode")
+                                : $t("xNodes", {
+                                      numNodes: dataTableNodes
+                                          ? dataTableNodes.length
+                                          : 0,
+                                  })
+                        }}
+                    </span>
+                    <ExportTableButton class="mt-3" />
+                </div>
             </template>
         </DataTable>
-        <ExportTableButton class="mt-3" />
     </Fieldset>
 </template>
 
@@ -134,7 +140,7 @@ export default {
         },
         dataTableHeight(): string {
             const heightNumber = parseInt(this.fieldSetHeight.split("-")[1]);
-            return `h-${heightNumber - 12}-4rem`;
+            return `h-${heightNumber - 10}-4rem`;
         },
     },
     async mounted() {

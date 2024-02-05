@@ -259,5 +259,10 @@
     "XofY": "{x} von {y}",
     "closeExecution": "Ausführung schließen",
     "archiveExecution": "Ausführung archivieren",
-    "goToResults": "Zu den Ergebnissen"
+    "goToResults": "Zu den Ergebnissen",
+    "noExecutionsFound": "Keine Ausführungen gefunden",
+    "oneExecution": "1 Ausführung",
+    "xExecutions": "{numExecutions} Ausführungen",
+    "anchoredRequest": "Verankerte Anfrage",
+    "resultsNotDownloaded": "Ergebnisse wurden noch nicht heruntergeladen"
 }

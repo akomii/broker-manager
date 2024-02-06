@@ -9,14 +9,6 @@
         />
 
         <div class="grid nested-grid">
-            <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionTableView
-                    class="mx-3 mb-3"
-                    :executions="request.executions"
-                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
-                />
-            </div>
-
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
@@ -60,6 +52,14 @@
                     :content="request.query.sql"
                     :label="$t('sql')"
                     :fieldSetHeight="'h-22rem'"
+                />
+            </div>
+
+            <div class="col-12" v-if="!isSingleRequest()">
+                <ExecutionTableView
+                    class="mx-3 mb-3"
+                    :executions="request.executions"
+                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
                 />
             </div>
         </div>

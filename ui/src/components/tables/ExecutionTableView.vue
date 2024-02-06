@@ -21,7 +21,7 @@
                             @update:modelValue="filterDataTableExecutions()"
                         />
                         <label for="toggleArchived" class="ml-2">
-                            {{ $t("showArchivedRequests") }}
+                            {{ $t("showArchivedExecutions") }}
                         </label>
                     </span>
                     <SearchInput
@@ -44,16 +44,26 @@
                         </span>
                         <AnchoredRequestIcon
                             v-if="
-                                isSequenceIdAnchoroed(slotProps.data.sequenceId)
+                                isSequenceIdAnchored(slotProps.data.sequenceId)
                             "
                         />
                         <NoDownloadedResultsIcon
-                            v-if="isResultsDownloadLogEmpty(slotProps.data)"
+                            v-if="
+                                isResultsDownloadLogEmpty(slotProps.data) &&
+                                slotProps.data.executionState !== 'PENDING'
+                            "
                         />
                     </div>
                 </template>
             </Column>
-            <Column field="externalId" :header="$t('externalId')" sortable />
+            <Column field="externalId" :header="$t('externalId')" sortable>
+                <template #body="slotProps">
+                    <span v-if="slotProps.data.externalId">
+                        {{ slotProps.data.externalId }}
+                    </span>
+                    <i v-else class="pi pi-minus" />
+                </template>
+            </Column>
             <Column field="creator" :header="$t('creator')" sortable />
             <Column
                 field="executionState"
@@ -176,7 +186,7 @@
                 </span>
             </template>
             <template #paginatorend>
-                <ExportTableButton class="mt-3" :dt="$refs.dt"/>
+                <ExportTableButton class="mt-3" :dt="$refs.dt" />
             </template>
         </DataTable>
     </Fieldset>
@@ -199,8 +209,6 @@ import NoDownloadedResultsIcon from "./NoDownloadedResultsIcon.vue";
 import Checkbox from "primevue/checkbox";
 import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
-
-// TODO Table Export
 
 export default {
     components: {
@@ -322,7 +330,7 @@ export default {
         isResultsDownloadLogEmpty(execution: RequestExecution): boolean {
             return execution.resultsDownloadLog.length === 0;
         },
-        isSequenceIdAnchoroed(sequenceId: Number): boolean {
+        isSequenceIdAnchored(sequenceId: Number): boolean {
             return sequenceId === this.anchoredSequenceIdRef;
         },
         getMenuForExecutionState(state: ExecutionState) {

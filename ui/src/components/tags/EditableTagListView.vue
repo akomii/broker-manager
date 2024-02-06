@@ -58,8 +58,7 @@ export default {
             if (tag) {
                 if (this.tags.includes(tag)) {
                     this.$toast.add({
-                        severity: "info",
-                        summary: "Info",
+                        severity: "warn",
                         detail: this.$t("tagExistsAlready", { tag: tag }),
                         life: 3000,
                     });

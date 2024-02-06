@@ -1,5 +1,5 @@
 <template>
-    <span class="p-float-label">
+    <span v-if="label" class="p-float-label">
         <Calendar
             v-model="dummyDate"
             showIcon
@@ -10,6 +10,15 @@
         />
         <label>{{ label }}</label>
     </span>
+    <Calendar
+        v-else
+        v-model="dummyDate"
+        showIcon
+        showButtonBar
+        showTime
+        hourFormat="24"
+        :disabled="disabled"
+    />
 </template>
 
 <script lang="ts">
@@ -20,13 +29,12 @@ export default {
         Calendar,
     },
     props: {
-        label: {
-            type: String,
-            required: true,
-        },
         date: {
             type: Date,
             required: true,
+        },
+        label: {
+            type: String,
         },
         disabled: {
             type: Boolean,

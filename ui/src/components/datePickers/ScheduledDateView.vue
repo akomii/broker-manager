@@ -1,5 +1,5 @@
 <template>
-    <DateView v-if="actualDate" :date="actualDate" />
+    <span v-if="actualDate">{{ formattedActualDate }}</span>
     <div
         v-else
         v-tooltip.bottom="
@@ -22,12 +22,12 @@ export default {
         DateView,
     },
     props: {
-        tooltipLabel: {
-            type: String,
-            required: true,
-        },
         scheduledDate: {
             type: Date,
+            required: true,
+        },
+        tooltipLabel: {
+            type: String,
             required: true,
         },
         actualDate: {
@@ -41,6 +41,9 @@ export default {
     computed: {
         formattedScheduledDate(): string {
             return MomentWrapper.formatDateToGermanLocale(this.scheduledDate);
+        },
+        formattedActualDate(): string {
+            return MomentWrapper.formatDateToGermanLocale(this.actualDate);
         },
     },
 };

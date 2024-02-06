@@ -7,6 +7,7 @@ import router from "./router";
 // PrimeVue imports
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
+import ConfirmationService from "primevue/confirmationservice";
 import Tooltip from "primevue/tooltip";
 
 // Styles imports
@@ -41,5 +42,6 @@ app.use(router)
     .use(i18n)
     .use(PrimeVue, primeVueConfig)
     .use(ToastService)
+    .use(ConfirmationService)
     .directive("tooltip", Tooltip)
     .mount("#app");

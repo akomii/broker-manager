@@ -24,13 +24,11 @@
                             {{ $t("showArchivedExecutions") }}
                         </label>
                     </span>
-                    <SearchInput
-                        @update:input="
-                            (val) => {
-                                currentSearchTerm = val;
-                                filterDataTableExecutions();
-                            }
-                        "
+                    <Button
+                        :label="$t('addNewExecution')"
+                        icon="pi pi-plus"
+                        severity="success"
+                        @click="addNewRequestExecution"
                     />
                 </div>
             </template>
@@ -45,12 +43,6 @@
                         <AnchoredRequestIcon
                             v-if="
                                 isSequenceIdAnchored(slotProps.data.sequenceId)
-                            "
-                        />
-                        <NoDownloadedResultsIcon
-                            v-if="
-                                isResultsDownloadLogEmpty(slotProps.data) &&
-                                slotProps.data.executionState !== 'PENDING'
                             "
                         />
                     </div>
@@ -142,30 +134,38 @@
                     />
                 </template>
             </Column>
-            <Column
-                field="acceptance"
-                :header="$t('acceptance')"
-                bodyStyle="text-align: center"
-            >
-                <template #body="slotProps">
-                    <!-- TODO if total nodes are zero dont show -->
-                    <TargetNodesViewDialog
-                        :execution="slotProps.data"
-                        :showProcessingStateInfo="true"
-                    />
-                </template>
-            </Column>
+
+            <ConfirmPopup></ConfirmPopup>
             <Column field="actions" bodyStyle="text-align: center">
+                <Toast />
                 <template #body="slotProps">
-                    <MenuButton
-                        :icon="'pi pi-ellipsis-v'"
-                        :outlined="true"
-                        :menu="
-                            getMenuForExecutionState(
-                                slotProps.data.executionState
-                            )
-                        "
-                    />
+                    <div class="flex justify-content-center gap-2">
+                        <Button
+                            v-if="
+                                !isSequenceIdAnchored(slotProps.data.sequenceId)
+                            "
+                            v-tooltip.bottom="$t('anchorThisExecution')"
+                            @click="setSequenceIdRef(slotProps.data.sequenceId)"
+                            icon="pi pi-star"
+                            outlined
+                        />
+                        <Button
+                            v-if="slotProps.data.executionState === 'PENDING'"
+                            v-tooltip.bottom="$t('deleteThisExecution')"
+                            @click="
+                                deleteRequestExecution(
+                                    $event,
+                                    slotProps.data.sequenceId
+                                )
+                            "
+                            :disabled="
+                                isSequenceIdAnchored(slotProps.data.sequenceId)
+                            "
+                            severity="danger"
+                            icon="pi pi-trash"
+                            outlined
+                        />
+                    </div>
                 </template>
             </Column>
             <template #empty>
@@ -210,6 +210,13 @@ import NoDownloadedResultsIcon from "./NoDownloadedResultsIcon.vue";
 import Checkbox from "primevue/checkbox";
 import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
+import Button from "primevue/button";
+import Toast from "primevue/toast";
+import ConfirmPopup from "primevue/confirmpopup";
+
+//TODO add datepickers
+//TODO make everything after pending not editable
+//TODO sorting with scheduled and actual dates
 
 export default {
     components: {
@@ -226,6 +233,9 @@ export default {
         NoDownloadedResultsIcon,
         Checkbox,
         TargetNodesViewDialog,
+        Button,
+        Toast,
+        ConfirmPopup,
     },
     props: {
         executions: {
@@ -347,6 +357,72 @@ export default {
                 default:
                     return [];
             }
+        },
+        addNewRequestExecution() {
+            const newRequestExecution: RequestExecution = {
+                sequenceId: this.executions.length + 1, //TODO MAX + 1
+                externalId: null,
+                referenceDate: new Date(),
+                executionDate: new Date(),
+                scheduledPublishDate: new Date(),
+                publishedDate: null,
+                scheduledClosingDate: new Date(),
+                closedDate: null,
+                scheduledArchiveDate: new Date(),
+                archivedDate: null,
+                creator: "NewCreator", // TODO current user
+                createdDate: new Date(),
+                executionState: ExecutionState.PENDING,
+                nodeStatusInfos: [],
+                resultsDownloadLog: [],
+            };
+            const updatedExecutions = [...this.executions, newRequestExecution];
+            this.$emit("update:executions", updatedExecutions);
+            this.$toast.add({
+                severity: "success",
+                detail: this.$t("addedNewExecution"),
+                life: 3000,
+            });
+            this.$nextTick(() => {
+                this.filterDataTableExecutions();
+            });
+        },
+        setSequenceIdRef(sequenceId: Number) {
+            this.$emit("update:anchoredSequenceIdRef", sequenceId);
+            this.$toast.add({
+                severity: "info",
+                detail: this.$t("setAnchorToSequenceId", {
+                    sequenceId: sequenceId,
+                }),
+                life: 3000,
+            });
+        },
+        deleteRequestExecution(event, sequenceId: number) {
+            this.$confirm.require({
+                target: event.currentTarget,
+                message: this.$t("doYouWantToDeleteThisExecution"),
+                icon: "pi pi-info-circle",
+                rejectClass: "p-button-outlined p-button-sm",
+                acceptClass: "p-button-danger p-button-sm",
+                rejectLabel: this.$t("cancel"),
+                acceptLabel: this.$t("delete"),
+                accept: () => {
+                    const updatedExecutions = this.executions.filter(
+                        (execution) => execution.sequenceId !== sequenceId
+                    );
+                    this.$emit("update:executions", updatedExecutions);
+                    this.$toast.add({
+                        severity: "success",
+                        detail: this.$t("deletedExecutionWithSequenceId", {
+                            sequenceId: sequenceId,
+                        }),
+                        life: 3000,
+                    });
+                    this.$nextTick(() => {
+                        this.filterDataTableExecutions();
+                    });
+                },
+            });
         },
     },
 };

@@ -13,6 +13,18 @@
         />
 
         <div class="grid nested-grid">
+            <div class="col-12" v-if="!isSingleRequest()">
+                <ExecutionTableEdit
+                    class="mx-3 mb-3"
+                    :executions="request.executions"
+                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
+                    @update:executions="request.executions = $event"
+                    @update:anchoredSequenceIdRef="
+                        request.anchoredSequenceIdRef = $event
+                    "
+                />
+            </div>
+
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
@@ -99,6 +111,7 @@ import { Request } from "@/utils/Types";
 import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
+import ExecutionTableEdit from "@/components/tables/ExecutionTableEdit.vue";
 
 export default {
     components: {
@@ -112,6 +125,7 @@ export default {
         TextFieldEdit,
         RequestHeaderEdit,
         SingleMetaEdit,
+        ExecutionTableEdit,
     },
     data() {
         return {
@@ -119,11 +133,11 @@ export default {
             // TODO: add routing and services
             editDraftMenu: [
                 { label: this.$t("menu.draft.save") },
-                { label: this.$t("menu.cancel") },
+                { label: this.$t("cancel") },
             ],
             editRequestMenu: [
                 { label: this.$t("menu.request.save") },
-                { label: this.$t("menu.cancel") },
+                { label: this.$t("cancel") },
             ],
         };
     },

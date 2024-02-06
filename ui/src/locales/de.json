@@ -159,7 +159,6 @@
         "settings": "Einstellungen"
     },
     "menu": {
-        "cancel": "Abbrechen",
         "draft": {
             "delete": "Draft löschen",
             "duplicate": "Draft duplizieren",
@@ -264,8 +263,16 @@
     "noExecutionsFound": "Keine Ausführungen gefunden",
     "oneExecution": "1 Ausführung",
     "xExecutions": "{numExecutions} Ausführungen",
-    "anchoredRequest": "Verankerte Anfrage",
+    "anchoredExecution": "Verankerte Anfrage",
     "resultsNotDownloaded": "Ergebnisse wurden noch nicht heruntergeladen",
-    "hideArchivedRequests": "Archivierte Anfragen ausblenden",
-    "showArchivedRequests": "Archivierte Anfragen anzeigen"
+    "hideArchivedExecutions": "Archivierte Ausführungen ausblenden",
+    "showArchivedExecutions": "Archivierte Ausführungen anzeigen",
+    "anchorThisExecution": "Diese Ausführung verankern",
+    "deleteThisExecution": "Diese Ausführung löschen",
+    "addNewExecution": "Neue Ausführung hinzufügen",
+    "setAnchorToSequenceId": "Anker gesetzt auf Ausführung {sequenceId}",
+    "deletedExecutionWithSequenceId": "Ausführung {sequenceId} gelöscht",
+    "doYouWantToDeleteThisExecution": "Möchten Sie diese Ausführung löschen?",
+    "delete": "Löschen",
+    "addedNewExecution": "Neue Ausführung hinzugefügt"
 }

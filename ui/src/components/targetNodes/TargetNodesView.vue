@@ -94,7 +94,6 @@ import Column from "primevue/column";
 import Button from "primevue/button";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
-import { RequestState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
 import ExportTableButton from "@/components/common/ExportTableButton.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
@@ -116,10 +115,6 @@ export default {
     props: {
         execution: {
             type: Object as () => RequestExecution,
-            required: true,
-        },
-        requestState: {
-            type: String as () => keyof typeof RequestState,
             required: true,
         },
         showProcessingStateInfo: {

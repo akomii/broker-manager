@@ -1,13 +1,13 @@
 <template>
     <Fieldset :legend="$t('targetNodes')" :class="fieldSetHeight">
         <DataTable
-            ref="dt"
             :class="dataTableHeight"
             :value="dataTableNodes"
             sortField="id"
             :sortOrder="1"
             scrollable
             scrollHeight="flex"
+            ref="dt"
         >
             <template #header>
                 <div class="flex flex-wrap justify-content-between">
@@ -80,7 +80,7 @@
                                   })
                         }}
                     </span>
-                    <ExportTableButton class="mt-3" />
+                    <ExportTableButton class="mt-3" :dt="$refs.dt" />
                 </div>
             </template>
         </DataTable>

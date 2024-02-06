@@ -7,6 +7,7 @@
             :rowsPerPageOptions="[10, 25, 50]"
             sortField="sequenceId"
             :sortOrder="-1"
+            ref="dt"
         >
             <template #header>
                 <div
@@ -131,7 +132,6 @@
                     />
                 </template>
             </Column>
-
             <Column
                 field="acceptance"
                 :header="$t('acceptance')"
@@ -144,7 +144,6 @@
                     />
                 </template>
             </Column>
-
             <Column field="actions" bodyStyle="text-align: center">
                 <template #body="slotProps">
                     <MenuButton
@@ -163,7 +162,6 @@
                     {{ $t("noExecutionsFound") }}
                 </p>
             </template>
-
             <template #paginatorstart>
                 <span>
                     {{
@@ -178,7 +176,7 @@
                 </span>
             </template>
             <template #paginatorend>
-                <ExportTableButton class="mt-3" />
+                <ExportTableButton class="mt-3" :dt="$refs.dt"/>
             </template>
         </DataTable>
     </Fieldset>

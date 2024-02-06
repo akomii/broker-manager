@@ -241,7 +241,7 @@
     "xNodes": "{numNodes} Standorte",
     "id": "ID",
     "lastContact": "Letzter Kontakt",
-    "exportCurrentTable": "TODO: Aktuelle Tabelle exportieren",
+    "exportCurrentTable": "Aktuelle Tabelle exportieren",
     "executionAcceptanceOfNode": "Zustimmung von Ausführung",
     "acceptance": "Zustimmung",
     "processingState": "Bearbeitungsstatus",

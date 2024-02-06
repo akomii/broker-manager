@@ -9,32 +9,47 @@
             :sortOrder="-1"
         >
             <template #header>
-                <div class="flex flex-wrap justify-content-end">
-                    <SearchInput @update:input="filterDataTableExecutions" />
-                </div>
-
-                <!-- TODO REMOVE -->
-                <div class="flex flex-wrap justify-content-between">
-                    <button @click="toggleArchivedVisibility">
-                        {{
-                            showArchived
-                                ? $t("hideArchived")
-                                : $t("showArchived")
-                        }}
-                    </button>
+                <div
+                    class="flex flex-wrap justify-content-between align-items-center"
+                >
+                    <span>
+                        <Checkbox
+                            v-model="showArchived"
+                            :binary="true"
+                            inputId="toggleArchived"
+                            @update:modelValue="filterDataTableExecutions()"
+                        />
+                        <label for="toggleArchived" class="ml-2">
+                            {{ $t("showArchivedRequests") }}
+                        </label>
+                    </span>
+                    <SearchInput
+                        @update:input="
+                            (val) => {
+                                currentSearchTerm = val;
+                                filterDataTableExecutions();
+                            }
+                        "
+                    />
                 </div>
             </template>
+
+            <!-- TODO ADD context menu to show/hide columns -->
             <Column field="sequenceId" :header="$t('sequenceId')" sortable>
                 <template #body="slotProps">
-                    <span class="mr-2">
-                        {{ slotProps.data.sequenceId }}
-                    </span>
-                    <AnchoredRequestIcon
-                        v-if="isSequenceIdAnchoroed(slotProps.data.sequenceId)"
-                    />
-                    <NoDownloadedResultsIcon
-                        v-if="isResultsDownloadLogEmpty(slotProps.data)"
-                    />
+                    <div class="flex gap-1">
+                        <span>
+                            {{ slotProps.data.sequenceId }}
+                        </span>
+                        <AnchoredRequestIcon
+                            v-if="
+                                isSequenceIdAnchoroed(slotProps.data.sequenceId)
+                            "
+                        />
+                        <NoDownloadedResultsIcon
+                            v-if="isResultsDownloadLogEmpty(slotProps.data)"
+                        />
+                    </div>
                 </template>
             </Column>
             <Column field="externalId" :header="$t('externalId')" sortable />
@@ -116,29 +131,30 @@
                     />
                 </template>
             </Column>
-            <!--TODO Show TargetNodeView in Popup-->
+
             <Column
                 field="acceptance"
                 :header="$t('acceptance')"
                 bodyStyle="text-align: center"
             >
                 <template #body="slotProps">
-                    {{
-                        $t("XofY", {
-                            x: countCompletedNodes(
-                                slotProps.data.nodeStatusInfos
-                            ),
-                            y: slotProps.data.nodeStatusInfos.length,
-                        })
-                    }}
+                    <TargetNodesViewDialog
+                        :execution="slotProps.data"
+                        :showProcessingStateInfo="true"
+                    />
                 </template>
             </Column>
+
             <Column field="actions" bodyStyle="text-align: center">
                 <template #body="slotProps">
                     <MenuButton
                         :icon="'pi pi-ellipsis-v'"
                         :outlined="true"
-                        :menu="exeuctionMenu"
+                        :menu="
+                            getMenuForExecutionState(
+                                slotProps.data.executionState
+                            )
+                        "
                     />
                 </template>
             </Column>
@@ -172,7 +188,7 @@
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { RequestExecution, NodeStatusInfo } from "@/utils/Types";
+import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import DateView from "@/components/datePickers/DateView.vue";
@@ -182,11 +198,11 @@ import ExportTableButton from "@/components/common/ExportTableButton.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
 import AnchoredRequestIcon from "./AnchoredRequestIcon.vue";
 import NoDownloadedResultsIcon from "./NoDownloadedResultsIcon.vue";
+import Checkbox from "primevue/checkbox";
+import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
+import MomentWrapper from "@/utils/MomentWrapper.ts";
 
-// TODO Column Toggle
-// TODO Context Menu
 // TODO Table Export
-// TODO Sort funktioniert nicht für Datum mit Scheduled
 
 export default {
     components: {
@@ -201,6 +217,8 @@ export default {
         SearchInput,
         AnchoredRequestIcon,
         NoDownloadedResultsIcon,
+        Checkbox,
+        TargetNodesViewDialog,
     },
     props: {
         executions: {
@@ -214,61 +232,94 @@ export default {
     },
     data() {
         return {
-            exeuctionMenu: [
+            //TODO add functionality
+            pendingExecutionMenu: [{ label: this.$t("publishExecution") }],
+            publishedExecutionMenu: [
                 { label: this.$t("closeExecution") },
                 { label: this.$t("archiveExecution") },
                 { label: this.$t("goToResults") },
             ],
+            closedExecutionMenu: [
+                { label: this.$t("archiveExecution") },
+                { label: this.$t("goToResults") },
+            ],
+            archivedExecutionMenu: [{ label: this.$t("goToResults") }],
             dataTableExecutions: this.executions,
             showArchived: false,
+            currentSearchTerm: "",
         };
     },
     mounted() {
-        this.filterDataTableExecutions("");
+        this.filterDataTableExecutions();
     },
     methods: {
-        countCompletedNodes(nodeInfos: NodeStatusInfo[]): number {
-            return nodeInfos.filter((node) => node.completed !== null).length;
-        },
-        filterDataTableExecutions(searchTerm: string) {
+        filterDataTableExecutions() {
             this.dataTableExecutions = this.filterExecutionsBySearchTerm(
                 this.executions.filter(
                     (execution) =>
                         this.showArchived ||
                         execution.executionState !== ExecutionState.ARCHIVED
                 ),
-                searchTerm.toLowerCase()
+                this.currentSearchTerm.toLowerCase()
             );
         },
-
-        //TODO status search only works in english
-        //TODO Datesearch does not work
         filterExecutionsBySearchTerm(
             executions: RequestExecution[],
             searchTerm: string
         ): RequestExecution[] {
             return executions.filter((execution) => {
-                // Convert all searchable fields to string and lowercase for case-insensitive search
+                const translatedExecutionState = this.$t(
+                    `enums.executionState.${execution.executionState}`
+                ).toLowerCase();
+                const formattedCreateDate = this.formatDate(
+                    execution.createdDate
+                );
+                const formattedReferenceDate = this.formatDate(
+                    execution.referenceDate
+                );
+                const formattedScheduledPublishDate = this.formatDate(
+                    execution.scheduledPublishDate
+                );
+                const formattedPublishedDate = this.formatDate(
+                    execution.publishedDate
+                );
+                const formattedExecutionDate = this.formatDate(
+                    execution.executionDate
+                );
+                const formattedScheduledClosingDate = this.formatDate(
+                    execution.scheduledClosingDate
+                );
+                const formattedClosingDate = this.formatDate(
+                    execution.closedDate
+                );
+                const formattedScheduledArchiveDate = this.formatDate(
+                    execution.scheduledArchiveDate
+                );
+                const formattedArchiveDate = this.formatDate(
+                    execution.archivedDate
+                );
                 const searchInFields = [
                     execution.sequenceId?.toString(),
                     execution.externalId?.toString(),
                     execution.creator?.toLowerCase(),
-                    execution.executionState?.toLowerCase(),
-                    execution.createdDate?.toString(),
-                    execution.referenceDate?.toString(),
-                    execution.scheduledPublishDate?.toString(),
-                    execution.publishedDate?.toString(),
-                    execution.executionDate?.toString(),
-                    execution.scheduledClosingDate?.toString(),
-                    execution.closedDate?.toString(),
-                    execution.scheduledArchiveDate?.toString(),
-                    execution.archivedDate?.toString(),
+                    translatedExecutionState,
+                    formattedCreateDate,
+                    formattedReferenceDate,
+                    formattedScheduledPublishDate,
+                    formattedPublishedDate,
+                    formattedExecutionDate,
+                    formattedScheduledClosingDate,
+                    formattedClosingDate,
+                    formattedScheduledArchiveDate,
+                    formattedArchiveDate,
                 ];
-                // Check if any field includes the searchTerm
                 return searchInFields.some(
                     (field) => field && field.toLowerCase().includes(searchTerm)
                 );
             });
+        },
+        formatDate(date: Date | undefined | null): string {
+            return MomentWrapper.formatDateToGermanLocale(date);
         },
         isResultsDownloadLogEmpty(execution: RequestExecution): boolean {
             return execution.resultsDownloadLog.length === 0;
@@ -276,9 +327,19 @@ export default {
         isSequenceIdAnchoroed(sequenceId: Number): boolean {
             return sequenceId === this.anchoredSequenceIdRef;
         },
-        toggleArchivedVisibility() {
-            this.showArchived = !this.showArchived;
-            this.filterDataTableExecutions(""); // Re-filter the executions to apply the new toggle state
+        getMenuForExecutionState(state: ExecutionState) {
+            switch (state) {
+                case ExecutionState.PENDING:
+                    return this.pendingExecutionMenu;
+                case ExecutionState.PUBLISHED:
+                    return this.publishedExecutionMenu;
+                case ExecutionState.CLOSED:
+                    return this.closedExecutionMenu;
+                case ExecutionState.ARCHIVED:
+                    return this.archivedExecutionMenu;
+                default:
+                    return [];
+            }
         },
     },
 };

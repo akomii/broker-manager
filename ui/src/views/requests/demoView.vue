@@ -13,6 +13,7 @@
                 <ExecutionTableView
                     class="mx-3 mb-3"
                     :executions="request.executions"
+                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
                 />
             </div>
 
@@ -50,7 +51,6 @@
                     :targetNodeIds="request.targetNodes"
                     :fieldSetHeight="'h-48-4rem'"
                     :execution="getMostActualRequestExecution()"
-                    :requestState="request.requestState"
                     :showProcessingStateInfo="!isDraft()"
                 />
             </div>

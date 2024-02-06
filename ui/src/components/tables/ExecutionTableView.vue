@@ -148,11 +148,16 @@
                 bodyStyle="text-align: center"
             >
                 <template #body="slotProps">
-                    <!-- TODO if total nodes are zero dont show -->
                     <TargetNodesViewDialog
+                        v-if="
+                            isNodeStatusInfoNotEmpty(
+                                slotProps.data.nodeStatusInfos
+                            )
+                        "
                         :execution="slotProps.data"
                         :showProcessingStateInfo="true"
                     />
+                    <i v-else class="pi pi-minus" />
                 </template>
             </Column>
             <Column field="actions" bodyStyle="text-align: center">
@@ -197,7 +202,7 @@
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { RequestExecution } from "@/utils/Types";
+import { RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import DateView from "@/components/datePickers/DateView.vue";
@@ -347,6 +352,9 @@ export default {
                 default:
                     return [];
             }
+        },
+        isNodeStatusInfoNotEmpty(nodeStatusInfo: NodeStatusInfo[]): boolean {
+            return nodeStatusInfo.length > 0;
         },
     },
 };

@@ -198,7 +198,7 @@
         },
         "executionState": {
             "label": "Status",
-            "PENDING": "In Warteschlange",
+            "PENDING": "Ausstehend",
             "PUBLISHED": "Veröffentlicht",
             "CLOSED": "Geschlossen",
             "ARCHIVED": "Archiviert"

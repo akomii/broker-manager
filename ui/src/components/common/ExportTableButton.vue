@@ -1,7 +1,7 @@
 <template>
     <Button
         icon="pi pi-download"
-        :label="$t('exportCurrentTable')"
+        v-tooltip.bottom="$t('exportCurrentTable')"
         outlined
         @click="exportCSV()"
     />

@@ -48,8 +48,9 @@ export class RequestParser {
                           duration: MomentWrapper.createDuration(
                               requestJson.query.repeatedExecution.duration
                           ),
-                          interval:
-                              requestJson.query.repeatedExecution.interval,
+                          interval: MomentWrapper.createDuration(
+                              requestJson.query.repeatedExecution.interval
+                          ),
                           intervalHours:
                               requestJson.query.repeatedExecution.intervalHours,
                       } as RepeatedExecution)

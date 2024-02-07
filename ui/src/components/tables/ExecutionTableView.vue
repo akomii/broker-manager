@@ -181,11 +181,11 @@
             <template #paginatorstart>
                 <span>
                     {{
-                        dataTableExecutions.length === 1
+                        executions.length === 1
                             ? $t("oneExecution")
                             : $t("xExecutions", {
-                                  numExecutions: dataTableExecutions
-                                      ? dataTableExecutions.length
+                                  numExecutions: executions
+                                      ? executions.length
                                       : 0,
                               })
                     }}

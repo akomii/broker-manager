@@ -83,7 +83,12 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <DateView :date="slotProps.data.referenceDate" />
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.referenceDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="slotProps.data.referenceDate = $event"
+                    />
                 </template>
             </Column>
             <Column
@@ -92,10 +97,13 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.publishDate')"
-                        :scheduledDate="slotProps.data.scheduledPublishDate"
-                        :actualDate="slotProps.data.publishedDate"
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledPublishDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledPublishDate = $event
+                        "
                     />
                 </template>
             </Column>
@@ -105,7 +113,12 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <DateView :date="slotProps.data.executionDate" />
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.executionDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="slotProps.data.executionDate = $event"
+                    />
                 </template>
             </Column>
             <Column
@@ -114,10 +127,13 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.closingDate')"
-                        :scheduledDate="slotProps.data.scheduledClosingDate"
-                        :actualDate="slotProps.data.closedDate"
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledClosingDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledClosingDate = $event
+                        "
                     />
                 </template>
             </Column>
@@ -127,10 +143,13 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.archiveDate')"
-                        :scheduledDate="slotProps.data.scheduledArchiveDate"
-                        :actualDate="slotProps.data.archivedDate"
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledArchiveDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledArchiveDate = $event
+                        "
                     />
                 </template>
             </Column>
@@ -176,11 +195,11 @@
             <template #paginatorstart>
                 <span>
                     {{
-                        dataTableExecutions.length === 1
+                        executions.length === 1
                             ? $t("oneExecution")
                             : $t("xExecutions", {
-                                  numExecutions: dataTableExecutions
-                                      ? dataTableExecutions.length
+                                  numExecutions: executions
+                                      ? executions.length
                                       : 0,
                               })
                     }}
@@ -213,10 +232,9 @@ import MomentWrapper from "@/utils/MomentWrapper.ts";
 import Button from "primevue/button";
 import Toast from "primevue/toast";
 import ConfirmPopup from "primevue/confirmpopup";
+import DatePick from "@/components/datePickers/DatePick.vue";
 
-//TODO add datepickers
-//TODO make everything after pending not editable
-//TODO sorting with scheduled and actual dates
+//TODO sorting with scheduled and actual dates does not work
 
 export default {
     components: {
@@ -236,6 +254,7 @@ export default {
         Button,
         Toast,
         ConfirmPopup,
+        DatePick,
     },
     props: {
         executions: {
@@ -358,9 +377,10 @@ export default {
                     return [];
             }
         },
+        // TODO wrong dates are shown in table
         addNewRequestExecution() {
             const newRequestExecution: RequestExecution = {
-                sequenceId: this.executions.length + 1, //TODO MAX + 1
+                sequenceId: this.executions.length + 1,
                 externalId: null,
                 referenceDate: new Date(),
                 executionDate: new Date(),
@@ -423,6 +443,9 @@ export default {
                     });
                 },
             });
+        },
+        isExecutionAfterPending(execution: RequestExecution): boolean {
+            return execution.executionState !== ExecutionState.PENDING;
         },
     },
 };

@@ -13,18 +13,6 @@
         />
 
         <div class="grid nested-grid">
-            <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionTableEdit
-                    class="mx-3 mb-3"
-                    :executions="request.executions"
-                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
-                    @update:executions="request.executions = $event"
-                    @update:anchoredSequenceIdRef="
-                        request.anchoredSequenceIdRef = $event
-                    "
-                />
-            </div>
-
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
@@ -87,6 +75,18 @@
                     :fieldSetHeight="'h-22rem'"
                     :disabled="!isDraft()"
                     @update:content="request.query.sql = $event"
+                />
+            </div>
+
+            <div class="col-12" v-if="!isSingleRequest()">
+                <ExecutionTableEdit
+                    class="mx-3 mb-3"
+                    :executions="request.executions"
+                    :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
+                    @update:executions="request.executions = $event"
+                    @update:anchoredSequenceIdRef="
+                        request.anchoredSequenceIdRef = $event
+                    "
                 />
             </div>
         </div>

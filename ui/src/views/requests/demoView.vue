@@ -19,6 +19,15 @@
                             :execution="request.executions[0]"
                             :querySchedule="request.query.singleExecution"
                         />
+                        <SeriesMetaView
+                            v-if="!isSingleRequest()"
+                            class="ml-3 h-25-3rem"
+                            :type="request.requestType"
+                            :querySchedule="request.query.repeatedExecution"
+                            :isAutoPublishing="request.isAutoPublishing"
+                            :seriesClosingDate="request.seriesClosingDate"
+                            :seriesArchiveDate="request.seriesArchiveDate"
+                        />
                     </div>
                     <div class="col-5">
                         <PrincipalView :principal="request.query.principal" />
@@ -83,6 +92,7 @@ import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
 import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
 import SingleMetaView from "@/components/meta/SingleMetaView.vue";
+import SeriesMetaView from "@/components/meta/SeriesMetaView.vue";
 import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {
@@ -96,6 +106,7 @@ export default {
         TextFieldView,
         RequestHeaderView,
         SingleMetaView,
+        SeriesMetaView,
         ExecutionTableView,
     },
     data() {

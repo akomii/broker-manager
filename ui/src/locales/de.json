@@ -274,5 +274,21 @@
     "deletedExecutionWithSequenceId": "Ausführung {sequenceId} gelöscht",
     "doYouWantToDeleteThisExecution": "Möchten Sie diese Ausführung löschen?",
     "delete": "Löschen",
-    "addedNewExecution": "Neue Ausführung hinzugefügt"
+    "addedNewExecution": "Neue Ausführung hinzugefügt",
+    "enquiryPeriod": "Erhebungszeitraum",
+    "year(s)": "Jahr(e)",
+    "month(s)": "Monat(e)",
+    "day(s)": "Tag(e)",
+    "hour(s)": "Stunde(n)",
+    "minute(s)": "Minute(n)",
+    "second(s)": "Sekunde(n)",
+    "none": "Kein",
+    "durationBeforeReferenceDate": "{duration} vor Referenzdatum",
+    "automatic": "Automatisch",
+    "manual": "Manuell",
+    "publishing": "Veröffentlichung",
+    "publishInterval": "Veröffentlichungsintervall",
+    "seriesClosingDate": "Serienschließdatum",
+    "seriesArchiveDate": "Serienarchivierungsdatum",
+    "everyInterval": "Alle {interval}"
 }

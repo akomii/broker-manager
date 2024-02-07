@@ -62,7 +62,7 @@ export interface SingleExecution {
 export interface RepeatedExecution {
     id: number;
     duration: MomentDuration;
-    interval: number;
+    interval: MomentDuration;
     intervalHours: number;
 }
 

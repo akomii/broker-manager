@@ -205,9 +205,6 @@
                     }}
                 </span>
             </template>
-            <template #paginatorend>
-                <ExportTableButton class="mt-3" :dt="$refs.dt" />
-            </template>
         </DataTable>
     </Fieldset>
 </template>

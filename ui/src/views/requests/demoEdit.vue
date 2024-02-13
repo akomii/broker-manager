@@ -28,6 +28,28 @@
                                 request.query.singleExecution = $event
                             "
                         />
+                        <SeriesMetaEdit
+                            v-if="!isSingleRequest()"
+                            class="ml-3 h-25-3rem"
+                            :type="request.requestType"
+                            :querySchedule="request.query.repeatedExecution"
+                            :isAutoPublishing="request.isAutoPublishing"
+                            :seriesClosingDate="request.seriesClosingDate"
+                            :seriesArchiveDate="request.seriesArchiveDate"
+                            :disabled="!isDraft()"
+                            @update:querySchedule="
+                                request.query.repeatedExecution = $event
+                            "
+                            @update:isAutoPublishing="
+                                request.isAutoPublishing = $event
+                            "
+                            @update:seriesClosingDate="
+                                request.seriesClosingDate = $event
+                            "
+                            @update:seriesArchiveDate="
+                                request.seriesArchiveDate = $event
+                            "
+                        />
                     </div>
                     <div class="col-5">
                         <PrincipalEdit
@@ -110,6 +132,7 @@ import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
 import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
+import SeriesMetaEdit from "@/components/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 import ExecutionTableEdit from "@/components/tables/ExecutionTableEdit.vue";
 
@@ -125,6 +148,7 @@ export default {
         TextFieldEdit,
         RequestHeaderEdit,
         SingleMetaEdit,
+        SeriesMetaEdit,
         ExecutionTableEdit,
     },
     data() {

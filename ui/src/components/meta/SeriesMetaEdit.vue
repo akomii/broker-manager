@@ -82,7 +82,6 @@ import { RepeatedExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
 import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";
 import ConvertRequestButton from "./ConvertRequestButton.vue";
 import DatePick from "@/components/datePickers/DatePick.vue";
@@ -98,7 +97,6 @@ export default {
         ExecutionStateLabel,
         DateView,
         ScheduledDateView,
-        RequestHistoryButton,
         AutoPublishingLabel,
         ConvertRequestButton,
         DatePick,

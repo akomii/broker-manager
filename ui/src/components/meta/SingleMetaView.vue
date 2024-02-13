@@ -16,7 +16,7 @@
                 <DateView :date="execution.referenceDate" />
             </div>
             <div class="flex flex-wrap justify-content-center">
-                <RequestHistoryButton />
+                <RequestHistoryDialog :history="requestHistory" />
             </div>
         </template>
         <template #right-section>
@@ -60,15 +60,22 @@
 import SingleMetaCommon from "./SingleMetaCommon.vue";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
+import RequestHistoryDialog from "@/components/history/RequestHistoryDialog.vue";
+import { ModificationHistoryItem } from "@/utils/Types";
 
 export default {
     components: {
         SingleMetaCommon,
         DateView,
         ScheduledDateView,
-        RequestHistoryButton,
+        RequestHistoryDialog,
     },
     mixins: [SingleMetaCommon],
+    props: {
+        requestHistory: {
+            type: Array as () => ModificationHistoryItem[],
+            required: true,
+        },
+    },
 };
 </script>

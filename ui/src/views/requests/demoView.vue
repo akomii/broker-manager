@@ -18,6 +18,7 @@
                             :type="request.requestType"
                             :execution="request.executions[0]"
                             :querySchedule="request.query.singleExecution"
+                            :requestHistory="request.modificationHistory"
                         />
                         <SeriesMetaView
                             v-if="!isSingleRequest()"
@@ -27,6 +28,7 @@
                             :isAutoPublishing="request.isAutoPublishing"
                             :seriesClosingDate="request.seriesClosingDate"
                             :seriesArchiveDate="request.seriesArchiveDate"
+                            :requestHistory="request.modificationHistory"
                         />
                     </div>
                     <div class="col-5">

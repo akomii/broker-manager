@@ -36,7 +36,7 @@
                         />
                     </div>
                     <div class="flex flex-wrap justify-content-center">
-                        <RequestHistoryButton />
+                        <RequestHistoryDialog :history="requestHistory" />
                     </div>
                 </div>
             </div>
@@ -82,10 +82,11 @@ import { RepeatedExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import RequestHistoryButton from "@/components/history/RequestHistoryButton.vue";
+import RequestHistoryDialog from "@/components/history/RequestHistoryDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 import type { MomentDuration } from "@/utils/MomentWrapper";
 import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";
+import { ModificationHistoryItem } from "@/utils/Types";
 
 export default {
     components: {
@@ -95,7 +96,7 @@ export default {
         ExecutionStateLabel,
         DateView,
         ScheduledDateView,
-        RequestHistoryButton,
+        RequestHistoryDialog,
         AutoPublishingLabel,
     },
     props: {
@@ -117,6 +118,10 @@ export default {
         },
         seriesArchiveDate: {
             type: Date,
+            required: true,
+        },
+        requestHistory: {
+            type: Array as () => ModificationHistoryItem[],
             required: true,
         },
     },

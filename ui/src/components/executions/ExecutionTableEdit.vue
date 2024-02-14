@@ -222,7 +222,7 @@ import MenuButton from "@/components/common/MenuButton.vue";
 import ExportTableButton from "@/components/common/ExportTableButton.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
 import AnchoredRequestIcon from "./AnchoredRequestIcon.vue";
-import NoDownloadedResultsIcon from "./NoDownloadedResultsIcon.vue";
+import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import Checkbox from "primevue/checkbox";
 import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
@@ -245,7 +245,7 @@ export default {
         ExportTableButton,
         SearchInput,
         AnchoredRequestIcon,
-        NoDownloadedResultsIcon,
+        ResultsNotDownloadedIcon,
         Checkbox,
         TargetNodesViewDialog,
         Button,

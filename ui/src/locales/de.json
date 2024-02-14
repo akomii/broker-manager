@@ -175,6 +175,8 @@
             "save": "Anfrage speichern"
         }
     },
+    "date": "Datum",
+    "user": "Benutzer",
     "dates": {
         "archiveDate": "Archivierungsdatum",
         "closingDate": "Schließdatum",

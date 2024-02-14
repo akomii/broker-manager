@@ -23,7 +23,7 @@ const routes = [
         component: RequestEdit,
     },
     {
-        path: "/requests/:id/result",
+        path: "/requests/:id/results",
         component: RequestResult,
     },
     {

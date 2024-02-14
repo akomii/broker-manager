@@ -4,14 +4,14 @@
             <DateView :date="slotProps.data.date" />
         </template>
     </Column>
-    <Column :header="$t('user')" field="user" sortable />
-    <Column :header="$t('organizations')" field="userOrgs" sortable>
+    <Column field="user" :header="$t('user')" sortable />
+    <Column field="userOrgs" :header="$t('organizations')" sortable>
         <template #body="slotProps">
             <SimpleChipList :chips="slotProps.data.userOrgs" />
         </template>
     </Column>
-    <Column :header="$t('hash')" field="hashValue" />
-    <Column :header="$t('algorithm')" field="hashAlgorithm" />
+    <Column field="hashValue" :header="$t('hash')" />
+    <Column field="hashAlgorithm" :header="$t('algorithm')" />
 </template>
 
 <script lang="ts">

@@ -35,10 +35,11 @@
             </p>
         </template>
         <template #footer>
-            <RequestTableFooter
-                :executions="executions"
-                :refDataTable="$refs.resultTable"
-            />
+            <TableFooter :refDataTable="$refs.resultTable">
+                <template #count-message>
+                    {{ executionsCountMessage }}
+                </template>
+            </TableFooter>
         </template>
     </DataTable>
 </template>
@@ -55,7 +56,7 @@ import ColumnExternalId from "../common/ColumnExternalId.vue";
 import ColumnExecutionState from "../common/ColumnExecutionState.vue";
 import ColumnReferenceDate from "../common/ColumnReferenceDate.vue";
 import ColumnResultDownloadAction from "./ColumnResultDownloadAction.vue";
-import RequestTableFooter from "../common/RequestTableFooter.vue";
+import TableFooter from "../common/TableFooter.vue";
 import ExpandedResultsLogTable from "./ExpandedResultsLogTable.vue";
 
 export default {
@@ -69,7 +70,7 @@ export default {
         ColumnExecutionState,
         ColumnReferenceDate,
         ColumnResultDownloadAction,
-        RequestTableFooter,
+        TableFooter,
     },
     props: {
         executions: {
@@ -110,6 +111,12 @@ export default {
                             .includes(this.currentSearchTerm.toLowerCase())
                     );
                 });
+        },
+        executionsCountMessage(): string {
+            const count = this.executions.length;
+            return count === 1
+                ? this.$t("oneExecution")
+                : this.$t("xExecutions", { numExecutions: count });
         },
     },
     methods: {

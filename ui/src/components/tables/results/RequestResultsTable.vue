@@ -53,7 +53,7 @@ import RequestTableHeader from "../common/RequestTableHeader.vue";
 import ColumnSequenceId from "../common/ColumnSequenceId.vue";
 import ColumnExternalId from "../common/ColumnExternalId.vue";
 import ColumnExecutionState from "../common/ColumnExecutionState.vue";
-import ColumnReferenceDate from "./ColumnReferenceDate.vue";
+import ColumnReferenceDate from "../common/ColumnReferenceDate.vue";
 import ColumnResultDownloadAction from "./ColumnResultDownloadAction.vue";
 import RequestTableFooter from "../common/RequestTableFooter.vue";
 import ExpandedResultsLogTable from "./ExpandedResultsLogTable.vue";

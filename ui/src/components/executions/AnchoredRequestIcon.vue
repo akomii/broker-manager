@@ -1,7 +1,7 @@
 <template>
     <i
         style="color: var(--primary-color)"
-        v-tooltip.bottom="$t('anchoredExecution')"
+        v-tooltip.right="$t('anchoredExecution')"
         class="pi pi-star-fill"
     />
 </template>

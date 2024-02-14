@@ -25,7 +25,7 @@
 import Column from "primevue/column";
 import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import NewResultsAvailableIcon from "@/components/icons/NewResultsAvailableIcon.vue";
-import { ResultsDownloadLog } from "@/types/RequestExecution";
+import { ResultsDownloadLog } from "@/utils/Types.ts";
 import { ExecutionState } from "@/utils/Enums.ts";
 
 export default {

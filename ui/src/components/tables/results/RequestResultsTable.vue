@@ -50,14 +50,14 @@ import Column from "primevue/column";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
-import RequestTableHeader from "./RequestTableHeader.vue";
-import ColumnSequenceId from "./ColumnSequenceId.vue";
-import ColumnExternalId from "./ColumnExternalId.vue";
-import ColumnExecutionState from "./ColumnExecutionState.vue";
-import ColumnReferenceDate from "./ColumnReferenceDate.vue";
-import ColumnResultDownloadAction from "./ColumnResultDownloadAction.vue";
-import TableFooter from "../common/TableFooter.vue";
-import ExpandedResultsLogTable from "./ExpandedResultsLogTable.vue";
+import RequestTableHeader from "@/components/tables/results/RequestTableHeader.vue";
+import ColumnSequenceId from "@/components/tables/executionColumns/ColumnSequenceId.vue";
+import ColumnExternalId from "@/components/tables/executionColumns/ColumnExternalId.vue";
+import ColumnExecutionState from "@/components/tables/executionColumns/ColumnExecutionState.vue";
+import ColumnReferenceDate from "@/components/tables/executionColumns/ColumnReferenceDate.vue";
+import ColumnResultDownloadAction from "@/components/tables/downloadLogColumns/ColumnResultDownloadAction.vue";
+import TableFooter from "@/components/tables/TableFooter.vue";
+import ExpandedResultsLogTable from "@/components/tables/results/ExpandedResultsLogTable.vue";
 
 export default {
     components: {

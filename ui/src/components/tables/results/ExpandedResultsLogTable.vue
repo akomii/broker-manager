@@ -1,6 +1,9 @@
 <template>
     <DataTable :value="mergedLogAndState" class="flex justify-content-center">
-        <ColumnsResultDownloadDetails key="downloadDetails" />
+        <ColumnDownloadDate key="downloadDate" />
+        <ColumnUser key="user" />
+        <ColumnUserOrgs key="userOrgs" />
+        <ColumnHash key="hash" />
         <ColumnResultDownloadAction
             key="olderResultsDownload"
             :tooltipLabel="$t('downloadThisResultsAgain')"
@@ -17,8 +20,11 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import ColumnsResultDownloadDetails from "./ColumnsResultDownloadDetails.vue";
-import ColumnResultDownloadAction from "./ColumnResultDownloadAction.vue";
+import ColumnDownloadDate from "@/components/tables/downloadLogColumns/ColumnDownloadDate.vue";
+import ColumnUser from "@/components/tables/downloadLogColumns/ColumnUser.vue";
+import ColumnUserOrgs from "@/components/tables/downloadLogColumns/ColumnUserOrgs.vue";
+import ColumnHash from "@/components/tables/downloadLogColumns/ColumnHash.vue";
+import ColumnResultDownloadAction from "@/components/tables/downloadLogColumns/ColumnResultDownloadAction.vue";
 import { ResultsDownloadLog } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 
@@ -26,7 +32,10 @@ export default {
     components: {
         DataTable,
         Column,
-        ColumnsResultDownloadDetails,
+        ColumnDownloadDate,
+        ColumnUser,
+        ColumnUserOrgs,
+        ColumnHash,
         ColumnResultDownloadAction,
     },
     props: {

@@ -5,7 +5,7 @@ import { TestDataService } from "@/services/TestDataService";
 export default {
     props: {
         organizationIds: {
-            type: Set<number>,
+            type: Array as () => number[],
             required: true,
         },
     },
@@ -33,7 +33,7 @@ export default {
         },
         filterOrganizationsById(organizations: Organization[]): Organization[] {
             return organizations.filter((org) =>
-                this.organizationIds.has(org.id)
+                this.organizationIds.includes(org.id)
             );
         },
     },

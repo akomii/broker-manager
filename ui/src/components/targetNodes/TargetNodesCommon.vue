@@ -5,7 +5,7 @@ import { TestDataService } from "@/services/TestDataService";
 export default {
     props: {
         targetNodeIds: {
-            type: Set<number>,
+            type: Array as () => number[],
             required: true,
         },
         fieldSetHeight: {
@@ -22,14 +22,14 @@ export default {
         selectedNodes(): ManagerNode[] {
             return this.sortNodesById(
                 this.allManagerNodes.filter((node) =>
-                    this.targetNodeIds.has(node.id)
+                    this.targetNodeIds.includes(node.id)
                 )
             );
         },
         availableNodes(): ManagerNode[] {
             return this.sortNodesById(
                 this.allManagerNodes.filter(
-                    (node) => !this.targetNodeIds.has(node.id)
+                    (node) => !this.targetNodeIds.includes(node.id)
                 )
             );
         },

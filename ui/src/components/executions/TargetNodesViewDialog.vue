@@ -65,11 +65,9 @@ export default {
                 (node) => node.completed !== null
             ).length;
         },
-        getNodeIdsFromStatusInfo(): Set<number> {
-            return new Set(
-                this.execution.nodeStatusInfos.map(
-                    (nodeStatusInfo) => nodeStatusInfo.nodeId
-                )
+        getNodeIdsFromStatusInfo(): Number[] {
+            return this.execution.nodeStatusInfos.map(
+                (nodeStatusInfo) => nodeStatusInfo.nodeId
             );
         },
     },

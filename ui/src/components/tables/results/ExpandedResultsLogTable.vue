@@ -1,29 +1,10 @@
 <template>
     <DataTable :value="mergedLogAndState" class="flex justify-content-center">
-        <Column :header="$t('date')" field="date" sortable>
-            <template #body="slotProps">
-                {{ formatDate(slotProps.data.date) }}
-            </template>
-        </Column>
-        <Column :header="$t('user')" field="user" sortable />
-        <Column :header="$t('organizations')" field="userOrgs" sortable>
-            <template #body="slotProps">
-                <SimpleChipList :chips="slotProps.data.userOrgs" />
-            </template>
-        </Column>
-        <Column :header="$t('hash')" field="hashValue"></Column>
-        <Column :header="$t('algorithm')" field="hashAlgorithm"></Column>
-        <Column field="actions" bodyStyle="text-align: center">
-            <template #body="slotProps">
-                <DownloadButton
-                    :tooltipLabel="$t('downloadThisResultsAgain')"
-                    :disabled="
-                        isExecutionArchived(slotProps.data.executionState)
-                    "
-                    :action="dummyAction"
-                />
-            </template>
-        </Column>
+        <ColumnDownloadDate key="downloadDate" />
+        <ColumnUser key="user" />
+        <ColumnOrganizations key="organizations" />
+        <ColumnsResultHash key="resultHash" />
+        <ColumnResultDownloadAction key="olderResultsDownload" />
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noResultsAvailable") }}
@@ -35,18 +16,23 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import SimpleChipList from "@/components/tags/SimpleChipList.vue";
-import DownloadButton from "@/components/common/DownloadButton.vue";
-import MomentWrapper from "@/utils/MomentWrapper.ts";
-import { ExecutionState } from "@/utils/Enums";
+import ColumnDownloadDate from "./ColumnDownloadDate.vue";
+import ColumnUser from "./ColumnUser.vue";
+import ColumnOrganizations from "./ColumnOrganizations.vue";
+import ColumnsResultHash from "./ColumnsResultHash.vue";
+import ColumnResultDownloadAction from "./ColumnResultDownloadAction.vue";
 import { ResultsDownloadLog } from "@/utils/Types";
+import { ExecutionState } from "@/utils/Enums";
 
 export default {
     components: {
         DataTable,
         Column,
-        DownloadButton,
-        SimpleChipList,
+        ColumnDownloadDate,
+        ColumnUser,
+        ColumnOrganizations,
+        ColumnsResultHash,
+        ColumnResultDownloadAction
     },
     props: {
         downloadLog: {
@@ -64,17 +50,6 @@ export default {
                 ...log,
                 executionState: this.executionState,
             }));
-        },
-    },
-    methods: {
-        formatDate(date: Date): string {
-            return MomentWrapper.formatDateToGermanLocale(date);
-        },
-        isExecutionArchived(state: ExecutionState): boolean {
-            return state === ExecutionState.ARCHIVED;
-        },
-        dummyAction() {
-            console.log("dummy action");
         },
     },
 };

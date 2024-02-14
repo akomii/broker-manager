@@ -175,7 +175,6 @@
             "save": "Anfrage speichern"
         }
     },
-    "date": "Datum",
     "user": "Benutzer",
     "dates": {
         "archiveDate": "Archivierungsdatum",
@@ -188,7 +187,8 @@
             "end": "Referenzzeitraum Ende"
         },
         "scheduledDate": "Geplantes {dateLabel}",
-        "createdDate": "Erstellungsdatum"
+        "createdDate": "Erstellungsdatum",
+        "downloadDate": "Download-Datum"
     },
     "enums": {
         "requestState": {

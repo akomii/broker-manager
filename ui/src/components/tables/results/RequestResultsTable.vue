@@ -19,7 +19,7 @@
         <ColumnExternalId key="externalId" />
         <ColumnExecutionState key="executionState" />
         <ColumnReferenceDate key="referenceDate" />
-        <ColumnResultDownloadAction key="downloadAction" />
+        <ColumnResultDownloadAction key="newestResultsDownload" />
         <template #expansion="slotProps">
             <ExpandedResultsLogTable
                 :downloadLog="slotProps.data.resultsDownloadLog"

@@ -3,7 +3,7 @@
         <Button @click="togglePanel" plain text>
             {{ mostActualState }}
         </Button>
-        <OverlayPanel ref="panel" showCloseIcon>
+        <OverlayPanel ref="timelinePanel" showCloseIcon>
             <Timeline :value="statusArray">
                 <template #opposite="timelineSlotProps">
                     <small>{{ timelineSlotProps.item.date }}</small>
@@ -14,7 +14,7 @@
             </Timeline>
         </OverlayPanel>
     </div>
-    <i v-else class="pi pi-minus text-gray-700 flex justify-content-center" />
+    <NotAvailableIcon v-else class="flex justify-content-center" />
 </template>
 
 <script lang="ts">
@@ -24,6 +24,7 @@ import Timeline from "primevue/timeline";
 import { NodeStatusInfo } from "@/utils/Types";
 import { NodeState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper";
+import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 
 const orderedStates: NodeState[] = [
     NodeState.RETRIEVED,
@@ -40,6 +41,7 @@ export default {
         Button,
         OverlayPanel,
         Timeline,
+        NotAvailableIcon,
     },
     props: {
         nodeStatusInfo: {
@@ -96,8 +98,8 @@ export default {
     },
     methods: {
         togglePanel(event: Event) {
-            const overlayPanel = this.$refs.panel as OverlayPanel;
-            overlayPanel?.toggle(event);
+            const panel = this.$refs.timelinePanel as OverlayPanel;
+            panel?.toggle(event);
         },
     },
 };

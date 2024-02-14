@@ -298,5 +298,11 @@
     "months": "Monate",
     "days": "Tage",
     "hours": "Stunden",
-    "all": "Alle"
+    "all": "Alle",
+    "resultsHeaderWithIdAndTitle": "Ergebnisse für Anfrage [{id}] {title}",
+    "downloadCurrentResults": "Aktuellsten Ergebnisse herunterladen",
+    "downloadThisResultsAgain": "Diese Ergebnisse erneut herunterladen",
+    "hash": "Hash",
+    "algorithm": "Algorithmus",
+    "newResultsAvailable": "Neue Ergebnisse verfügbar"
 }

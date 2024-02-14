@@ -1,13 +1,18 @@
 <template>
-    <ResultTable />
+    <div v-if="request">
+        <RequestResultHeader :id="request.id" :title="request.query.title" />
+        <ResultTable :executions="request.executions" class="mx-3"/>
+    </div>
 </template>
 
 <script lang="ts">
 import ResultTable from "@/components/results/ResultTable.vue";
+import RequestResultHeader from "@/components/headers/RequestResultHeader.vue";
 import TestDataService from "@/services/TestDataService";
 
 export default {
     components: {
+        RequestResultHeader,
         ResultTable,
     },
     data() {

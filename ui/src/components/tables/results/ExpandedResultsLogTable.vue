@@ -24,6 +24,11 @@
                 />
             </template>
         </Column>
+        <template #empty>
+            <p class="flex justify-content-center">
+                {{ $t("noResultsAvailable") }}
+            </p>
+        </template>
     </DataTable>
 </template>
 

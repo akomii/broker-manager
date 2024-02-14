@@ -304,5 +304,6 @@
     "downloadThisResultsAgain": "Diese Ergebnisse erneut herunterladen",
     "hash": "Hash",
     "algorithm": "Algorithmus",
-    "newResultsAvailable": "Neue Ergebnisse verfügbar"
+    "newResultsAvailable": "Neue Ergebnisse verfügbar",
+    "noResultsAvailable": "Keine Ergebnisse verfügbar"
 }

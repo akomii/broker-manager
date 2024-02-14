@@ -1,12 +1,12 @@
 <template>
     <div v-if="request">
         <RequestResultHeader :id="request.id" :title="request.query.title" />
-        <ResultTable :executions="request.executions" class="mx-3"/>
+        <ResultTable :executions="request.executions" class="mx-3" />
     </div>
 </template>
 
 <script lang="ts">
-import ResultTable from "@/components/results/ResultTable.vue";
+import ResultTable from "@/components/tables/results/ResultTable.vue";
 import RequestResultHeader from "@/components/headers/RequestResultHeader.vue";
 import TestDataService from "@/services/TestDataService";
 

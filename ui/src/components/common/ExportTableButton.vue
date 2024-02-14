@@ -1,19 +1,17 @@
 <template>
-    <Button
-        icon="pi pi-download"
-        v-tooltip.bottom="$t('exportCurrentTable')"
-        outlined
-        @click="exportCSV()"
+    <DownloadButton
+        :tooltipLabel="$t('exportCurrentTable')"
+        :action="exportCSV"
     />
 </template>
 
 <script lang="ts">
-import Button from "primevue/button";
+import DownloadButton from "./DownloadButton.vue";
 
 // TODO nested table components are not exported correctly
 export default {
     components: {
-        Button,
+        DownloadButton,
     },
     props: {
         dt: {

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Column from "primevue/column";
-import NotAvailableIcon from "./NotAvailableIcon.vue";
+import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 
 export default {
     components: {

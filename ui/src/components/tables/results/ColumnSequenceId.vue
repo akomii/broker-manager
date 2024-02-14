@@ -10,6 +10,8 @@
     </Column>
 </template>
 
+<!-- TODO new Results Available-->
+<!-- TODO no results downloaded -->
 <script lang="ts">
 import Column from "primevue/column";
 

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap justify-content-between">
         <span>
-            <slot name="count-message"></slot>
+            <slot name="count-message" />
         </span>
         <ExportTableButton class="mt-3" :dt="refDataTable" />
     </div>

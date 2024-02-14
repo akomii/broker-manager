@@ -4,7 +4,11 @@
         <ColumnUser key="user" />
         <ColumnOrganizations key="organizations" />
         <ColumnsResultHash key="resultHash" />
-        <ColumnResultDownloadAction key="olderResultsDownload" />
+        <ColumnResultDownloadAction
+            key="olderResultsDownload"
+            :tooltipLabel="$t('downloadThisResultsAgain')"
+            :action="dummyAction"
+        />
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noResultsAvailable") }}
@@ -32,7 +36,7 @@ export default {
         ColumnUser,
         ColumnOrganizations,
         ColumnsResultHash,
-        ColumnResultDownloadAction
+        ColumnResultDownloadAction,
     },
     props: {
         downloadLog: {
@@ -50,6 +54,11 @@ export default {
                 ...log,
                 executionState: this.executionState,
             }));
+        },
+    },
+    methods: {
+        dummyAction() {
+            console.log("dummy action");
         },
     },
 };

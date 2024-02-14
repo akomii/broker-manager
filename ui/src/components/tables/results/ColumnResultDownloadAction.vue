@@ -3,9 +3,9 @@
         <template #body="slotProps">
             <DownloadButton
                 :label="'TODO'"
-                :tooltipLabel="$t('downloadCurrentResults')"
+                :tooltipLabel="tooltipLabel"
                 :disabled="isDisabled(slotProps.data.executionState)"
-                :action="dummyAction"
+                :action="action"
             />
         </template>
     </Column>
@@ -21,14 +21,21 @@ export default {
         Column,
         DownloadButton,
     },
+    props: {
+        tooltipLabel: {
+            type: String,
+            required: true,
+        },
+        action: {
+            type: Function,
+            required: true,
+        },
+    },
     methods: {
         isDisabled(state: ExecutionState): boolean {
             return [ExecutionState.ARCHIVED, ExecutionState.PENDING].includes(
                 state
             );
-        },
-        dummyAction() {
-            console.log("dummy action");
         },
     },
 };

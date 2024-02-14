@@ -13,13 +13,16 @@
             />
         </template>
         <!-- TODO: hide expander if ExpandedTable is empty-->
-        <!-- TODO: add column toggle-->
         <Column expander />
         <ColumnSequenceId key="sequenceId" />
         <ColumnExternalId key="externalId" />
         <ColumnExecutionState key="executionState" />
         <ColumnReferenceDate key="referenceDate" />
-        <ColumnResultDownloadAction key="newestResultsDownload" />
+        <ColumnResultDownloadAction
+            key="newestResultsDownload"
+            :tooltipLabel="$t('downloadCurrentResults')"
+            :action="dummyAction"
+        />
         <template #expansion="slotProps">
             <ExpandedResultsLogTable
                 :downloadLog="slotProps.data.resultsDownloadLog"
@@ -112,6 +115,9 @@ export default {
     methods: {
         filterDataTableExecutions(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
+        },
+        dummyAction() {
+            console.log("dummy action");
         },
     },
 };

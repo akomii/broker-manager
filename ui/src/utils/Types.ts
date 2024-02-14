@@ -6,8 +6,8 @@ export type Request = SingleRequest | SeriesRequest;
 export interface ManagerRequest {
     id: number;
     tags: Array<string>;
-    authorizedOrgs: Set<number>; // Organization IDs
-    targetNodes: Set<number>; // ManagerNode IDs
+    authorizedOrgs: Array<number>; // Organization IDs
+    targetNodes: Array<number>; // ManagerNode IDs
     requestState: RequestState;
     modificationHistory: ModificationHistoryItem[];
     query: Query;
@@ -99,7 +99,7 @@ export interface NodeStatusInfo {
 
 export interface ResultsDownloadLog {
     user: string;
-    userOrgs: Set<number>; // Organization IDs
+    userOrgs: Array<number>; // Organization IDs
     date: Date;
     hashValue: string;
     hashAlgorithm: string;

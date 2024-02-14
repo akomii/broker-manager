@@ -23,8 +23,8 @@ export class RequestParser {
         const commonFields: ManagerRequest = {
             id: requestJson.id,
             tags: [...requestJson.tags],
-            authorizedOrgs: new Set(requestJson.authorizedOrgs),
-            targetNodes: new Set(requestJson.targetNodes),
+            authorizedOrgs: [...requestJson.authorizedOrgs],
+            targetNodes: [...requestJson.targetNodes],
             requestState: requestJson.requestState as RequestState,
             requestType: RequestType.SINGLE,
             modificationHistory: ModificationHistoryItemParser.parseMultiple(
@@ -205,7 +205,7 @@ class ResultsDownloadLogParser {
     static parse(resultsDownloadLogJson: any): ResultsDownloadLog {
         return {
             user: resultsDownloadLogJson.user,
-            userOrgs: new Set(resultsDownloadLogJson.userOrgs),
+            userOrgs: [...resultsDownloadLogJson.userOrgs],
             date: new Date(resultsDownloadLogJson.date),
             hashValue: resultsDownloadLogJson.hashValue,
             hashAlgorithm: resultsDownloadLogJson.hashAlgorithm,

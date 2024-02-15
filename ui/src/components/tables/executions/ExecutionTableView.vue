@@ -1,7 +1,7 @@
 <template>
     <Fieldset :legend="$t('executions')">
         <DataTable
-            :value="filteredDataTableExecutions"
+            :value="filteredEnrichedExecutions"
             sortField="sequenceId"
             :sortOrder="-1"
             ref="executionsTable"
@@ -12,7 +12,7 @@
             <template #header>
                 <RequestTableHeader
                     @update:showArchived="showArchived = $event"
-                    @search="filterDataTableExecutions"
+                    @search="filterEnrichedExecutions"
                 />
             </template>
             <ColumnSequenceId key="sequenceId" />
@@ -31,34 +31,11 @@
             <ColumnExecutionDate key="executionDate" />
             <ColumnClosingDate key="closingDate" />
             <ColumnArchiveDate key="archiveDate" />
-
-
-
-
-            <!-- 1 Dialog refactor, 2 dialog column, 3 change here-->
-            <!-- TODO put into own column -->
-            <Column
-                field="acceptance"
-                :header="$t('acceptance')"
-                bodyStyle="text-align: center"
-            >
-                <template #body="slotProps">
-                    <TargetNodesViewDialog
-                        v-if="
-                            isNodeStatusInfoNotEmpty(
-                                slotProps.data.nodeStatusInfos
-                            )
-                        "
-                        :execution="slotProps.data"
-                        :showProcessingStateInfo="true"
-                    />
-                    <i v-else class="pi pi-minus" />
-                </template>
-            </Column>
-
-
-
-            <ColumnMenuAction key="menuAction" :menuData="getMenuForExecutionState" />
+            <ColumnNodeAcceptanceVue key="acceptance" />
+            <ColumnMenuAction
+                key="menuAction"
+                :menuData="getMenuForExecutionState"
+            />
             <template #empty>
                 <p class="flex justify-content-center">
                     {{ $t("noExecutionsFound") }}
@@ -80,7 +57,7 @@
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { RequestExecution, NodeStatusInfo } from "@/utils/Types";
+import { RequestExecution, ManagerNode } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import DateView from "@/components/datePickers/DateView.vue";
@@ -91,7 +68,6 @@ import SearchInput from "@/components/tables/SearchInput.vue";
 import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
 import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import Checkbox from "primevue/checkbox";
-import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
 import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ColumnSequenceId from "@/components/tables/executionColumns/ColumnSequenceId.vue";
@@ -105,6 +81,8 @@ import ColumnExecutionDate from "@/components/tables/executionColumns/ColumnExec
 import ColumnClosingDate from "@/components/tables/executionColumns/ColumnClosingDate.vue";
 import ColumnArchiveDate from "@/components/tables/executionColumns/ColumnArchiveDate.vue";
 import ColumnMenuAction from "@/components/tables/executionColumns/ColumnMenuAction.vue";
+import ColumnNodeAcceptanceVue from "@/components/tables/executions/ColumnNodeAcceptance.vue";
+import { TestDataService } from "@/services/TestDataService";
 
 export default {
     components: {
@@ -120,7 +98,6 @@ export default {
         AnchoredRequestIcon,
         ResultsNotDownloadedIcon,
         Checkbox,
-        TargetNodesViewDialog,
         RequestTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
@@ -132,6 +109,7 @@ export default {
         ColumnClosingDate,
         ColumnArchiveDate,
         ColumnMenuAction,
+        ColumnNodeAcceptanceVue,
     },
     props: {
         executions: {
@@ -147,11 +125,25 @@ export default {
         return {
             showArchived: false,
             currentSearchTerm: "",
+            allManagerNodes: [] as ManagerNode[],
         };
     },
     computed: {
-        filteredDataTableExecutions(): RequestExecution[] {
-            return this.executions
+        enrichedExecutions(): RequestExecution[] {
+            return this.executions.map((execution) => {
+                const correspondingNodes = this.allManagerNodes.filter((node) =>
+                    execution.nodeStatusInfos.some(
+                        (statusInfo) => statusInfo.nodeId === node.id
+                    )
+                );
+                return {
+                    ...execution,
+                    nodes: correspondingNodes,
+                };
+            });
+        },
+        filteredEnrichedExecutions(): RequestExecution[] {
+            return this.enrichedExecutions
                 .filter((execution) => {
                     return (
                         this.showArchived ||
@@ -208,8 +200,14 @@ export default {
                 : this.$t("xExecutions", { numExecutions: count });
         },
     },
+    async mounted() {
+        await this.fetchManagerNodes();
+    },
     methods: {
-        filterDataTableExecutions(searchTerm: string = "") {
+        async fetchManagerNodes(): Promise<void> {
+            this.allManagerNodes = await TestDataService.getNodes();
+        },
+        filterEnrichedExecutions(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
         // TODO add funcionality
@@ -233,11 +231,6 @@ export default {
                 default:
                     return [];
             }
-        },
-
-
-        isNodeStatusInfoNotEmpty(nodeStatusInfo: NodeStatusInfo[]): boolean {
-            return nodeStatusInfo.length > 0;
         },
     },
 };

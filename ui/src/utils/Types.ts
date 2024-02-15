@@ -82,6 +82,7 @@ export interface RequestExecution {
     executionState: ExecutionState;
     nodeStatusInfos: NodeStatusInfo[];
     resultsDownloadLog: ResultsDownloadLog[];
+    nodes?: ManagerNode[]; // optional field for ExecutionTable only
 }
 
 export interface NodeStatusInfo {
@@ -112,7 +113,7 @@ export interface ManagerNode {
     lastContact: Date;
     apiKey: string;
     notes: Record<string, string>;
-    nodeStatusInfo?: NodeStatusInfo; // optional field for targetNodes Table only
+    nodeStatusInfo?: NodeStatusInfo; // optional field for TargetNodesTable only
 }
 
 export interface ClientDN {

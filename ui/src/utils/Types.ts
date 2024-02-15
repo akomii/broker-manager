@@ -112,6 +112,7 @@ export interface ManagerNode {
     lastContact: Date;
     apiKey: string;
     notes: Record<string, string>;
+    nodeStatusInfo?: NodeStatusInfo; // optional field for targetNodes Table only
 }
 
 export interface ClientDN {

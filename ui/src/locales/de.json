@@ -243,7 +243,7 @@
     "id": "ID",
     "lastContact": "Letzter Kontakt",
     "exportCurrentTable": "Aktuelle Tabelle exportieren",
-    "executionAcceptanceOfNode": "Zustimmung von Ausführung",
+    "nodeAcceptanceOfExecution": "Zustimmung für Ausführung {executionId}",
     "acceptance": "Zustimmung",
     "processingState": "Bearbeitungsstatus",
     "selectedNodes": "Ausgewählte Standorte",

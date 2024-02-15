@@ -1,5 +1,5 @@
 <template>
-    <Label
+    <LabelCommon
         :state="publishType"
         :colorMap="publishTypeColorMap"
         localizationPath=""
@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts">
-import Label from "./Label.vue";
+import LabelCommon from "@/components/labels/LabelCommon.vue";
 
 export default {
     components: {
-        Label,
+        LabelCommon,
     },
     props: {
         isAutoPublishing: {

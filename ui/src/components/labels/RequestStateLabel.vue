@@ -1,5 +1,5 @@
 <template>
-    <Label
+    <LabelCommon
         :state="state"
         :colorMap="requestStateColorMap"
         localizationPath="enums.requestState."
@@ -7,12 +7,12 @@
 </template>
 
 <script lang="ts">
-import Label from "./Label.vue";
+import LabelCommon from "@/components/labels/LabelCommon.vue";
 import { RequestState } from "@/utils/Enums";
 
 export default {
     components: {
-        Label,
+        LabelCommon,
     },
     props: {
         state: {

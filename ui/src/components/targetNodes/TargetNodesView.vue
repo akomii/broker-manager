@@ -1,89 +1,12 @@
 <template>
     <Fieldset :legend="$t('targetNodes')" :class="fieldSetHeight">
-        <DataTable
-            :class="dataTableHeight"
-            :value="dataTableNodes"
-            sortField="id"
-            :sortOrder="1"
-            scrollable
-            scrollHeight="flex"
-            ref="dt"
-        >
-            <template #header>
-                <div class="flex flex-wrap justify-content-between">
-                    <div class="flex align-items-center">
-                        <span
-                            v-if="showProcessingStateInfo"
-                            class="font-semibold text-primary text-xl m-0"
-                        >
-                            {{ $t("executionAcceptanceOfNode") }} [{{
-                                execution.sequenceId
-                            }}] : {{ requestExecutionOnNodes }} /
-                            {{ execution.nodeStatusInfos.length }}
-                        </span>
-                    </div>
-                    <SearchInput @update:input="filterDataTableNodes" />
-                </div>
-            </template>
-            <Column field="id" :header="$t('id')" sortable />
-            <Column field="clientDN.CN" :header="$t('node')" sortable />
-            <Column field="tags" :header="$t('tags')" sortable>
-                <template #body="slotProps">
-                    <EditableTagListView :tags="slotProps.data.tags" />
-                </template>
-            </Column>
-            <Column field="lastContact" :header="$t('lastContact')" sortable>
-                <template #body="slotProps">
-                    {{ formatDateToGermanLocale(slotProps.data.lastContact) }}
-                </template>
-            </Column>
-            <template v-if="showProcessingStateInfo">
-                <Column field="state" :header="$t('processingState')">
-                    <template #body="slotProps">
-                        <NodeStatusInfoTimeline
-                            :nodeStatusInfo="
-                                getNodeStatusInfoForNode(slotProps.data.id)
-                            "
-                        />
-                    </template>
-                </Column>
-                <Column field="msg" header="">
-                    <template #body="slotProps">
-                        <Button
-                            v-if="
-                                getNodeStatusInfoForNode(slotProps.data.id)
-                                    .statusMessage
-                            "
-                            @click="showStatusMessage(slotProps.data.id)"
-                            icon="pi pi-exclamation-circle text-xl text-blue-600"
-                            text
-                            rounded
-                        />
-                    </template>
-                </Column>
-            </template>
-            <template #empty>
-                <p class="flex justify-content-center">
-                    {{ $t("noNodesFound") }}
-                </p>
-            </template>
-            <template #footer>
-                <div class="flex flex-wrap justify-content-between">
-                    <span>
-                        {{
-                            dataTableNodes.length === 1
-                                ? $t("oneNode")
-                                : $t("xNodes", {
-                                      numNodes: dataTableNodes
-                                          ? dataTableNodes.length
-                                          : 0,
-                                  })
-                        }}
-                    </span>
-                    <ExportTableButton class="mt-3" :dt="$refs.dt" />
-                </div>
-            </template>
-        </DataTable>
+        <TargetNodesTable
+            :targetNodes="[]"
+            :targetNodeStatusInfos="[]"
+            :sequenceId="execution.sequenceId"
+            :showProcessingStateInfo="showProcessingStateInfo"
+            :dataTableHeight="dataTableHeight"
+        />
     </Fieldset>
 </template>
 
@@ -97,8 +20,8 @@ import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import MomentWrapper from "@/utils/MomentWrapper";
 import ExportTableButton from "@/components/common/ExportTableButton.vue";
 import SearchInput from "@/components/common/SearchInput.vue";
-import NodeStatusInfoTimeline from "./NodeStatusInfoTimeline.vue";
-import TargetNodesCommon from "./TargetNodesCommon.vue";
+import TargetNodesTable from "@/components/tables/targetNodes/TargetNodesTable.vue";
+import { TestDataService } from "@/services/TestDataService";
 
 export default {
     components: {
@@ -109,9 +32,8 @@ export default {
         EditableTagListView,
         ExportTableButton,
         SearchInput,
-        NodeStatusInfoTimeline,
+        TargetNodesTable,
     },
-    mixins: [TargetNodesCommon],
     props: {
         execution: {
             type: Object as () => RequestExecution,
@@ -121,10 +43,19 @@ export default {
             type: Boolean,
             default: false,
         },
+        targetNodeIds: {
+            type: Array as () => number[],
+            required: true,
+        },
+        fieldSetHeight: {
+            type: String as () => string,
+            default: "h-48-4rem",
+        },
     },
     data() {
         return {
             dataTableNodes: [] as ManagerNode[],
+            allManagerNodes: [] as ManagerNode[],
         };
     },
     computed: {
@@ -137,12 +68,46 @@ export default {
             const heightNumber = parseInt(this.fieldSetHeight.split("-")[1]);
             return `h-${heightNumber - 10}-4rem`;
         },
+        selectedNodes(): ManagerNode[] {
+            return this.sortNodesById(
+                this.allManagerNodes.filter((node) =>
+                    this.targetNodeIds.includes(node.id)
+                )
+            );
+        },
+        availableNodes(): ManagerNode[] {
+            return this.sortNodesById(
+                this.allManagerNodes.filter(
+                    (node) => !this.targetNodeIds.includes(node.id)
+                )
+            );
+        },
     },
     async mounted() {
         await this.fetchManagerNodes();
         this.filterDataTableNodes("");
     },
     methods: {
+        async fetchManagerNodes(): Promise<void> {
+            this.allManagerNodes = await TestDataService.getNodes();
+        },
+        sortNodesById(nodes: ManagerNode[]): ManagerNode[] {
+            return nodes.sort((a, b) => a.id - b.id);
+        },
+        // TODO add filter by german date
+        filterNodesBySearchTerm(
+            nodes: ManagerNode[],
+            searchTerm: string
+        ): ManagerNode[] {
+            return nodes.filter(
+                (node) =>
+                    node.id.toString().includes(searchTerm) ||
+                    node.tags.some((tag) =>
+                        tag.toLowerCase().includes(searchTerm)
+                    ) ||
+                    node.clientDN.CN.toLowerCase().includes(searchTerm)
+            );
+        },
         filterDataTableNodes(searchTerm: string) {
             this.dataTableNodes = this.filterNodesBySearchTerm(
                 this.selectedNodes,

@@ -35,7 +35,8 @@
 
 
 
-            <!-- TODO -->
+            <!-- 1 Dialog refactor, 2 dialog column, 3 change here-->
+            <!-- TODO put into own column -->
             <Column
                 field="acceptance"
                 :header="$t('acceptance')"
@@ -55,23 +56,9 @@
                 </template>
             </Column>
 
-            
-            <Column field="actions" bodyStyle="text-align: center">
-                <template #body="slotProps">
-                    <MenuButton
-                        :icon="'pi pi-ellipsis-v'"
-                        :outlined="true"
-                        :menu="
-                            getMenuForExecutionState(
-                                slotProps.data.executionState
-                            )
-                        "
-                    />
-                </template>
-            </Column>
 
 
-
+            <ColumnMenuAction key="menuAction" :menuData="getMenuForExecutionState" />
             <template #empty>
                 <p class="flex justify-content-center">
                     {{ $t("noExecutionsFound") }}
@@ -98,10 +85,10 @@ import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import MenuButton from "@/components/common/MenuButton.vue";
-import ExportTableButton from "@/components/common/ExportTableButton.vue";
-import SearchInput from "@/components/common/SearchInput.vue";
-import AnchoredRequestIcon from "./AnchoredRequestIcon.vue";
+import MenuButton from "@/components/buttons/MenuButton.vue";
+import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
+import SearchInput from "@/components/tables/SearchInput.vue";
+import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
 import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import Checkbox from "primevue/checkbox";
 import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
@@ -117,7 +104,7 @@ import ColumnPublishDate from "@/components/tables/executionColumns/ColumnPublis
 import ColumnExecutionDate from "@/components/tables/executionColumns/ColumnExecutionDate.vue";
 import ColumnClosingDate from "@/components/tables/executionColumns/ColumnClosingDate.vue";
 import ColumnArchiveDate from "@/components/tables/executionColumns/ColumnArchiveDate.vue";
-import TablePaginator from "@/components/tables/TablePaginator.vue";
+import ColumnMenuAction from "@/components/tables/executionColumns/ColumnMenuAction.vue";
 
 export default {
     components: {
@@ -144,7 +131,7 @@ export default {
         ColumnExecutionDate,
         ColumnClosingDate,
         ColumnArchiveDate,
-        TablePaginator,
+        ColumnMenuAction,
     },
     props: {
         executions: {
@@ -158,18 +145,6 @@ export default {
     },
     data() {
         return {
-            //TODO add functionality
-            pendingExecutionMenu: [{ label: this.$t("publishExecution") }],
-            publishedExecutionMenu: [
-                { label: this.$t("closeExecution") },
-                { label: this.$t("archiveExecution") },
-                { label: this.$t("goToResults") },
-            ],
-            closedExecutionMenu: [
-                { label: this.$t("archiveExecution") },
-                { label: this.$t("goToResults") },
-            ],
-            archivedExecutionMenu: [{ label: this.$t("goToResults") }],
             showArchived: false,
             currentSearchTerm: "",
         };
@@ -237,23 +212,30 @@ export default {
         filterDataTableExecutions(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
-
-        //-------------------TODO---------------------
-
+        // TODO add funcionality
         getMenuForExecutionState(state: ExecutionState) {
             switch (state) {
                 case ExecutionState.PENDING:
-                    return this.pendingExecutionMenu;
+                    return [{ label: this.$t("publishExecution") }];
                 case ExecutionState.PUBLISHED:
-                    return this.publishedExecutionMenu;
+                    return [
+                        { label: this.$t("closeExecution") },
+                        { label: this.$t("archiveExecution") },
+                        { label: this.$t("goToResults") },
+                    ];
                 case ExecutionState.CLOSED:
-                    return this.closedExecutionMenu;
+                    return [
+                        { label: this.$t("archiveExecution") },
+                        { label: this.$t("goToResults") },
+                    ];
                 case ExecutionState.ARCHIVED:
-                    return this.archivedExecutionMenu;
+                    return [{ label: this.$t("goToResults") }];
                 default:
                     return [];
             }
         },
+
+
         isNodeStatusInfoNotEmpty(nodeStatusInfo: NodeStatusInfo[]): boolean {
             return nodeStatusInfo.length > 0;
         },

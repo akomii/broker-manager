@@ -248,7 +248,8 @@
     "processingState": "Bearbeitungsstatus",
     "selectedNodes": "Ausgewählte Standorte",
     "availableNodes": "Verfügbare Standorte",
-    "nodeStatusMessage": "Statusmeldung von Standort {nodeId}",
+    "statusMessage": "Statusmeldung",
+    "showStatusMessage": "Statusmeldung anzeigen",
     "description": "Beschreibung",
     "sql": "SQL",
     "requestHistory": "Änderungshistorie",
@@ -305,5 +306,6 @@
     "hash": "Hash",
     "algorithm": "Algorithmus",
     "newResultsAvailable": "Neue Ergebnisse verfügbar",
-    "noResultsAvailable": "Keine Ergebnisse verfügbar"
+    "noResultsAvailable": "Keine Ergebnisse verfügbar",
+    "openStatusTimeline":"Status-Zeitstrahl öffnen"
 }

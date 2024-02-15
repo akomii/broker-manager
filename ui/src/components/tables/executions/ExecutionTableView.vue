@@ -15,9 +15,6 @@
                     @search="filterEnrichedExecutions"
                 />
             </template>
-            <ColumnSequenceId key="sequenceId" />
-
-            <!-- TODO ADD context menu to show/hide columns -->
             <ColumnSequenceId
                 key="sequenceId"
                 :anchoredSequenceIdRef="anchoredSequenceIdRef"
@@ -42,9 +39,7 @@
                 </p>
             </template>
             <template #paginatorstart>
-                <span>
-                    {{ executionsCountMessage }}
-                </span>
+                <span>{{ executionsCountMessage }}</span>
             </template>
             <template #paginatorend>
                 <ExportTableButton class="mt-3" :dt="$refs.executionsTable" />
@@ -56,19 +51,6 @@
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import { RequestExecution, ManagerNode } from "@/utils/Types";
-import { ExecutionState } from "@/utils/Enums";
-import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
-import DateView from "@/components/datePickers/DateView.vue";
-import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import MenuButton from "@/components/buttons/MenuButton.vue";
-import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
-import SearchInput from "@/components/tables/SearchInput.vue";
-import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
-import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
-import Checkbox from "primevue/checkbox";
-import MomentWrapper from "@/utils/MomentWrapper.ts";
 import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ColumnSequenceId from "@/components/tables/executionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tables/executionColumns/ColumnExternalId.vue";
@@ -80,36 +62,32 @@ import ColumnPublishDate from "@/components/tables/executionColumns/ColumnPublis
 import ColumnExecutionDate from "@/components/tables/executionColumns/ColumnExecutionDate.vue";
 import ColumnClosingDate from "@/components/tables/executionColumns/ColumnClosingDate.vue";
 import ColumnArchiveDate from "@/components/tables/executionColumns/ColumnArchiveDate.vue";
-import ColumnMenuAction from "@/components/tables/executionColumns/ColumnMenuAction.vue";
 import ColumnNodeAcceptanceVue from "@/components/tables/executions/ColumnNodeAcceptance.vue";
-import { TestDataService } from "@/services/TestDataService";
+import ColumnMenuAction from "@/components/tables/executionColumns/ColumnMenuAction.vue";
+import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
+import { RequestExecution, ManagerNode } from "@/utils/Types";
+import MomentWrapper from "@/utils/MomentWrapper";
+import { ExecutionState } from "@/utils/Enums";
+import { TestDataService } from "@/services/TestDataService.js";
 
 export default {
     components: {
         Fieldset,
         DataTable,
-        Column,
-        ExecutionStateLabel,
-        DateView,
-        ScheduledDateView,
-        MenuButton,
-        ExportTableButton,
-        SearchInput,
-        AnchoredRequestIcon,
-        ResultsNotDownloadedIcon,
-        Checkbox,
         RequestTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnCreator,
         ColumnExecutionState,
         ColumnCreatedDate,
+        ColumnReferenceDate,
         ColumnPublishDate,
         ColumnExecutionDate,
         ColumnClosingDate,
         ColumnArchiveDate,
-        ColumnMenuAction,
         ColumnNodeAcceptanceVue,
+        ColumnMenuAction,
+        ExportTableButton,
     },
     props: {
         executions: {

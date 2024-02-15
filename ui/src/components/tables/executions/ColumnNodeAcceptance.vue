@@ -1,9 +1,5 @@
 <template>
-    <Column
-        field="acceptance"
-        :header="$t('acceptance')"
-        bodyStyle="text-align: center"
-    >
+    <Column field="acceptance" :header="$t('acceptance')">
         <template #body="slotProps">
             <TargetNodesTableDialog
                 v-if="isNodeStatusInfoNotEmpty(slotProps.data.nodeStatusInfos)"
@@ -11,7 +7,7 @@
                 :targetNodeStatusInfos="slotProps.data.nodeStatusInfos"
                 :sequenceId="slotProps.data.sequenceId"
             />
-            <NotAvailableIcon v-else />
+            <NotAvailableIcon v-else class="flex justify-content-center" />
         </template>
     </Column>
 </template>
@@ -20,6 +16,7 @@
 import Column from "primevue/column";
 import TargetNodesTableDialog from "@/components/dialogs/TargetNodesTableDialog.vue";
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
+import { NodeStatusInfo } from "@/utils/Types";
 
 export default {
     components: {

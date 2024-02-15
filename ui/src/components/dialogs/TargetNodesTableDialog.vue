@@ -5,6 +5,7 @@
     >
         <template #dialog-body>
             <TargetNodesTable
+                class="mx-3"
                 :targetNodes="targetNodes"
                 :targetNodeStatusInfos="targetNodeStatusInfos"
                 :sequenceId="sequenceId"

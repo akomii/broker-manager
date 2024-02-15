@@ -1,9 +1,5 @@
 <template>
-    <Column
-        field="state"
-        :header="$t('processingState')"
-        bodyStyle="text-align: center"
-    >
+    <Column field="state" :header="$t('processingState')">
         <template #body="slotProps">
             <NodeStatusInfoTimelineButton
                 v-if="
@@ -13,7 +9,7 @@
                 "
                 :nodeStatusInfo="slotProps.data.nodeStatusInfo"
             />
-            <NotAvailableIcon v-else />
+            <NotAvailableIcon v-else class="flex justify-content-center" />
         </template>
     </Column>
     <Column field="msg" header="">

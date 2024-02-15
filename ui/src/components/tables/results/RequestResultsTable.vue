@@ -50,7 +50,7 @@ import Column from "primevue/column";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
-import RequestTableHeader from "@/components/tables/results/RequestTableHeader.vue";
+import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ColumnSequenceId from "@/components/tables/executionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tables/executionColumns/ColumnExternalId.vue";
 import ColumnExecutionState from "@/components/tables/executionColumns/ColumnExecutionState.vue";

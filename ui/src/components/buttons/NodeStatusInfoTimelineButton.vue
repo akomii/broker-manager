@@ -1,6 +1,11 @@
 <template>
     <div v-if="mostActualState">
-        <Button @click="togglePanel" plain text>
+        <Button
+            @click="togglePanel"
+            plain
+            text
+            v-tooltip.bottom="$t('openStatusTimeline')"
+        >
             {{ mostActualState }}
         </Button>
         <OverlayPanel ref="timelinePanel" showCloseIcon>
@@ -51,6 +56,8 @@ export default {
     },
     computed: {
         mostActualState(): string | null {
+            if (!this.nodeStatusInfo) return null; //TODO recheck if necessary here
+
             let currentState: NodeState = NodeState.RETRIEVED;
             let latestTimestamp: Date | null = null;
             let allStatesNull = true;

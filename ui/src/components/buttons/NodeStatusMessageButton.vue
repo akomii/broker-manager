@@ -1,7 +1,9 @@
 <template>
     <Button
+        v-if="statusMessage"
         @click="showStatusMessage()"
         icon="pi pi-exclamation-circle text-xl text-blue-600"
+        v-tooltip.bottom="$t('showStatusMessage')"
         text
         rounded
     />
@@ -10,7 +12,7 @@
 <script lang="ts">
 import Button from "primevue/button";
 
-// TODO add Hover info
+// TODO remove v-if and put on parent or similar
 export default {
     components: {
         Button,
@@ -29,9 +31,7 @@ export default {
                     newWindow.document.write(
                         `<pre>${this.statusMessage}</pre>`
                     );
-                    newWindow.document.title = this.$t("nodeStatusMessage", {
-                        nodeId: "'TODOOOOO'",
-                    });
+                    newWindow.document.title = this.$t("statusMessage");
                     newWindow.document.close();
                 }
             }

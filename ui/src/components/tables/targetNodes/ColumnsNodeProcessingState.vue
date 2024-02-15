@@ -9,7 +9,7 @@
     <Column field="msg" header="">
         <template #body="slotProps">
             <NodeStatusMessageButton
-                :statusMessage="slotProps.data.nodeStatusInfo.statusMessage"
+                :statusMessage="slotProps.data.nodeStatusInfo?.statusMessage"
             />
         </template>
     </Column>

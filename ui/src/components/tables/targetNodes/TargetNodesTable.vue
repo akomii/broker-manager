@@ -26,7 +26,7 @@
                     {{
                         $t("XofY", {
                             x: completedNodeStatusCount,
-                            y: targetNodeStatusInfos.length,
+                            y: targetNodes.length,
                         })
                     }}
                 </span>
@@ -135,7 +135,7 @@ export default {
                 const searchFields = [
                     node.id.toString(),
                     node.clientDN.CN,
-                    node.tags.map((tag) => tag).join(" "), //TODO CHECK THIS
+                    node.tags.map((tag) => tag).join(" "),
                     MomentWrapper.formatDateToGermanLocale(node.lastContact),
                 ];
                 return searchFields.some((field) =>

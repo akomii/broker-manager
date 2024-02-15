@@ -1,6 +1,6 @@
 <template>
     <DialogCommon
-        :buttonLabel="completedNodeStatusCount"
+        :buttonLabel="completedNodeStatusMessage"
         :dialogTitle="$t('targetNodes')"
     >
         <template #dialog-body>
@@ -46,10 +46,14 @@ export default {
         };
     },
     computed: {
-        completedNodeStatusCount(): number {
-            return this.targetNodeStatusInfos.filter(
+        completedNodeStatusMessage(): string {
+            const completedNodes = this.targetNodeStatusInfos.filter(
                 (nodeInfo) => nodeInfo.completed !== null
             ).length;
+            return this.$t("XofY", {
+                x: completedNodes,
+                y: this.targetNodeStatusInfos.length,
+            });
         },
     },
 };

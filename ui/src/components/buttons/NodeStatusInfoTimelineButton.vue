@@ -1,25 +1,22 @@
 <template>
-    <div v-if="mostActualState">
-        <Button
-            @click="togglePanel"
-            plain
-            text
-            v-tooltip.bottom="$t('openStatusTimeline')"
-        >
-            {{ mostActualState }}
-        </Button>
-        <OverlayPanel ref="timelinePanel" showCloseIcon>
-            <Timeline :value="statusArray">
-                <template #opposite="timelineSlotProps">
-                    <small>{{ timelineSlotProps.item.date }}</small>
-                </template>
-                <template #content="timelineSlotProps">
-                    <small>{{ timelineSlotProps.item.status }}</small>
-                </template>
-            </Timeline>
-        </OverlayPanel>
-    </div>
-    <NotAvailableIcon v-else class="flex justify-content-center" />
+    <Button
+        @click="togglePanel"
+        plain
+        text
+        v-tooltip.bottom="$t('openStatusTimeline')"
+    >
+        {{ mostActualState }}
+    </Button>
+    <OverlayPanel ref="timelinePanel" showCloseIcon>
+        <Timeline :value="statusArray">
+            <template #opposite="timelineSlotProps">
+                <small>{{ timelineSlotProps.item.date }}</small>
+            </template>
+            <template #content="timelineSlotProps">
+                <small>{{ timelineSlotProps.item.status }}</small>
+            </template>
+        </Timeline>
+    </OverlayPanel>
 </template>
 
 <script lang="ts">

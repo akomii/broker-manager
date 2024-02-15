@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import DownloadButton from "./DownloadButton.vue";
+import DownloadButton from "@/components/buttons/DownloadButton.vue";
 
 // TODO nested table components are not exported correctly
 export default {

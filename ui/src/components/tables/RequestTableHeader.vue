@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Checkbox from "primevue/checkbox";
-import SearchInput from "@/components/common/SearchInput.vue";
+import SearchInput from "@/components/tables/SearchInput.vue";
 
 export default {
     components: {

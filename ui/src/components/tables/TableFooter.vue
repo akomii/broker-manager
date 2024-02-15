@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import ExportTableButton from "@/components/common/ExportTableButton.vue";
+import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 
 export default {
     components: {

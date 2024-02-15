@@ -5,6 +5,9 @@
                 <span>
                     {{ slotProps.data.sequenceId }}
                 </span>
+                <AnchoredRequestIcon
+                    v-if="isSequenceIdAnchored(slotProps.data.sequenceId)"
+                />
                 <ResultsNotDownloadedIcon
                     v-if="
                         isResultsDownloadLogEmpty(
@@ -25,6 +28,7 @@
 import Column from "primevue/column";
 import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import NewResultsAvailableIcon from "@/components/icons/NewResultsAvailableIcon.vue";
+import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
 import { ResultsDownloadLog } from "@/utils/Types.ts";
 import { ExecutionState } from "@/utils/Enums.ts";
 
@@ -33,6 +37,13 @@ export default {
         Column,
         ResultsNotDownloadedIcon,
         NewResultsAvailableIcon,
+        AnchoredRequestIcon,
+    },
+    props: {
+        anchoredSequenceIdRef: {
+            type: Number,
+            default: 0,
+        },
     },
     methods: {
         isResultsDownloadLogEmpty(downloadLog: ResultsDownloadLog[]): boolean {
@@ -40,6 +51,9 @@ export default {
         },
         isExecutionNotPending(state: ExecutionState): boolean {
             return state !== ExecutionState.PENDING;
+        },
+        isSequenceIdAnchored(sequenceId: Number): boolean {
+            return sequenceId === this.anchoredSequenceIdRef;
         },
     },
 };

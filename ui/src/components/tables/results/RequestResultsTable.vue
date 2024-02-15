@@ -100,7 +100,7 @@ export default {
                         execution.externalId?.toString(),
                         this.$t(
                             `enums.executionState.${execution.executionState}`
-                        ).toLowerCase(),
+                        ),
                         MomentWrapper.formatDateToGermanLocale(
                             execution.referenceDate
                         ),

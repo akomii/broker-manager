@@ -134,7 +134,7 @@ import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
 import SeriesMetaEdit from "@/components/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionTableEdit from "@/components/executions/ExecutionTableEdit.vue";
+import ExecutionTableEdit from "@/components/tables/executions/ExecutionTableEdit.vue";
 
 export default {
     components: {

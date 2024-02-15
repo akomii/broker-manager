@@ -88,7 +88,7 @@ import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionTableView from "@/components/executions/ExecutionTableView.vue";
+import ExecutionTableView from "@/components/tables/executions/ExecutionTableView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";

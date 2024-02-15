@@ -24,13 +24,11 @@
                             {{ $t("showArchivedExecutions") }}
                         </label>
                     </span>
-                    <SearchInput
-                        @update:input="
-                            (val) => {
-                                currentSearchTerm = val;
-                                filterDataTableExecutions();
-                            }
-                        "
+                    <Button
+                        :label="$t('addNewExecution')"
+                        icon="pi pi-plus"
+                        severity="success"
+                        @click="addNewRequestExecution"
                     />
                 </div>
             </template>
@@ -45,12 +43,6 @@
                         <AnchoredRequestIcon
                             v-if="
                                 isSequenceIdAnchored(slotProps.data.sequenceId)
-                            "
-                        />
-                        <ResultsNotDownloadedIcon
-                            v-if="
-                                isResultsDownloadLogEmpty(slotProps.data) &&
-                                slotProps.data.executionState !== 'PENDING'
                             "
                         />
                     </div>
@@ -91,7 +83,12 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <DateView :date="slotProps.data.referenceDate" />
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.referenceDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="slotProps.data.referenceDate = $event"
+                    />
                 </template>
             </Column>
             <Column
@@ -100,10 +97,13 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.publishDate')"
-                        :scheduledDate="slotProps.data.scheduledPublishDate"
-                        :actualDate="slotProps.data.publishedDate"
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledPublishDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledPublishDate = $event
+                        "
                     />
                 </template>
             </Column>
@@ -113,7 +113,12 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <DateView :date="slotProps.data.executionDate" />
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.executionDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="slotProps.data.executionDate = $event"
+                    />
                 </template>
             </Column>
             <Column
@@ -122,10 +127,13 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.closingDate')"
-                        :scheduledDate="slotProps.data.scheduledClosingDate"
-                        :actualDate="slotProps.data.closedDate"
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledClosingDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledClosingDate = $event
+                        "
                     />
                 </template>
             </Column>
@@ -135,42 +143,48 @@
                 sortable
             >
                 <template #body="slotProps">
-                    <ScheduledDateView
-                        :tooltipLabel="$t('dates.archiveDate')"
-                        :scheduledDate="slotProps.data.scheduledArchiveDate"
-                        :actualDate="slotProps.data.archivedDate"
-                    />
-                </template>
-            </Column>
-            <Column
-                field="acceptance"
-                :header="$t('acceptance')"
-                bodyStyle="text-align: center"
-            >
-                <template #body="slotProps">
-                    <TargetNodesViewDialog
-                        v-if="
-                            isNodeStatusInfoNotEmpty(
-                                slotProps.data.nodeStatusInfos
-                            )
+                    <DatePick
+                        class="w-12rem"
+                        :date="slotProps.data.scheduledArchiveDate"
+                        :disabled="isExecutionAfterPending(slotProps.data)"
+                        @update:date="
+                            slotProps.data.scheduledArchiveDate = $event
                         "
-                        :execution="slotProps.data"
-                        :showProcessingStateInfo="true"
                     />
-                    <i v-else class="pi pi-minus" />
                 </template>
             </Column>
+
+            <ConfirmPopup></ConfirmPopup>
             <Column field="actions" bodyStyle="text-align: center">
+                <Toast />
                 <template #body="slotProps">
-                    <MenuButton
-                        :icon="'pi pi-ellipsis-v'"
-                        :outlined="true"
-                        :menu="
-                            getMenuForExecutionState(
-                                slotProps.data.executionState
-                            )
-                        "
-                    />
+                    <div class="flex justify-content-center gap-2">
+                        <Button
+                            v-if="
+                                !isSequenceIdAnchored(slotProps.data.sequenceId)
+                            "
+                            v-tooltip.bottom="$t('anchorThisExecution')"
+                            @click="setSequenceIdRef(slotProps.data.sequenceId)"
+                            icon="pi pi-star"
+                            outlined
+                        />
+                        <Button
+                            v-if="slotProps.data.executionState === 'PENDING'"
+                            v-tooltip.bottom="$t('deleteThisExecution')"
+                            @click="
+                                deleteRequestExecution(
+                                    $event,
+                                    slotProps.data.sequenceId
+                                )
+                            "
+                            :disabled="
+                                isSequenceIdAnchored(slotProps.data.sequenceId)
+                            "
+                            severity="danger"
+                            icon="pi pi-trash"
+                            outlined
+                        />
+                    </div>
                 </template>
             </Column>
             <template #empty>
@@ -191,9 +205,6 @@
                     }}
                 </span>
             </template>
-            <template #paginatorend>
-                <ExportTableButton class="mt-3" :dt="$refs.dt" />
-            </template>
         </DataTable>
     </Fieldset>
 </template>
@@ -202,7 +213,7 @@
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { RequestExecution, NodeStatusInfo } from "@/utils/Types";
+import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 import DateView from "@/components/datePickers/DateView.vue";
@@ -210,11 +221,16 @@ import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import SearchInput from "@/components/tables/SearchInput.vue";
-import AnchoredRequestIcon from "./AnchoredRequestIcon.vue";
+import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
 import ResultsNotDownloadedIcon from "@/components/icons/ResultsNotDownloadedIcon.vue";
 import Checkbox from "primevue/checkbox";
-import TargetNodesViewDialog from "./TargetNodesViewDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
+import Button from "primevue/button";
+import Toast from "primevue/toast";
+import ConfirmPopup from "primevue/confirmpopup";
+import DatePick from "@/components/datePickers/DatePick.vue";
+
+//TODO sorting with scheduled and actual dates does not work
 
 export default {
     components: {
@@ -230,7 +246,10 @@ export default {
         AnchoredRequestIcon,
         ResultsNotDownloadedIcon,
         Checkbox,
-        TargetNodesViewDialog,
+        Button,
+        Toast,
+        ConfirmPopup,
+        DatePick,
     },
     props: {
         executions: {
@@ -353,8 +372,75 @@ export default {
                     return [];
             }
         },
-        isNodeStatusInfoNotEmpty(nodeStatusInfo: NodeStatusInfo[]): boolean {
-            return nodeStatusInfo.length > 0;
+        // TODO wrong dates are shown in table
+        addNewRequestExecution() {
+            const newRequestExecution: RequestExecution = {
+                sequenceId: this.executions.length + 1,
+                externalId: null,
+                referenceDate: new Date(),
+                executionDate: new Date(),
+                scheduledPublishDate: new Date(),
+                publishedDate: null,
+                scheduledClosingDate: new Date(),
+                closedDate: null,
+                scheduledArchiveDate: new Date(),
+                archivedDate: null,
+                creator: "NewCreator", // TODO current user
+                createdDate: new Date(),
+                executionState: ExecutionState.PENDING,
+                nodeStatusInfos: [],
+                resultsDownloadLog: [],
+            };
+            const updatedExecutions = [...this.executions, newRequestExecution];
+            this.$emit("update:executions", updatedExecutions);
+            this.$toast.add({
+                severity: "success",
+                detail: this.$t("addedNewExecution"),
+                life: 3000,
+            });
+            this.$nextTick(() => {
+                this.filterDataTableExecutions();
+            });
+        },
+        setSequenceIdRef(sequenceId: Number) {
+            this.$emit("update:anchoredSequenceIdRef", sequenceId);
+            this.$toast.add({
+                severity: "info",
+                detail: this.$t("setAnchorToSequenceId", {
+                    sequenceId: sequenceId,
+                }),
+                life: 3000,
+            });
+        },
+        deleteRequestExecution(event, sequenceId: number) {
+            this.$confirm.require({
+                target: event.currentTarget,
+                message: this.$t("doYouWantToDeleteThisExecution"),
+                icon: "pi pi-info-circle",
+                rejectClass: "p-button-outlined p-button-sm",
+                acceptClass: "p-button-danger p-button-sm",
+                rejectLabel: this.$t("cancel"),
+                acceptLabel: this.$t("delete"),
+                accept: () => {
+                    const updatedExecutions = this.executions.filter(
+                        (execution) => execution.sequenceId !== sequenceId
+                    );
+                    this.$emit("update:executions", updatedExecutions);
+                    this.$toast.add({
+                        severity: "success",
+                        detail: this.$t("deletedExecutionWithSequenceId", {
+                            sequenceId: sequenceId,
+                        }),
+                        life: 3000,
+                    });
+                    this.$nextTick(() => {
+                        this.filterDataTableExecutions();
+                    });
+                },
+            });
+        },
+        isExecutionAfterPending(execution: RequestExecution): boolean {
+            return execution.executionState !== ExecutionState.PENDING;
         },
     },
 };

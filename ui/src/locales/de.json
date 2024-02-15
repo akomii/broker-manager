@@ -308,5 +308,8 @@
     "algorithm": "Algorithmus",
     "newResultsAvailable": "Neue Ergebnisse verfügbar",
     "noResultsAvailable": "Keine Ergebnisse verfügbar",
-    "openStatusTimeline": "Status-Zeitstrahl öffnen"
+    "openStatusTimeline": "Status-Zeitstrahl öffnen",
+    "noRequestsFound": "Keine Anfragen gefunden",
+    "oneRequest": "1 Anfrage",
+    "xRequests": "{numRequests} Anfragen"
 }

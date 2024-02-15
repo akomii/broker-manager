@@ -253,6 +253,7 @@
     "description": "Beschreibung",
     "sql": "SQL",
     "requestHistory": "Änderungshistorie",
+    "changeDate": "Änderungsdatum",
     "byUser": "durch {user}",
     "convertRequest": "TODO Anfrage umwandeln",
     "noNodesFound": "Keine Standorte gefunden",
@@ -307,5 +308,5 @@
     "algorithm": "Algorithmus",
     "newResultsAvailable": "Neue Ergebnisse verfügbar",
     "noResultsAvailable": "Keine Ergebnisse verfügbar",
-    "openStatusTimeline":"Status-Zeitstrahl öffnen"
+    "openStatusTimeline": "Status-Zeitstrahl öffnen"
 }

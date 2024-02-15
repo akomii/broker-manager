@@ -60,7 +60,7 @@
 import SingleMetaCommon from "./SingleMetaCommon.vue";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import RequestHistoryDialog from "@/components/history/RequestHistoryDialog.vue";
+import RequestHistoryDialog from "@/components/dialogs/RequestHistoryDialog.vue";
 import { ModificationHistoryItem } from "@/utils/Types";
 
 export default {

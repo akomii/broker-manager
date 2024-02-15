@@ -12,7 +12,7 @@
                 :sortOrder="-1"
             >
                 <Column expander />
-                <Column :header="$t('date')" field="date" sortable>
+                <Column :header="$t('changeDate')" field="date" sortable>
                     <template #body="slotProps">
                         {{ formatDate(slotProps.data.date) }}
                     </template>

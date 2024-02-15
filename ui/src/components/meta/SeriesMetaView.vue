@@ -82,7 +82,7 @@ import { RepeatedExecution } from "@/utils/Types";
 import { RequestType } from "@/utils/Enums.ts";
 import DateView from "@/components/datePickers/DateView.vue";
 import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
-import RequestHistoryDialog from "@/components/history/RequestHistoryDialog.vue";
+import RequestHistoryDialog from "@/components/dialogs/RequestHistoryDialog.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 import type { MomentDuration } from "@/utils/MomentWrapper";
 import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";

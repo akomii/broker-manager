@@ -71,7 +71,7 @@ export default {
     },
     computed: {
         duration() {
-            return MomentWrapper.computePeriod(
+            return MomentWrapper.computeDurationBetweenDates(
                 this.dummyReferenceStart,
                 this.execution.referenceDate
             );

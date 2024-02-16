@@ -9,7 +9,7 @@ export class MomentWrapper {
         return moment.duration(value);
     }
 
-    static computePeriod(date1: Date, date2: Date): Duration {
+    static computeDurationBetweenDates(date1: Date, date2: Date): Duration {
         const roundedDate1 = moment(date1).startOf("minute");
         const roundedDate2 = moment(date2).startOf("minute");
         return moment.duration(roundedDate1.diff(roundedDate2));
@@ -20,7 +20,7 @@ export class MomentWrapper {
     }
 
     static addHoursToDuration(duration: Duration, hours: number): Duration {
-        return duration.add(8, "hours");
+        return duration.add(hours, "hours");
     }
 
     static formatDurationToHumanReadable(

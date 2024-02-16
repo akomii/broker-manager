@@ -2,7 +2,7 @@
     <DataTable
         :value="requests"
         sortField="id"
-        :sortOrder="-1"
+        :sortOrder="1"
         ref="requestsTable"
         paginator
         :rows="10"
@@ -20,14 +20,21 @@
         <ColumnRequestType key="requestType" />
         <ColumnRequestState key="requestState" />
         <ColumnOrganization key="organization" />
+        <ColumnCurrentPublishDate key="currentPublishDate" />
+        <ColumnCurrentScheduledClosingDateVue
+            key="currentScheduledClosingDate"
+        />
 
         <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
 
-        <!-- Aktuellste Veröffentlichkeit -->
-        <!-- Aktuellste Schließdatum -->
         <!-- Tags -->
         <!-- Aktuellste Zustimmung -->
-        <!-- Aktionen -->
+
+        <!-- Aktionen Neuer Button??? -->
+
+        <!-- TODO ReuqestTableHeader umbennen ExecutionTableHeader -->
+        <!-- TODO Node TableHeader classe -->
+        <!-- TODO RequestTableHeader, aber mit option Entwürfe zu hiden-->
 
         <template #empty>
             <p class="flex justify-content-center">
@@ -55,6 +62,8 @@ import ColumnTitle from "@/components/tables/requestColumns/ColumnTitle.vue";
 import ColumnRequestType from "@/components/tables/requestColumns/ColumnRequestType.vue";
 import ColumnRequestState from "@/components/tables/requestColumns/ColumnRequestState.vue";
 import ColumnOrganization from "@/components/tables/requestColumns/ColumnOrganization.vue";
+import ColumnCurrentPublishDate from "@/components/tables/requestColumns/ColumnCurrentPublishDate.vue";
+import ColumnCurrentScheduledClosingDateVue from "@/components/tables/requestColumns/ColumnCurrentScheduledClosingDate.vue";
 
 export default {
     components: {
@@ -67,6 +76,8 @@ export default {
         ColumnRequestType,
         ColumnRequestState,
         ColumnOrganization,
+        ColumnCurrentPublishDate,
+        ColumnCurrentScheduledClosingDateVue,
         ExportTableButton,
     },
     props: {

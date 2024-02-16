@@ -181,6 +181,8 @@
         "closingDate": "Schließdatum",
         "executionDate": "Ausführungsdatum",
         "publishDate": "Veröffentlichungsdatum",
+        "currentPublishDate": "Aktuelles Veröffentlichungsdatum",
+        "currentClosingDate": "Aktuelles Schließdatum",
         "referenceDate": "Referenzdatum",
         "referencePeriod": {
             "start": "Referenzzeitraum Start",

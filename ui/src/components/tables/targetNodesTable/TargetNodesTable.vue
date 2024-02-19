@@ -33,7 +33,7 @@
                 <SearchInput @update:input="filterEnrichedTableNodes" />
             </div>
         </template>
-        <ColumnNodeId key="nodeId" />
+        <ColumnId key="nodeId" />
         <ColumnCommonName key="commonName" />
         <ColumnTags key="tags" />
         <ColumnLastContact key="lastContact" />
@@ -56,7 +56,7 @@
 import DataTable from "primevue/datatable";
 import SearchInput from "@/components/tables/SearchInput.vue";
 import TableFooter from "@/components/tables/TableFooter.vue";
-import ColumnNodeId from "@/components/tableColumns/managerNodeColumns/ColumnNodeId.vue";
+import ColumnNodeId from "@/components/tableColumns/ColumnId.vue";
 import ColumnCommonName from "@/components/tableColumns/managerNodeColumns/ColumnCommonName.vue";
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
 import ColumnLastContact from "@/components/tableColumns/managerNodeColumns/ColumnLastContact.vue";

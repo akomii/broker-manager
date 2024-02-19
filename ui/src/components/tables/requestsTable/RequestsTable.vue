@@ -24,10 +24,10 @@
         <ColumnCurrentScheduledClosingDateVue
             key="currentScheduledClosingDate"
         />
+        <ColumnTags key="tags" />
 
         <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
 
-        <!-- Tags -->
         <!-- Aktuellste Zustimmung -->
 
         <!-- Aktionen Neuer Button??? -->
@@ -56,7 +56,7 @@ import Column from "primevue/column";
 import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { ManagerRequest } from "@/utils/Types";
-import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
+import ColumnId from "@/components/tableColumns/ColumnId.vue";
 import ColumnPrincipal from "@/components/tableColumns/managerRequestColumns/ColumnPrincipal.vue";
 import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
 import ColumnRequestType from "@/components/tableColumns/managerRequestColumns/ColumnRequestType.vue";
@@ -64,13 +64,14 @@ import ColumnRequestState from "@/components/tableColumns/managerRequestColumns/
 import ColumnOrganization from "@/components/tableColumns/managerRequestColumns/ColumnOrganization.vue";
 import ColumnCurrentPublishDate from "@/components/tableColumns/managerRequestColumns/ColumnCurrentPublishDate.vue";
 import ColumnCurrentScheduledClosingDateVue from "@/components/tableColumns/managerRequestColumns/ColumnCurrentScheduledClosingDate.vue";
+import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
 
 export default {
     components: {
         DataTable,
         Column,
         RequestTableHeader,
-        ColumnRequestId,
+        ColumnRequestId: ColumnId,
         ColumnPrincipal,
         ColumnTitle,
         ColumnRequestType,
@@ -78,6 +79,7 @@ export default {
         ColumnOrganization,
         ColumnCurrentPublishDate,
         ColumnCurrentScheduledClosingDateVue,
+        ColumnTags,
         ExportTableButton,
     },
     props: {

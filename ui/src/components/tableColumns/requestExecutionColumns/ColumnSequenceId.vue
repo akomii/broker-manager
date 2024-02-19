@@ -1,5 +1,5 @@
 <template>
-    <Column field="sequenceId" :header="$t('sequenceId')" sortable>
+    <Column :header="$t('sequenceId')" sortable>
         <template #body="slotProps">
             <div class="flex gap-1">
                 <span>

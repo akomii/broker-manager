@@ -1,5 +1,5 @@
 <template>
-    <Column field="actions" bodyStyle="text-align: center">
+    <Column bodyStyle="text-align: center">
         <template #body="slotProps">
             <DownloadButton
                 :label="'TODO'"

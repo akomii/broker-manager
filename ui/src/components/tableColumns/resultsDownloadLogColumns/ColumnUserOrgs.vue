@@ -1,5 +1,5 @@
 <template>
-    <Column field="userOrgs" :header="$t('organizations')" sortable>
+    <Column :header="$t('organizations')" sortable>
         <template #body="slotProps">
             <SimpleChipList :chips="slotProps.data.userOrgs" />
         </template>

@@ -1,5 +1,5 @@
 <template>
-    <Column field="tags" :header="$t('tags')" sortable>
+    <Column :header="$t('tags')" sortable>
         <template #body="slotProps">
             <EditableTagListView :tags="slotProps.data.tags" />
         </template>

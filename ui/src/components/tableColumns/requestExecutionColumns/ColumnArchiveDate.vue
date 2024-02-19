@@ -1,5 +1,5 @@
 <template>
-    <Column field="archiveDate" :header="$t('dates.archiveDate')" sortable>
+    <Column :header="$t('dates.archiveDate')" sortable>
         <template #body="slotProps">
             <ScheduledDateView
                 :tooltipLabel="$t('dates.archiveDate')"

@@ -1,5 +1,5 @@
 <template>
-    <Column field="closingDate" :header="$t('dates.closingDate')" sortable>
+    <Column :header="$t('dates.closingDate')" sortable>
         <template #body="slotProps">
             <ScheduledDateView
                 :tooltipLabel="$t('dates.closingDate')"

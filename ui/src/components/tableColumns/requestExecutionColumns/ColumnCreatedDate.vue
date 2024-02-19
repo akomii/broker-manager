@@ -1,5 +1,5 @@
 <template>
-    <Column field="createdDate" :header="$t('dates.createdDate')" sortable>
+    <Column :header="$t('dates.createdDate')" sortable>
         <template #body="slotProps">
             <DateView :date="slotProps.data.createdDate" />
         </template>

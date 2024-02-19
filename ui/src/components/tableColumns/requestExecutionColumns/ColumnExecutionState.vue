@@ -1,6 +1,5 @@
 <template>
     <Column
-        field="executionState"
         :header="$t('enums.executionState.label')"
         sortable
     >

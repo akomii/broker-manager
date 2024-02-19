@@ -1,6 +1,5 @@
 <template>
     <Column
-        field="currentPublishDate"
         :header="$t('dates.currentPublishDate')"
         sortable
     >

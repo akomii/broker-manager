@@ -1,5 +1,5 @@
 <template>
-    <Column field="externalId" :header="$t('externalId')" sortable>
+    <Column :header="$t('externalId')" sortable>
         <template #body="slotProps">
             <span v-if="slotProps.data.externalId">
                 {{ slotProps.data.externalId }}

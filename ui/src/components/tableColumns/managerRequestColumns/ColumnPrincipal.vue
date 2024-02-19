@@ -1,9 +1,5 @@
 <template>
-    <Column field="principal" :header="$t('principal')" sortable>
-        <template #body="slotProps">
-            {{ slotProps.data.query.principal.name }}
-        </template>
-    </Column>
+    <Column field="query.principal.name" :header="$t('principal')" sortable/>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,5 @@
 <template>
     <Column
-        field="requestType"
         :header="$t('enums.requestType.label')"
         sortable
     >

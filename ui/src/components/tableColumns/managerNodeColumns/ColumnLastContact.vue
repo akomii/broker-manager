@@ -1,5 +1,5 @@
 <template>
-    <Column field="lastContact" :header="$t('lastContact')" sortable>
+    <Column :header="$t('lastContact')" sortable>
         <template #body="slotProps">
             <DateView :date="slotProps.data.lastContact" />
         </template>

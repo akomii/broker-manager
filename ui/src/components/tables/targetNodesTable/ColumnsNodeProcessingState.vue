@@ -1,7 +1,7 @@
 <template>
     <Column field="state" :header="$t('processingState')">
         <template #body="slotProps">
-            <NodeStatusInfoTimelineButton
+            <NodeStatusInfoTimeline
                 v-if="
                     isNodeStatusInfoNotEmptyOrUndefined(
                         slotProps.data.nodeStatusInfo
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Column from "primevue/column";
-import NodeStatusInfoTimelineButton from "@/components/buttons/NodeStatusInfoTimelineButton.vue";
+import NodeStatusInfoTimeline from "@/components/dialogs/NodeStatusInfoTimeline.vue";
 import NodeStatusMessageButton from "@/components/buttons/NodeStatusMessageButton.vue";
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 import { NodeStatusInfo } from "@/utils/Types";
@@ -31,7 +31,7 @@ import { NodeStatusInfo } from "@/utils/Types";
 export default {
     components: {
         Column,
-        NodeStatusInfoTimelineButton,
+        NodeStatusInfoTimeline,
         NodeStatusMessageButton,
         NotAvailableIcon,
     },

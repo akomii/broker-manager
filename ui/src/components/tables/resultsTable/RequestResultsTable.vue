@@ -7,7 +7,7 @@
         v-model:expandedRows="expandedRows"
     >
         <template #header>
-            <RequestTableHeader
+            <ExecutionsTableHeader
                 @update:showArchived="showArchived = $event"
                 @search="filterDataTableExecutions"
             />
@@ -50,7 +50,7 @@ import Column from "primevue/column";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
-import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
+import ExecutionsTableHeader from "@/components/tables/ExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnExecutionState from "@/components/tableColumns/requestExecutionColumns/ColumnExecutionState.vue";
@@ -64,7 +64,7 @@ export default {
         DataTable,
         Column,
         ExpandedResultsLogTable,
-        RequestTableHeader,
+        ExecutionsTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnExecutionState,

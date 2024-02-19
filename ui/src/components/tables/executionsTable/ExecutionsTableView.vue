@@ -10,7 +10,7 @@
             :rowsPerPageOptions="[10, 25, 50]"
         >
             <template #header>
-                <RequestTableHeader
+                <ExecutionsTableHeader
                     @update:showArchived="showArchived = $event"
                     @search="filterEnrichedExecutions"
                 />
@@ -51,7 +51,7 @@
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
-import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
+import ExecutionsTableHeader from "@/components/tables/ExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnCreator from "@/components/tableColumns/requestExecutionColumns/ColumnCreator.vue";
@@ -74,7 +74,7 @@ export default {
     components: {
         Fieldset,
         DataTable,
-        RequestTableHeader,
+        ExecutionsTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnCreator,

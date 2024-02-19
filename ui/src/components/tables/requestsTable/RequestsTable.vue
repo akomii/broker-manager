@@ -9,10 +9,12 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <RequestTableHeader
+            <!--
+                <RequestTableHeader
                 @update:showArchived="showArchived = $event"
                 @search="filterRequests"
             />
+            -->
         </template>
         <ColumnRequestId key="requestId" />
         <ColumnPrincipal key="principal" />
@@ -51,7 +53,7 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
+//import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { ManagerRequest } from "@/utils/Types";
 import ColumnId from "@/components/tableColumns/ColumnId.vue";
@@ -70,7 +72,7 @@ export default {
     components: {
         DataTable,
         Column,
-        RequestTableHeader,
+       // RequestTableHeader,
         ColumnRequestId: ColumnId,
         ColumnPrincipal,
         ColumnTitle,

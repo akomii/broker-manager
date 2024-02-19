@@ -26,10 +26,9 @@
             key="currentScheduledClosingDate"
         />
         <ColumnCurrentNodeCompletion key="currentNodeCompletion" />
+        <ColumnRequestDetailsAction key="requestDetailsAction" />
 
         <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
-
-        <!-- Aktionen Neuer Button??? -->
 
         <!-- TODO ReuqestTableHeader umbennen ExecutionTableHeader -->
         <!-- TODO Node TableHeader classe -->
@@ -65,6 +64,7 @@ import ColumnCurrentPublishDate from "@/components/tableColumns/managerRequestCo
 import ColumnCurrentScheduledClosingDateVue from "@/components/tableColumns/managerRequestColumns/ColumnCurrentScheduledClosingDate.vue";
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
 import ColumnCurrentNodeCompletion from "@/components/tableColumns/managerRequestColumns/ColumnCurrentNodeCompletion.vue";
+import ColumnRequestDetailsAction from "@/components/tableColumns/managerRequestColumns/ColumnRequestDetailsAction.vue";
 
 export default {
     components: {
@@ -81,6 +81,7 @@ export default {
         ColumnCurrentScheduledClosingDateVue,
         ColumnTags,
         ColumnCurrentNodeCompletion,
+        ColumnRequestDetailsAction,
         ExportTableButton,
     },
     props: {

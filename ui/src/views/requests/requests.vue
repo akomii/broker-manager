@@ -1,5 +1,5 @@
 <template>
-    <RequestsTable :requests="allManagerRequests" />
+    <RequestsTable :requests="allManagerRequests" class="mx-3" />
 </template>
 
 <script lang="ts">

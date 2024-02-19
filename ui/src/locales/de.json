@@ -316,5 +316,6 @@
     "noRequestsFound": "Keine Anfragen gefunden",
     "oneRequest": "1 Anfrage",
     "xRequests": "{numRequests} Anfragen",
-    "goToDetailsViewOfRequest": "Zur Detailsansicht der Anfrage"
+    "goToDetailsViewOfRequest": "Zur Detailsansicht der Anfrage",
+    "back": "Zurück"
 }

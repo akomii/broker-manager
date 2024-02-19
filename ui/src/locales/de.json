@@ -317,5 +317,6 @@
     "oneRequest": "1 Anfrage",
     "xRequests": "{numRequests} Anfragen",
     "goToDetailsViewOfRequest": "Zur Detailsansicht der Anfrage",
-    "back": "Zurück"
+    "back": "Zurück",
+    "newDraft": "TODO Neuer Draft"
 }

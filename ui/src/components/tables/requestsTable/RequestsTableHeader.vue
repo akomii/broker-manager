@@ -24,17 +24,22 @@
                 </label>
             </span>
         </div>
-        <SearchInput @update:input="emitSearch" />
+        <span class="flex gap-2 align-items-center">
+            <SearchInput @update:input="emitSearch" />
+            <NewDraftButton />
+        </span>
     </div>
 </template>
 
 <script lang="ts">
 import Checkbox from "primevue/checkbox";
+import NewDraftButton from "@/components/buttons/NewDraftButton.vue";
 import SearchInput from "@/components/tables/SearchInput.vue";
 
 export default {
     components: {
         Checkbox,
+        NewDraftButton,
         SearchInput,
     },
     data() {

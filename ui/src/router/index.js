@@ -3,7 +3,7 @@ import RequestList from "@/views/requests/requests.vue";
 import RequestView from "@/views/requests/demoView.vue";
 import RequestEdit from "@/views/requests/demoEdit.vue";
 import RequestResult from "@/views/requests/requestResult.vue";
-import Clinics from "@/views/clinics/clinics.vue";
+import Nodes from "@/views/nodes/nodes.vue";
 
 const routes = [
     {
@@ -27,8 +27,8 @@ const routes = [
         component: RequestResult,
     },
     {
-        path: "/clinics",
-        component: Clinics,
+        path: "/nodes",
+        component: Nodes,
     },
 ];
 

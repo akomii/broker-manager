@@ -52,7 +52,7 @@ export default {
                     label: this.$t("navigation.requests"),
                     to: "/requests",
                 },
-                { label: this.$t("navigation.clinics"), to: "/clinics" },
+                { label: this.$t("navigation.nodes"), to: "/nodes" },
             ],
         };
     },

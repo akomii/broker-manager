@@ -53,7 +53,7 @@
 <script lang="ts">
 import DatePick from "@/components/timeWidgets/DatePick.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
-import ConvertRequestButton from "./ConvertRequestButton.vue";
+import ConvertRequestButton from "@/components/buttons/ConvertRequestButton.vue";
 import SingleMetaCommon from "./SingleMetaCommon.vue";
 
 export default {

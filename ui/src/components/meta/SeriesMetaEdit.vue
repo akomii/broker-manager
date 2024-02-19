@@ -83,7 +83,7 @@ import { RequestType } from "@/utils/Enums.ts";
 import DateView from "@/components/timeWidgets/DateView.vue";
 import ScheduledDateView from "@/components/timeWidgets/ScheduledDateView.vue";
 import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";
-import ConvertRequestButton from "./ConvertRequestButton.vue";
+import ConvertRequestButton from "@/components/buttons/ConvertRequestButton.vue";
 import DatePick from "@/components/timeWidgets/DatePick.vue";
 import InputSwitch from "primevue/inputswitch";
 import TimePeriodInput from "./TimePeriodInput.vue";

@@ -8,5 +8,5 @@
 </template>
 
 <script setup lang="ts">
-import ApplicationHeader from "@/components/headers/ApplicationHeader.vue";
+import ApplicationHeader from "@/layouts/headers/ApplicationHeader.vue";
 </script>

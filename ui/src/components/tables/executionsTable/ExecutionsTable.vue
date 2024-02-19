@@ -1,55 +1,52 @@
 <template>
-    <Fieldset :legend="$t('executions')">
-        <DataTable
-            :value="filteredEnrichedExecutions"
-            sortField="sequenceId"
-            :sortOrder="-1"
-            ref="executionsTable"
-            paginator
-            :rows="10"
-            :rowsPerPageOptions="[10, 25, 50]"
-        >
-            <template #header>
-                <ExecutionsTableHeader
-                    @update:showArchived="showArchived = $event"
-                    @search="filterEnrichedExecutions"
-                />
-            </template>
-            <ColumnSequenceId
-                key="sequenceId"
-                :anchoredSequenceIdRef="anchoredSequenceIdRef"
+    <DataTable
+        :value="filteredEnrichedExecutions"
+        sortField="sequenceId"
+        :sortOrder="-1"
+        ref="executionsTable"
+        paginator
+        :rows="10"
+        :rowsPerPageOptions="[10, 25, 50]"
+    >
+        <template #header>
+            <ExecutionsTableHeader
+                @update:showArchived="showArchived = $event"
+                @search="filterEnrichedExecutions"
             />
-            <ColumnExternalId key="externalId" />
-            <ColumnCreator key="creator" />
-            <ColumnExecutionState key="executionState" />
-            <ColumnCreatedDate key="createdDate" />
-            <ColumnReferenceDate key="referenceDate" />
-            <ColumnPublishDate key="publishDate" />
-            <ColumnExecutionDate key="executionDate" />
-            <ColumnClosingDate key="closingDate" />
-            <ColumnArchiveDate key="archiveDate" />
-            <ColumnNodeCompletion key="completion" />
-            <ColumnMenuAction
-                key="menuAction"
-                :menuData="getMenuForExecutionState"
-            />
-            <template #empty>
-                <p class="flex justify-content-center">
-                    {{ $t("noExecutionsFound") }}
-                </p>
-            </template>
-            <template #paginatorstart>
-                <span>{{ executionsCountMessage }}</span>
-            </template>
-            <template #paginatorend>
-                <ExportTableButton class="mt-3" :dt="$refs.executionsTable" />
-            </template>
-        </DataTable>
-    </Fieldset>
+        </template>
+        <ColumnSequenceId
+            key="sequenceId"
+            :anchoredSequenceIdRef="anchoredSequenceIdRef"
+        />
+        <ColumnExternalId key="externalId" />
+        <ColumnCreator key="creator" />
+        <ColumnExecutionState key="executionState" />
+        <ColumnCreatedDate key="createdDate" />
+        <ColumnReferenceDate key="referenceDate" />
+        <ColumnPublishDate key="publishDate" />
+        <ColumnExecutionDate key="executionDate" />
+        <ColumnClosingDate key="closingDate" />
+        <ColumnArchiveDate key="archiveDate" />
+        <ColumnNodeCompletion key="completion" />
+        <ColumnMenuAction
+            key="menuAction"
+            :menuData="getMenuForExecutionState"
+        />
+        <template #empty>
+            <p class="flex justify-content-center">
+                {{ $t("noExecutionsFound") }}
+            </p>
+        </template>
+        <template #paginatorstart>
+            <span>{{ executionsCountMessage }}</span>
+        </template>
+        <template #paginatorend>
+            <ExportTableButton class="mt-3" :dt="$refs.executionsTable" />
+        </template>
+    </DataTable>
 </template>
 
 <script lang="ts">
-import Fieldset from "primevue/fieldset";
 import DataTable from "primevue/datatable";
 import ExecutionsTableHeader from "@/components/tables/ExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
@@ -72,7 +69,6 @@ import { TestDataService } from "@/services/TestDataService.js";
 
 export default {
     components: {
-        Fieldset,
         DataTable,
         ExecutionsTableHeader,
         ColumnSequenceId,

@@ -101,7 +101,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsTableEdit
+                <ExecutionsEdit
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -119,28 +119,26 @@
 </template>
 
 <script lang="ts">
-import PrincipalEdit from "@/components/principals/PrincipalEdit.vue";
-import OrganizationEdit from "@/components/organizations/OrganizationEdit.vue";
-import TextFieldEdit from "@/components/textfields/TextFieldEdit.vue";
-import TargetNodesEdit from "@/components/targetNodes/TargetNodesEdit.vue";
-import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
-import Button from "primevue/button";
+import PrincipalEdit from "@/layouts/principals/PrincipalEdit.vue";
+import OrganizationEdit from "@/layouts/organizations/OrganizationEdit.vue";
+import TextFieldEdit from "@/layouts/textfields/TextFieldEdit.vue";
+import TargetNodesEdit from "@/layouts/targetNodes/TargetNodesEdit.vue";
+import TargetNodesView from "@/layouts/targetNodes/TargetNodesView.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
-import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
-import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
-import SeriesMetaEdit from "@/components/meta/SeriesMetaEdit.vue";
+import RequestHeaderEdit from "@/layouts/headers/RequestHeaderEdit.vue";
+import SingleMetaEdit from "@/layouts/meta/SingleMetaEdit.vue";
+import SeriesMetaEdit from "@/layouts/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionsTableEdit from "@/components/tables/executionsTable/ExecutionsTableEdit.vue";
+import ExecutionsEdit from "@/layouts/executions/ExecutionsEdit.vue";
 
 export default {
     components: {
         PrincipalEdit,
         OrganizationEdit,
-        Button,
         TargetNodesEdit,
         TargetNodesView,
         ProgressSpinner,
@@ -149,7 +147,7 @@ export default {
         RequestHeaderEdit,
         SingleMetaEdit,
         SeriesMetaEdit,
-        ExecutionsTableEdit,
+        ExecutionsEdit,
     },
     data() {
         return {

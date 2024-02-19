@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsTableView
+                <ExecutionsView
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -81,20 +81,20 @@
 </template>
 
 <script lang="ts">
-import PrincipalView from "@/components/principals/PrincipalView.vue";
-import OrganizationView from "@/components/organizations/OrganizationView.vue";
-import TextFieldView from "@/components/textfields/TextFieldView.vue";
-import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
+import PrincipalView from "@/layouts/principals/PrincipalView.vue";
+import OrganizationView from "@/layouts/organizations/OrganizationView.vue";
+import TextFieldView from "@/layouts/textfields/TextFieldView.vue";
+import TargetNodesView from "@/layouts/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionsTableView from "@/components/tables/executionsTable/ExecutionsTableView.vue";
+import ExecutionsView from "@/layouts/executions/ExecutionsView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
-import RequestHeaderView from "@/components/headers/RequestHeaderView.vue";
-import SingleMetaView from "@/components/meta/SingleMetaView.vue";
-import SeriesMetaView from "@/components/meta/SeriesMetaView.vue";
+import RequestHeaderView from "@/layouts/headers/RequestHeaderView.vue";
+import SingleMetaView from "@/layouts/meta/SingleMetaView.vue";
+import SeriesMetaView from "@/layouts/meta/SeriesMetaView.vue";
 import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {
@@ -109,7 +109,7 @@ export default {
         RequestHeaderView,
         SingleMetaView,
         SeriesMetaView,
-        ExecutionsTableView,
+        ExecutionsView,
     },
     data() {
         return {

@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import DatePick from "@/components/datePickers/DatePick.vue";
+import DatePick from "@/components/timeWidgets/DatePick.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 import ConvertRequestButton from "./ConvertRequestButton.vue";
 import SingleMetaCommon from "./SingleMetaCommon.vue";

@@ -58,8 +58,8 @@
 
 <script lang="ts">
 import SingleMetaCommon from "./SingleMetaCommon.vue";
-import DateView from "@/components/datePickers/DateView.vue";
-import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
+import DateView from "@/components/timeWidgets/DateView.vue";
+import ScheduledDateView from "@/components/timeWidgets/ScheduledDateView.vue";
 import RequestHistoryDialog from "@/components/dialogs/RequestHistoryDialog.vue";
 import { ModificationHistoryItem } from "@/utils/Types";
 

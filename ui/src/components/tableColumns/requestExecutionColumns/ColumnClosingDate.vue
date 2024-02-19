@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Column from "primevue/column";
-import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
+import ScheduledDateView from "@/components/timeWidgets/ScheduledDateView.vue";
 
 export default {
     components: {

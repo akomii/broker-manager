@@ -216,8 +216,8 @@ import Column from "primevue/column";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
-import DateView from "@/components/datePickers/DateView.vue";
-import ScheduledDateView from "@/components/datePickers/ScheduledDateView.vue";
+import DateView from "@/components/timeWidgets/DateView.vue";
+import ScheduledDateView from "@/components/timeWidgets/ScheduledDateView.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import SearchInput from "@/components/tables/SearchInput.vue";
@@ -228,7 +228,7 @@ import MomentWrapper from "@/utils/MomentWrapper.ts";
 import Button from "primevue/button";
 import Toast from "primevue/toast";
 import ConfirmPopup from "primevue/confirmpopup";
-import DatePick from "@/components/datePickers/DatePick.vue";
+import DatePick from "@/components/timeWidgets/DatePick.vue";
 
 
 // TODO REFACTOOR

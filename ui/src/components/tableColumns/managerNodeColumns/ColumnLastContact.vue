@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Column from "primevue/column";
-import DateView from "@/components/datePickers/DateView.vue";
+import DateView from "@/components/timeWidgets/DateView.vue";
 
 export default {
     components: {

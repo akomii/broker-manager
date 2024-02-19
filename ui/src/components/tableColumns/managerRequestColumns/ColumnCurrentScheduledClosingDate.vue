@@ -1,8 +1,5 @@
 <template>
-    <Column
-        :header="$t('dates.currentClosingDate')"
-        sortable
-    >
+    <Column :header="$t('dates.currentClosingDate')" sortable>
         <template #body="slotProps">
             <div
                 v-if="
@@ -41,24 +38,22 @@ export default {
         getScheduledClosingDateOfMostCurrentExecution(
             executions: RequestExecution[]
         ): Date | null {
-            let latestExecution: RequestExecution | null = null;
-            let latestPublishedDate: Date | null = null;
-            for (const execution of executions) {
-                if (
-                    execution.executionState !== ExecutionState.PUBLISHED ||
-                    execution.publishedDate === null
-                ) {
-                    continue;
-                }
-                const currentPublishedDate = new Date(execution.publishedDate);
-                if (
-                    !latestPublishedDate ||
-                    currentPublishedDate > latestPublishedDate
-                ) {
-                    latestPublishedDate = currentPublishedDate;
-                    latestExecution = execution;
-                }
-            }
+            const latestExecution = executions.reduce(
+                (acc: RequestExecution | null, cur: RequestExecution) => {
+                    if (
+                        cur.executionState !== ExecutionState.PUBLISHED ||
+                        cur.publishedDate === null
+                    ) {
+                        return acc;
+                    }
+                    const curDate = new Date(cur.publishedDate);
+                    const accDate = acc
+                        ? new Date(acc.publishedDate as Date)
+                        : null;
+                    return !acc || curDate > accDate ? cur : acc;
+                },
+                null
+            );
             return latestExecution
                 ? new Date(latestExecution.scheduledClosingDate)
                 : null;

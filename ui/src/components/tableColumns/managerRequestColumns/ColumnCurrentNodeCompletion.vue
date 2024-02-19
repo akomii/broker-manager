@@ -1,23 +1,18 @@
 <template>
-    <Column
-        :header="$t('acceptance')"
-        sortable
-    >
+    <Column :header="$t('currentAcceptance')" sortable>
         <template #body="slotProps">
             <div
                 v-if="
-                    getScheduledClosingDateOfMostCurrentExecution(
+                    getNodeCompletionOfMostCurrentExecution(
                         slotProps.data.executions
                     ) !== null
                 "
             >
-                <DateView
-                    :date="
-                        getScheduledClosingDateOfMostCurrentExecution(
-                            slotProps.data.executions
-                        )
-                    "
-                />
+                {{
+                    getNodeCompletionOfMostCurrentExecution(
+                        slotProps.data.executions
+                    )
+                }}
             </div>
             <NotAvailableIcon v-else />
         </template>
@@ -26,7 +21,6 @@
 
 <script lang="ts">
 import Column from "primevue/column";
-import DateView from "@/components/datePickers/DateView.vue";
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
@@ -34,73 +28,40 @@ import { ExecutionState } from "@/utils/Enums";
 export default {
     components: {
         Column,
-        DateView,
         NotAvailableIcon,
     },
     methods: {
-        getScheduledClosingDateOfMostCurrentExecution(
+        getNodeCompletionOfMostCurrentExecution(
             executions: RequestExecution[]
-        ): Date | null {
-            let latestExecution: RequestExecution | null = null;
-            let latestPublishedDate: Date | null = null;
-            for (const execution of executions) {
-                if (
-                    execution.executionState !== ExecutionState.PUBLISHED ||
-                    execution.publishedDate === null
-                ) {
-                    continue;
-                }
-                const currentPublishedDate = new Date(execution.publishedDate);
-                if (
-                    !latestPublishedDate ||
-                    currentPublishedDate > latestPublishedDate
-                ) {
-                    latestPublishedDate = currentPublishedDate;
-                    latestExecution = execution;
-                }
+        ): string | null {
+            const latestExecution = executions.reduce(
+                (acc: RequestExecution | null, cur: RequestExecution) => {
+                    if (
+                        cur.executionState !== ExecutionState.PUBLISHED ||
+                        cur.publishedDate === null
+                    ) {
+                        return acc;
+                    }
+                    const curDate = new Date(cur.publishedDate);
+                    const accDate = acc
+                        ? new Date(acc.publishedDate as Date)
+                        : null;
+                    return !acc || curDate > accDate ? cur : acc;
+                },
+                null
+            );
+            if (latestExecution && latestExecution.nodeStatusInfos) {
+                const currentNodeCompletion =
+                    latestExecution.nodeStatusInfos.filter(
+                        (nodeInfo) => nodeInfo.completed !== null
+                    ).length;
+                return this.$t("XofY", {
+                    x: currentNodeCompletion,
+                    y: latestExecution.nodeStatusInfos.length,
+                });
             }
-            return latestExecution
-                ? new Date(latestExecution.scheduledClosingDate)
-                : null;
+            return null;
         },
     },
 };
 </script>
-
-
-
-<!--
-<template>
-    <Column field="completion" :header="$t('acceptance')">
-        <template #body="slotProps">
-            <TargetNodesTableDialog
-                v-if="isNodeStatusInfoNotEmpty(slotProps.data.nodeStatusInfos)"
-                :targetNodes="slotProps.data.nodes"
-                :targetNodeStatusInfos="slotProps.data.nodeStatusInfos"
-                :sequenceId="slotProps.data.sequenceId"
-            />
-            <NotAvailableIcon v-else class="flex justify-content-center" />
-        </template>
-    </Column>
-</template>
-
-<script lang="ts">
-import Column from "primevue/column";
-import TargetNodesTableDialog from "@/components/dialogs/TargetNodesTableDialog.vue";
-import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
-import { NodeStatusInfo } from "@/utils/Types";
-
-export default {
-    components: {
-        Column,
-        TargetNodesTableDialog,
-        NotAvailableIcon,
-    },
-    methods: {
-        isNodeStatusInfoNotEmpty(nodeStatusInfo: NodeStatusInfo[]): boolean {
-            return nodeStatusInfo.length > 0;
-        },
-    },
-};
-</script>
--->

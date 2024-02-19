@@ -247,6 +247,7 @@
     "exportCurrentTable": "Aktuelle Tabelle exportieren",
     "nodeAcceptanceOfExecution": "Zustimmung für Ausführung [{executionId}]",
     "acceptance": "Zustimmung",
+    "currentAcceptance": "Aktuelle Zustimmung",
     "processingState": "Bearbeitungsstatus",
     "selectedNodes": "Ausgewählte Standorte",
     "availableNodes": "Verfügbare Standorte",

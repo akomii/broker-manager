@@ -20,15 +20,14 @@
         <ColumnRequestType key="requestType" />
         <ColumnRequestState key="requestState" />
         <ColumnOrganization key="organization" />
+        <ColumnTags key="tags" />
         <ColumnCurrentPublishDate key="currentPublishDate" />
         <ColumnCurrentScheduledClosingDateVue
             key="currentScheduledClosingDate"
         />
-        <ColumnTags key="tags" />
+        <ColumnCurrentNodeCompletion key="currentNodeCompletion" />
 
         <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
-
-        <!-- Aktuellste Zustimmung -->
 
         <!-- Aktionen Neuer Button??? -->
 
@@ -65,6 +64,7 @@ import ColumnOrganization from "@/components/tableColumns/managerRequestColumns/
 import ColumnCurrentPublishDate from "@/components/tableColumns/managerRequestColumns/ColumnCurrentPublishDate.vue";
 import ColumnCurrentScheduledClosingDateVue from "@/components/tableColumns/managerRequestColumns/ColumnCurrentScheduledClosingDate.vue";
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
+import ColumnCurrentNodeCompletion from "@/components/tableColumns/managerRequestColumns/ColumnCurrentNodeCompletion.vue";
 
 export default {
     components: {
@@ -80,6 +80,7 @@ export default {
         ColumnCurrentPublishDate,
         ColumnCurrentScheduledClosingDateVue,
         ColumnTags,
+        ColumnCurrentNodeCompletion,
         ExportTableButton,
     },
     props: {

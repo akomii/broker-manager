@@ -1,8 +1,5 @@
 <template>
-    <Column
-        :header="$t('dates.currentPublishDate')"
-        sortable
-    >
+    <Column :header="$t('dates.currentPublishDate')" sortable>
         <template #body="slotProps">
             <div
                 v-if="

@@ -9,12 +9,11 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <!--
-                <RequestTableHeader
+            <RequestsTableHeader
                 @update:showArchived="showArchived = $event"
+                @update:showDraft="showDraft = $event"
                 @search="filterRequests"
             />
-            -->
         </template>
         <ColumnRequestId key="requestId" />
         <ColumnPrincipal key="principal" />
@@ -31,10 +30,7 @@
         <ColumnRequestDetailsAction key="requestDetailsAction" />
 
         <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
-
-        <!-- TODO ReuqestTableHeader umbennen ExecutionTableHeader -->
-        <!-- TODO Node TableHeader classe -->
-        <!-- TODO RequestTableHeader, aber mit option Entwürfe zu hiden-->
+        <!-- TODO enrich each request with current execution -->
 
         <template #empty>
             <p class="flex justify-content-center">
@@ -53,9 +49,10 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-//import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
+import RequestsTableHeader from "@/components/tables/requestsTable/RequestsTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { ManagerRequest } from "@/utils/Types";
+import { RequestState } from "@/utils/Enums";
 import ColumnId from "@/components/tableColumns/ColumnId.vue";
 import ColumnPrincipal from "@/components/tableColumns/managerRequestColumns/ColumnPrincipal.vue";
 import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
@@ -72,7 +69,7 @@ export default {
     components: {
         DataTable,
         Column,
-       // RequestTableHeader,
+        RequestsTableHeader,
         ColumnRequestId: ColumnId,
         ColumnPrincipal,
         ColumnTitle,
@@ -95,23 +92,24 @@ export default {
     data() {
         return {
             showArchived: false,
+            showDraft: false,
             currentSearchTerm: "",
         };
     },
     computed: {
         filteredRequests(): ManagerRequest[] {
-            /*
+/*
             return this.requests
                 .filter((execution) => {
                     return (
                         this.showArchived ||
-                        execution.executionState !== ExecutionState.ARCHIVED
+                            execution.executionState !== ExecutionState.ARCHIVED
                     );
                 })
                 .filter((execution) => {
                     const searchFields = [
                         execution.sequenceId?.toString(),
-                        execution.externalId?.toString(),
+                                                execution.externalId?.toString(),
                         execution.creator,
                         this.$t(
                             `enums.executionState.${execution.executionState}`
@@ -143,14 +141,14 @@ export default {
                         MomentWrapper.formatDateToGermanLocale(
                             execution.archivedDate
                         ),
-                    ];
+                                            ];
                     return searchFields.some((field) =>
                         field
                             ?.toLowerCase()
                             .includes(this.currentSearchTerm.toLowerCase())
                     );
                 });
-                */
+*/
         },
         requestsCountMessage(): string {
             const count = this.requests.length;

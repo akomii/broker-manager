@@ -1,5 +1,5 @@
 <template>
-    <Column field="acceptance" :header="$t('acceptance')">
+    <Column field="completion" :header="$t('acceptance')">
         <template #body="slotProps">
             <TargetNodesTableDialog
                 v-if="isNodeStatusInfoNotEmpty(slotProps.data.nodeStatusInfos)"

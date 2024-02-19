@@ -28,7 +28,7 @@
             <ColumnExecutionDate key="executionDate" />
             <ColumnClosingDate key="closingDate" />
             <ColumnArchiveDate key="archiveDate" />
-            <ColumnNodeAcceptanceVue key="acceptance" />
+            <ColumnNodeCompletion key="completion" />
             <ColumnMenuAction
                 key="menuAction"
                 :menuData="getMenuForExecutionState"
@@ -62,7 +62,7 @@ import ColumnPublishDate from "@/components/tableColumns/requestExecutionColumns
 import ColumnExecutionDate from "@/components/tableColumns/requestExecutionColumns/ColumnExecutionDate.vue";
 import ColumnClosingDate from "@/components/tableColumns/requestExecutionColumns/ColumnClosingDate.vue";
 import ColumnArchiveDate from "@/components/tableColumns/requestExecutionColumns/ColumnArchiveDate.vue";
-import ColumnNodeAcceptanceVue from "@/components/tables/executionsTable/ColumnNodeAcceptance.vue";
+import ColumnNodeCompletion from "@/components/tables/executionsTable/ColumnNodeCompletion.vue";
 import ColumnMenuAction from "@/components/tableColumns/requestExecutionColumns/ColumnMenuAction.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { RequestExecution, ManagerNode } from "@/utils/Types";
@@ -85,7 +85,7 @@ export default {
         ColumnExecutionDate,
         ColumnClosingDate,
         ColumnArchiveDate,
-        ColumnNodeAcceptanceVue,
+        ColumnNodeCompletion,
         ColumnMenuAction,
         ExportTableButton,
     },

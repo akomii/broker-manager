@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Divider from "primevue/divider";
-import GoBackButton from "./GoBackButton.vue";
+import GoBackButton from "@/components/buttons/GoBackButton.vue";
 
 export default {
     components: {

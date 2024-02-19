@@ -86,7 +86,7 @@ import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";
 import ConvertRequestButton from "@/components/buttons/ConvertRequestButton.vue";
 import DatePick from "@/components/timeWidgets/DatePick.vue";
 import InputSwitch from "primevue/inputswitch";
-import TimePeriodInput from "./TimePeriodInput.vue";
+import TimePeriodInput from "@/components/timeWidgets/TimePeriodInput.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {

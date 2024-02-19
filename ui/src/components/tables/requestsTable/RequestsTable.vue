@@ -1,6 +1,6 @@
 <template>
     <DataTable
-        :value="requests"
+        :value="filteredEnrichedRequests"
         sortField="id"
         :sortOrder="1"
         ref="requestsTable"
@@ -12,7 +12,7 @@
             <RequestsTableHeader
                 @update:showArchived="showArchived = $event"
                 @update:showDraft="showDraft = $event"
-                @search="filterRequests"
+                @search="filterEnrichedRequests"
             />
         </template>
         <ColumnRequestId key="requestId" />
@@ -20,7 +20,7 @@
         <ColumnTitle key="title" />
         <ColumnRequestType key="requestType" />
         <ColumnRequestState key="requestState" />
-        <ColumnOrganization key="organization" />
+        <ColumnOrganizationNames key="organizationNames" />
         <ColumnTags key="tags" />
         <ColumnCurrentPublishDate key="currentPublishDate" />
         <ColumnCurrentScheduledClosingDateVue
@@ -28,10 +28,6 @@
         />
         <ColumnCurrentNodeCompletion key="currentNodeCompletion" />
         <ColumnRequestDetailsAction key="requestDetailsAction" />
-
-        <!-- TODO Auswertestelle als TEXT NICHT ALS NUMBER -->
-        <!-- TODO enrich each request with current execution -->
-
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noRequestsFound") }}
@@ -51,19 +47,21 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import RequestsTableHeader from "@/components/tables/requestsTable/RequestsTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
-import { ManagerRequest } from "@/utils/Types";
-import { RequestState } from "@/utils/Enums";
+import { ManagerRequest, RequestExecution, Organization } from "@/utils/Types";
+import { RequestState, ExecutionState } from "@/utils/Enums";
 import ColumnId from "@/components/tableColumns/ColumnId.vue";
 import ColumnPrincipal from "@/components/tableColumns/managerRequestColumns/ColumnPrincipal.vue";
 import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
 import ColumnRequestType from "@/components/tableColumns/managerRequestColumns/ColumnRequestType.vue";
 import ColumnRequestState from "@/components/tableColumns/managerRequestColumns/ColumnRequestState.vue";
-import ColumnOrganization from "@/components/tableColumns/managerRequestColumns/ColumnOrganization.vue";
-import ColumnCurrentPublishDate from "@/components/tableColumns/managerRequestColumns/ColumnCurrentPublishDate.vue";
-import ColumnCurrentScheduledClosingDateVue from "@/components/tableColumns/managerRequestColumns/ColumnCurrentScheduledClosingDate.vue";
+import ColumnOrganizationNames from "@/components/tables/requestsTable/ColumnOrganizationNames.vue";
+import ColumnCurrentPublishDate from "@/components/tables/requestsTable/ColumnCurrentPublishDate.vue";
+import ColumnCurrentScheduledClosingDateVue from "@/components/tables/requestsTable/ColumnCurrentScheduledClosingDate.vue";
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
-import ColumnCurrentNodeCompletion from "@/components/tableColumns/managerRequestColumns/ColumnCurrentNodeCompletion.vue";
+import ColumnCurrentNodeCompletion from "@/components/tables/requestsTable/ColumnCurrentNodeCompletion.vue";
 import ColumnRequestDetailsAction from "@/components/tableColumns/managerRequestColumns/ColumnRequestDetailsAction.vue";
+import { TestDataService } from "@/services/TestDataService";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
@@ -75,7 +73,7 @@ export default {
         ColumnTitle,
         ColumnRequestType,
         ColumnRequestState,
-        ColumnOrganization,
+        ColumnOrganizationNames,
         ColumnCurrentPublishDate,
         ColumnCurrentScheduledClosingDateVue,
         ColumnTags,
@@ -94,61 +92,57 @@ export default {
             showArchived: false,
             showDraft: false,
             currentSearchTerm: "",
+            allOrganizations: [] as Organization[],
         };
     },
+    async mounted() {
+        await this.fetchOrganizations();
+    },
     computed: {
-        filteredRequests(): ManagerRequest[] {
-/*
-            return this.requests
-                .filter((execution) => {
+        enrichedRequests(): ManagerRequest[] {
+            return this.requests.map((request) => {
+                const enrichedRequest = { ...request };
+                enrichedRequest.authorizedOrgsNames = this.getOrgNamesByIds(
+                    enrichedRequest.authorizedOrgs
+                );
+                enrichedRequest.currentExecution = this.findCurrentExecution(
+                    enrichedRequest.executions
+                );
+                return enrichedRequest;
+            });
+        },
+        filteredEnrichedRequests(): ManagerRequest[] {
+            return this.enrichedRequests
+                .filter((request) => {
                     return (
-                        this.showArchived ||
-                            execution.executionState !== ExecutionState.ARCHIVED
+                        (this.showArchived ||
+                            request.requestState !== RequestState.ARCHIVED) &&
+                        (this.showDraft ||
+                            request.requestState !== RequestState.DRAFT)
                     );
                 })
-                .filter((execution) => {
+                .filter((request) => {
                     const searchFields = [
-                        execution.sequenceId?.toString(),
-                                                execution.externalId?.toString(),
-                        execution.creator,
-                        this.$t(
-                            `enums.executionState.${execution.executionState}`
+                        request.id.toString(),
+                        request.query.principal.name,
+                        request.query.title,
+                        this.$t(`enums.requestType.${request.requestType}`),
+                        this.$t(`enums.requestState.${request.requestState}`),
+                        request.authorizedOrgsNames.join(" "),
+                        request.tags.join(" "),
+                        MomentWrapper.formatDateToGermanLocale(
+                            request.currentExecution?.publishedDate
                         ),
                         MomentWrapper.formatDateToGermanLocale(
-                            execution.createdDate
+                            request.currentExecution?.scheduledClosingDate
                         ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.referenceDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.scheduledPublishDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.publishedDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.executionDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.scheduledClosingDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.closedDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.scheduledArchiveDate
-                        ),
-                        MomentWrapper.formatDateToGermanLocale(
-                            execution.archivedDate
-                        ),
-                                            ];
+                    ];
                     return searchFields.some((field) =>
                         field
                             ?.toLowerCase()
                             .includes(this.currentSearchTerm.toLowerCase())
                     );
                 });
-*/
         },
         requestsCountMessage(): string {
             const count = this.requests.length;
@@ -157,8 +151,39 @@ export default {
                 : this.$t("xRequests", { numRequests: count });
         },
     },
+
     methods: {
-        filterRequests(searchTerm: string = "") {
+        async fetchOrganizations(): Promise<void> {
+            this.allOrganizations = await TestDataService.getOrganizations();
+        },
+        getOrgNamesByIds(orgIds: number[]): string[] {
+            return orgIds.map(
+                (orgId) =>
+                    this.allOrganizations.find((org) => org.id === orgId)
+                        ?.name || "Unknown Organization"
+            );
+        },
+        findCurrentExecution(
+            executions: RequestExecution[]
+        ): RequestExecution | null {
+            return executions.reduce(
+                (acc: RequestExecution | null, cur: RequestExecution) => {
+                    if (
+                        cur.executionState !== ExecutionState.PUBLISHED ||
+                        cur.publishedDate === null
+                    ) {
+                        return acc;
+                    }
+                    const curDate = new Date(cur.publishedDate);
+                    const accDate = acc
+                        ? new Date(acc.publishedDate as Date)
+                        : null;
+                    return !acc || curDate > accDate ? cur : acc;
+                },
+                null
+            );
+        },
+        filterEnrichedRequests(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
     },

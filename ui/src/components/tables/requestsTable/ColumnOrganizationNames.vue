@@ -1,7 +1,7 @@
 <template>
     <Column :header="$t('organizations')" sortable>
         <template #body="slotProps">
-            <SimpleChipList :chips="slotProps.data.authorizedOrgs" />
+            <SimpleChipList :chips="slotProps.data.authorizedOrgsNames" />
         </template>
     </Column>
 </template>

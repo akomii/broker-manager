@@ -5,6 +5,7 @@ export type Request = SingleRequest | SeriesRequest;
 
 export interface ManagerRequest {
     id: number;
+    requestType: RequestType;
     tags: Array<string>;
     authorizedOrgs: Array<number>; // Organization IDs
     targetNodes: Array<number>; // ManagerNode IDs
@@ -12,6 +13,8 @@ export interface ManagerRequest {
     modificationHistory: ModificationHistoryItem[];
     query: Query;
     executions: RequestExecution[];
+    authorizedOrgsNames?: Array<string>; // optional field for RequestsTable only
+    currentExecution?: RequestExecution; // optional field for RequestsTable only
 }
 
 export interface SingleRequest extends ManagerRequest {
@@ -82,7 +85,7 @@ export interface RequestExecution {
     executionState: ExecutionState;
     nodeStatusInfos: NodeStatusInfo[];
     resultsDownloadLog: ResultsDownloadLog[];
-    nodes?: ManagerNode[]; // optional field for ExecutionTable only
+    nodes?: ManagerNode[]; // optional field for ExecutionsTable only
 }
 
 export interface NodeStatusInfo {

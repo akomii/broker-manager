@@ -1,15 +1,15 @@
 <template>
-    <RequestTable :requests="allManagerRequests" />
+    <RequestsTable :requests="allManagerRequests" />
 </template>
 
 <script lang="ts">
 import { TestDataService } from "@/services/TestDataService";
 import { ManagerRequest } from "@/utils/Types";
-import RequestTable from "@/components/tables/requests/RequestTable.vue";
+import RequestsTable from "@/components/tables/requestsTable/RequestsTable.vue";
 
 export default {
     components: {
-        RequestTable,
+        RequestsTable,
     },
     data() {
         return {

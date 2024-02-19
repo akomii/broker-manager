@@ -35,7 +35,7 @@
         </template>
         <ColumnNodeId key="nodeId" />
         <ColumnCommonName key="commonName" />
-        <ColumnNodeTags key="nodeTags" />
+        <ColumnTags key="tags" />
         <ColumnLastContact key="lastContact" />
         <ColumnsNodeProcessingState
             v-if="showProcessingStateInfo"
@@ -56,11 +56,11 @@
 import DataTable from "primevue/datatable";
 import SearchInput from "@/components/tables/SearchInput.vue";
 import TableFooter from "@/components/tables/TableFooter.vue";
-import ColumnNodeId from "@/components/tables/nodeColumns/ColumnNodeId.vue";
-import ColumnCommonName from "@/components/tables/nodeColumns/ColumnCommonName.vue";
-import ColumnNodeTags from "@/components/tables/nodeColumns/ColumnNodeTags.vue";
-import ColumnLastContact from "@/components/tables/nodeColumns/ColumnLastContact.vue";
-import ColumnsNodeProcessingState from "@/components/tables/targetNodes/ColumnsNodeProcessingState.vue";
+import ColumnNodeId from "@/components/tableColumns/managerNodeColumns/ColumnNodeId.vue";
+import ColumnCommonName from "@/components/tableColumns/managerNodeColumns/ColumnCommonName.vue";
+import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
+import ColumnLastContact from "@/components/tableColumns/managerNodeColumns/ColumnLastContact.vue";
+import ColumnsNodeProcessingState from "@/components/tables/targetNodesTable/ColumnsNodeProcessingState.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { ManagerNode, NodeStatusInfo } from "@/utils/Types";
 
@@ -71,7 +71,7 @@ export default {
         TableFooter,
         ColumnNodeId,
         ColumnCommonName,
-        ColumnNodeTags,
+        ColumnTags,
         ColumnLastContact,
         ColumnsNodeProcessingState,
     },

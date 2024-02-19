@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import DialogCommon from "@/components/dialogs/DialogCommon.vue";
-import TargetNodesTable from "@/components/tables/targetNodes/TargetNodesTable.vue";
+import TargetNodesTable from "@/components/tables/targetNodesTable/TargetNodesTable.vue";
 import { ManagerNode, NodeStatusInfo } from "@/utils/Types.ts";
 
 export default {

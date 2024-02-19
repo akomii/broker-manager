@@ -101,7 +101,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionTableEdit
+                <ExecutionsTableEdit
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -134,7 +134,7 @@ import RequestHeaderEdit from "@/components/headers/RequestHeaderEdit.vue";
 import SingleMetaEdit from "@/components/meta/SingleMetaEdit.vue";
 import SeriesMetaEdit from "@/components/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionTableEdit from "@/components/tables/executions/ExecutionTableEdit.vue";
+import ExecutionsTableEdit from "@/components/tables/executionsTable/ExecutionsTableEdit.vue";
 
 export default {
     components: {
@@ -149,7 +149,7 @@ export default {
         RequestHeaderEdit,
         SingleMetaEdit,
         SeriesMetaEdit,
-        ExecutionTableEdit,
+        ExecutionsTableEdit,
     },
     data() {
         return {

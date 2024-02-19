@@ -56,14 +56,14 @@ import Column from "primevue/column";
 import RequestTableHeader from "@/components/tables/RequestTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { ManagerRequest } from "@/utils/Types";
-import ColumnRequestId from "@/components/tables/requestColumns/ColumnRequestId.vue";
-import ColumnPrincipal from "@/components/tables/requestColumns/ColumnPrincipal.vue";
-import ColumnTitle from "@/components/tables/requestColumns/ColumnTitle.vue";
-import ColumnRequestType from "@/components/tables/requestColumns/ColumnRequestType.vue";
-import ColumnRequestState from "@/components/tables/requestColumns/ColumnRequestState.vue";
-import ColumnOrganization from "@/components/tables/requestColumns/ColumnOrganization.vue";
-import ColumnCurrentPublishDate from "@/components/tables/requestColumns/ColumnCurrentPublishDate.vue";
-import ColumnCurrentScheduledClosingDateVue from "@/components/tables/requestColumns/ColumnCurrentScheduledClosingDate.vue";
+import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
+import ColumnPrincipal from "@/components/tableColumns/managerRequestColumns/ColumnPrincipal.vue";
+import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
+import ColumnRequestType from "@/components/tableColumns/managerRequestColumns/ColumnRequestType.vue";
+import ColumnRequestState from "@/components/tableColumns/managerRequestColumns/ColumnRequestState.vue";
+import ColumnOrganization from "@/components/tableColumns/managerRequestColumns/ColumnOrganization.vue";
+import ColumnCurrentPublishDate from "@/components/tableColumns/managerRequestColumns/ColumnCurrentPublishDate.vue";
+import ColumnCurrentScheduledClosingDateVue from "@/components/tableColumns/managerRequestColumns/ColumnCurrentScheduledClosingDate.vue";
 
 export default {
     components: {

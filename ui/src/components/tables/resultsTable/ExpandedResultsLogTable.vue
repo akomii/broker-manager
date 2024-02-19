@@ -20,11 +20,11 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import ColumnDownloadDate from "@/components/tables/downloadLogColumns/ColumnDownloadDate.vue";
-import ColumnUser from "@/components/tables/downloadLogColumns/ColumnUser.vue";
-import ColumnUserOrgs from "@/components/tables/downloadLogColumns/ColumnUserOrgs.vue";
-import ColumnHash from "@/components/tables/downloadLogColumns/ColumnHash.vue";
-import ColumnResultDownloadAction from "@/components/tables/downloadLogColumns/ColumnResultDownloadAction.vue";
+import ColumnDownloadDate from "@/components/tableColumns/resultsDownloadLogColumns/ColumnDownloadDate.vue";
+import ColumnUser from "@/components/tableColumns/resultsDownloadLogColumns/ColumnUser.vue";
+import ColumnUserOrgs from "@/components/tableColumns/resultsDownloadLogColumns/ColumnUserOrgs.vue";
+import ColumnHash from "@/components/tableColumns/resultsDownloadLogColumns/ColumnHash.vue";
+import ColumnResultDownloadAction from "@/components/tableColumns/resultsDownloadLogColumns/ColumnResultDownloadAction.vue";
 import { ResultsDownloadLog } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 

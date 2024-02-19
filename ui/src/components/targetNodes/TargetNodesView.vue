@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
-import TargetNodesTable from "@/components/tables/targetNodes/TargetNodesTable.vue";
+import TargetNodesTable from "@/components/tables/targetNodesTable/TargetNodesTable.vue";
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import { TestDataService } from "@/services/TestDataService";
 

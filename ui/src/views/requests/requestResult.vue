@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import RequestResultsTable from "@/components/tables/results/RequestResultsTable.vue";
+import RequestResultsTable from "@/components/tables/resultsTable/RequestResultsTable.vue";
 import RequestResultsHeader from "@/components/headers/RequestResultsHeader.vue";
 import TestDataService from "@/services/TestDataService";
 

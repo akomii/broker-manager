@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionTableView
+                <ExecutionsTableView
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -88,7 +88,7 @@ import TargetNodesView from "@/components/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionTableView from "@/components/tables/executions/ExecutionTableView.vue";
+import ExecutionsTableView from "@/components/tables/executionsTable/ExecutionsTableView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
@@ -109,7 +109,7 @@ export default {
         RequestHeaderView,
         SingleMetaView,
         SeriesMetaView,
-        ExecutionTableView,
+        ExecutionsTableView,
     },
     data() {
         return {

@@ -324,5 +324,6 @@
     "nodesOverview": "Standortübersicht",
     "showHiddenNodes": "Ausgeblendete Standorte anzeigen",
     "location": "Ort",
-    "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes"
+    "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes",
+    "nodeHasNoApiKey": "Standort hat keinen API-Key"
 }

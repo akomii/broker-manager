@@ -113,7 +113,7 @@ export interface ManagerNode {
     id: number;
     tags: Array<string>;
     clientDN: ClientDN;
-    lastContact: Date;
+    lastContact: Date | null;
     apiKey: string;
     notes: Record<string, string>;
     nodeStatusInfo?: NodeStatusInfo; // optional field for TargetNodesTable only

@@ -226,7 +226,9 @@ export class ManagerNodeParser {
                 O: managerNodeJson.clientDN.O,
                 L: managerNodeJson.clientDN.L,
             } as ClientDN,
-            lastContact: new Date(managerNodeJson.lastContact),
+            lastContact: managerNodeJson.lastContact
+                ? new Date(managerNodeJson.lastContact)
+                : null,
             apiKey: managerNodeJson.apiKey,
             notes: managerNodeJson.notes,
         };

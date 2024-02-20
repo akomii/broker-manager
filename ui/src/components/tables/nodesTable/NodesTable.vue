@@ -15,12 +15,8 @@
             />
         </template>
         <ColumnId key="nodeId" />
-
-        <!-- TODO add ICON FOR SHOW NOT SHOW-->
         <ColumnCommonName key="commonName" />
         <ColumnLocation key="location" />
-
-        <!-- TODO WHAT IF COMPLETELY NEW NODE WITHOUT LASTCONTACT-->
         <ColumnLastContact key="lastContact" />
         <ColumnTags key="nodeTags" />
         <ColumnNodeDetailsAction key="nodeDetailsAction" />
@@ -49,6 +45,7 @@ import ColumnLastContact from "@/components/tableColumns/managerNodeColumns/Colu
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
 import ColumnNodeDetailsAction from "@/components/tableColumns/managerNodeColumns/ColumnNodeDetailsAction.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
@@ -77,8 +74,26 @@ export default {
     },
     computed: {
         filteredNodes(): ManagerNode[] {
-            //TODO
-            return this.nodes;
+            return this.nodes
+                .filter((node) => {
+                    return this.showHidden || node.apiKey !== null;
+                })
+                .filter((node) => {
+                    const searchFields = [
+                        node.id.toString(),
+                        node.clientDN.CN,
+                        node.clientDN.L,
+                        MomentWrapper.formatDateToGermanLocale(
+                            node?.lastContact
+                        ),
+                        node.tags.join(""),
+                    ];
+                    return searchFields.some((field) =>
+                        field
+                            ?.toLowerCase()
+                            .includes(this.currentSearchTerm.toLowerCase())
+                    );
+                });
         },
         nodesCountMessage(): string {
             const count = this.nodes.length;

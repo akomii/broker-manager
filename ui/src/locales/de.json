@@ -319,5 +319,9 @@
     "goToDetailsViewOfRequest": "Zur Detailsansicht der Anfrage",
     "back": "Zurück",
     "newDraft": "TODO Neuer Draft",
-    "requestsOverview": "Anfragenübersicht"
+    "addNewNode": "Neuen Standort hinzufügen",
+    "requestsOverview": "Anfragenübersicht",
+    "nodesOverview": "Standortübersicht",
+    "showHiddenNodes": "Ausgeblendete Standorte anzeigen",
+    "noNodesFound": "Keine Standorte gefunden"
 }

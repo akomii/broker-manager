@@ -323,5 +323,6 @@
     "requestsOverview": "Anfragenübersicht",
     "nodesOverview": "Standortübersicht",
     "showHiddenNodes": "Ausgeblendete Standorte anzeigen",
-    "noNodesFound": "Keine Standorte gefunden"
+    "location": "Ort",
+    "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes"
 }

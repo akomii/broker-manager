@@ -14,9 +14,16 @@
                 @search="filterNodes"
             />
         </template>
+        <ColumnId key="nodeId" />
 
-        <!-- COLUMNS HERE-->
+        <!-- TODO add ICON FOR SHOW NOT SHOW-->
+        <ColumnCommonName key="commonName" />
+        <ColumnLocation key="location" />
 
+        <!-- TODO WHAT IF COMPLETELY NEW NODE WITHOUT LASTCONTACT-->
+        <ColumnLastContact key="lastContact" />
+        <ColumnTags key="nodeTags" />
+        <ColumnNodeDetailsAction key="nodeDetailsAction" />
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noNodesFound") }}
@@ -35,6 +42,12 @@
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NodesTableHeader from "@/components/tables/nodesTable/NodesTableHeader.vue";
+import ColumnId from "@/components/tableColumns/ColumnId.vue";
+import ColumnCommonName from "@/components/tableColumns/managerNodeColumns/ColumnCommonName.vue";
+import ColumnLocation from "@/components/tableColumns/managerNodeColumns/ColumnLocation.vue";
+import ColumnLastContact from "@/components/tableColumns/managerNodeColumns/ColumnLastContact.vue";
+import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
+import ColumnNodeDetailsAction from "@/components/tableColumns/managerNodeColumns/ColumnNodeDetailsAction.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 
 export default {
@@ -42,6 +55,12 @@ export default {
         DataTable,
         Column,
         NodesTableHeader,
+        ColumnId,
+        ColumnCommonName,
+        ColumnLocation,
+        ColumnLastContact,
+        ColumnTags,
+        ColumnNodeDetailsAction,
         ExportTableButton,
     },
     props: {

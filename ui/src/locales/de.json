@@ -318,5 +318,6 @@
     "xRequests": "{numRequests} Anfragen",
     "goToDetailsViewOfRequest": "Zur Detailsansicht der Anfrage",
     "back": "Zurück",
-    "newDraft": "TODO Neuer Draft"
+    "newDraft": "TODO Neuer Draft",
+    "requestsOverview": "Anfragenübersicht"
 }

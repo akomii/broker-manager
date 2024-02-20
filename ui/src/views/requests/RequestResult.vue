@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import ResultsTable from "@/components/tables/resultsTable/ResultsTable.vue";
-import RequestResultsHeader from "@/layouts/headers/RequestResultsHeader.vue";
+import RequestResultsHeader from "@/layouts/requests/headers/RequestResultsHeader.vue";
 import TestDataService from "@/services/TestDataService";
 
 export default {

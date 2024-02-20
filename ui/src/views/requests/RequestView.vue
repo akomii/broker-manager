@@ -81,20 +81,20 @@
 </template>
 
 <script lang="ts">
-import PrincipalView from "@/layouts/principals/PrincipalView.vue";
-import OrganizationView from "@/layouts/organizations/OrganizationView.vue";
-import TextFieldView from "@/layouts/textfields/TextFieldView.vue";
-import TargetNodesView from "@/layouts/targetNodes/TargetNodesView.vue";
+import PrincipalView from "@/layouts/requests/principals/PrincipalView.vue";
+import OrganizationView from "@/layouts/requests/organizations/OrganizationView.vue";
+import TextFieldView from "@/layouts/requests/textfields/TextFieldView.vue";
+import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionsView from "@/layouts/executions/ExecutionsView.vue";
+import ExecutionsView from "@/layouts/requests/executions/ExecutionsView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
-import RequestHeaderView from "@/layouts/headers/RequestHeaderView.vue";
-import SingleMetaView from "@/layouts/meta/SingleMetaView.vue";
-import SeriesMetaView from "@/layouts/meta/SeriesMetaView.vue";
+import RequestHeaderView from "@/layouts/requests/headers/RequestHeaderView.vue";
+import SingleMetaView from "@/layouts/requests/meta/SingleMetaView.vue";
+import SeriesMetaView from "@/layouts/requests/meta/SeriesMetaView.vue";
 import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {

@@ -24,7 +24,7 @@
 <script lang="ts">
 import InputText from "primevue/inputtext";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
-import RequestHeaderCommon from "@/layouts/headers/RequestHeaderCommon.vue";
+import RequestHeaderCommon from "@/layouts/requests/headers/RequestHeaderCommon.vue";
 
 export default {
     components: {

@@ -119,21 +119,21 @@
 </template>
 
 <script lang="ts">
-import PrincipalEdit from "@/layouts/principals/PrincipalEdit.vue";
-import OrganizationEdit from "@/layouts/organizations/OrganizationEdit.vue";
-import TextFieldEdit from "@/layouts/textfields/TextFieldEdit.vue";
-import TargetNodesEdit from "@/layouts/targetNodes/TargetNodesEdit.vue";
-import TargetNodesView from "@/layouts/targetNodes/TargetNodesView.vue";
+import PrincipalEdit from "@/layouts/requests/principals/PrincipalEdit.vue";
+import OrganizationEdit from "@/layouts/requests/organizations/OrganizationEdit.vue";
+import TextFieldEdit from "@/layouts/requests/textfields/TextFieldEdit.vue";
+import TargetNodesEdit from "@/layouts/requests/targetNodes/TargetNodesEdit.vue";
+import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
-import RequestHeaderEdit from "@/layouts/headers/RequestHeaderEdit.vue";
-import SingleMetaEdit from "@/layouts/meta/SingleMetaEdit.vue";
-import SeriesMetaEdit from "@/layouts/meta/SeriesMetaEdit.vue";
+import RequestHeaderEdit from "@/layouts/requests/headers/RequestHeaderEdit.vue";
+import SingleMetaEdit from "@/layouts/requests/meta/SingleMetaEdit.vue";
+import SeriesMetaEdit from "@/layouts/requests/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionsEdit from "@/layouts/executions/ExecutionsEdit.vue";
+import ExecutionsEdit from "@/layouts/requests/executions/ExecutionsEdit.vue";
 
 export default {
     components: {

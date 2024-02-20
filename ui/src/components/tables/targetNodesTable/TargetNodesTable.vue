@@ -8,30 +8,14 @@
         scrollHeight="flex"
         ref="targetNodesTable"
     >
-        <!-- TODO outsource Node header when necessary -->
         <template #header>
-            <div
-                class="flex flex-wrap justify-content-between align-items-center"
-            >
-                <span
-                    v-if="showProcessingStateInfo"
-                    class="font-semibold text-primary text-xl m-0"
-                >
-                    {{
-                        $t("nodeAcceptanceOfExecution", {
-                            executionId: sequenceId,
-                        })
-                    }}
-                    :
-                    {{
-                        $t("XofY", {
-                            x: completedNodeStatusCount,
-                            y: targetNodes.length,
-                        })
-                    }}
-                </span>
-                <SearchInput @update:input="filterEnrichedTableNodes" />
-            </div>
+            <TargetNodesTableHeader
+                :targetNodesLength="targetNodes.length"
+                :completedNodeStatusCount="completedNodeStatusCount"
+                :sequenceId="sequenceId"
+                :showProcessingStateInfo="showProcessingStateInfo"
+                @search="filterEnrichedTableNodes"
+            />
         </template>
         <ColumnId key="nodeId" />
         <ColumnCommonName key="commonName" />
@@ -54,6 +38,7 @@
 
 <script lang="ts">
 import DataTable from "primevue/datatable";
+import TargetNodesTableHeader from "@/components/tables/targetNodesTable/TargetNodesTableHeader.vue";
 import SearchInput from "@/components/tables/SearchInput.vue";
 import TableFooter from "@/components/tables/TableFooter.vue";
 import ColumnNodeId from "@/components/tableColumns/ColumnId.vue";
@@ -67,6 +52,7 @@ import { ManagerNode, NodeStatusInfo } from "@/utils/Types";
 export default {
     components: {
         DataTable,
+        TargetNodesTableHeader,
         SearchInput,
         TableFooter,
         ColumnNodeId,

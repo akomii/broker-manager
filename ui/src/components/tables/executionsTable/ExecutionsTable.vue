@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import DataTable from "primevue/datatable";
-import ExecutionsTableHeader from "@/components/tables/ExecutionsTableHeader.vue";
+import ExecutionsTableHeader from "@/components/tables/executionsTable/ExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnCreator from "@/components/tableColumns/requestExecutionColumns/ColumnCreator.vue";

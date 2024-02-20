@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import RequestList from "@/views/requests/requests.vue";
-import RequestView from "@/views/requests/demoView.vue";
-import RequestEdit from "@/views/requests/demoEdit.vue";
-import RequestResult from "@/views/requests/requestResult.vue";
-import Nodes from "@/views/nodes/nodes.vue";
+import Requests from "@/views/requests/Requests.vue";
+import RequestView from "@/views/requests/RequestView.vue";
+import RequestEdit from "@/views/requests/RequestEdit.vue";
+import RequestResult from "@/views/requests/RequestResult.vue";
+import Nodes from "@/views/nodes/Nodes.vue";
+import NotFound from "@/views/errors/NotFound.vue";
+import ServerError from "@/views/errors/ServerError.vue";
 
 const routes = [
     {
@@ -12,7 +14,7 @@ const routes = [
     },
     {
         path: "/requests",
-        component: RequestList,
+        component: Requests,
     },
     {
         path: "/requests/:id",
@@ -30,6 +32,8 @@ const routes = [
         path: "/nodes",
         component: Nodes,
     },
+    { path: "/500", component: ServerError },
+    { path: "/:catchAll(.*)", component: NotFound },
 ];
 
 const router = createRouter({

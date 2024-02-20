@@ -22,7 +22,7 @@ export default {
     },
     watch: {
         inputValue(newValue: string) {
-            this.$emit("update:input", newValue);
+            this.$emit("update:search", newValue);
         },
     },
 };

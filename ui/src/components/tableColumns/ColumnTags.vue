@@ -1,7 +1,11 @@
 <template>
     <Column :header="$t('tags')" sortable>
         <template #body="slotProps">
-            <EditableTagListView :tags="slotProps.data.tags" />
+            <EditableTagListView
+                v-if="slotProps.data.tags.length"
+                :tags="slotProps.data.tags"
+            />
+            <NotAvailableIcon v-else />
         </template>
     </Column>
 </template>
@@ -9,11 +13,13 @@
 <script lang="ts">
 import Column from "primevue/column";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
+import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 
 export default {
     components: {
         Column,
         EditableTagListView,
+        NotAvailableIcon,
     },
 };
 </script>

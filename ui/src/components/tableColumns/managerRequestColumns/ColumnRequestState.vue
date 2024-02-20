@@ -1,8 +1,5 @@
 <template>
-    <Column
-        :header="$t('enums.requestState.label')"
-        sortable
-    >
+    <Column :header="$t('enums.requestState.label')" sortable>
         <template #body="slotProps">
             <RequestStateLabel :state="slotProps.data.requestState" />
         </template>

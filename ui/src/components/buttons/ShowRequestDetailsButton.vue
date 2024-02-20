@@ -1,6 +1,6 @@
 <template>
     <Button
-        icon="pi pi-eye"
+        icon="pi pi-chevron-right"
         outlined
         v-tooltip.bottom="$t('goToDetailsViewOfRequest')"
         @click="goToRequestDetails"

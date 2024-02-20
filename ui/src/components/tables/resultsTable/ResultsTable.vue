@@ -1,15 +1,15 @@
 <template>
     <DataTable
-        :value="filteredDataTableExecutions"
+        :value="filteredExecutions"
         sortField="sequenceId"
         :sortOrder="-1"
         ref="resultTable"
         v-model:expandedRows="expandedRows"
     >
         <template #header>
-            <ExecutionsTableHeader
+            <ResultsTableHeader
                 @update:showArchived="showArchived = $event"
-                @search="filterDataTableExecutions"
+                @search="filterExecutions"
             />
         </template>
         <!-- TODO: hide expander if ExpandedTable is empty-->
@@ -50,7 +50,7 @@ import Column from "primevue/column";
 import { RequestExecution } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 import MomentWrapper from "@/utils/MomentWrapper.ts";
-import ExecutionsTableHeader from "@/components/tables/ExecutionsTableHeader.vue";
+import ResultsTableHeader from "@/components/tables/resultsTable/ResultsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnExecutionState from "@/components/tableColumns/requestExecutionColumns/ColumnExecutionState.vue";
@@ -64,7 +64,7 @@ export default {
         DataTable,
         Column,
         ExpandedResultsLogTable,
-        ExecutionsTableHeader,
+        ResultsTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnExecutionState,
@@ -86,7 +86,7 @@ export default {
         };
     },
     computed: {
-        filteredDataTableExecutions(): RequestExecution[] {
+        filteredExecutions(): RequestExecution[] {
             return this.executions
                 .filter((execution) => {
                     return (
@@ -120,7 +120,7 @@ export default {
         },
     },
     methods: {
-        filterDataTableExecutions(searchTerm: string = "") {
+        filterExecutions(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
         dummyAction() {

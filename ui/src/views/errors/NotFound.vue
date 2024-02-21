@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import ErrorCommon from "@/layouts/errors/ErrorCommon.vue";
+import ErrorCommon from "./ErrorCommon.vue";
 
 export default {
     components: {

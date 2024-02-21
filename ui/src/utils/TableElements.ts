@@ -5,7 +5,9 @@ export interface NodeExecutionsTableElement {
     sequenceId: number;
     externalId: number | null;
     executionState: ExecutionState;
-    title: string;
+    query: {
+        title: string;
+    };
     referenceDate: Date;
     nodeStatusInfo: NodeStatusInfo;
 }

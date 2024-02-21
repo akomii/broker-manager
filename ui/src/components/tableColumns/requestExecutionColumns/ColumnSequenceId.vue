@@ -10,6 +10,7 @@
                 />
                 <ResultsNotDownloadedIcon
                     v-if="
+                        slotProps.data.resultsDownloadLog &&
                         isResultsDownloadLogEmpty(
                             slotProps.data.resultsDownloadLog
                         ) &&

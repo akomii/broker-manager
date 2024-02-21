@@ -7,6 +7,8 @@
         paginator
         :rows="10"
         :rowsPerPageOptions="[10, 25, 50]"
+        rowGroupMode="rowspan"
+        :groupRowsBy="['id', 'query.title']"
     >
         <template #header>
             <NodeExecutionsTableHeader
@@ -16,7 +18,12 @@
         </template>
 
         <ColumnRequestId key="requestId" />
-
+        <ColumnTitle key="title" />
+        <ColumnSequenceId key="sequenceId" />
+        <ColumnExternalId key="externalId" />
+        <ColumnExecutionState key="executionState" />
+        <ColumnReferenceDate key="referenceDate" />
+        <ColumnsNodeProcessingState key="nodeProcessingState" />
 
         <template #empty>
             <p class="flex justify-content-center">
@@ -37,6 +44,13 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NodeExecutionsTableHeader from "./NodeExecutionsTableHeader.vue";
 import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
+import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
+import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
+import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
+import ColumnExecutionState from "@/components/tableColumns/requestExecutionColumns/ColumnExecutionState.vue";
+import ColumnReferenceDate from "@/components/tableColumns/requestExecutionColumns/ColumnReferenceDate.vue";
+// Watch out! This import happens from tables/targetNodesTable
+import ColumnsNodeProcessingState from "@/components/tables/targetNodesTable/ColumnsNodeProcessingState.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
 
@@ -46,6 +60,12 @@ export default {
         Column,
         NodeExecutionsTableHeader,
         ColumnRequestId,
+        ColumnTitle,
+        ColumnSequenceId,
+        ColumnExternalId,
+        ColumnExecutionState,
+        ColumnReferenceDate,
+        ColumnsNodeProcessingState,
         ExportTableButton,
     },
     props: {

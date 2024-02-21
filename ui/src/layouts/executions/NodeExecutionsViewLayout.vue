@@ -42,7 +42,9 @@ export default {
                             sequenceId: execution.sequenceId,
                             externalId: execution.externalId,
                             executionState: execution.executionState,
-                            title: request.query.title,
+                            query: {
+                                title: request.query.title,
+                            },
                             referenceDate: execution.referenceDate,
                             nodeStatusInfo: nodeStatusInfo,
                         });

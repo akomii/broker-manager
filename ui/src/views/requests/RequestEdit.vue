@@ -16,7 +16,7 @@
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
-                        <SingleMetaEdit
+                        <SingleMetaEditLayout
                             v-if="isSingleRequest()"
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
@@ -28,7 +28,7 @@
                                 request.query.singleExecution = $event
                             "
                         />
-                        <SeriesMetaEdit
+                        <SeriesMetaEditLayout
                             v-if="!isSingleRequest()"
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
@@ -130,8 +130,8 @@ import Divider from "primevue/divider";
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
 import RequestEditHeader from "@/layouts/headers/RequestEditHeader.vue";
-import SingleMetaEdit from "@/layouts/requests/meta/SingleMetaEdit.vue";
-import SeriesMetaEdit from "@/layouts/requests/meta/SeriesMetaEdit.vue";
+import SingleMetaEditLayout from "@/layouts/meta/SingleMetaEditLayout.vue";
+import SeriesMetaEditLayout from "@/layouts/meta/SeriesMetaEditLayout.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
 import ExecutionsEditLayout from "@/layouts/executions/ExecutionsEditLayout.vue";
 
@@ -145,8 +145,8 @@ export default {
         Divider,
         TextFieldEditLayout,
         RequestEditHeader,
-        SingleMetaEdit,
-        SeriesMetaEdit,
+        SingleMetaEditLayout,
+        SeriesMetaEditLayout,
         ExecutionsEditLayout,
     },
     data() {

@@ -12,7 +12,7 @@
             <div class="col-7">
                 <div class="grid">
                     <div class="col-7">
-                        <SingleMetaView
+                        <SingleMetaViewLayout
                             v-if="isSingleRequest()"
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
@@ -20,7 +20,7 @@
                             :querySchedule="request.query.singleExecution"
                             :requestHistory="request.modificationHistory"
                         />
-                        <SeriesMetaView
+                        <SeriesMetaViewLayout
                             v-if="!isSingleRequest()"
                             class="ml-3 h-25-3rem"
                             :type="request.requestType"
@@ -95,8 +95,8 @@ import ExecutionsViewLayout from "@/layouts/executions/ExecutionsViewLayout.vue"
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
 import RequestViewHeader from "@/layouts/headers/RequestViewHeader.vue";
-import SingleMetaView from "@/layouts/requests/meta/SingleMetaView.vue";
-import SeriesMetaView from "@/layouts/requests/meta/SeriesMetaView.vue";
+import SingleMetaViewLayout from "@/layouts/meta/SingleMetaViewLayout.vue";
+import SeriesMetaViewLayout from "@/layouts/meta/SeriesMetaViewLayout.vue";
 import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {
@@ -109,8 +109,8 @@ export default {
         Divider,
         TextFieldViewLayout,
         RequestViewHeader,
-        SingleMetaView,
-        SeriesMetaView,
+        SingleMetaViewLayout,
+        SeriesMetaViewLayout,
         ExecutionsViewLayout,
     },
     data() {

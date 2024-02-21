@@ -1077,6 +1077,16 @@ export const TestDataService = {
         return createAsyncOperation(ManagerNodeParser, nodes);
     },
 
+    getNodeById(id) {
+        return createAsyncOperation(ManagerNodeParser, nodes).then(
+            (parsedNodes) => {
+                return (
+                    parsedNodes.find((node) => node.id === Number(id)) || null
+                );
+            }
+        );
+    },
+
     getPrincipals() {
         return createAsyncOperation(PrincipalParser, principals);
     },

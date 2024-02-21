@@ -177,7 +177,7 @@
         "node": {
             "unsubscribe": "Standort abmelden",
             "edit": "Standort bearbeiten",
-            "saveDraft": "Standort speichern"
+            "save": "Standort speichern"
         }
     },
     "user": "Benutzer",

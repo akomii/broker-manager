@@ -4,6 +4,8 @@ import RequestView from "@/views/requests/RequestView.vue";
 import RequestEdit from "@/views/requests/RequestEdit.vue";
 import RequestResult from "@/views/requests/RequestResult.vue";
 import Nodes from "@/views/nodes/Nodes.vue";
+import NodeView from "@/views/nodes/NodeView.vue";
+import NodeEdit from "@/views/nodes/NodeEdit.vue";
 import NotFound from "@/views/errors/NotFound.vue";
 import ServerError from "@/views/errors/ServerError.vue";
 
@@ -31,6 +33,14 @@ const routes = [
     {
         path: "/nodes",
         component: Nodes,
+    },
+    {
+        path: "/nodes/:id",
+        component: NodeView,
+    },
+    {
+        path: "/nodes/:id/edit",
+        component: NodeEdit,
     },
     { path: "/500", component: ServerError },
     { path: "/:catchAll(.*)", component: NotFound },

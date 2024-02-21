@@ -60,6 +60,7 @@ export default {
         ColumnNodeDetailsAction,
         ExportTableButton,
     },
+     // TODO CREATE NEW DATATYPE AS INPUT PROP
     props: {
         nodes: {
             type: Array as () => ManagerNode[],

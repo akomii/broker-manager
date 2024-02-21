@@ -62,6 +62,7 @@ export default {
         ColumnsNodeProcessingState,
     },
     props: {
+        // TODO CREATE NEW DATATYPE AS INPUT PROP
         targetNodes: {
             type: Array as () => ManagerNode[],
             required: true,

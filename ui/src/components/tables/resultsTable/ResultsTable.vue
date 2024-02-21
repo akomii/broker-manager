@@ -73,6 +73,7 @@ export default {
         TableFooter,
     },
     props: {
+         // TODO CREATE NEW DATATYPE AS INPUT PROP
         executions: {
             type: Array as () => RequestExecution[],
             required: true,

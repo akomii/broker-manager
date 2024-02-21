@@ -86,6 +86,7 @@ export default {
         ExportTableButton,
     },
     props: {
+         // TODO CREATE NEW DATATYPE AS INPUT PROP
         executions: {
             type: Array as () => RequestExecution[],
             required: true,

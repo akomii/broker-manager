@@ -32,7 +32,9 @@
                         />
                     </div>
                     <div class="col-5">
-                        <PrincipalViewLayout :principal="request.query.principal" />
+                        <PrincipalViewLayout
+                            :principal="request.query.principal"
+                        />
                         <OrganizationsViewLayout
                             :organizationIds="request.authorizedOrgs"
                             :scrollPanelHeight="'max-h-9rem'"
@@ -49,7 +51,7 @@
                 </div>
             </div>
             <div class="col-5">
-                <TargetNodesView
+                <TargetsViewLayout
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
                     :fieldSetHeight="'h-48-4rem'"
@@ -84,7 +86,7 @@
 import PrincipalViewLayout from "@/layouts/principals/PrincipalViewLayout.vue";
 import OrganizationsViewLayout from "@/layouts/organizations/OrganizationsViewLayout.vue";
 import TextFieldView from "@/layouts/requests/textfields/TextFieldView.vue";
-import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
+import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
@@ -102,7 +104,7 @@ export default {
         PrincipalViewLayout,
         Button,
         OrganizationsViewLayout,
-        TargetNodesView,
+        TargetsViewLayout,
         ProgressSpinner,
         Divider,
         TextFieldView,

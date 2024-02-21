@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="col-5">
-                <TargetNodesEdit
+                <TargetsEditLayout
                     v-if="isDraft() || isRequestSingleAndStillPending()"
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
@@ -122,8 +122,8 @@
 import PrincipalEditLayout from "@/layouts/principals/PrincipalEditLayout.vue";
 import OrganizationsEditLayout from "@/layouts/organizations/OrganizationsEditLayout.vue";
 import TextFieldEdit from "@/layouts/requests/textfields/TextFieldEdit.vue";
-import TargetNodesEdit from "@/layouts/requests/targetNodes/TargetNodesEdit.vue";
-import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
+import TargetsEditLayout from "@/layouts/targets/TargetsEditLayout.vue";
+import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
@@ -139,8 +139,8 @@ export default {
     components: {
         PrincipalEditLayout,
         OrganizationsEditLayout,
-        TargetNodesEdit,
-        TargetNodesView,
+        TargetsEditLayout,
+        TargetsViewLayout,
         ProgressSpinner,
         Divider,
         TextFieldEdit,

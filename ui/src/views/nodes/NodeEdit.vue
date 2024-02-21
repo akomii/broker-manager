@@ -1,6 +1,6 @@
 <template>
     <div v-if="node">
-        <NodeHeaderEdit
+        <NodeEditHeader
             :id="node.id"
             :commonName="node.clientDN.CN"
             :tags="node.tags"
@@ -18,12 +18,12 @@
 import ProgressSpinner from "primevue/progressspinner";
 import { TestDataService } from "@/services/TestDataService";
 import { ManagerNode } from "@/utils/Types";
-import NodeHeaderEdit from "@/layouts/nodes/headers/NodeHeaderEdit.vue";
+import NodeEditHeader from "@/layouts/headers/NodeEditHeader.vue";
 
 export default {
     components: {
         ProgressSpinner,
-        NodeHeaderEdit,
+        NodeEditHeader,
     },
     data() {
         return {

@@ -1,18 +1,18 @@
 <template>
     <div v-if="request">
-        <RequestResultsHeader :id="request.id" :title="request.query.title" />
+        <ResultsHeader :id="request.id" :title="request.query.title" />
         <ResultsTable :executions="request.executions" class="mx-3" />
     </div>
 </template>
 
 <script lang="ts">
 import ResultsTable from "@/components/tables/resultsTable/ResultsTable.vue";
-import RequestResultsHeader from "@/layouts/requests/headers/RequestResultsHeader.vue";
+import ResultsHeader from "@/layouts/headers/ResultsHeader.vue";
 import TestDataService from "@/services/TestDataService";
 
 export default {
     components: {
-        RequestResultsHeader,
+        ResultsHeader,
         ResultsTable,
     },
     data() {

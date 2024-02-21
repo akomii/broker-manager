@@ -1,26 +1,27 @@
 <template>
-    <RequestHeaderCommon :id="id" :state="state" :menu="menu">
+    <NodeHeaderCommon :id="id" :menu="menu">
         <template #title>
-            <p class="text-2xl">{{ title }}</p>
+            <p class="text-2xl">{{ commonName }}</p>
         </template>
         <template #tags>
             <EditableTagListView :tags="tags" />
         </template>
-    </RequestHeaderCommon>
+    </NodeHeaderCommon>
 </template>
 
+<!-- TODO menu logic to Header -->
 <script lang="ts">
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
-import RequestHeaderCommon from "@/layouts/requests/headers/RequestHeaderCommon.vue";
+import NodeHeaderCommon from "./NodeHeaderCommon.vue";
 
 export default {
     components: {
-        RequestHeaderCommon,
+        NodeHeaderCommon,
         EditableTagListView,
     },
-    mixins: [RequestHeaderCommon],
+    mixins: [NodeHeaderCommon],
     props: {
-        title: {
+        commonName: {
             type: String,
             required: true,
         },

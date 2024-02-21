@@ -1,6 +1,6 @@
 <template>
     <div v-if="request">
-        <RequestHeaderEdit
+        <RequestEditHeader
             :id="request.id"
             :title="request.query.title"
             :state="request.requestState"
@@ -129,7 +129,7 @@ import Divider from "primevue/divider";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request } from "@/utils/Types";
-import RequestHeaderEdit from "@/layouts/requests/headers/RequestHeaderEdit.vue";
+import RequestEditHeader from "@/layouts/headers/RequestEditHeader.vue";
 import SingleMetaEdit from "@/layouts/requests/meta/SingleMetaEdit.vue";
 import SeriesMetaEdit from "@/layouts/requests/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
@@ -144,7 +144,7 @@ export default {
         ProgressSpinner,
         Divider,
         TextFieldEdit,
-        RequestHeaderEdit,
+        RequestEditHeader,
         SingleMetaEdit,
         SeriesMetaEdit,
         ExecutionsEdit,

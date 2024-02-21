@@ -1,6 +1,6 @@
 <template>
     <div v-if="request">
-        <RequestHeaderView
+        <RequestViewHeader
             :id="request.id"
             :title="request.query.title"
             :state="request.requestState"
@@ -92,7 +92,7 @@ import ExecutionsView from "@/layouts/requests/executions/ExecutionsView.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
-import RequestHeaderView from "@/layouts/requests/headers/RequestHeaderView.vue";
+import RequestViewHeader from "@/layouts/headers/RequestViewHeader.vue";
 import SingleMetaView from "@/layouts/requests/meta/SingleMetaView.vue";
 import SeriesMetaView from "@/layouts/requests/meta/SeriesMetaView.vue";
 import { UserRole, RequestState, RequestType } from "@/utils/Enums";
@@ -106,7 +106,7 @@ export default {
         ProgressSpinner,
         Divider,
         TextFieldView,
-        RequestHeaderView,
+        RequestViewHeader,
         SingleMetaView,
         SeriesMetaView,
         ExecutionsView,

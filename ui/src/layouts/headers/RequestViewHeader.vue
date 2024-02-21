@@ -1,27 +1,26 @@
 <template>
-    <NodeHeaderCommon :id="id" :menu="menu">
+    <HeaderCommon :id="id" :state="state" :menu="menu">
         <template #title>
-            <p class="text-2xl">{{ commonName }}</p>
+            <p class="text-2xl">{{ title }}</p>
         </template>
         <template #tags>
             <EditableTagListView :tags="tags" />
         </template>
-    </NodeHeaderCommon>
+    </HeaderCommon>
 </template>
 
-<!-- TODO menu logic to Header -->
 <script lang="ts">
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
-import NodeHeaderCommon from "@/layouts/nodes/headers/NodeHeaderCommon.vue";
+import HeaderCommon from "./HeaderCommon.vue";
 
 export default {
     components: {
-        NodeHeaderCommon,
+        HeaderCommon,
         EditableTagListView,
     },
-    mixins: [NodeHeaderCommon],
+    mixins: [HeaderCommon],
     props: {
-        commonName: {
+        title: {
             type: String,
             required: true,
         },

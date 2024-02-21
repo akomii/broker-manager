@@ -1,6 +1,6 @@
 <template>
     <DataTable
-        :value="filteredEnrichedNodeRequests"
+        :value="filteredNodeRequests"
         sortField="id"
         :sortOrder="1"
         ref="nodeRequestsTable"
@@ -11,7 +11,7 @@
         <template #header>
             <NodeRequestsTableHeader
                 @update:showArchived="showArchived = $event"
-                @search="filterEnrichedNodeRequests"
+                @search="filterNodeRequests"
             />
         </template>
 
@@ -34,7 +34,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NodeRequestsTableHeader from "./NodeRequestsTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
-import { ManagerRequest } from "@/utils/Types";
+import { NodeRequestsTableElement } from "@/utils/TableElements.ts";
 
 export default {
     components: {
@@ -43,10 +43,9 @@ export default {
         NodeRequestsTableHeader,
         ExportTableButton,
     },
-    // TODO CREATE NEW DATATYPE AS INPUT PROP
     props: {
-        requests: {
-            type: Array as () => ManagerRequest[],
+        nodeRequests: {
+            type: Array as () => NodeRequestsTableElement[],
             required: true,
         },
     },
@@ -57,14 +56,11 @@ export default {
         };
     },
     computed: {
-        enrichedNodeRequests(): ManagerRequest[] {
-            return this.requests;
+        filteredNodeRequests(): ManagerRequest[] {
+            return this.nodeRequests;
         },
-        filteredEnrichedNodeRequests(): ManagerRequest[] {
-            return this.enrichedNodeRequests;
-        },
-        requestsCountMessage(): string {
-            const count = this.requests.length;
+        nodeRequestsCountMessage(): string {
+            const count = this.nodeRequests.length;
             return count === 1
                 ? this.$t("oneRequest")
                 : this.$t("xRequests", { numRequests: count });
@@ -72,7 +68,7 @@ export default {
     },
 
     methods: {
-        filterEnrichedNodeRequests(searchTerm: string = "") {
+        filterNodeRequests(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
     },

@@ -9,7 +9,7 @@
                     @update:modelValue="emitToggleArchived"
                 />
                 <label for="toggleArchived" class="ml-2">
-                    {{ $t("showArchivedRequests") }}
+                    {{ $t("showArchivedExecutions") }}
                 </label>
             </span>
         </template>

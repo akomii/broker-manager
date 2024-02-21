@@ -41,7 +41,7 @@
                         />
                     </div>
                     <div class="col-12">
-                        <TextFieldView
+                        <TextFieldViewLayout
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
@@ -60,7 +60,7 @@
                 />
             </div>
             <div class="col-12">
-                <TextFieldView
+                <TextFieldViewLayout
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
@@ -85,7 +85,7 @@
 <script lang="ts">
 import PrincipalViewLayout from "@/layouts/principals/PrincipalViewLayout.vue";
 import OrganizationsViewLayout from "@/layouts/organizations/OrganizationsViewLayout.vue";
-import TextFieldView from "@/layouts/requests/textfields/TextFieldView.vue";
+import TextFieldViewLayout from "@/layouts/textfields/TextFieldViewLayout.vue";
 import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
@@ -107,7 +107,7 @@ export default {
         TargetsViewLayout,
         ProgressSpinner,
         Divider,
-        TextFieldView,
+        TextFieldViewLayout,
         RequestViewHeader,
         SingleMetaView,
         SeriesMetaView,

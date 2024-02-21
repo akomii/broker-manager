@@ -66,7 +66,7 @@
                         />
                     </div>
                     <div class="col-12">
-                        <TextFieldEdit
+                        <TextFieldEditLayout
                             class="ml-3"
                             :content="request.query.description"
                             :label="$t('description')"
@@ -90,7 +90,7 @@
                 <p v-else>ToDo disabled</p>
             </div>
             <div class="col-12">
-                <TextFieldEdit
+                <TextFieldEditLayout
                     class="mx-3 mb-3"
                     :content="request.query.sql"
                     :label="$t('sql')"
@@ -121,7 +121,7 @@
 <script lang="ts">
 import PrincipalEditLayout from "@/layouts/principals/PrincipalEditLayout.vue";
 import OrganizationsEditLayout from "@/layouts/organizations/OrganizationsEditLayout.vue";
-import TextFieldEdit from "@/layouts/requests/textfields/TextFieldEdit.vue";
+import TextFieldEditLayout from "@/layouts/textfields/TextFieldEditLayout.vue";
 import TargetsEditLayout from "@/layouts/targets/TargetsEditLayout.vue";
 import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
 import ProgressSpinner from "primevue/progressspinner";
@@ -143,7 +143,7 @@ export default {
         TargetsViewLayout,
         ProgressSpinner,
         Divider,
-        TextFieldEdit,
+        TextFieldEditLayout,
         RequestEditHeader,
         SingleMetaEdit,
         SeriesMetaEdit,

@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-5">
                         <PrincipalView :principal="request.query.principal" />
-                        <OrganizationView
+                        <OrganizationsViewLayout
                             :organizationIds="request.authorizedOrgs"
                             :scrollPanelHeight="'max-h-9rem'"
                         />
@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsView
+                <ExecutionsViewLayout
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -82,13 +82,13 @@
 
 <script lang="ts">
 import PrincipalView from "@/layouts/requests/principals/PrincipalView.vue";
-import OrganizationView from "@/layouts/requests/organizations/OrganizationView.vue";
+import OrganizationsViewLayout from "@/layouts/organizations/OrganizationsViewLayout.vue";
 import TextFieldView from "@/layouts/requests/textfields/TextFieldView.vue";
 import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionsView from "@/layouts/requests/executions/ExecutionsView.vue";
+import ExecutionsViewLayout from "@/layouts/executions/ExecutionsViewLayout.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
@@ -101,7 +101,7 @@ export default {
     components: {
         PrincipalView,
         Button,
-        OrganizationView,
+        OrganizationsViewLayout,
         TargetNodesView,
         ProgressSpinner,
         Divider,
@@ -109,7 +109,7 @@ export default {
         RequestViewHeader,
         SingleMetaView,
         SeriesMetaView,
-        ExecutionsView,
+        ExecutionsViewLayout,
     },
     data() {
         return {

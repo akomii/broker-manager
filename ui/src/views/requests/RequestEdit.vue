@@ -57,7 +57,7 @@
                             :disabled="!isDraft()"
                             @update:principal="request.query.principal = $event"
                         />
-                        <OrganizationEdit
+                        <OrganizationsEditLayout
                             :organizationIds="request.authorizedOrgs"
                             :disabled="isArchived()"
                             @update:organizationIds="
@@ -101,7 +101,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsEdit
+                <ExecutionsEditLayout
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -120,7 +120,7 @@
 
 <script lang="ts">
 import PrincipalEdit from "@/layouts/requests/principals/PrincipalEdit.vue";
-import OrganizationEdit from "@/layouts/requests/organizations/OrganizationEdit.vue";
+import OrganizationsEditLayout from "@/layouts/organizations/OrganizationsEditLayout.vue";
 import TextFieldEdit from "@/layouts/requests/textfields/TextFieldEdit.vue";
 import TargetNodesEdit from "@/layouts/requests/targetNodes/TargetNodesEdit.vue";
 import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
@@ -133,12 +133,12 @@ import RequestEditHeader from "@/layouts/headers/RequestEditHeader.vue";
 import SingleMetaEdit from "@/layouts/requests/meta/SingleMetaEdit.vue";
 import SeriesMetaEdit from "@/layouts/requests/meta/SeriesMetaEdit.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionsEdit from "@/layouts/requests/executions/ExecutionsEdit.vue";
+import ExecutionsEditLayout from "@/layouts/executions/ExecutionsEditLayout.vue";
 
 export default {
     components: {
         PrincipalEdit,
-        OrganizationEdit,
+        OrganizationsEditLayout,
         TargetNodesEdit,
         TargetNodesView,
         ProgressSpinner,
@@ -147,7 +147,7 @@ export default {
         RequestEditHeader,
         SingleMetaEdit,
         SeriesMetaEdit,
-        ExecutionsEdit,
+        ExecutionsEditLayout,
     },
     data() {
         return {

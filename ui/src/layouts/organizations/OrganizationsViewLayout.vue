@@ -22,14 +22,14 @@
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
 import ScrollPanel from "primevue/scrollpanel";
-import OrganizationCommon from "./OrganizationCommon.vue";
+import OrganizationsCommon from "./OrganizationsCommon.vue";
 
 export default {
     components: {
         Fieldset,
         ScrollPanel,
     },
-    mixins: [OrganizationCommon],
+    mixins: [OrganizationsCommon],
     props: {
         scrollPanelHeight: {
             type: String,

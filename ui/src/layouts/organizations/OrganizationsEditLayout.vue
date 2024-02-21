@@ -21,14 +21,14 @@
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
 import MultiSelect from "primevue/multiselect";
-import OrganizationCommon from "./OrganizationCommon.vue";
+import OrganizationsCommon from "./OrganizationsCommon.vue";
 
 export default {
     components: {
         Fieldset,
         MultiSelect,
     },
-    mixins: [OrganizationCommon],
+    mixins: [OrganizationsCommon],
     props: {
         disabled: {
             type: Boolean,

@@ -53,6 +53,8 @@ import ColumnReferenceDate from "@/components/tableColumns/requestExecutionColum
 import ColumnsNodeProcessingState from "@/components/tables/targetNodesTable/ColumnsNodeProcessingState.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
+import { ExecutionState } from "@/utils/Enums.ts";
+import MomentWrapper from "@/utils/MomentWrapper";
 
 export default {
     components: {
@@ -82,7 +84,32 @@ export default {
     },
     computed: {
         filteredNodeExecutions(): NodeExecutionsTableElement[] {
-            return this.nodeExecutions;
+            return this.nodeExecutions
+                .filter((execution) => {
+                    return (
+                        this.showArchived ||
+                        execution.executionState !== ExecutionState.ARCHIVED
+                    );
+                })
+                .filter((execution) => {
+                    const searchFields = [
+                        execution.id.toString(),
+                        execution.sequenceId.toString(),
+                        execution.externalId?.toString(),
+                        this.$t(
+                            `enums.executionState.${execution.executionState}`
+                        ),
+                        execution.query.title,
+                        MomentWrapper.formatDateToGermanLocale(
+                            execution.referenceDate
+                        ),
+                    ];
+                    return searchFields.some((field) =>
+                        field
+                            ?.toLowerCase()
+                            .includes(this.currentSearchTerm.toLowerCase())
+                    );
+                });
         },
         nodeExecutionsCountMessage(): string {
             const count = this.nodeExecutions.length;

@@ -6,7 +6,7 @@
             :tags="node.tags"
             :menu="viewMenu"
         />
-        <NodeRequestsViewLayout :nodeId="node.id" />
+        <NodeExecutionsViewLayout :nodeId="node.id" />
     </div>
     <div v-else class="flex justify-content-center flex-wrap py-4">
         <ProgressSpinner />
@@ -18,13 +18,13 @@ import ProgressSpinner from "primevue/progressspinner";
 import { TestDataService } from "@/services/TestDataService";
 import { ManagerNode } from "@/utils/Types.ts";
 import NodeViewHeader from "@/layouts/headers/NodeViewHeader.vue";
-import NodeRequestsViewLayout from "@/layouts/nodeRequests/NodeRequestsViewLayout.vue";
+import NodeExecutionsViewLayout from "@/layouts/executions/NodeExecutionsViewLayout.vue";
 
 export default {
     components: {
         ProgressSpinner,
         NodeViewHeader,
-        NodeRequestsViewLayout,
+        NodeExecutionsViewLayout,
     },
     data() {
         return {

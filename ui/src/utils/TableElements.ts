@@ -1,6 +1,6 @@
 import type { NodeStatusInfo, ExecutionState } from "@/utils/Types.ts";
 
-export interface NodeRequestsTableElement {
+export interface NodeExecutionsTableElement {
     id: number;
     sequenceId: number;
     externalId: number | null;

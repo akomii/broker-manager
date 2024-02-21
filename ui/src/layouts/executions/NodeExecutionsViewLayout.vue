@@ -1,19 +1,20 @@
 <template>
     <Fieldset :legend="$t('correspondingRequests')">
-        <NodeRequestsTable :nodeRequests="nodeRequestsTableElements" />
+        <NodeExecutionsTable :nodeExecutions="nodeExecutions" />
     </Fieldset>
 </template>
 
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
-import NodeRequestsTable from "@/components/tables/nodeRequestsTable/NodeRequestsTable.vue";
-import { NodeRequestsTableElement } from "@/utils/TableElements.ts";
+import NodeExecutionsTable from "@/components/tables/nodeExecutionsTable/NodeExecutionsTable.vue";
+import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
+import { ManagerRequest } from "@/utils/Types";
 import { TestDataService } from "@/services/TestDataService.js";
 
 export default {
     components: {
         Fieldset,
-        NodeRequestsTable,
+        NodeExecutionsTable,
     },
     props: {
         nodeId: {
@@ -28,8 +29,8 @@ export default {
     },
     //TODO check Performance
     computed: {
-        nodeRequestsTableElements(): NodeRequestsTableElement[] {
-            const nodeRequests: NodeRequestsTableElement[] = [];
+        nodeExecutions(): NodeExecutionsTableElement[] {
+            const nodeRequests: NodeExecutionsTableElement[] = [];
             this.allManagerRequests.forEach((request) => {
                 request.executions.forEach((execution) => {
                     const nodeStatusInfo = execution.nodeStatusInfos.find(

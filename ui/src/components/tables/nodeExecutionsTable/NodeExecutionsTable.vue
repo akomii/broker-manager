@@ -1,17 +1,17 @@
 <template>
     <DataTable
-        :value="filteredNodeRequests"
+        :value="filteredNodeExecutions"
         sortField="id"
         :sortOrder="1"
-        ref="nodeRequestsTable"
+        ref="nodeExecutionsTable"
         paginator
         :rows="10"
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <NodeRequestsTableHeader
+            <NodeExecutionsTableHeader
                 @update:showArchived="showArchived = $event"
-                @search="filterNodeRequests"
+                @search="filterNodeExecutions"
             />
         </template>
 
@@ -20,14 +20,14 @@
 
         <template #empty>
             <p class="flex justify-content-center">
-                {{ $t("noRequestsFound") }}
+                {{ $t("noExecutionsFound") }}
             </p>
         </template>
         <template #paginatorstart>
-            <span>{{ nodeRequestsCountMessage }}</span>
+            <span>{{ nodeExecutionsCountMessage }}</span>
         </template>
         <template #paginatorend>
-            <ExportTableButton class="mt-3" :dt="$refs.nodeRequestsTable" />
+            <ExportTableButton class="mt-3" :dt="$refs.nodeExecutionsTable" />
         </template>
     </DataTable>
 </template>
@@ -35,22 +35,22 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import NodeRequestsTableHeader from "./NodeRequestsTableHeader.vue";
+import NodeExecutionsTableHeader from "./NodeExecutionsTableHeader.vue";
 import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
-import { NodeRequestsTableElement } from "@/utils/TableElements.ts";
+import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
 
 export default {
     components: {
         DataTable,
         Column,
-        NodeRequestsTableHeader,
+        NodeExecutionsTableHeader,
         ColumnRequestId,
         ExportTableButton,
     },
     props: {
-        nodeRequests: {
-            type: Array as () => NodeRequestsTableElement[],
+        nodeExecutions: {
+            type: Array as () => NodeExecutionsTableElement[],
             required: true,
         },
     },
@@ -61,11 +61,11 @@ export default {
         };
     },
     computed: {
-        filteredNodeRequests(): ManagerRequest[] {
-            return this.nodeRequests;
+        filteredNodeExecutions(): NodeExecutionsTableElement[] {
+            return this.nodeExecutions;
         },
-        nodeRequestsCountMessage(): string {
-            const count = this.nodeRequests.length;
+        nodeExecutionsCountMessage(): string {
+            const count = this.nodeExecutions.length;
             return count === 1
                 ? this.$t("oneExecution")
                 : this.$t("xExecutions", { numExecutions: count });
@@ -73,7 +73,7 @@ export default {
     },
 
     methods: {
-        filterNodeRequests(searchTerm: string = "") {
+        filterNodeExecutions(searchTerm: string = "") {
             this.currentSearchTerm = searchTerm;
         },
     },

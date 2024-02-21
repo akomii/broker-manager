@@ -51,7 +51,7 @@ export default {
             ],
         };
     },
-    async mounted() {
+    mounted() {
         const nodeId = this.$route.params.id;
         TestDataService.getNodeById(nodeId)
             .then((data: ManagerNode) => {

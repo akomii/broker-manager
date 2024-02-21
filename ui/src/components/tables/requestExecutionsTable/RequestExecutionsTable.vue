@@ -9,7 +9,7 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <ExecutionsTableHeader
+            <RequestExecutionsTableHeader
                 @update:showArchived="showArchived = $event"
                 @search="filterEnrichedExecutions"
             />
@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import DataTable from "primevue/datatable";
-import ExecutionsTableHeader from "@/components/tables/executionsTable/ExecutionsTableHeader.vue";
+import RequestExecutionsTableHeader from "@/components/tables/requestExecutionsTable/RequestExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnCreator from "@/components/tableColumns/requestExecutionColumns/ColumnCreator.vue";
@@ -59,7 +59,7 @@ import ColumnPublishDate from "@/components/tableColumns/requestExecutionColumns
 import ColumnExecutionDate from "@/components/tableColumns/requestExecutionColumns/ColumnExecutionDate.vue";
 import ColumnClosingDate from "@/components/tableColumns/requestExecutionColumns/ColumnClosingDate.vue";
 import ColumnArchiveDate from "@/components/tableColumns/requestExecutionColumns/ColumnArchiveDate.vue";
-import ColumnNodeCompletion from "@/components/tables/executionsTable/ColumnNodeCompletion.vue";
+import ColumnNodeCompletion from "@/components/tables/requestExecutionsTable/ColumnNodeCompletion.vue";
 import ColumnMenuAction from "@/components/tableColumns/requestExecutionColumns/ColumnMenuAction.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { RequestExecution, ManagerNode } from "@/utils/Types";
@@ -70,7 +70,7 @@ import { TestDataService } from "@/services/TestDataService.js";
 export default {
     components: {
         DataTable,
-        ExecutionsTableHeader,
+        RequestExecutionsTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnCreator,

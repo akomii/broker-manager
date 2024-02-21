@@ -1,6 +1,6 @@
 <template>
     <Fieldset :legend="$t('executions')">
-        <ExecutionsTable
+        <RequestExecutionsTable
             :executions="executions"
             :anchoredSequenceIdRef="anchoredSequenceIdRef"
         />
@@ -9,13 +9,13 @@
 
 <script lang="ts">
 import Fieldset from "primevue/fieldset";
-import ExecutionsTable from "@/components/tables/executionsTable/ExecutionsTable.vue";
+import RequestExecutionsTable from "@/components/tables/requestExecutionsTable/RequestExecutionsTable.vue";
 import { RequestExecution } from "@/utils/Types";
 
 export default {
     components: {
         Fieldset,
-        ExecutionsTable,
+        RequestExecutionsTable,
     },
     props: {
         executions: {

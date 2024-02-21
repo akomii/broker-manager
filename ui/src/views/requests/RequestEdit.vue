@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="col-5">
-                <TargetsEditLayout
+                <TargetNodesEditLayout
                     v-if="isDraft() || isRequestSingleAndStillPending()"
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
@@ -101,7 +101,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsEditLayout
+                <RequestExecutionsEditLayout
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -122,8 +122,8 @@
 import PrincipalEditLayout from "@/layouts/principals/PrincipalEditLayout.vue";
 import OrganizationsEditLayout from "@/layouts/organizations/OrganizationsEditLayout.vue";
 import TextFieldEditLayout from "@/layouts/textfields/TextFieldEditLayout.vue";
-import TargetsEditLayout from "@/layouts/targets/TargetsEditLayout.vue";
-import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
+import TargetNodesEditLayout from "@/layouts/targets/TargetNodesEditLayout.vue";
+import TargetNodesViewLayout from "@/layouts/targets/TargetNodesViewLayout.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 
@@ -133,21 +133,21 @@ import RequestEditHeader from "@/layouts/headers/RequestEditHeader.vue";
 import SingleMetaEditLayout from "@/layouts/meta/SingleMetaEditLayout.vue";
 import SeriesMetaEditLayout from "@/layouts/meta/SeriesMetaEditLayout.vue";
 import { RequestState, RequestType, ExecutionState } from "@/utils/Enums";
-import ExecutionsEditLayout from "@/layouts/executions/ExecutionsEditLayout.vue";
+import RequestExecutionsEditLayout from "@/layouts/executions/RequestExecutionsEditLayout.vue";
 
 export default {
     components: {
         PrincipalEditLayout,
         OrganizationsEditLayout,
-        TargetsEditLayout,
-        TargetsViewLayout,
+        TargetNodesEditLayout,
+        TargetNodesViewLayout,
         ProgressSpinner,
         Divider,
         TextFieldEditLayout,
         RequestEditHeader,
         SingleMetaEditLayout,
         SeriesMetaEditLayout,
-        ExecutionsEditLayout,
+        RequestExecutionsEditLayout,
     },
     data() {
         return {

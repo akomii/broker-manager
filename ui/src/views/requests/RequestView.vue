@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="col-5">
-                <TargetsViewLayout
+                <TargetNodesViewLayout
                     class="mr-3"
                     :targetNodeIds="request.targetNodes"
                     :fieldSetHeight="'h-48-4rem'"
@@ -69,7 +69,7 @@
             </div>
 
             <div class="col-12" v-if="!isSingleRequest()">
-                <ExecutionsViewLayout
+                <RequestExecutionsViewLayout
                     class="mx-3 mb-3"
                     :executions="request.executions"
                     :anchoredSequenceIdRef="request.anchoredSequenceIdRef"
@@ -86,11 +86,11 @@
 import PrincipalViewLayout from "@/layouts/principals/PrincipalViewLayout.vue";
 import OrganizationsViewLayout from "@/layouts/organizations/OrganizationsViewLayout.vue";
 import TextFieldViewLayout from "@/layouts/textfields/TextFieldViewLayout.vue";
-import TargetsViewLayout from "@/layouts/targets/TargetsViewLayout.vue";
+import TargetNodesViewLayout from "@/layouts/targets/TargetNodesViewLayout.vue";
 import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
-import ExecutionsViewLayout from "@/layouts/executions/ExecutionsViewLayout.vue";
+import RequestExecutionsViewLayout from "@/layouts/executions/RequestExecutionsViewLayout.vue";
 
 import { TestDataService } from "@/services/TestDataService";
 import { Request, RequestExecution } from "@/utils/Types";
@@ -104,14 +104,14 @@ export default {
         PrincipalViewLayout,
         Button,
         OrganizationsViewLayout,
-        TargetsViewLayout,
+        TargetNodesViewLayout,
         ProgressSpinner,
         Divider,
         TextFieldViewLayout,
         RequestViewHeader,
         SingleMetaViewLayout,
         SeriesMetaViewLayout,
-        ExecutionsViewLayout,
+        RequestExecutionsViewLayout,
     },
     data() {
         return {

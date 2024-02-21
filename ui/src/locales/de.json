@@ -331,5 +331,6 @@
     "location": "Ort",
     "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes",
     "nodeHasNoApiKey": "Standort hat keinen API-Key",
-    "correspondingRequests": "Zugehörige Anfragen"
+    "correspondingRequests": "Zugehörige Anfragen",
+    "requestId": "Anfrage-ID"
 }

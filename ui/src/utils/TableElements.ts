@@ -1,7 +1,7 @@
 import type { NodeStatusInfo, ExecutionState } from "@/utils/Types.ts";
 
 export interface NodeRequestsTableElement {
-    requestId: number;
+    id: number;
     sequenceId: number;
     externalId: number | null;
     executionState: ExecutionState;

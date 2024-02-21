@@ -15,13 +15,16 @@
             />
         </template>
 
+        <ColumnRequestId key="requestId" />
+
+
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noRequestsFound") }}
             </p>
         </template>
         <template #paginatorstart>
-            <span>{{ requestsCountMessage }}</span>
+            <span>{{ nodeRequestsCountMessage }}</span>
         </template>
         <template #paginatorend>
             <ExportTableButton class="mt-3" :dt="$refs.nodeRequestsTable" />
@@ -33,6 +36,7 @@
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import NodeRequestsTableHeader from "./NodeRequestsTableHeader.vue";
+import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { NodeRequestsTableElement } from "@/utils/TableElements.ts";
 
@@ -41,6 +45,7 @@ export default {
         DataTable,
         Column,
         NodeRequestsTableHeader,
+        ColumnRequestId,
         ExportTableButton,
     },
     props: {
@@ -62,8 +67,8 @@ export default {
         nodeRequestsCountMessage(): string {
             const count = this.nodeRequests.length;
             return count === 1
-                ? this.$t("oneRequest")
-                : this.$t("xRequests", { numRequests: count });
+                ? this.$t("oneExecution")
+                : this.$t("xExecutions", { numExecutions: count });
         },
     },
 

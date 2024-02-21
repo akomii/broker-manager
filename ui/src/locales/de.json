@@ -330,5 +330,6 @@
     "showUnsubscribedNodes": "Abgemeldete Standorte anzeigen",
     "location": "Ort",
     "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes",
-    "nodeHasNoApiKey": "Standort hat keinen API-Key"
+    "nodeHasNoApiKey": "Standort hat keinen API-Key",
+    "correspondingRequests": "Zugehörige Anfragen"
 }

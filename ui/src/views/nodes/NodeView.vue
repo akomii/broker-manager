@@ -6,7 +6,20 @@
             :tags="node.tags"
             :menu="viewMenu"
         />
-        <NodeExecutionsViewLayout :nodeId="node.id" />
+        <div class="grid">
+            <div class="col-4">
+                <NodeMetaViewLayout
+                    class="ml-3"
+                    :apiKey="node.apiKey"
+                    :organization="node.clientDN.O"
+                    :location="node.clientDN.L"
+                    :lastContact="node.lastContact"
+                />
+            </div>
+            <div class="col-8">
+                <NodeExecutionsViewLayout class="mr-3" :nodeId="node.id" />
+            </div>
+        </div>
     </div>
     <div v-else class="flex justify-content-center flex-wrap py-4">
         <ProgressSpinner />
@@ -19,12 +32,14 @@ import { TestDataService } from "@/services/TestDataService";
 import { ManagerNode } from "@/utils/Types.ts";
 import NodeViewHeader from "@/layouts/headers/NodeViewHeader.vue";
 import NodeExecutionsViewLayout from "@/layouts/executions/NodeExecutionsViewLayout.vue";
+import NodeMetaViewLayout from "@/layouts/meta/NodeMetaViewLayout.vue";
 
 export default {
     components: {
         ProgressSpinner,
         NodeViewHeader,
         NodeExecutionsViewLayout,
+        NodeMetaViewLayout,
     },
     data() {
         return {

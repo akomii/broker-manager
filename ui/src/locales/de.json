@@ -173,6 +173,11 @@
             "edit": "Anfrage bearbeiten",
             "results": "Ergebnisübersicht",
             "save": "Anfrage speichern"
+        },
+        "node": {
+            "unsubscribe": "Standort abmelden",
+            "edit": "Standort bearbeiten",
+            "saveDraft": "Standort speichern"
         }
     },
     "user": "Benutzer",
@@ -322,7 +327,7 @@
     "addNewNode": "Neuen Standort hinzufügen",
     "requestsOverview": "Anfragenübersicht",
     "nodesOverview": "Standortübersicht",
-    "showHiddenNodes": "Ausgeblendete Standorte anzeigen",
+    "showUnsubscribedNodes": "Abgemeldete Standorte anzeigen",
     "location": "Ort",
     "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes",
     "nodeHasNoApiKey": "Standort hat keinen API-Key"

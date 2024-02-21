@@ -13,7 +13,7 @@
                     @update:modelValue="emitToggleHidden"
                 />
                 <label for="toggleHidden" class="ml-2">
-                    {{ $t("showHiddenNodes") }}
+                    {{ $t("showUnsubscribedNodes") }}
                 </label>
             </span>
         </template>

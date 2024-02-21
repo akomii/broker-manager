@@ -32,7 +32,7 @@
                         />
                     </div>
                     <div class="col-5">
-                        <PrincipalView :principal="request.query.principal" />
+                        <PrincipalViewLayout :principal="request.query.principal" />
                         <OrganizationsViewLayout
                             :organizationIds="request.authorizedOrgs"
                             :scrollPanelHeight="'max-h-9rem'"
@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import PrincipalView from "@/layouts/requests/principals/PrincipalView.vue";
+import PrincipalViewLayout from "@/layouts/principals/PrincipalViewLayout.vue";
 import OrganizationsViewLayout from "@/layouts/organizations/OrganizationsViewLayout.vue";
 import TextFieldView from "@/layouts/requests/textfields/TextFieldView.vue";
 import TargetNodesView from "@/layouts/requests/targetNodes/TargetNodesView.vue";
@@ -99,7 +99,7 @@ import { UserRole, RequestState, RequestType } from "@/utils/Enums";
 
 export default {
     components: {
-        PrincipalView,
+        PrincipalViewLayout,
         Button,
         OrganizationsViewLayout,
         TargetNodesView,

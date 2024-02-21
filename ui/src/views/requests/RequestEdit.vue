@@ -52,7 +52,7 @@
                         />
                     </div>
                     <div class="col-5">
-                        <PrincipalEdit
+                        <PrincipalEditLayout
                             :principal="request.query.principal"
                             :disabled="!isDraft()"
                             @update:principal="request.query.principal = $event"
@@ -119,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import PrincipalEdit from "@/layouts/requests/principals/PrincipalEdit.vue";
+import PrincipalEditLayout from "@/layouts/principals/PrincipalEditLayout.vue";
 import OrganizationsEditLayout from "@/layouts/organizations/OrganizationsEditLayout.vue";
 import TextFieldEdit from "@/layouts/requests/textfields/TextFieldEdit.vue";
 import TargetNodesEdit from "@/layouts/requests/targetNodes/TargetNodesEdit.vue";
@@ -137,7 +137,7 @@ import ExecutionsEditLayout from "@/layouts/executions/ExecutionsEditLayout.vue"
 
 export default {
     components: {
-        PrincipalEdit,
+        PrincipalEditLayout,
         OrganizationsEditLayout,
         TargetNodesEdit,
         TargetNodesView,

@@ -2,6 +2,7 @@
     <Fieldset :legend="label" :class="fieldSetHeight">
         <!-- TODO SQL Validator -->
         <!-- TODO Text nur ASCII -->
+        <!-- TODO BlockUI instead of disabled -->
         <Textarea
             v-model="contentDummy"
             @input="updateContent"

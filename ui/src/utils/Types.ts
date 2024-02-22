@@ -115,7 +115,7 @@ export interface ManagerNode {
     clientDN: ClientDN;
     lastContact: Date | null;
     apiKey: string;
-    notes: Record<string, string>;
+    notes: UserNote[];
     nodeStatusInfo?: NodeStatusInfo; // optional field for TargetNodesTable only
 }
 
@@ -123,4 +123,9 @@ export interface ClientDN {
     CN: string;
     O: string;
     L: string;
+}
+
+export interface UserNote {
+    date: Date;
+    content: string;
 }

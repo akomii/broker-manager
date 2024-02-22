@@ -14,6 +14,7 @@ import {
     SingleExecution,
     RepeatedExecution,
     ModificationHistoryItem,
+    UserNote,
 } from "@/utils/Types";
 import { MomentWrapper } from "@/utils/MomentWrapper";
 import { ExecutionState, RequestState, RequestType } from "@/utils/Enums";
@@ -230,7 +231,13 @@ export class ManagerNodeParser {
                 ? new Date(managerNodeJson.lastContact)
                 : null,
             apiKey: managerNodeJson.apiKey,
-            notes: managerNodeJson.notes,
+            notes: Object.entries(managerNodeJson.notes).map(
+                ([date, content]) =>
+                    ({
+                        date: new Date(date),
+                        content: content,
+                    } as UserNote)
+            ),
         };
     }
 

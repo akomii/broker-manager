@@ -31,6 +31,7 @@
                             class="text-lg"
                             :isAutoPublishing="isAutoPublishing"
                         />
+                        <!-- TODO togglebutton instead-->
                         <InputSwitch
                             v-model="dummyIsAutoPublishing"
                             :disabled="disabled"

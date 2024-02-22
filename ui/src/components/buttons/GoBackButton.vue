@@ -18,7 +18,10 @@ export default {
     setup() {
         const router = useRouter();
         function goBack() {
-            router.go(-1);
+            const path = router.currentRoute.value.path;
+            // Remove the last segment from the path
+            const newPath = path.replace(/\/[^\/]*$/, "");
+            router.push(newPath);
         }
         return { goBack };
     },

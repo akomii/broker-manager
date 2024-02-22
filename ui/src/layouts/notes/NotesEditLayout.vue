@@ -27,21 +27,21 @@
                             </span>
 
                             <div class="flex align-items-end">
-                                <Button
-                                    v-tooltip.bottom="$t('deleteThisNote')"
-                                    @click="deleteNote($event, index)"
-                                    severity="danger"
-                                    icon="pi pi-trash"
-                                    outlined
+                                <DeleteListItemButton
+                                    :itemId="index"
+                                    :toolTipLabel="$t('deleteThisNote')"
+                                    :popupMessage="
+                                        $t('doYouWantToDeleteThisNote')
+                                    "
+                                    :toastMessage="$t('noteWasDeleted')"
+                                    @delete="deleteNote"
                                 />
                             </div>
                         </div>
                         <Divider />
                     </div>
                 </div>
-                <ConfirmPopup></ConfirmPopup>
             </template>
-            <Toast></Toast>
 
             <template #empty>
                 <p class="flex justify-content-center">
@@ -57,10 +57,8 @@ import Fieldset from "primevue/fieldset";
 import DataView from "primevue/dataview";
 import Divider from "primevue/divider";
 import { UserNote } from "@/utils/Types";
-import Button from "primevue/button";
 import DateView from "@/components/timeWidgets/DateView.vue";
-import Toast from "primevue/toast";
-import ConfirmPopup from "primevue/confirmpopup";
+import DeleteListItemButton from "@/components/buttons/DeleteListItemButton.vue";
 
 export default {
     components: {
@@ -68,9 +66,7 @@ export default {
         DataView,
         Divider,
         DateView,
-        Button,
-        Toast,
-        ConfirmPopup,
+        DeleteListItemButton,
     },
     props: {
         notes: {
@@ -79,25 +75,9 @@ export default {
         },
     },
     methods: {
-        deleteNote(event, index: number) {
-            this.$confirm.require({
-                target: event.currentTarget,
-                message: this.$t("doYouWantToDeleteThisNote"),
-                icon: "pi pi-info-circle",
-                rejectClass: "p-button-outlined p-button-sm",
-                acceptClass: "p-button-danger p-button-sm",
-                rejectLabel: this.$t("cancel"),
-                acceptLabel: this.$t("delete"),
-                accept: () => {
-                    this.notes.splice(index, 1);
-                    this.$emit("update:notes", this.notes);
-                    this.$toast.add({
-                        severity: "success",
-                        detail: this.$t("noteWasDeleted"),
-                        life: 3000,
-                    });
-                },
-            });
+        deleteNote(index: Number) {
+            this.notes.splice(index, 1);
+            this.$emit("update:notes", this.notes);
         },
     },
 };

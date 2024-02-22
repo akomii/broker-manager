@@ -25,24 +25,30 @@
                                     {{ item.content }}
                                 </p>
                             </span>
+
+                            <div class="flex align-items-end">
+                                <Button
+                                    v-tooltip.bottom="$t('deleteThisNote')"
+                                    @click="deleteNote($event, index)"
+                                    severity="danger"
+                                    icon="pi pi-trash"
+                                    outlined
+                                />
+                            </div>
                         </div>
                         <Divider />
                     </div>
                 </div>
+                <ConfirmPopup></ConfirmPopup>
             </template>
+            <Toast></Toast>
+
             <template #empty>
                 <p class="flex justify-content-center">
                     {{ $t("noNotesFound") }}
                 </p>
             </template>
         </DataView>
-
-        <InputText
-            class="w-12"
-            v-model="newNote"
-            :placeholder="$t('newNotePlaceholder')"
-            @keyup.enter="addNote"
-        />
     </Fieldset>
 </template>
 
@@ -50,17 +56,21 @@
 import Fieldset from "primevue/fieldset";
 import DataView from "primevue/dataview";
 import Divider from "primevue/divider";
-import InputText from "primevue/inputtext";
 import { UserNote } from "@/utils/Types";
+import Button from "primevue/button";
 import DateView from "@/components/timeWidgets/DateView.vue";
+import Toast from "primevue/toast";
+import ConfirmPopup from "primevue/confirmpopup";
 
 export default {
     components: {
         Fieldset,
         DataView,
         Divider,
-        InputText,
         DateView,
+        Button,
+        Toast,
+        ConfirmPopup,
     },
     props: {
         notes: {
@@ -68,21 +78,26 @@ export default {
             required: true,
         },
     },
-    data() {
-        return {
-            newNote: "",
-        };
-    },
     methods: {
-        addNote() {
-            if (this.newNote) {
-                this.notes.push({
-                    date: new Date(),
-                    content: this.newNote,
-                });
-                this.$emit("update:notes", this.notes);
-                this.newNote = "";
-            }
+        deleteNote(event, index: number) {
+            this.$confirm.require({
+                target: event.currentTarget,
+                message: this.$t("doYouWantToDeleteThisNote"),
+                icon: "pi pi-info-circle",
+                rejectClass: "p-button-outlined p-button-sm",
+                acceptClass: "p-button-danger p-button-sm",
+                rejectLabel: this.$t("cancel"),
+                acceptLabel: this.$t("delete"),
+                accept: () => {
+                    this.notes.splice(index, 1);
+                    this.$emit("update:notes", this.notes);
+                    this.$toast.add({
+                        severity: "success",
+                        detail: this.$t("noteWasDeleted"),
+                        life: 3000,
+                    });
+                },
+            });
         },
     },
 };

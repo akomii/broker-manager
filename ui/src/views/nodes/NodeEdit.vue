@@ -20,6 +20,11 @@
                     @update:organization="node.clientDN.O = $event"
                     @update:location="node.clientDN.L = $event"
                 />
+                <NotesEditLayout
+                    class="ml-3"
+                    :notes="node.notes"
+                    @update:notes="node.notes = $event"
+                />
             </div>
             <div class="col-8"></div>
         </div>
@@ -35,12 +40,14 @@ import { TestDataService } from "@/services/TestDataService";
 import { ManagerNode } from "@/utils/Types";
 import NodeEditHeader from "@/layouts/headers/NodeEditHeader.vue";
 import NodeMetaEditLayout from "@/layouts/meta/NodeMetaEditLayout.vue";
+import NotesEditLayout from "@/layouts/notes/NotesEditLayout.vue";
 
 export default {
     components: {
         ProgressSpinner,
         NodeEditHeader,
         NodeMetaEditLayout,
+        NotesEditLayout,
     },
     data() {
         return {

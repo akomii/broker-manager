@@ -336,5 +336,8 @@
     "requestId": "Anfrage-ID",
     "notes": "Notizen",
     "noNotesFound": "Keine Notizen gefunden",
-    "newNotePlaceholder":"Neue Notiz hinzufügen"
+    "newNotePlaceholder": "Neue Notiz hinzufügen",
+    "deleteThisNote": "Diese Notiz löschen",
+    "doYouWantToDeleteThisNote" : "Möchten Sie diese Notiz löschen?",
+    "noteWasDeleted":"Notiz wurde gelöscht"
 }

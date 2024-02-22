@@ -744,7 +744,12 @@ const nodes = [
         tags: ["cardiology", "patient-care", "emergency-care"],
         notes: {
             "2023-01-01": "Note content for 2023-01-01",
-            "2023-02-15": "Another note for 2023-02-15",
+            "2023-02-15":
+                "ALorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+            "2023-01-01 00:00": "Note content for 2023-01-01",
+            "2023-01-01 00:01": "Note content for 2023-01-01",
+            "2023-01-01 00:02": "Note content for 2023-01-01",
+            "2023-01-01 00:04": "Note content for 2023-01-01",
         },
         id: 1,
         clientDN: {
@@ -948,10 +953,7 @@ const nodes = [
     {
         apiKey: "q5r6s7t8",
         tags: ["vascular-surgery", "angiography"],
-        notes: {
-            "2023-11-10": "Vascular surgery techniques review",
-            "2023-12-20": "Latest in angiography",
-        },
+        notes: {},
         id: 15,
         clientDN: {
             CN: "University Medical Center Hamburg-Eppendorf",

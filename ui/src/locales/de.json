@@ -331,7 +331,10 @@
     "location": "Ort",
     "goToDetailsViewOfNode": "Zur Detailsansicht des Standortes",
     "nodeHasNoApiKey": "Standort hat keinen API-Key",
-    "apiKey" : "API-Key",
+    "apiKey": "API-Key",
     "correspondingRequests": "Zugehörige Anfragen",
-    "requestId": "Anfrage-ID"
+    "requestId": "Anfrage-ID",
+    "notes": "Notizen",
+    "noNotesFound": "Keine Notizen gefunden",
+    "newNotePlaceholder":"Neue Notiz hinzufügen"
 }

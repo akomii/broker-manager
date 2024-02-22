@@ -15,6 +15,11 @@
                     :location="node.clientDN.L"
                     :lastContact="node.lastContact"
                 />
+                <NotesViewLayout
+                    class="ml-3"
+                    :notes="node.notes"
+                    @update:notes="node.notes = $event"
+                />
             </div>
             <div class="col-8">
                 <NodeExecutionsViewLayout class="mr-3" :nodeId="node.id" />
@@ -33,6 +38,7 @@ import { ManagerNode } from "@/utils/Types.ts";
 import NodeViewHeader from "@/layouts/headers/NodeViewHeader.vue";
 import NodeExecutionsViewLayout from "@/layouts/executions/NodeExecutionsViewLayout.vue";
 import NodeMetaViewLayout from "@/layouts/meta/NodeMetaViewLayout.vue";
+import NotesViewLayout from "@/layouts/notes/NotesViewLayout.vue";
 
 export default {
     components: {
@@ -40,6 +46,7 @@ export default {
         NodeViewHeader,
         NodeExecutionsViewLayout,
         NodeMetaViewLayout,
+        NotesViewLayout,
     },
     data() {
         return {

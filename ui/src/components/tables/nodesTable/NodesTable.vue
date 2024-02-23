@@ -78,7 +78,7 @@ export default {
         filteredNodes(): ManagerNode[] {
             return this.nodes
                 .filter((node) => {
-                    return this.showHidden || node.apiKey !== null;
+                    return this.showHidden || (node.apiKey !== null && node.apiKey !== "");
                 })
                 .filter((node) => {
                     const searchFields = [

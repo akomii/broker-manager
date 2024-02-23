@@ -46,6 +46,7 @@ import DateView from "@/components/timeWidgets/DateView.vue";
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 
 // TODO refactor and add docs
+// TODO add check that apikey is unique
 export default {
     components: {
         Fieldset,

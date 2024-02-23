@@ -24,6 +24,7 @@
 <script lang="ts">
 import Calendar from "primevue/calendar";
 
+// TODO refactor and add docs
 export default {
     components: {
         Calendar,

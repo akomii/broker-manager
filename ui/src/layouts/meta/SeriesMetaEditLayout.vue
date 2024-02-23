@@ -90,6 +90,7 @@ import InputSwitch from "primevue/inputswitch";
 import TimePeriodInput from "@/components/timeWidgets/TimePeriodInput.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

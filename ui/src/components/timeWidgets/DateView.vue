@@ -5,6 +5,7 @@
 <script lang="ts">
 import MomentWrapper from "@/utils/MomentWrapper.ts";
 
+// TODO refactor and add docs
 export default {
     props: {
         date: {

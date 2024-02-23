@@ -28,6 +28,7 @@ import ColumnResultDownloadAction from "@/components/tableColumns/resultsDownloa
 import { ResultsDownloadLog } from "@/utils/Types";
 import { ExecutionState } from "@/utils/Enums";
 
+// TODO refactor and add docs
 export default {
     components: {
         DataTable,

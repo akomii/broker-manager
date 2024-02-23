@@ -25,6 +25,7 @@
 <script lang="ts">
 import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         TableHeaderCommon,

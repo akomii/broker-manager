@@ -28,6 +28,7 @@ export default {
         };
     },
     //TODO check Performance
+    // TODO refactor and add docs
     computed: {
         nodeExecutions(): NodeExecutionsTableElement[] {
             const nodeRequests: NodeExecutionsTableElement[] = [];

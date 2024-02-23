@@ -54,6 +54,7 @@ import InputText from "primevue/inputtext";
 import { UserNote } from "@/utils/Types";
 import DateView from "@/components/timeWidgets/DateView.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

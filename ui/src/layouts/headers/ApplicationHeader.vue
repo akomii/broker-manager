@@ -30,6 +30,7 @@ export default {
     },
     data() {
         return {
+            // TODO refactor and add docs
             // TODO add Keycloak integration and routing
             usermenu: [
                 {

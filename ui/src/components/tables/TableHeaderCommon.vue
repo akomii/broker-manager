@@ -15,6 +15,7 @@
 <script lang="ts">
 import SearchInput from "@/components/tables/SearchInput.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         SearchInput,

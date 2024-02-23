@@ -9,6 +9,7 @@
 <script lang="ts">
 import LabelCommon from "@/components/labels/LabelCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         LabelCommon,

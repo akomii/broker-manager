@@ -9,6 +9,7 @@
 import DownloadButton from "@/components/buttons/DownloadButton.vue";
 
 // TODO nested table components are not exported correctly
+// TODO refactor and add docs
 export default {
     components: {
         DownloadButton,

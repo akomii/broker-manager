@@ -5,6 +5,7 @@
 <script lang="ts">
 import Column from "primevue/column";
 
+// TODO remove
 export default {
     components: {
         Column,

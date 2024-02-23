@@ -16,6 +16,7 @@ import TargetNodesTable from "@/components/tables/targetNodesTable/TargetNodesTa
 import { ManagerNode, RequestExecution, NodeStatusInfo } from "@/utils/Types";
 import { TestDataService } from "@/services/TestDataService";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

@@ -13,6 +13,7 @@
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import HeaderCommon from "./HeaderCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         HeaderCommon,

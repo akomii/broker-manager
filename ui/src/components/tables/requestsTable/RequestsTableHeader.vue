@@ -42,6 +42,7 @@ import Checkbox from "primevue/checkbox";
 import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 import NewDraftButton from "@/components/buttons/NewDraftButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Checkbox,

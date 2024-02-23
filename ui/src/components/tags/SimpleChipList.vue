@@ -7,6 +7,7 @@
 <script lang="ts">
 import Chip from "primevue/chip";
 
+// TODO refactor and add docs
 export default {
     components: {
         Chip,

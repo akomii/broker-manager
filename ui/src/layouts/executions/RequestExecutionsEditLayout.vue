@@ -233,6 +233,7 @@ import DatePick from "@/components/timeWidgets/DatePick.vue";
 
 // TODO REFACTOOR
 //TODO sorting with scheduled and actual dates does not work
+// TODO refactor and add docs
 
 export default {
     components: {

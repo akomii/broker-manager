@@ -12,6 +12,7 @@ import Fieldset from "primevue/fieldset";
 import RequestExecutionsTable from "@/components/tables/requestExecutionsTable/RequestExecutionsTable.vue";
 import { RequestExecution } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

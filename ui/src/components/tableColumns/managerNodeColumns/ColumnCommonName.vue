@@ -15,6 +15,7 @@
 import Column from "primevue/column";
 import HiddenNodeIcon from "@/components/icons/HiddenNodeIcon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

@@ -11,6 +11,8 @@
 import Button from "primevue/button";
 import { useRouter } from "vue-router";
 
+// TODO generify
+// TODO refactor and add docs
 export default {
     components: {
         Button,

@@ -32,6 +32,7 @@
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 
+// TODO refactor and add docs
 export default {
     components: {
         Button,

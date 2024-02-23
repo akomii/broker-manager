@@ -16,6 +16,7 @@
 import Fieldset from "primevue/fieldset";
 import PrincipalCommon from "./PrincipalCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

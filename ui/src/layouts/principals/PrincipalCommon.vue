@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Principal } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     props: {
         principal: {

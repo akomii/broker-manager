@@ -56,6 +56,7 @@ import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
 import { ExecutionState } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
 
+// TODO refactor and add docs
 export default {
     components: {
         DataTable,

@@ -16,6 +16,7 @@
 import Divider from "primevue/divider";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Divider,

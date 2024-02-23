@@ -5,6 +5,7 @@
 <script lang="ts">
 import Tag from "primevue/tag";
 
+// TODO refactor and add docs
 export default {
     components: {
         Tag,

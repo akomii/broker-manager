@@ -26,6 +26,7 @@ import InputText from "primevue/inputtext";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 import NodeHeaderCommon from "./NodeHeaderCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         NodeHeaderCommon,

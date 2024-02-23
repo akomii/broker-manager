@@ -10,6 +10,7 @@
 import Column from "primevue/column";
 import SimpleChipList from "@/components/tags/SimpleChipList.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

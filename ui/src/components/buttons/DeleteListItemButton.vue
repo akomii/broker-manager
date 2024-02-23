@@ -15,6 +15,7 @@ import Button from "primevue/button";
 import ConfirmPopup from "primevue/confirmpopup";
 import Toast from "primevue/toast";
 
+// TODO refactor and add docs
 export default {
     components: {
         Button,

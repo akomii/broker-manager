@@ -24,6 +24,7 @@ import Fieldset from "primevue/fieldset";
 import ScrollPanel from "primevue/scrollpanel";
 import OrganizationsCommon from "./OrganizationsCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

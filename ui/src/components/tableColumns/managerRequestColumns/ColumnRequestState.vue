@@ -10,6 +10,7 @@
 import Column from "primevue/column";
 import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

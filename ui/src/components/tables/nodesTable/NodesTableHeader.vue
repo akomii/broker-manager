@@ -29,6 +29,7 @@ import Checkbox from "primevue/checkbox";
 import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 import AddNewNodeButton from "@/components/buttons/AddNewNodeButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Checkbox,

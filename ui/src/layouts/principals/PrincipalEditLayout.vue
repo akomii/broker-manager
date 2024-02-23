@@ -34,6 +34,7 @@ import { Principal } from "@/utils/Types";
 import PrincipalSearch from "./PrincipalSearch.vue";
 import PrincipalCommon from "./PrincipalCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

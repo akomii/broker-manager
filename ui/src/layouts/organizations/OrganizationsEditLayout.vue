@@ -23,6 +23,7 @@ import Fieldset from "primevue/fieldset";
 import MultiSelect from "primevue/multiselect";
 import OrganizationsCommon from "./OrganizationsCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

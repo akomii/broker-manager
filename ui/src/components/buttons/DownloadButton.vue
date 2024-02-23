@@ -12,6 +12,7 @@
 <script lang="ts">
 import Button from "primevue/button";
 
+// TODO refactor and add docs
 export default {
     components: {
         Button,

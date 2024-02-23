@@ -17,6 +17,7 @@
 import MomentWrapper from "@/utils/MomentWrapper.ts";
 import DateView from "./DateView.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         DateView,

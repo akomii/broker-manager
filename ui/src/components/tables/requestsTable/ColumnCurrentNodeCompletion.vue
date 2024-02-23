@@ -18,6 +18,7 @@ import Column from "primevue/column";
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 import { RequestExecution } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

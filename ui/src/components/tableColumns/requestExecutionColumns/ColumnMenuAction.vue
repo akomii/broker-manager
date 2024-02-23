@@ -14,6 +14,7 @@
 import Column from "primevue/column";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

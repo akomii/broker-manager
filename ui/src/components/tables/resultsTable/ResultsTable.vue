@@ -74,6 +74,7 @@ export default {
     },
     props: {
          // TODO CREATE NEW DATATYPE AS INPUT PROP
+         // TODO refactor and add docs
         executions: {
             type: Array as () => RequestExecution[],
             required: true,

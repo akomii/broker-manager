@@ -10,6 +10,7 @@
 import LabelCommon from "@/components/labels/LabelCommon.vue";
 import { RequestType } from "@/utils/Enums";
 
+// TODO refactor and add docs
 export default {
     components: {
         LabelCommon,

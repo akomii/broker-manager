@@ -10,6 +10,7 @@
 <script lang="ts">
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         ExportTableButton,

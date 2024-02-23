@@ -21,6 +21,8 @@ import DialogCommon from "@/components/dialogs/DialogCommon.vue";
 import TargetNodesTable from "@/components/tables/targetNodesTable/TargetNodesTable.vue";
 import { ManagerNode, NodeStatusInfo } from "@/utils/Types.ts";
 
+// TODO refactor and add docs
+// TODO use add TargetNodesTableElement as input
 export default {
     components: {
         DialogCommon,

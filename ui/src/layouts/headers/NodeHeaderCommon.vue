@@ -22,6 +22,7 @@ import GoBackButton from "@/components/buttons/GoBackButton.vue";
 import MenuButton from "@/components/buttons/MenuButton.vue";
 import { MenuItem } from "@/components/buttons/MenuButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Divider,

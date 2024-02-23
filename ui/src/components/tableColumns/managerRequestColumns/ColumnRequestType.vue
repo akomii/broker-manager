@@ -13,6 +13,7 @@
 import Column from "primevue/column";
 import RequestTypeLabel from "@/components/labels/RequestTypeLabel.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

@@ -38,6 +38,7 @@ const orderedStates: NodeState[] = [
     NodeState.EXPIRED,
 ];
 
+// TODO refactor and add docs
 export default {
     components: {
         Button,

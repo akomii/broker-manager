@@ -56,6 +56,7 @@ import MomentWrapper from "@/utils/MomentWrapper";
 import ConvertRequestButton from "@/components/buttons/ConvertRequestButton.vue";
 import SingleMetaCommon from "./SingleMetaCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         DatePick,

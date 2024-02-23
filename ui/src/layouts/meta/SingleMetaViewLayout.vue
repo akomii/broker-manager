@@ -63,6 +63,7 @@ import ScheduledDateView from "@/components/timeWidgets/ScheduledDateView.vue";
 import RequestHistoryDialog from "@/components/dialogs/RequestHistoryDialog.vue";
 import { ModificationHistoryItem } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     components: {
         SingleMetaCommon,

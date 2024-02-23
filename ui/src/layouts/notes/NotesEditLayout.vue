@@ -60,6 +60,7 @@ import { UserNote } from "@/utils/Types";
 import DateView from "@/components/timeWidgets/DateView.vue";
 import DeleteListItemButton from "@/components/buttons/DeleteListItemButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

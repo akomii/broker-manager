@@ -33,6 +33,7 @@ import AnchoredRequestIcon from "@/components/icons/AnchoredRequestIcon.vue";
 import { ResultsDownloadLog } from "@/utils/Types.ts";
 import { ExecutionState } from "@/utils/Enums.ts";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

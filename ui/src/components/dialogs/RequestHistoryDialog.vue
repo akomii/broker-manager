@@ -33,6 +33,7 @@ import Column from "primevue/column";
 import { ModificationHistoryItem } from "@/utils/Types";
 import MomentWrapper from "@/utils/MomentWrapper";
 
+// TODO refactor and add docs
 export default {
     components: {
         DialogCommon,

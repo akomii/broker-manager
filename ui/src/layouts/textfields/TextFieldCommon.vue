@@ -1,4 +1,6 @@
 <script lang="ts">
+
+// TODO refactor and add docs
 export default {
     props: {
         content: {

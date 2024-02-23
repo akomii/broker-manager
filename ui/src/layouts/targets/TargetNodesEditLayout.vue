@@ -44,6 +44,7 @@ import { ManagerNode } from "@/utils/Types";
 import SearchInput from "@/components/tables/SearchInput.vue";
 import { TestDataService } from "@/services/TestDataService";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

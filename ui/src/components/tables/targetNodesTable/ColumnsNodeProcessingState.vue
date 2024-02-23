@@ -28,6 +28,7 @@ import NodeStatusMessageButton from "@/components/buttons/NodeStatusMessageButto
 import NotAvailableIcon from "@/components/icons/NotAvailableIcon.vue";
 import { NodeStatusInfo } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

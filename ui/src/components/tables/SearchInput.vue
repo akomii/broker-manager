@@ -11,6 +11,7 @@
 <script lang="ts">
 import InputText from "primevue/inputtext";
 
+// TODO refactor and add docs
 export default {
     components: {
         InputText,

@@ -13,6 +13,7 @@
 import Button from "primevue/button";
 
 // TODO remove v-if and put on parent or similar
+// TODO refactor and add docs
 export default {
     components: {
         Button,

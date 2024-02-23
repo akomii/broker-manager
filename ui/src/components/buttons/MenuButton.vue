@@ -8,6 +8,9 @@ import { PropType } from "vue";
 import Button from "primevue/button";
 import Menu from "primevue/menu";
 
+// TODO refactor and move MenutItem outside
+// TODO refactor and add docs
+// TODO own service for menus?
 export interface MenuItem {
     label: string;
     icon?: string;

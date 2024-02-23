@@ -88,6 +88,7 @@ import type { MomentDuration } from "@/utils/MomentWrapper";
 import AutoPublishingLabel from "@/components/labels/AutoPublishingLabel.vue";
 import { ModificationHistoryItem } from "@/utils/Types";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

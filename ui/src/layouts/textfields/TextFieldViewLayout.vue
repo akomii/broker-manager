@@ -11,6 +11,7 @@ import Fieldset from "primevue/fieldset";
 import ScrollPanel from "primevue/scrollpanel";
 import TextFieldCommon from "./TextFieldCommon.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Fieldset,

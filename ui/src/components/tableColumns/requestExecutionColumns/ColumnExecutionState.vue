@@ -13,6 +13,7 @@
 import Column from "primevue/column";
 import ExecutionStateLabel from "@/components/labels/ExecutionStateLabel.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

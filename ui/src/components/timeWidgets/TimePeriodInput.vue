@@ -27,6 +27,7 @@ import FloatLabel from "primevue/floatlabel";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { MomentDuration } from "@/utils/MomentWrapper";
 
+// TODO refactor and add docs
 export default {
     components: {
         InputGroup,

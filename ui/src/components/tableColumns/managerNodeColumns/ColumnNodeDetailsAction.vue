@@ -10,6 +10,7 @@
 import Column from "primevue/column";
 import ShowNodeDetailsButton from "@/components/buttons/ShowNodeDetailsButton.vue";
 
+// TODO refactor and add docs
 export default {
     components: {
         Column,

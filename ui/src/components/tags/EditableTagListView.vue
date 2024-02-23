@@ -27,6 +27,7 @@ import Chip from "primevue/chip";
 import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 
+// TODO refactor and add docs
 export default {
     components: {
         Chip,

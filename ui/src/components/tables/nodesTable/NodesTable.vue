@@ -61,6 +61,7 @@ export default {
         ExportTableButton,
     },
      // TODO CREATE NEW DATATYPE AS INPUT PROP
+     // TODO refactor and add docs
     props: {
         nodes: {
             type: Array as () => ManagerNode[],

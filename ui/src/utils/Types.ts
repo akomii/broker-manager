@@ -1,7 +1,5 @@
-import { RequestState, ExecutionState, RequestType } from "@/utils/Enums";
+import { RequestType, RequestState, ExecutionState } from "@/utils/Enums";
 import type { MomentDuration } from "@/utils/MomentWrapper";
-
-export type Request = SingleRequest | SeriesRequest;
 
 export interface ManagerRequest {
     id: number;

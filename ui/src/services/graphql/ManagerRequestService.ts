@@ -42,36 +42,6 @@ class ManagerRequestService {
         });
     }
 
-    static async getRequestsForNodeId(
-        nodeId: number
-    ): Promise<ManagerRequest[]> {
-        return this.newPromise<ManagerRequest[]>(() => {
-            const requests = this.getRequestsFromLocalStorage();
-            const parsedRequests =
-                ManagerRequestDataHandler.parseMultiple(requests);
-            return parsedRequests
-                .map((request) => {
-                    const filteredExecutions = request.executions
-                        .filter((execution) =>
-                            execution.nodeStatusInfos.some(
-                                (status) => status.nodeId === nodeId
-                            )
-                        )
-                        .map((execution) => ({
-                            ...execution,
-                            nodeStatusInfos: execution.nodeStatusInfos.filter(
-                                (status) => status.nodeId === nodeId
-                            ),
-                        }));
-                    return {
-                        ...request,
-                        executions: filteredExecutions,
-                    };
-                })
-                .filter((request) => request.executions.length > 0);
-        });
-    }
-
     static async getRequestById(id: number): Promise<ManagerRequest> {
         return this.newPromise<ManagerRequest>(() => {
             const requests = this.getRequestsFromLocalStorage();

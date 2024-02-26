@@ -4,25 +4,28 @@ import OrganizationDataHandler from "@/services/handler/OrganizationDataHandler"
 
 // TODO replace with actual graphql calls
 class OrganizationService {
-    static async getOrganizations(): Promise<Organization[]> {
-        return new Promise((resolve) => {
+    private static newPromise<T>(
+        operation: () => T,
+        delay: number = 450
+    ): Promise<T> {
+        return new Promise<T>((resolve) => {
             setTimeout(() => {
-                resolve(OrganizationDataHandler.parseMultiple(organizations));
-            }, 450);
+                resolve(operation());
+            }, delay);
+        });
+    }
+
+    static async getOrganizations(): Promise<Organization[]> {
+        return this.newPromise<Organization[]>(() => {
+            return OrganizationDataHandler.parseMultiple(organizations);
         });
     }
 
     static async getOrganizationByIds(ids: number[]): Promise<Organization[]> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const parsedOrganizations =
-                    OrganizationDataHandler.parseMultiple(organizations);
-                resolve(
-                    parsedOrganizations.filter((org: Organization) =>
-                        ids.includes(org.id)
-                    )
-                );
-            }, 450);
+        return this.newPromise<Organization[]>(() => {
+            const parsedOrganizations =
+                OrganizationDataHandler.parseMultiple(organizations);
+            return parsedOrganizations.filter((org) => ids.includes(org.id));
         });
     }
 }

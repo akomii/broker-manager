@@ -24,163 +24,215 @@ class ManagerRequestService {
         localStorage.setItem(this.localStorageKey, JSON.stringify(requests));
     }
 
-    static async getRequests(): Promise<ManagerRequest[]> {
-        return new Promise((resolve) => {
+    private static newPromise<T>(
+        operation: () => T,
+        delay: number = 450
+    ): Promise<T> {
+        return new Promise<T>((resolve) => {
             setTimeout(() => {
-                const requests = this.getRequestsFromLocalStorage();
-                resolve(ManagerRequestDataHandler.parseMultiple(requests));
-            }, 450);
+                resolve(operation());
+            }, delay);
+        });
+    }
+
+    static async getRequests(): Promise<ManagerRequest[]> {
+        return this.newPromise<ManagerRequest[]>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            return ManagerRequestDataHandler.parseMultiple(requests);
         });
     }
 
     static async getRequestsForNodeId(
         nodeId: number
     ): Promise<ManagerRequest[]> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const requests = this.getRequestsFromLocalStorage();
-                const parsedRequests =
-                    ManagerRequestDataHandler.parseMultiple(requests);
-                const filteredRequests = parsedRequests
-                    .map((request) => {
-                        const filteredExecutions = request.executions
-                            .filter((execution) =>
-                                execution.nodeStatusInfos.some(
-                                    (status) => status.nodeId === nodeId
-                                )
+        return this.newPromise<ManagerRequest[]>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const parsedRequests =
+                ManagerRequestDataHandler.parseMultiple(requests);
+            return parsedRequests
+                .map((request) => {
+                    const filteredExecutions = request.executions
+                        .filter((execution) =>
+                            execution.nodeStatusInfos.some(
+                                (status) => status.nodeId === nodeId
                             )
-                            .map((execution) => {
-                                const filteredNodeStatusInfos =
-                                    execution.nodeStatusInfos.filter(
-                                        (status) => status.nodeId === nodeId
-                                    );
-                                return {
-                                    ...execution,
-                                    nodeStatusInfos: filteredNodeStatusInfos,
-                                };
-                            });
-                        return {
-                            ...request,
-                            executions: filteredExecutions,
-                        };
-                    })
-                    .filter((request) => request.executions.length > 0);
-                resolve(filteredRequests);
-            }, 450);
+                        )
+                        .map((execution) => ({
+                            ...execution,
+                            nodeStatusInfos: execution.nodeStatusInfos.filter(
+                                (status) => status.nodeId === nodeId
+                            ),
+                        }));
+                    return {
+                        ...request,
+                        executions: filteredExecutions,
+                    };
+                })
+                .filter((request) => request.executions.length > 0);
         });
     }
 
     static async getRequestById(id: number): Promise<ManagerRequest> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const requests = this.getRequestsFromLocalStorage();
-                const parsedRequests =
-                    ManagerRequestDataHandler.parseMultiple(requests);
-                resolve(
-                    parsedRequests.find(
-                        (request: ManagerRequest) => request.id === Number(id)
-                    ) || null
-                );
-            }, 450);
+        return this.newPromise<ManagerRequest>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const parsedRequests =
+                ManagerRequestDataHandler.parseMultiple(requests);
+            return (
+                parsedRequests.find((request) => request.id === Number(id)) ||
+                null
+            );
         });
     }
 
     static async createRequest(newRequest: ManagerRequest): Promise<void> {
-        const requests = this.getRequestsFromLocalStorage();
-        requests.push(newRequest);
-        this.saveRequestsToLocalStorage(requests);
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            requests.push(newRequest);
+            this.saveRequestsToLocalStorage(requests);
+        });
     }
 
     static async updateRequest(updatedRequest: ManagerRequest): Promise<void> {
-        const requests = this.getRequestsFromLocalStorage();
-        const requestIndex = requests.findIndex(
-            (request) => request.id === updatedRequest.id
-        );
-        if (requestIndex !== -1) {
-            requests[requestIndex] = updatedRequest;
-            this.saveRequestsToLocalStorage(requests);
-        } else {
-            console.error("Request not found, cannot update.");
-        }
-    }
-
-    static async closeRequest(id: number): Promise<void> {
-        const request = await this.getRequestById(id);
-        request.requestState = RequestState.Closed;
-        request.executions.forEach((execution) => {
-            execution.executionState = ExecutionState.Closed;
-            execution.closedDate = new Date();
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === updatedRequest.id
+            );
+            if (requestIndex !== -1) {
+                requests[requestIndex] = updatedRequest;
+                this.saveRequestsToLocalStorage(requests);
+            } else {
+                throw new Error("Request not found.");
+            }
         });
-        await this.updateRequest(request);
     }
 
-    static async archiveRequest(id: number): Promise<void> {
-        const request = await this.getRequestById(id);
-        request.requestState = RequestState.Archived;
-        request.executions.forEach((execution) => {
-            execution.executionState = ExecutionState.Archived;
-            execution.archivedDate = new Date();
+    static closeRequest(id: number): Promise<void> {
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === id
+            );
+            if (requestIndex !== -1) {
+                const request = requests[requestIndex];
+                request.requestState = RequestState.Closed;
+                request.executions.forEach((execution) => {
+                    execution.executionState = ExecutionState.Closed;
+                    execution.closedDate = new Date();
+                });
+                this.saveRequestsToLocalStorage(requests);
+            } else {
+                throw new Error("Request not found.");
+            }
         });
-        await this.updateRequest(request);
     }
 
-    static async publishRequestExecutuion(
+    static archiveRequest(id: number): Promise<void> {
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === id
+            );
+            if (requestIndex !== -1) {
+                const request = requests[requestIndex];
+                request.requestState = RequestState.Archived;
+                request.executions.forEach((execution) => {
+                    execution.executionState = ExecutionState.Archived;
+                    execution.archivedDate = new Date();
+                });
+                this.saveRequestsToLocalStorage(requests);
+            } else {
+                throw new Error("Request not found.");
+            }
+        });
+    }
+
+    static publishRequestExecution(
         requestId: number,
         sequenceId: number
     ): Promise<void> {
-        const request = await this.getRequestById(requestId);
-        const execution = request.executions.find(
-            (exec) => exec.sequenceId === sequenceId
-        );
-        if (!execution) {
-            throw new Error("Execution not found");
-        }
-        execution.executionState = ExecutionState.PUBLISHED;
-        execution.publishedDate = new Date();
-        await this.updateRequest(request);
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === requestId
+            );
+            if (requestIndex !== -1) {
+                const request = requests[requestIndex];
+                const execution = request.executions.find(
+                    (exec) => exec.sequenceId === sequenceId
+                );
+                if (execution) {
+                    execution.executionState = ExecutionState.PUBLISHED;
+                    execution.publishedDate = new Date();
+                    this.saveRequestsToLocalStorage(requests);
+                } else {
+                    throw new Error("Execution not found");
+                }
+            }
+        });
     }
 
-    static async closeRequestExecutuion(
+    static closeRequestExecution(
         requestId: number,
         sequenceId: number
     ): Promise<void> {
-        const request = await this.getRequestById(requestId);
-        const execution = request.executions.find(
-            (exec) => exec.sequenceId === sequenceId
-        );
-        if (!execution) {
-            throw new Error("Execution not found");
-        }
-        execution.executionState = ExecutionState.CLOSED;
-        execution.closedDate = new Date();
-        await this.updateRequest(request);
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === requestId
+            );
+            if (requestIndex !== -1) {
+                const request = requests[requestIndex];
+                const execution = request.executions.find(
+                    (exec) => exec.sequenceId === sequenceId
+                );
+                if (execution) {
+                    execution.executionState = ExecutionState.CLOSED;
+                    execution.closedDate = new Date();
+                    this.saveRequestsToLocalStorage(requests);
+                } else {
+                    throw new Error("Execution not found");
+                }
+            }
+        });
     }
 
-    static async archiveRequestExecutuion(
+    static archiveRequestExecution(
         requestId: number,
         sequenceId: number
     ): Promise<void> {
-        const request = await this.getRequestById(requestId);
-        const execution = request.executions.find(
-            (exec) => exec.sequenceId === sequenceId
-        );
-        if (!execution) {
-            throw new Error("Execution not found");
-        }
-        execution.executionState = ExecutionState.ARCHIVED;
-        execution.archivedDate = new Date();
-        await this.updateRequest(request);
+        return this.newPromise<void>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const requestIndex = requests.findIndex(
+                (request) => request.id === requestId
+            );
+            if (requestIndex !== -1) {
+                const request = requests[requestIndex];
+                const execution = request.executions.find(
+                    (exec) => exec.sequenceId === sequenceId
+                );
+                if (execution) {
+                    execution.executionState = ExecutionState.ARCHIVED;
+                    execution.archivedDate = new Date();
+                    this.saveRequestsToLocalStorage(requests);
+                } else {
+                    throw new Error("Execution not found");
+                }
+            }
+        });
     }
 
     static async getAllRequestPrincipals(): Promise<Principal[]> {
-        const requests = await this.getRequests();
-        const principals: Principal[] = [];
-        requests.forEach((request) => {
-            if (request.query && request.query.principal) {
-                principals.push(request.query.principal);
-            }
+        return this.newPromise<Principal[]>(() => {
+            const requests = this.getRequestsFromLocalStorage();
+            const principals: Principal[] = [];
+            requests.forEach((request) => {
+                if (request.query && request.query.principal) {
+                    principals.push(request.query.principal);
+                }
+            });
+            return principals;
         });
-        return principals;
     }
 
     // ToDo downloadNewestResults()

@@ -1,10 +1,14 @@
 import { UserRole, RequestState, ExecutionState } from "@/utils/Enums";
 
-export class MenuService {
-    static getUserMenu(localize: (key: string) => string): MenuItem[] {
+// TODO Refactor and simplify
+class MenuService {
+    static getUserMenu(
+        localize: (key: string) => string,
+        username: String
+    ): MenuItem[] {
         return [
             {
-                label: "<username>",
+                label: `${username}`,
                 items: [
                     {
                         label: `${localize("navigation.settings")}`,

@@ -1,17 +1,28 @@
 <template>
     <div
-        class="flex flex-wrap justify-content-between border-solid border-200 p-3"
+        class="flex flex-wrap justify-content-between border-solid border-200 py-1"
     >
-        <div class="flex align-items-center">
-            <img src="@/assets/aktin_logo.png" class="max-h-4rem mr-2" />
+        <div
+            class="flex align-items-center mx-2 gap-1"
+            style="user-select: none"
+        >
+            <img src="@/assets/aktin_logo.png" class="max-h-4rem" />
             <h2 class="text-700">Broker Manager</h2>
         </div>
-        <div class="flex align-items-center">
+        <div class="flex align-items-center mx-2 gap-1">
             <div v-if="hasUserRoleIT" class="flex">
-                <TabMenu :model="routing" class="mr-2" />
-                <Divider layout="vertical" class="ml-2" />
+                <TabMenu :model="routing">
+                    <template #item="{ item, props }">
+                        <router-link v-slot="{ navigate }" :to="item.route">
+                            <a v-bind="props.action" @click="navigate">
+                                {{ item.label }}
+                            </a>
+                        </router-link>
+                    </template>
+                </TabMenu>
+                <Divider layout="vertical" />
             </div>
-            <MenuButton icon="pi pi-user" :menu="usermenu" />
+            <MenuButton icon="pi pi-user" :menu="userMenu" />
         </div>
     </div>
 </template>
@@ -20,8 +31,27 @@
 import TabMenu from "primevue/tabmenu";
 import Divider from "primevue/divider";
 import MenuButton from "@/components/buttons/MenuButton.vue";
+import MenuService from "@/services/MenuService";
+import LoggedInUserService from "@/services/LoggedInUserService";
 import { UserRole } from "@/utils/Enums.ts";
+import { MenuItem } from "@/services/MenuService";
 
+/**
+ * Helper interface for defining navigation route configurations. Only used in
+ * this component.
+ */
+interface RouteConfig {
+    label: string;
+    route: string;
+}
+
+/**
+ * Header Component for Broker Manager App.
+ *
+ * Renders the header with the app logo, title, user menu, and IT-specific
+ * navigation tabs. The user menu adjusts based on user role, supporting
+ * settings and logout functionality.
+ */
 export default {
     components: {
         TabMenu,
@@ -30,37 +60,32 @@ export default {
     },
     data() {
         return {
-            // TODO refactor and add docs
-            // TODO add Keycloak integration and routing
-            usermenu: [
-                {
-                    label: "<username>",
-                    items: [
-                        {
-                            label: this.$t("navigation.settings"),
-                            icon: "pi pi-cog",
-                        },
-                        {
-                            label: this.$t("navigation.logout"),
-                            icon: "pi pi-sign-out",
-                        },
-                    ],
-                },
-            ],
-            // TODO add routing and services
-            routing: [
-                {
-                    label: this.$t("navigation.requests"),
-                    to: "/requests",
-                },
-                { label: this.$t("navigation.nodes"), to: "/nodes" },
-            ],
+            userMenu: [] as MenuItem[],
+            routing: [] as RouteConfig[],
         };
     },
+    created() {
+        this.initComponent();
+    },
     computed: {
-        // TODO: grab userRole from Keycloak response
         hasUserRoleIT(): boolean {
-            return this.$userRole === UserRole.IT;
+            return LoggedInUserService.hasRole(UserRole.IT);
+        },
+    },
+    methods: {
+        initComponent() {
+            const username = LoggedInUserService.getUsername();
+            this.userMenu = MenuService.getUserMenu(this.$t, username);
+            this.routing = this.getNavigationTabRouting();
+        },
+        getNavigationTabRouting(): RouteConfig[] {
+            return [
+                {
+                    label: this.$t("navigation.requests"),
+                    route: "/requests",
+                },
+                { label: this.$t("navigation.nodes"), route: "/nodes" },
+            ];
         },
     },
 };

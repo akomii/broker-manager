@@ -22,7 +22,7 @@
                 </TabMenu>
                 <Divider layout="vertical" />
             </div>
-            <MenuButton icon="pi pi-user" :menu="userMenu" />
+            <ApplicationHeaderMenuButton />
         </div>
     </div>
 </template>
@@ -30,11 +30,9 @@
 <script lang="ts">
 import TabMenu from "primevue/tabmenu";
 import Divider from "primevue/divider";
-import MenuButton from "@/components/buttons/MenuButton.vue";
-import MenuService from "@/services/MenuService";
+import ApplicationHeaderMenuButton from "@/components/buttons/menuButtons/ApplicationHeaderMenuButton.vue";
 import LoggedInUserService from "@/services/LoggedInUserService";
 import { UserRole } from "@/utils/Enums.ts";
-import { MenuItem } from "@/services/MenuService";
 
 /**
  * Helper interface for defining navigation route configurations. Only used in
@@ -46,26 +44,27 @@ interface RouteConfig {
 }
 
 /**
- * Header Component for Broker Manager App.
- *
- * Renders the header with the app logo, title, user menu, and IT-specific
- * navigation tabs. The user menu adjusts based on user role, supporting
- * settings and logout functionality.
+ * The Header Component for the Broker Manager application, designed to display
+ * the application's logo, title, and a dynamic navigation menu. It includes
+ * IT-specific navigation tabs that are conditionally rendered based on the
+ * user's role, leveraging the TabMenu component for tabbed navigation.
+ * Additionally, it features an ApplicationHeaderMenuButton for user-related
+ * actions. The component dynamically constructs navigation routes for IT roles,
+ * ensuring relevant options are accessible based on user permissions.
  */
 export default {
     components: {
         TabMenu,
         Divider,
-        MenuButton,
+        ApplicationHeaderMenuButton,
     },
     data() {
         return {
-            userMenu: [] as MenuItem[],
             routing: [] as RouteConfig[],
         };
     },
     created() {
-        this.initComponent();
+        this.routing = this.getNavigationTabRouting();
     },
     computed: {
         hasUserRoleIT(): boolean {
@@ -73,18 +72,13 @@ export default {
         },
     },
     methods: {
-        initComponent() {
-            const username = LoggedInUserService.getUsername();
-            this.userMenu = MenuService.getUserMenu(this.$t, username);
-            this.routing = this.getNavigationTabRouting();
-        },
         getNavigationTabRouting(): RouteConfig[] {
             return [
                 {
-                    label: this.$t("navigation.requests"),
+                    label: this.$t("requests"),
                     route: "/requests",
                 },
-                { label: this.$t("navigation.nodes"), route: "/nodes" },
+                { label: this.$t("nodes"), route: "/nodes" },
             ];
         },
     },

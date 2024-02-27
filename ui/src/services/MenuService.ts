@@ -2,26 +2,6 @@ import { UserRole, RequestState, ExecutionState } from "@/utils/Enums";
 
 // TODO Refactor and simplify
 class MenuService {
-    static getUserMenu(
-        localize: (key: string) => string,
-        username: String
-    ): MenuItem[] {
-        return [
-            {
-                label: `${username}`,
-                items: [
-                    {
-                        label: `${localize("navigation.settings")}`,
-                        icon: "pi pi-cog",
-                    },
-                    {
-                        label: `${localize("navigation.logout")}`,
-                        icon: "pi pi-sign-out",
-                    },
-                ],
-            },
-        ];
-    }
 
     static getRequestViewMenu(
         localize: (key: string) => string,

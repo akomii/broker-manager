@@ -7,7 +7,10 @@
 <script lang="ts">
 import Chip from "primevue/chip";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that renders a collection strings as chips, each displaying a
+ * keyword.
+ */
 export default {
     components: {
         Chip,

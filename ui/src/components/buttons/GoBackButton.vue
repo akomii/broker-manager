@@ -9,22 +9,21 @@
 
 <script lang="ts">
 import Button from "primevue/button";
-import { useRouter } from "vue-router";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that renders a button with an icon indicating a "go back"
+ * action. On click, it navigates the user to the parent path of the current
+ * route.
+ */
 export default {
     components: {
         Button,
     },
-    setup() {
-        const router = useRouter();
-        function goBack() {
-            const path = router.currentRoute.value.path;
-            // Remove the last segment from the path
-            const newPath = path.replace(/\/[^\/]*$/, "");
-            router.push(newPath);
-        }
-        return { goBack };
+    methods: {
+        goBack() {
+            const parentPath = this.$route.path.replace(/\/[^\/]*$/, "");
+            this.$router.push(parentPath);
+        },
     },
 };
 </script>

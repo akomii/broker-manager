@@ -1,5 +1,5 @@
 <template>
-    <MenuButton icon="pi pi-user" :menu="userMenu" />
+    <MenuButtonCommon icon="pi pi-user" :menu="userMenu" />
     <ConfirmDialog :group="groupId" />
     <Toast :group="groupId" />
 </template>
@@ -7,7 +7,7 @@
 <script lang="ts">
 import ConfirmDialog from "primevue/confirmdialog";
 import Toast from "primevue/toast";
-import MenuButton from "./MenuButtonCommon.vue";
+import MenuButtonCommon from "./MenuButtonCommon.vue";
 import LoggedInUserService from "@/services/LoggedInUserService";
 import { MenuItem } from "./MenuButtonCommon.vue";
 
@@ -21,7 +21,7 @@ import { MenuItem } from "./MenuButtonCommon.vue";
  */
 export default {
     components: {
-        MenuButton,
+        MenuButtonCommon,
         ConfirmDialog,
         Toast,
     },

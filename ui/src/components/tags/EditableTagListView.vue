@@ -10,7 +10,6 @@
             <i class="pi pi-tag mr-1" />
             <span class="text-sm"> {{ tag }} </span>
         </Chip>
-
         <div v-if="editable" class="p-input-icon-left">
             <i class="pi pi-tags" />
             <InputText
@@ -19,9 +18,9 @@
                 :placeholder="$t('newTagPlaceholder')"
                 @keyup.enter="addTag"
             />
+            <Toast :group="groupId" />
         </div>
     </span>
-    <Toast :group="groupId" />
 </template>
 
 <script lang="ts">
@@ -62,16 +61,18 @@ export default {
         },
         addTag() {
             const tag = this.newTag.trim();
-            if (tag && !this.tags.includes(tag)) {
-                this.$emit("update:tags", [...this.tags, tag]);
-                this.newTag = "";
-            } else {
-                this.$toast.add({
-                    group: this.groupId,
-                    severity: "warn",
-                    detail: this.$t("tagExistsAlready", { tag }),
-                    life: 3000,
-                });
+            if (tag) {
+                if (!this.tags.includes(tag)) {
+                    this.$emit("update:tags", [...this.tags, tag]);
+                    this.newTag = "";
+                } else {
+                    this.$toast.add({
+                        group: this.groupId,
+                        severity: "warn",
+                        detail: this.$t("tagExistsAlready", { tag: tag }),
+                        life: 3000,
+                    });
+                }
             }
         },
     },

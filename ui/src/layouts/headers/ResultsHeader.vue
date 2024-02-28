@@ -1,36 +1,18 @@
 <template>
-    <div class="mx-3">
-        <div class="w-12 flex flex-wrap align-items-center column-gap-2">
-            <GoBackButton />
-            <p class="text-2xl">
-                {{
-                    $t("resultsHeaderWithIdAndTitle", { id: id, title: title })
-                }}
-            </p>
-        </div>
-    </div>
-    <Divider class="mt-0" />
+    <HeaderCommon :title="$t('resultsForRequest', { id: id, title: title })" />
 </template>
 
 <script lang="ts">
-import Divider from "primevue/divider";
-import GoBackButton from "@/components/buttons/GoBackButton.vue";
+import HeaderCommon from "./HeaderCommon.vue";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that utilizes a common header component to display a dynamic
+ * title, specifically formatted for displaying results related to a request.
+ */
 export default {
     components: {
-        Divider,
-        GoBackButton,
+        HeaderCommon,
     },
-    props: {
-        id: {
-            type: Number,
-            required: true,
-        },
-        title: {
-            type: String,
-            required: true,
-        },
-    },
+    mixins: [HeaderCommon],
 };
 </script>

@@ -17,7 +17,7 @@ export default {
     },
     props: {
         chips: {
-            type: Array<string>,
+            type: Array as () => string[],
             required: true,
         },
     },

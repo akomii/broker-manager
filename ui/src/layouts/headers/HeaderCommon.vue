@@ -21,7 +21,7 @@
             <p v-else class="text-2xl">{{ title }}</p>
             <slot name="enumLabelSection"></slot>
             <BlockUI
-                v-if="editable"
+                v-if="editable && tags"
                 :blocked="isTagEditingDisabled"
                 class="w-5"
             >
@@ -31,7 +31,7 @@
                     @update:tags="updateTags"
                 />
             </BlockUI>
-            <EditableTagListView v-else :tags="tags" />
+            <EditableTagListView v-if="!editable && tags" :tags="tags" />
         </div>
         <div class="flex flex-wrap align-items-center">
             <slot name="menuButtonSection"></slot>
@@ -46,6 +46,12 @@ import Divider from "primevue/divider";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 
+/**
+ * A Vue component designed for displaying and editing a title and a list of
+ * tags, with support for a go-back button and customizable slots for additional
+ * UI elements. It offers an editable mode for both title and tags, utilizing
+ * BlockUI to optionally disable editing.
+ */
 export default {
     components: {
         InputText,
@@ -60,10 +66,7 @@ export default {
             type: String,
             required: true,
         },
-        tags: {
-            type: Array<string>,
-            required: true,
-        },
+        tags: Array as () => string[],
         editable: Boolean,
         isTitleEditingDisabled: Boolean,
         isTagEditingDisabled: Boolean,

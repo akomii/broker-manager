@@ -67,7 +67,7 @@ export default {
                 message: this.$t("confirmUserLogout"),
                 header: this.$t("confirmation"),
                 icon: "pi pi-exclamation-circle",
-                rejectClass: "p-button-secondary p-button-outlined",
+                rejectClass: "p-button-outlined",
                 acceptLabel: this.$t("logout"),
                 rejectLabel: this.$t("cancel"),
                 accept: () => this.logoutUser(),

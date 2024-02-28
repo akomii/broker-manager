@@ -1,70 +1,49 @@
 <template>
-    <HeaderCommon :id="id" :state="state" :menu="menu">
-        <template #title>
-            <span class="p-float-label w-9">
-                <InputText
-                    class="text-2xl w-12"
-                    size="large"
-                    v-model="dummyTitle"
-                    :disabled="isTitleEditingDisabled"
-                />
-                <label>{{ $t("title") }}</label>
-            </span>
+    <HeaderCommon
+        :id="id"
+        :title="title"
+        :tags="tags"
+        :editable="true"
+        :isTitleEditingDisabled="isTitleEditingDisabled"
+        :isTagEditingDisabled="isTagEditingDisabled"
+        @update:title="updateTitle"
+        @update:tags="updateTags"
+    >
+        <template #enumLabelSection>
+            <RequestStateLabel class="text-lg" :state="state" />
         </template>
-        <template #tags>
-            <EditableTagListView
-                :tags="dummyTags"
-                :editable="!isTagEditingDisabled"
-                @update:tags="dummyTags = $event"
-            />
+        <template #menuButtonSection>
+            <MenuButton v-if="menu" :icon="'pi pi-chevron-down'" :menu="menu" />
         </template>
     </HeaderCommon>
 </template>
 
 <script lang="ts">
-import InputText from "primevue/inputtext";
-import EditableTagListView from "@/components/tags/EditableTagListView.vue";
+import { PropType } from "vue";
 import HeaderCommon from "./HeaderCommon.vue";
+import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
+import MenuButton from "@/components/buttons/MenuButton.vue";
+import { RequestState } from "@/utils/Enums";
+import { MenuItem } from "@/components/buttons/MenuButton.vue";
 
 // TODO refactor and add docs
 export default {
     components: {
         HeaderCommon,
-        InputText,
-        EditableTagListView,
+        RequestStateLabel,
+        MenuButton,
     },
     mixins: [HeaderCommon],
     props: {
-        title: {
-            type: String,
+        state: {
+            type: String as PropType<keyof typeof RequestState>,
             required: true,
         },
-        tags: {
-            type: Array<string>,
+        menu: {
+            type: Array as PropType<MenuItem[]>,
             required: true,
         },
-        isTitleEditingDisabled: {
-            type: Boolean,
-            default: false,
-        },
-        isTagEditingDisabled: {
-            type: Boolean,
-            default: false,
-        },
     },
-    data() {
-        return {
-            dummyTitle: this.title,
-            dummyTags: this.tags,
-        };
-    },
-    watch: {
-        dummyTitle: function (updatedTitle: string) {
-            this.$emit("update:title", updatedTitle);
-        },
-        dummyTags: function (updatedTags: string[]) {
-            this.$emit("update:tags", updatedTags);
-        },
-    },
+    emits: ["update:title", "update:tags"],
 };
 </script>

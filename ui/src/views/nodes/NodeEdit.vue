@@ -2,11 +2,11 @@
     <div v-if="node">
         <NodeEditHeader
             :id="node.id"
-            :commonName="node.clientDN.CN"
+            :title="node.clientDN.CN"
             :tags="node.tags"
             :menu="viewMenu"
             @update:tags="node.tags = $event"
-            @update:commonName="node.clientDN.CN = $event"
+            @update:title="node.clientDN.CN = $event"
         />
         <div class="grid">
             <div class="col-4">

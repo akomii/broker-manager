@@ -1,62 +1,36 @@
 <template>
-    <NodeHeaderCommon :id="id" :menu="menu">
-        <template #title>
-            <span class="p-float-label w-9">
-                <InputText
-                    class="text-2xl w-12"
-                    size="large"
-                    v-model="dummyCommonName"
-                />
-                <label>{{ $t("title") }}</label>
-            </span>
+    <HeaderCommon
+        :id="id"
+        :title="title"
+        :tags="tags"
+        :editable="true"
+        @update:title="updateTitle"
+        @update:tags="updateTags"
+    >
+        <template #menuButtonSection>
+            <MenuButton v-if="menu" :icon="'pi pi-chevron-down'" :menu="menu" />
         </template>
-        <template #tags>
-            <EditableTagListView
-                :tags="dummyTags"
-                :editable="true"
-                @update:tags="dummyTags = $event"
-            />
-        </template>
-    </NodeHeaderCommon>
+    </HeaderCommon>
 </template>
 
-<!-- TODO menu logic to Header -->
 <script lang="ts">
-import InputText from "primevue/inputtext";
-import EditableTagListView from "@/components/tags/EditableTagListView.vue";
-import NodeHeaderCommon from "./NodeHeaderCommon.vue";
+import { PropType } from "vue";
+import HeaderCommon from "./HeaderCommon.vue";
+import MenuButton from "@/components/buttons/MenuButton.vue";
+import { MenuItem } from "@/components/buttons/MenuButton.vue";
 
 // TODO refactor and add docs
 export default {
     components: {
-        NodeHeaderCommon,
-        InputText,
-        EditableTagListView,
+        HeaderCommon,
+        MenuButton,
     },
-    mixins: [NodeHeaderCommon],
+    mixins: [HeaderCommon],
     props: {
-        commonName: {
-            type: String,
-            required: true,
-        },
-        tags: {
-            type: Array<string>,
-            required: true,
+        menu: {
+            type: Array as PropType<MenuItem[]>,
         },
     },
-    data() {
-        return {
-            dummyCommonName: this.commonName,
-            dummyTags: this.tags,
-        };
-    },
-    watch: {
-        dummycommonName: function (updatedCommonName: string) {
-            this.$emit("update:commonName", updatedCommonName);
-        },
-        dummyTags: function (updatedTags: string[]) {
-            this.$emit("update:tags", updatedTags);
-        },
-    },
+    emits: ["update:title", "update:tags"],
 };
 </script>

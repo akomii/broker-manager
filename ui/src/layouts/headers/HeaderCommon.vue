@@ -1,49 +1,80 @@
 <template>
-    <div class="mx-3 flex flex-wrap align-items-center">
-        <div class="w-6 flex flex-wrap align-items-center column-gap-2">
+    <div class="flex flex-wrap justify-content-between mx-3">
+        <div class="flex flex-wrap align-items-center gap-2 w-11">
             <GoBackButton />
             <p v-if="id" class="text-2xl">[{{ id }}]</p>
-            <slot name="title"></slot>
-            <RequestStateLabel class="text-lg" :state="state" />
+            <BlockUI
+                v-if="editable"
+                :blocked="isTitleEditingDisabled"
+                class="w-5"
+            >
+                <span class="p-float-label text-2xl">
+                    <InputText
+                        class="w-full"
+                        size="large"
+                        :modelValue="title"
+                        @update:modelValue="updateTitle"
+                    />
+                    <label>{{ $t("title") }}</label>
+                </span>
+            </BlockUI>
+            <p v-else class="text-2xl">{{ title }}</p>
+            <slot name="enumLabelSection"></slot>
+            <BlockUI
+                v-if="editable"
+                :blocked="isTagEditingDisabled"
+                class="w-5"
+            >
+                <EditableTagListView
+                    :tags="tags"
+                    :editable="true"
+                    @update:tags="updateTags"
+                />
+            </BlockUI>
+            <EditableTagListView v-else :tags="tags" />
         </div>
-        <div class="w-5">
-            <slot name="tags"></slot>
-        </div>
-        <div class="w-1 flex flex-wrap justify-content-end">
-            <MenuButton v-if="menu" :icon="'pi pi-chevron-down'" :menu="menu" />
+        <div class="flex flex-wrap align-items-center">
+            <slot name="menuButtonSection"></slot>
         </div>
     </div>
-    <Divider class="mt-0" />
 </template>
 
 <script lang="ts">
-import { PropType } from "vue";
+import InputText from "primevue/inputtext";
+import BlockUI from "primevue/blockui";
 import Divider from "primevue/divider";
-import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
-import { RequestState } from "@/utils/Enums";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
-import MenuButton from "@/components/buttons/MenuButton.vue";
-import { MenuItem } from "@/components/buttons/MenuButton.vue";
+import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 
-// TODO refactor and add docs
 export default {
     components: {
+        InputText,
+        BlockUI,
         Divider,
-        MenuButton,
         GoBackButton,
-        RequestStateLabel,
+        EditableTagListView,
     },
     props: {
-        id: {
-            type: Number,
+        id: Number,
+        title: {
+            type: String,
             required: true,
         },
-        state: {
-            type: String as PropType<keyof typeof RequestState>,
+        tags: {
+            type: Array<string>,
             required: true,
         },
-        menu: {
-            type: Array as PropType<MenuItem[]>,
+        editable: Boolean,
+        isTitleEditingDisabled: Boolean,
+        isTagEditingDisabled: Boolean,
+    },
+    emits: ["update:title", "update:tags"],
+    methods: {
+        updateTitle(title: string) {
+            this.$emit("update:title", title);
+        },
+        updateTags(tags: string[]) {
+            this.$emit("update:tags", tags);
         },
     },
 };

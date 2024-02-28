@@ -1,32 +1,37 @@
 <template>
-    <HeaderCommon :id="id" :state="state" :menu="menu">
-        <template #title>
-            <p class="text-2xl">{{ title }}</p>
+    <HeaderCommon :id="id" :title="title" :tags="tags">
+        <template #enumLabelSection>
+            <RequestStateLabel class="text-lg" :state="state" />
         </template>
-        <template #tags>
-            <EditableTagListView :tags="tags" />
+        <template #menuButtonSection>
+            <MenuButton v-if="menu" :icon="'pi pi-chevron-down'" :menu="menu" />
         </template>
     </HeaderCommon>
 </template>
 
 <script lang="ts">
-import EditableTagListView from "@/components/tags/EditableTagListView.vue";
+import { PropType } from "vue";
 import HeaderCommon from "./HeaderCommon.vue";
+import RequestStateLabel from "@/components/labels/RequestStateLabel.vue";
+import MenuButton from "@/components/buttons/MenuButton.vue";
+import { RequestState } from "@/utils/Enums";
+import { MenuItem } from "@/components/buttons/MenuButton.vue";
 
 // TODO refactor and add docs
 export default {
     components: {
         HeaderCommon,
-        EditableTagListView,
+        RequestStateLabel,
+        MenuButton,
     },
     mixins: [HeaderCommon],
     props: {
-        title: {
-            type: String,
+        state: {
+            type: String as PropType<keyof typeof RequestState>,
             required: true,
         },
-        tags: {
-            type: Array<string>,
+        menu: {
+            type: Array as PropType<MenuItem[]>,
             required: true,
         },
     },

@@ -2,7 +2,7 @@
     <div v-if="node">
         <NodeViewHeader
             :id="node.id"
-            :commonName="node.clientDN.CN"
+            :title="node.clientDN.CN"
             :tags="node.tags"
             :menu="viewMenu"
         />

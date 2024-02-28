@@ -19,9 +19,6 @@ import "./assets/global.css";
 // Locale imports
 import de from "./locales/de.json";
 
-// TODO ONLY FOR TESTING PURPOSES
-import { UserRole } from "./utils/Enums.ts";
-
 // i18n configuration
 const i18n = createI18n({
     locale: "de",
@@ -32,13 +29,8 @@ const i18n = createI18n({
 const primeVueConfig = { inputStyle: "filled", locale: de };
 
 // App creation
-const app = createApp(App);
-
-// TODO ONLY FOR TESTING PURPOSES
-app.config.globalProperties.$userRole = UserRole.IT;
-
-// App creation
-app.use(router)
+const app = createApp(App)
+    .use(router)
     .use(i18n)
     .use(PrimeVue, primeVueConfig)
     .use(ToastService)

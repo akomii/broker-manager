@@ -59,21 +59,47 @@ export default {
         EditableTagListView,
     },
     props: {
+        /**
+         * Optional identifier for the displayed item.
+         */
         id: Number,
+        /**
+         * The title text to display or edit.
+         */
         title: {
             type: String,
             required: true,
         },
+        /**
+         * An array of tag strings associated with the item.
+         */
         tags: Array as () => string[],
+        /**
+         *  Determines if the title and tags are editable.
+         */
         editable: Boolean,
+        /**
+         * Controls if title editing is currently disabled.
+         */
         isTitleEditingDisabled: Boolean,
+        /**
+         * Controls if tag editing is currently disabled.
+         */
         isTagEditingDisabled: Boolean,
     },
     emits: ["update:title", "update:tags"],
     methods: {
+        /**
+         * Emits an update event for the title.
+         * @param {string} title - The new title value.
+         */
         updateTitle(title: string) {
             this.$emit("update:title", title);
         },
+        /**
+         * Emits an update event for the tags.
+         * @param {string[]} tags - The new array of tags.
+         */
         updateTags(tags: string[]) {
             this.$emit("update:tags", tags);
         },

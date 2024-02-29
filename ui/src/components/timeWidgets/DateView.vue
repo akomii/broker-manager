@@ -21,10 +21,9 @@ export default {
     },
     computed: {
         /**
-         * Computes the formatted date string using the MomentWrapper utility.
-         * Formats the `date` prop to the German locale date format.
-         *
-         * @returns {string} The formatted date string.
+         * Computed property that formats the provided date into
+         * the German locale format.
+         * @returns {string} The date formatted in the German locale.
          */
         formattedDate(): string {
             return MomentWrapper.formatDateToGermanLocale(this.date);

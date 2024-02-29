@@ -183,12 +183,12 @@
         }
     },
     "timeUnits": {
-        "year": "Jahr(e)",
-        "month": "Monat(e)",
-        "day": "Tag(e)",
-        "hour": "Stunde(n)",
-        "minute": "Minute(n)",
-        "second": "Sekunde(n)"
+        "years": "Jahre",
+        "months": "Monate",
+        "days": "Tage",
+        "hours": "Stunden",
+        "minutes": "Minuten",
+        "seconds": "Sekunden"
     },
     "addNewExecution": "Neue Ausführung hinzufügen",
     "addNewNode": "Neuen Standort hinzufügen",

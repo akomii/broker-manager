@@ -7,10 +7,17 @@
 </template>
 
 <script lang="ts">
-import LabelCommon from "@/components/labels/LabelCommon.vue";
+import LabelCommon from "./LabelCommon.vue";
 import { RequestType } from "@/utils/Enums";
 
-// TODO refactor and add docs
+/**
+ * A Vue component for displaying request type labels with color coding,
+ * utilizing the LabelCommon component. It takes a request type as a prop,
+ * categorized by the RequestType enum, and uses a color map to assign colors to
+ * different request types. The component also specifies a localization path for
+ * internationalizing the request type labels, ensuring they are displayed
+ * according to the application's current language settings.
+ */
 export default {
     components: {
         LabelCommon,

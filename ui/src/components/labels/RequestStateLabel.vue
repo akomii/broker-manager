@@ -7,10 +7,14 @@
 </template>
 
 <script lang="ts">
-import LabelCommon from "@/components/labels/LabelCommon.vue";
+import LabelCommon from "./LabelCommon.vue";
 import { RequestState } from "@/utils/Enums";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that wraps the LabelCommon component to display a label for a
+ * request's state. It passes the request state, a color map for the state, and
+ * a localization path to the LabelCommon component.
+ */
 export default {
     components: {
         LabelCommon,

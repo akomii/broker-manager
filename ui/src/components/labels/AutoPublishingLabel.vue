@@ -7,9 +7,14 @@
 </template>
 
 <script lang="ts">
-import LabelCommon from "@/components/labels/LabelCommon.vue";
+import LabelCommon from "./LabelCommon.vue";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that utilizes the LabelCommon component to display a label
+ * indicating the type of publishing: automatic or manual. It dynamically
+ * determines the label based on the `isAutoPublishing` prop and applies color
+ * coding through a predefined map.
+ */
 export default {
     components: {
         LabelCommon,

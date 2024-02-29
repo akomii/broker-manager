@@ -5,7 +5,11 @@
 <script lang="ts">
 import Tag from "primevue/tag";
 
-// TODO refactor and add docs
+/**
+ * A Vue component that displays a localized and color-coded tag based on the
+ * provided state. The state's visual representation is customized through a
+ * color map and localized using a specified path for internationalization.
+ */
 export default {
     components: {
         Tag,
@@ -16,7 +20,7 @@ export default {
             required: true,
         },
         colorMap: {
-            type: Object,
+            type: Object as () => Record<string, string>,
             required: true,
         },
         localizationPath: {

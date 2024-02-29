@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap justify-content-between mx-3">
         <div class="flex flex-wrap align-items-center gap-2 w-11">
-            <GoBackButton />
+            <GoBackButton v-if="!editable" />
             <p v-if="id" class="text-2xl">[{{ id }}]</p>
             <BlockUI
                 v-if="editable"

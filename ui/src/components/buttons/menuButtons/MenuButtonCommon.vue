@@ -27,9 +27,7 @@ export interface MenuItem {
 }
 
 /**
- * A Vue component that renders a button and a popup menu using PrimeVue
- * components. The button can be customized with labels and icons, and the menu
- * supports nested items.
+ * ToDo add Docs
  */
 export default {
     components: {

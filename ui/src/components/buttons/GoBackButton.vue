@@ -11,9 +11,10 @@
 import Button from "primevue/button";
 
 /**
- * A Vue component that renders a button with an icon indicating a "go back"
- * action. On click, it navigates the user to the parent path of the current
- * route.
+ * A back navigation button component.
+ * Uses PrimeVue's Button component to render a button that navigates the user
+ * to the parent route when clicked. This is achieved by removing the last
+ * segment of the current path and navigating to the modified path.
  */
 export default {
     components: {

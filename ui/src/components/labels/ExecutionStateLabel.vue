@@ -11,10 +11,8 @@ import LabelCommon from "./LabelCommon.vue";
 import { ExecutionState } from "@/utils/Enums";
 
 /**
- * A Vue component designed to display execution state labels with corresponding
- * color coding. It leverages the LabelCommon component, passing the execution
- * state, a predefined color map based on the execution state, and a
- * localization path for internationalization.
+ * Displays a label with a color and text based on the execution state. Uses
+ * LabelCommon component, mapping execution states to colors.
  */
 export default {
     components: {

@@ -6,8 +6,9 @@
 import HeaderCommon from "./HeaderCommon.vue";
 
 /**
- * A Vue component that utilizes a common header component to display a dynamic
- * title, specifically formatted for displaying results related to a request.
+ * A Vue component that displays a header with a dynamically localized title. It
+ * utilizes the HeaderCommon component for consistent header styling and
+ * functionality across the application.
  */
 export default {
     components: {

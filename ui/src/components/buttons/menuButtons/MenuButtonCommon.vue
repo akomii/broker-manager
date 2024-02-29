@@ -15,9 +15,17 @@ import Menu from "primevue/menu";
 
 /**
  * Represents a menu item for use in a hierarchical menu structure, allowing for
- * complex menu creation with nested submenus. Each item can have a label, an
- * optional icon, an optional command function to execute on click, and an
+ * complex menu creation with nested submenus. Each item can include a label, an
+ * optional icon, an optional command function to be executed on click, and an
  * optional array of nested `MenuItem` objects for creating submenus.
+ *
+ * @interface @property {string} label - The text displayed for the menu item.
+ * @property {string}
+ * [icon] - Optional. The name of the icon to be displayed alongside the label.
+ * @property {() => void}
+ * [command] - Optional. A function to be executed when the menu item is clicked.
+ * @property
+ * {MenuItem[]} [items] - Optional. An array of `MenuItem` objects representing nested submenus.
  */
 export interface MenuItem {
     label: string;

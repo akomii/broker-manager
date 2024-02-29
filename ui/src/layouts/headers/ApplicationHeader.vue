@@ -44,13 +44,10 @@ interface RouteConfig {
 }
 
 /**
- * The Header Component for the Broker Manager application, designed to display
- * the application's logo, title, and a dynamic navigation menu. It includes
- * IT-specific navigation tabs that are conditionally rendered based on the
- * user's role, leveraging the TabMenu component for tabbed navigation.
- * Additionally, it features an ApplicationHeaderMenuButton for user-related
- * actions. The component dynamically constructs navigation routes for IT roles,
- * ensuring relevant options are accessible based on user permissions.
+ * Renders a navigation header including a logo, application title, and a
+ * dynamic tab menu based on user roles. It conditionally displays navigation
+ * tabs and a vertical divider for users with the IT role, alongside a menu
+ * button component for application-wide actions.
  */
 export default {
     components: {
@@ -72,6 +69,12 @@ export default {
         },
     },
     methods: {
+        /**
+         * Generates the routing configuration for the navigation tabs. The
+         * routes are dynamically generated based on the application's
+         * localization settings.
+         * @returns {RouteConfig[]} An array of route configurations for the navigation tabs.
+         */
         getNavigationTabRouting(): RouteConfig[] {
             return [
                 {

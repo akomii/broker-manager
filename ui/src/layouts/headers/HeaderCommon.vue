@@ -42,21 +42,19 @@
 <script lang="ts">
 import InputText from "primevue/inputtext";
 import BlockUI from "primevue/blockui";
-import Divider from "primevue/divider";
 import GoBackButton from "@/components/buttons/GoBackButton.vue";
 import EditableTagListView from "@/components/tags/EditableTagListView.vue";
 
 /**
- * A Vue component designed for displaying and editing a title and a list of
- * tags, with support for a go-back button and customizable slots for additional
- * UI elements. It offers an editable mode for both title and tags, utilizing
- * BlockUI to optionally disable editing.
+ * A flexible component for displaying and editing a title and a list of tags.
+ * It conditionally renders different UI elements based on the `editable` prop,
+ * including a go-back button, editable title input, and an editable list of
+ * tags.
  */
 export default {
     components: {
         InputText,
         BlockUI,
-        Divider,
         GoBackButton,
         EditableTagListView,
     },

@@ -13,11 +13,6 @@ import { MenuItem } from "./MenuButtonCommon.vue";
 
 /**
  * ToDo update Doc when finished ToDos
- * A Vue component that integrates a user menu with logout and settings options
- * and confirmation dialog. It dynamically builds the user menu based on the
- * logged-in user's name, provides a mechanism for user logout with
- * confirmation, and displays toast messages for actions. The component utilizes
- * PrimeVue components and a custom MenuButton component for the menu display.
  */
 export default {
     components: {

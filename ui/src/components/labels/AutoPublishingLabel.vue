@@ -10,10 +10,8 @@
 import LabelCommon from "./LabelCommon.vue";
 
 /**
- * A Vue component that utilizes the LabelCommon component to display a label
- * indicating the type of publishing: automatic or manual. It dynamically
- * determines the label based on the `isAutoPublishing` prop and applies color
- * coding through a predefined map.
+ * Wraps the LabelCommon component to display a label indicating the publishing
+ * type. The label's color and text are determined by `isAutoPublishing` prop.
  */
 export default {
     components: {

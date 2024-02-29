@@ -29,10 +29,11 @@ import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 
 /**
- * A Vue component for displaying and managing a list of tags as chips. The
- * component supports editable mode, allowing users to add new tags via an input
- * field, and remove existing tags.
  * ToDo add Toasts for removing and adding Tags?
+ * A tag management component allowing for the display, addition, and removal of
+ * tags. It supports editable mode, which enables adding new tags via an input
+ * field and removing existing tags. Toast notifications are utilized to provide
+ * feedback for tag addition and removal actions.
  */
 export default {
     components: {
@@ -50,7 +51,7 @@ export default {
     data() {
         return {
             newTag: "",
-            groupId: "tags",
+            groupId: "tags", // Toast group ID for notifications.
         };
     },
     emits: ["update:tags"],
@@ -59,6 +60,10 @@ export default {
             const updatedTags = this.tags.filter((tag) => tag !== tagToRemove);
             this.$emit("update:tags", updatedTags);
         },
+        /**
+         * Adds a new tag if it does not already exist in the list. Triggers a
+         * warning toast if the tag already exists.
+         */
         addTag() {
             const tag = this.newTag.trim();
             if (tag) {

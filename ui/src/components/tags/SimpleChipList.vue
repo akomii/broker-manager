@@ -8,8 +8,8 @@
 import Chip from "primevue/chip";
 
 /**
- * A Vue component that renders a collection strings as chips, each displaying a
- * keyword.
+ * Displays a list of chips based on the provided `chips` array prop. Each chip
+ * displays a text label.
  */
 export default {
     components: {

@@ -11,12 +11,13 @@
         :groupRowsBy="['id', 'query.title']"
     >
         <template #header>
-            <NodeExecutionsTableHeader
-                @update:showArchived="showArchived = $event"
+            <TableHeaderCommon
+                :showCheckBox1="true"
+                :checkBox1Title="$t('showArchivedExecutions')"
+                @toggle:checkBox1="showArchived = $event"
                 @search="filterNodeExecutions"
             />
         </template>
-
         <ColumnRequestId key="requestId" />
         <ColumnTitle key="title" />
         <ColumnSequenceId key="sequenceId" />
@@ -24,7 +25,6 @@
         <ColumnExecutionState key="executionState" />
         <ColumnReferenceDate key="referenceDate" />
         <ColumnsNodeProcessingState key="nodeProcessingState" />
-
         <template #empty>
             <p class="flex justify-content-center">
                 {{ $t("noExecutionsFound") }}
@@ -42,7 +42,6 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import NodeExecutionsTableHeader from "./NodeExecutionsTableHeader.vue";
 import ColumnRequestId from "@/components/tableColumns/managerRequestColumns/ColumnRequestId.vue";
 import ColumnTitle from "@/components/tableColumns/managerRequestColumns/ColumnTitle.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
@@ -55,13 +54,13 @@ import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { NodeExecutionsTableElement } from "@/utils/TableElements.ts";
 import { ExecutionState } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
+import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 
 // TODO refactor and add docs
 export default {
     components: {
         DataTable,
         Column,
-        NodeExecutionsTableHeader,
         ColumnRequestId,
         ColumnTitle,
         ColumnSequenceId,
@@ -70,6 +69,7 @@ export default {
         ColumnReferenceDate,
         ColumnsNodeProcessingState,
         ExportTableButton,
+        TableHeaderCommon,
     },
     props: {
         nodeExecutions: {

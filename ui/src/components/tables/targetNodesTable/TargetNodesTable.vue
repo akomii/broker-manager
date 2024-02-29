@@ -1,21 +1,20 @@
 <template>
     <DataTable
-        :class="dataTableHeight"
         :value="filteredEnrichedTableNodes"
         sortField="id"
         :sortOrder="1"
-        scrollable
-        scrollHeight="flex"
         ref="targetNodesTable"
+        paginator
+        :rows="6"
     >
         <template #header>
-            <TargetNodesTableHeader
-                :targetNodesLength="targetNodes.length"
-                :completedNodeStatusCount="completedNodeStatusCount"
-                :sequenceId="sequenceId"
-                :showProcessingStateInfo="showProcessingStateInfo"
+            <TableHeaderCommon
+                class="text-xs"
+                v-if="showProcessingStateInfo"
+                :title="nodesAcceptanceMessage"
                 @search="filterEnrichedTableNodes"
             />
+            <TableHeaderCommon v-else @search="filterEnrichedTableNodes" />
         </template>
         <ColumnId key="nodeId" />
         <ColumnCommonName key="commonName" />
@@ -28,19 +27,18 @@
         <template #empty>
             <p class="flex justify-content-center">{{ $t("noNodesFound") }}</p>
         </template>
-        <template #footer>
-            <TableFooter :refDataTable="$refs.targetNodesTable">
-                <template #count-message>{{ nodesCountMessage }}</template>
-            </TableFooter>
+        <template #paginatorstart>
+            <span>{{ nodesCountMessage }}</span>
+        </template>
+        <template #paginatorend>
+            <ExportTableButton class="mt-3" :dt="$refs.requestsTable" />
         </template>
     </DataTable>
 </template>
 
 <script lang="ts">
 import DataTable from "primevue/datatable";
-import TargetNodesTableHeader from "@/components/tables/targetNodesTable/TargetNodesTableHeader.vue";
 import SearchInput from "@/components/tables/SearchInput.vue";
-import TableFooter from "@/components/tables/TableFooter.vue";
 import ColumnNodeId from "@/components/tableColumns/ColumnId.vue";
 import ColumnCommonName from "@/components/tableColumns/managerNodeColumns/ColumnCommonName.vue";
 import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
@@ -48,18 +46,23 @@ import ColumnLastContact from "@/components/tableColumns/managerNodeColumns/Colu
 import ColumnsNodeProcessingState from "@/components/tables/targetNodesTable/ColumnsNodeProcessingState.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { ManagerNode, NodeStatusInfo } from "@/utils/Types";
+import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
+import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 
+/**
+ * TODO add pagination instead of scrollbar
+ */
 export default {
     components: {
         DataTable,
-        TargetNodesTableHeader,
         SearchInput,
-        TableFooter,
         ColumnNodeId,
         ColumnCommonName,
         ColumnTags,
         ColumnLastContact,
         ColumnsNodeProcessingState,
+        ExportTableButton,
+        TableHeaderCommon,
     },
     props: {
         // TODO CREATE NEW DATATYPE AS INPUT PROP
@@ -127,6 +130,18 @@ export default {
             return count === 1
                 ? this.$t("oneNode")
                 : this.$t("xNodes", { numNodes: count });
+        },
+        nodesAcceptanceMessage(): string {
+            return (
+                this.$t("approvalForExecution", {
+                    executionId: this.sequenceId,
+                }) +
+                " : " +
+                this.$t("XofY", {
+                    x: this.completedNodeStatusCount,
+                    y: this.targetNodes.length,
+                })
+            );
         },
     },
     methods: {

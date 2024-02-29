@@ -9,11 +9,20 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <RequestsTableHeader
-                @update:showArchived="showArchived = $event"
-                @update:showDraft="showDraft = $event"
+            <TableHeaderCommon
+                :title="$t('requestsOverview')"
+                :showCheckBox1="true"
+                :checkBox1Title="$t('showArchivedRequests')"
+                :showCheckBox2="true"
+                :checkBox2Title="$t('showDrafts')"
+                @toggle:checkBox1="showArchived = $event"
+                @toggle:checkBox2="showDraft = $event"
                 @search="filterEnrichedRequests"
-            />
+            >
+                <template #new-item-actions>
+                    <NewDraftButton />
+                </template>
+            </TableHeaderCommon>
         </template>
         <ColumnRequestId key="requestId" />
         <ColumnPrincipal key="principal" />
@@ -45,7 +54,6 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import RequestsTableHeader from "@/components/tables/requestsTable/RequestsTableHeader.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import { ManagerRequest, RequestExecution, Organization } from "@/utils/Types";
 import { RequestState, ExecutionState } from "@/utils/Enums";
@@ -62,12 +70,13 @@ import ColumnCurrentNodeCompletion from "@/components/tables/requestsTable/Colum
 import ColumnRequestDetailsAction from "@/components/tableColumns/managerRequestColumns/ColumnRequestDetailsAction.vue";
 import { TestDataService } from "@/services/TestDataService";
 import MomentWrapper from "@/utils/MomentWrapper";
+import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
+import NewDraftButton from "@/components/buttons/NewDraftButton.vue";
 
 export default {
     components: {
         DataTable,
         Column,
-        RequestsTableHeader,
         ColumnRequestId: ColumnId,
         ColumnPrincipal,
         ColumnTitle,
@@ -80,10 +89,12 @@ export default {
         ColumnCurrentNodeCompletion,
         ColumnRequestDetailsAction,
         ExportTableButton,
+        TableHeaderCommon,
+        NewDraftButton,
     },
     props: {
-         // TODO CREATE NEW DATATYPE AS INPUT PROP
-         // TODO refactor and add docs
+        // TODO CREATE NEW DATATYPE AS INPUT PROP
+        // TODO refactor and add docs
         requests: {
             type: Array as () => ManagerRequest[],
             required: true,

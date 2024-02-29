@@ -9,10 +9,16 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <NodesTableHeader
-                @update:showHidden="showHidden = $event"
+            <TableHeaderCommon
+                :showCheckBox1="true"
+                :checkBox1Title="$t('showUnsubscribedNodes')"
+                @toggle:checkBox1="showHidden = $event"
                 @search="filterNodes"
-            />
+            >
+                <template #new-item-actions>
+                    <AddNewNodeButton />
+                </template>
+            </TableHeaderCommon>
         </template>
         <ColumnId key="nodeId" />
         <ColumnCommonName key="commonName" />
@@ -37,7 +43,6 @@
 <script lang="ts">
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import NodesTableHeader from "@/components/tables/nodesTable/NodesTableHeader.vue";
 import ColumnId from "@/components/tableColumns/ColumnId.vue";
 import ColumnCommonName from "@/components/tableColumns/managerNodeColumns/ColumnCommonName.vue";
 import ColumnLocation from "@/components/tableColumns/managerNodeColumns/ColumnLocation.vue";
@@ -46,12 +51,13 @@ import ColumnTags from "@/components/tableColumns/ColumnTags.vue";
 import ColumnNodeDetailsAction from "@/components/tableColumns/managerNodeColumns/ColumnNodeDetailsAction.vue";
 import ExportTableButton from "@/components/buttons/ExportTableButton.vue";
 import MomentWrapper from "@/utils/MomentWrapper";
+import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
+import AddNewNodeButton from "@/components/buttons/AddNewNodeButton.vue";
 
 export default {
     components: {
         DataTable,
         Column,
-        NodesTableHeader,
         ColumnId,
         ColumnCommonName,
         ColumnLocation,
@@ -59,9 +65,11 @@ export default {
         ColumnTags,
         ColumnNodeDetailsAction,
         ExportTableButton,
+        TableHeaderCommon,
+        AddNewNodeButton,
     },
-     // TODO CREATE NEW DATATYPE AS INPUT PROP
-     // TODO refactor and add docs
+    // TODO CREATE NEW DATATYPE AS INPUT PROP
+    // TODO refactor and add docs
     props: {
         nodes: {
             type: Array as () => ManagerNode[],
@@ -78,7 +86,10 @@ export default {
         filteredNodes(): ManagerNode[] {
             return this.nodes
                 .filter((node) => {
-                    return this.showHidden || (node.apiKey !== null && node.apiKey !== "");
+                    return (
+                        this.showHidden ||
+                        (node.apiKey !== null && node.apiKey !== "")
+                    );
                 })
                 .filter((node) => {
                     const searchFields = [

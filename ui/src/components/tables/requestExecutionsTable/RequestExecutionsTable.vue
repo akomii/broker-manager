@@ -9,8 +9,10 @@
         :rowsPerPageOptions="[10, 25, 50]"
     >
         <template #header>
-            <RequestExecutionsTableHeader
-                @update:showArchived="showArchived = $event"
+            <TableHeaderCommon
+                :showCheckBox1="true"
+                :checkBox1Title="$t('showArchivedExecutions')"
+                @toggle:checkBox1="showArchived = $event"
                 @search="filterEnrichedExecutions"
             />
         </template>
@@ -48,7 +50,6 @@
 
 <script lang="ts">
 import DataTable from "primevue/datatable";
-import RequestExecutionsTableHeader from "@/components/tables/requestExecutionsTable/RequestExecutionsTableHeader.vue";
 import ColumnSequenceId from "@/components/tableColumns/requestExecutionColumns/ColumnSequenceId.vue";
 import ColumnExternalId from "@/components/tableColumns/requestExecutionColumns/ColumnExternalId.vue";
 import ColumnCreator from "@/components/tableColumns/requestExecutionColumns/ColumnCreator.vue";
@@ -66,11 +67,11 @@ import { RequestExecution, ManagerNode } from "@/utils/Types";
 import MomentWrapper from "@/utils/MomentWrapper";
 import { ExecutionState } from "@/utils/Enums";
 import { TestDataService } from "@/services/TestDataService.js";
+import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 
 export default {
     components: {
         DataTable,
-        RequestExecutionsTableHeader,
         ColumnSequenceId,
         ColumnExternalId,
         ColumnCreator,
@@ -84,10 +85,11 @@ export default {
         ColumnNodeCompletion,
         ColumnMenuAction,
         ExportTableButton,
+        TableHeaderCommon,
     },
     props: {
-         // TODO CREATE NEW DATATYPE AS INPUT PROP
-         // TODO refactor and add docs
+        // TODO CREATE NEW DATATYPE AS INPUT PROP
+        // TODO refactor and add docs
         executions: {
             type: Array as () => RequestExecution[],
             required: true,

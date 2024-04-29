@@ -56,6 +56,12 @@ import { ExecutionState } from "@/utils/Enums.ts";
 import MomentWrapper from "@/utils/MomentWrapper";
 import TableHeaderCommon from "@/components/tables/TableHeaderCommon.vue";
 
+/**
+ * ToDo try PaginatorTableCommon again
+ * ToDo refactor ExportTableButton to just download plain JSON
+ * ToDo refactor SearchInput + TableHeaderCommon (+ PaginatorTableCommon)
+ */
+
 // TODO refactor and add docs
 export default {
     components: {

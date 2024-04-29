@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { TestDataService } from "@/services/TestDataService";
+import ManagerRequestService from "@/services/graphql/ManagerRequestService";
 import { ManagerRequest } from "@/utils/Types";
 import RequestsTable from "@/components/tables/requestsTable/RequestsTable.vue";
 
@@ -21,8 +21,16 @@ export default {
     },
     methods: {
         async fetchManagerRequests(): Promise<void> {
-            this.allManagerRequests = await TestDataService.getRequests();
+            try {
+                this.allManagerRequests =
+                    await ManagerRequestService.getRequests();
+            } catch (error) {
+                console.error(error);
+                this.$router.push("/500");
+            }
         },
     },
 };
 </script>
+
+

@@ -20,14 +20,14 @@ package org.aktin.broker.manager.api.common;
 import org.aktin.broker.client.BrokerAdmin;
 
 /**
- * Interface for initializing a BrokerAdmin client. This client is used to perform administrative operations on a AKTIN Broker.
+ * Interface for initializing a {@link BrokerAdmin} client. This client is used to perform administrative operations on a AKTIN Broker.
  */
 public interface BrokerAdminInitializer {
 
   /**
    * Returns an initialized and configured BrokerAdmin client instance.
    *
-   * @return The ready-to-use BrokerAdmin client.
+   * @return The ready-to-use {@link BrokerAdmin} client.
    */
   BrokerAdmin getAdminClient();
 }

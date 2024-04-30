@@ -19,32 +19,27 @@
 package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
-public interface ManagerNode {
+public interface DownloadEvent {
 
-  int getId();
+  String getUsername();
 
-  void setId(int id);
+  void setUsername(String username);
 
-  String getApiKey();
+  Set<String> getUserOrganizations();
 
-  void setApiKey(String apiKey);
+  void setUserOrganizations(Set<String> userOrganizations);
 
-  Set<String> getTags();
+  Instant getDownloadDate();
 
-  void setTags(Set<String> tags);
+  void setDownloadDate(Instant downloadDate);
 
-  List<UserNote> getUserNotes();
+  String getDownloadHash();
 
-  void setUserNotes(List<UserNote> userNotes);
+  void setDownloadHash(String downloadHash);
 
-  String getClientDN();
+  String getHashAlgorithm();
 
-  void setClientDN(String clientDN);
-
-  Instant getLastContact();
-
-  void setLastContact(Instant lastContact);
+  void setHashAlgorithm(String hashAlgorithm);
 }

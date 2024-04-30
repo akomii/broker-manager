@@ -1,7 +1,24 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
-import java.time.Period;
 import java.util.List;
 import java.util.Set;
 import org.aktin.broker.manager.api.enums.RequestState;
@@ -12,39 +29,29 @@ import org.w3c.dom.Element;
 
 public interface ManagerRequest<T extends QuerySchedule> {
 
-  Integer getId();
+  int getId();
 
-  void setId(Integer id);
+  void setId(int id);
 
   Set<String> getTags();
 
   void setTags(Set<String> tags);
 
-  List<String> getAllowedOrgsToDownloadResults();
+  Set<Integer> getAuthorizedOrganizations();
 
-  void setAllowedOrgsToDownloadResults(List<String> allowedOrgs);
+  void setAuthorizedOrganizations(Set<Integer> authorizedOrganizations);
 
-  Instant getCreatedDate();
+  Set<Integer> getTargetNodes();
 
-  void setCreatedDate(Instant createdDate);
-
-  String getCreatedBy();
-
-  void setCreatedBy(String creator);
-
-  //TODO modifierLog
+  void setTargetNodes(Set<Integer> targetNodes);
 
   RequestState getState();
 
-  void setState(RequestState state);
+  void setState(RequestState requestState);
 
-  List<ManagerNode> getTargetedManagerNodes();
+  List<ModificationRecordEntry> getModificationRecord();
 
-  void setTargetedManagerNodes(List<ManagerNode> targetedManagerNodes);
-
-  List<RequestExecution> getRequestExecutions();
-
-  void setRequestExecutions(List<RequestExecution> requestExecutions);
+  void setModificationRecord(List<ModificationRecordEntry> modificationRecord);
 
   Query getQuery();
 
@@ -66,23 +73,19 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   void setPrincipal(Principal principal);
 
-  String getPrincipalName();
-
-  void setPrincipalName(String name);
-
-  String getPrincipalOrganisation();
-
-  void setPrincipalOrganisation(String organisation);
-
-  String getPrincipalEmail();
-
-  void setPrincipalEmail(String email);
-
   T getQuerySchedule();
 
   void setQuerySchedule(T schedule);
 
-  Period getQueryDuration();
+  List<RequestExecution> getExecutions();
 
-  void setQueryDuration(Period duration);
+  void setExecutions(List<RequestExecution> requestExecutions);
+
+  Instant getCreatedDate();
+
+  void setCreatedDate(Instant createdDate);
+
+  String getCreatedBy();
+
+  void setCreatedBy(String creator);
 }

@@ -19,32 +19,18 @@
 package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Set;
 
-public interface ManagerNode {
+public interface UserNote {
 
-  int getId();
+  String getUsername();
 
-  void setId(int id);
+  void setUsername(String username);
 
-  String getApiKey();
+  Instant getDate();
 
-  void setApiKey(String apiKey);
+  void setDate(Instant date);
 
-  Set<String> getTags();
+  String getNoteText();
 
-  void setTags(Set<String> tags);
-
-  List<UserNote> getUserNotes();
-
-  void setUserNotes(List<UserNote> userNotes);
-
-  String getClientDN();
-
-  void setClientDN(String clientDN);
-
-  Instant getLastContact();
-
-  void setLastContact(Instant lastContact);
+  void setNoteText(String noteText);
 }

@@ -1,3 +1,21 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
@@ -6,17 +24,21 @@ import org.aktin.broker.manager.api.enums.RequestExecutionState;
 
 public interface RequestExecution {
 
-  Integer getExternalId();
+  int getSequenceId();
 
-  void setExternalId(Integer externalId);
+  void setSequenceId(int sequenceId);
+
+  int getExternalId();
+
+  void setExternalId(int externalId);
 
   Instant getReferenceDate();
 
   void setReferenceDate(Instant referenceDate);
 
-  Instant getScheduledExecutionDate();
+  Instant getExecutionDate();
 
-  void setScheduledExecutionDate(Instant scheduledExecutionDate);
+  void setExecutionDate(Instant executionDate);
 
   Instant getScheduledPublishDate();
 
@@ -42,17 +64,23 @@ public interface RequestExecution {
 
   void setArchivedDate(Instant archivedDate);
 
-  //TODO resultsDownloadLog
-
   Instant getCreatedDate();
 
   void setCreatedDate(Instant createdDate);
 
+  String getCreatedBy();
+
+  void setCreatedBy(String createdBy);
+
   RequestExecutionState getState();
 
-  void setState(RequestExecutionState state);
+  void setState(RequestExecutionState executionState);
 
   List<NodeStatusInfo> getNodeStatusInfos();
 
   void setNodeStatusInfos(List<NodeStatusInfo> nodeStatusInfos);
+
+  List<DownloadEvent> getDownloadEvents();
+
+  void setDownloadEvents(List<DownloadEvent> downloadEvents);
 }

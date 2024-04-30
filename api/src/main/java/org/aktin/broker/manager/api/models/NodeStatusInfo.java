@@ -1,21 +1,34 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
-import org.aktin.broker.xml.RequestStatus;
 
 public interface NodeStatusInfo {
 
-  Integer getExecutionId();
+  int getNode();
 
-  void setExecutionId(Integer id);
+  void setNode(int id);
 
   String getStatusMessage();
 
   void setStatusMessage(String statusMessage);
-
-  Integer getNode();
-
-  void setNode(Integer id);
 
   Instant getDeleted();
 
@@ -48,6 +61,4 @@ public interface NodeStatusInfo {
   Instant getExpired();
 
   void setExpired(Instant expired);
-
-  RequestStatus getStatus();
 }

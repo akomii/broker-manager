@@ -21,6 +21,9 @@ import org.aktin.broker.query.xml.SingleExecution;
 
 /**
  * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface SingleRequest extends ManagerRequest<SingleExecution> {
 

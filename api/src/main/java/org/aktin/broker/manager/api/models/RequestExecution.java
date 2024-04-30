@@ -24,6 +24,9 @@ import org.aktin.broker.manager.api.enums.RequestExecutionState;
 /**
  * Represents a single execution of a {@link ManagerRequest}. Captures execution-specific timestamps, state, and associated events (e.g., node
  * statuses, downloads).
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface RequestExecution {
 

@@ -23,6 +23,9 @@ import java.util.Set;
 
 /**
  * Represents a participating institution in the AKTIN infrastructure.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface ManagerNode {
 

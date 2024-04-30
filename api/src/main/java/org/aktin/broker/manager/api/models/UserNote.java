@@ -21,6 +21,9 @@ import java.time.Instant;
 
 /**
  * Represents a user-created note associated to a {@link ManagerNode}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface UserNote {
 

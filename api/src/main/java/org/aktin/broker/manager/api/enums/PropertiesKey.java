@@ -19,6 +19,9 @@ package org.aktin.broker.manager.api.enums;
 
 /**
  * Possible configuration keys used within the broker-manager properties file.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public enum PropertiesKey {
 

@@ -21,6 +21,9 @@ import org.aktin.broker.manager.api.enums.PropertiesKey;
 
 /**
  * Interface to provide access to configuration values stored in a properties file.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface PropertiesFileResolver {
 

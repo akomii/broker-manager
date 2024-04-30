@@ -22,6 +22,9 @@ import java.time.Instant;
 /**
  * Represents a single entry in the modification history of a {@link ManagerRequest}. It captures who made the change, when it occurred, and the
  * modified content.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface ModificationRecordEntry {
 

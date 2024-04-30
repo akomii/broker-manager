@@ -21,6 +21,9 @@ import org.aktin.broker.client.BrokerAdmin;
 
 /**
  * Interface for initializing a {@link BrokerAdmin} client. This client is used to perform administrative operations on a AKTIN Broker.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface BrokerAdminInitializer {
 

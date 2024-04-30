@@ -18,9 +18,11 @@
 package org.aktin.broker.manager.api.enums;
 
 /**
- * Enumerates the potential states of a {@link org.aktin.broker.manager.api.models.ManagerRequest}.
+ * Enumerates the potential states of a {@link org.aktin.broker.manager.api.models.ManagerRequest}. States typically progress from DRAFT -> ONLINE ->
+ * CLOSED -> ARCHIVED.
  *
- * <p>States typically progress from DRAFT -> ONLINE -> CLOSED -> ARCHIVED</p>
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public enum RequestState {
 

@@ -36,6 +36,9 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service responsible for loading, validating, and accessing configuration properties stored in a properties file.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 @Service
 public class PropertiesFileResolverImpl implements PropertiesFileResolver {

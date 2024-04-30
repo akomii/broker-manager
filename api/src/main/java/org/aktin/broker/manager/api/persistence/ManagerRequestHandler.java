@@ -24,6 +24,9 @@ import org.aktin.broker.query.xml.QuerySchedule;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerRequest} entities.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface ManagerRequestHandler {
 

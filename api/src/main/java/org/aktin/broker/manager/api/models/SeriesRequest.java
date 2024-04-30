@@ -22,6 +22,9 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 
 /**
  * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface SeriesRequest extends ManagerRequest<RepeatedExecution> {
 

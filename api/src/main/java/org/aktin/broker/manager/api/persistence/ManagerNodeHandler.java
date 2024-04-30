@@ -23,6 +23,9 @@ import org.aktin.broker.manager.api.models.ManagerNode;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerNode} entities.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface ManagerNodeHandler {
 

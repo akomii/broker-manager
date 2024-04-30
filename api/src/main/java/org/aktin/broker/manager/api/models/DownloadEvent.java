@@ -23,6 +23,9 @@ import java.util.Set;
 /**
  * Represents a single event of a user downloading the results of a {@link RequestExecution}. This class is used for tracking and auditing download
  * activity.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface DownloadEvent {
 

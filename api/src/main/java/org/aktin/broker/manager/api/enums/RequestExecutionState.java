@@ -18,9 +18,11 @@
 package org.aktin.broker.manager.api.enums;
 
 /**
- * Enumerates the potential states of a {@link org.aktin.broker.manager.api.models.RequestExecution}.
+ * Enumerates the potential states of a {@link org.aktin.broker.manager.api.models.RequestExecution}. States typically progress from PENDING ->
+ * PUBLISHED -> CLOSED -> ARCHIVED.
  *
- * <p>States typically progress from PENDING -> PUBLISHED -> CLOSED -> ARCHIVED</p>
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public enum RequestExecutionState {
   /**

@@ -22,6 +22,9 @@ import java.time.Instant;
 /**
  * Represents the status of a {@link RequestExecution} on a specific {@link ManagerNode}. Tracks the progress of the execution through various
  * stages.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 public interface NodeStatusInfo {
 

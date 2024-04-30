@@ -31,6 +31,9 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service class responsible for initializing a {@link BrokerAdmin} client, which provides access to administrative functions of a broker.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
  */
 @Service
 public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {

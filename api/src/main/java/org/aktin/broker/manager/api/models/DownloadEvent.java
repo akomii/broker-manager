@@ -21,6 +21,10 @@ package org.aktin.broker.manager.api.models;
 import java.time.Instant;
 import java.util.Set;
 
+/**
+ * Represents a single event of a user downloading the results of a {@link RequestExecution}. This class is used for tracking and auditing download
+ * activity.
+ */
 public interface DownloadEvent {
 
   String getUsername();

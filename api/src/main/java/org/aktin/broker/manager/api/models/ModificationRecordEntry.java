@@ -20,6 +20,10 @@ package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
 
+/**
+ * Represents a single entry in the modification history of a {@link ManagerRequest}. It captures who made the change, when it occurred, and the
+ * modified content.
+ */
 public interface ModificationRecordEntry {
 
   Instant getModificationDate();

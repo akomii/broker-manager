@@ -21,6 +21,9 @@ package org.aktin.broker.manager.api.models;
 import java.time.Instant;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
+/**
+ * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
+ */
 public interface SeriesRequest extends ManagerRequest<RepeatedExecution> {
 
   int getAnchoredSequenceIdRef();

@@ -22,6 +22,10 @@ import java.time.Instant;
 import java.util.List;
 import org.aktin.broker.manager.api.enums.RequestExecutionState;
 
+/**
+ * Represents a single execution of a {@link ManagerRequest}. Captures execution-specific timestamps, state, and associated events (e.g., node
+ * statuses, downloads).
+ */
 public interface RequestExecution {
 
   int getSequenceId();

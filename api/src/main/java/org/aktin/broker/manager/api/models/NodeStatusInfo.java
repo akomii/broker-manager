@@ -20,6 +20,10 @@ package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
 
+/**
+ * Represents the status of a {@link RequestExecution} on a specific {@link ManagerNode}. Tracks the progress of the execution through various
+ * stages.
+ */
 public interface NodeStatusInfo {
 
   int getNode();

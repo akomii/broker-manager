@@ -27,6 +27,12 @@ import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
+/**
+ * Represents a data request within the AKTIN infrastructure. Consists of at least one {@link RequestExecution}. Corresponds to a
+ * {@link org.aktin.broker.query.xml.QueryRequest} with more capabilities.
+ *
+ * @param <T> The specific type of {@link QuerySchedule} associated with the request
+ */
 public interface ManagerRequest<T extends QuerySchedule> {
 
   int getId();

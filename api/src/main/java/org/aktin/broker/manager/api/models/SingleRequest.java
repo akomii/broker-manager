@@ -20,6 +20,9 @@ package org.aktin.broker.manager.api.models;
 
 import org.aktin.broker.query.xml.SingleExecution;
 
+/**
+ * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ */
 public interface SingleRequest extends ManagerRequest<SingleExecution> {
 
 }

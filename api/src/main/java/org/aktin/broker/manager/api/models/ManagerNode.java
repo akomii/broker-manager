@@ -22,6 +22,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a participating institution in the AKTIN infrastructure.
+ */
 public interface ManagerNode {
 
   int getId();

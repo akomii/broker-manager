@@ -20,6 +20,9 @@ package org.aktin.broker.manager.api.models;
 
 import java.time.Instant;
 
+/**
+ * Represents a user-created note associated to a {@link ManagerNode}.
+ */
 public interface UserNote {
 
   String getUsername();

@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~    Copyright (c) 2024  AKTIN
+  ~
+  ~    This program is free software: you can redistribute it and/or modify
+  ~    it under the terms of the GNU Affero General Public License as
+  ~    published by the Free Software Foundation, either version 3 of the
+  ~    License, or (at your option) any later version.
+  ~
+  ~    This program is distributed in the hope that it will be useful,
+  ~    but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~    GNU Affero General Public License for more details.
+  ~
+  ~    You should have received a copy of the GNU Affero General Public License
+  ~    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -7,7 +24,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.4</version>
+    <version>3.2.5</version>
   </parent>
 
   <groupId>org.aktin</groupId>
@@ -28,34 +45,40 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <testcontainers.version>1.17.6</testcontainers.version>
+    <testcontainers.version>1.19.7</testcontainers.version>
   </properties>
 
   <dependencies>
-    <!-- Spring Boot -->
+    <!-- Essential libraries to build web applications with Spring including Spring MVC, embedded Tomcat server and other tools. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Testing -->
+    <!-- Libraries for testing Spring Boot applications including JUnit, Mockito, and other utilities. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <!-- Testcontainers -->
+    <!-- Libraries to enable the programmatic launching and management of Docker containers for integration testing purposes. -->
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers</artifactId>
       <version>${testcontainers.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- Provides integration between testcontainers and JUnit 5. -->
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Convenience features for integrating Spring Boot and testcontainers. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-testcontainers</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

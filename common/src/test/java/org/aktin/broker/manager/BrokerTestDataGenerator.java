@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.aktin.broker.manager;
 
 import java.io.StringWriter;
@@ -17,6 +34,13 @@ import org.aktin.broker.query.xml.QueryRequest;
 import org.aktin.broker.query.xml.RepeatedExecution;
 import org.aktin.broker.query.xml.SingleExecution;
 
+/**
+ * Utility class to generate test data for the Broker API. It provides methods for creating different types of {@link Query}, {@link QueryRequest},
+ * and configuring broker clients, along with utility functions for marshalling data into XML format.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 public class BrokerTestDataGenerator {
 
   private final URI brokerUri;
@@ -25,7 +49,7 @@ public class BrokerTestDataGenerator {
     this.brokerUri = URI.create(brokerUrl);
   }
 
-  public BrokerClientImpl getNewBrokerClient(String apiKey) {
+  public BrokerClientImpl createNewBrokerClient(String apiKey) {
     BrokerClientImpl client = new BrokerClientImpl(brokerUri);
     client.setClientAuthenticator(HttpApiKeyAuth.newBearer(apiKey));
     return client;

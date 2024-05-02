@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.aktin.broker.manager.common;
 
 import java.io.File;
@@ -10,8 +27,19 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+/**
+ * Provides tests for retrieving key values from properties files using the {@link PropertiesFileResolverImpl}. This includes tests for:
+ * <ul>
+ *   <li>Successfully retrieving values.</li>
+ *   <li>Handling cases of missing keys.</li>
+ *   <li>Handling cases of missing properties file.</li>
+ * </ul>
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestPropertiesFileResolverImpl {
+class PropertiesFileResolverTest {
 
   private final PropertiesFileResolverImpl propertiesFileResolver = new PropertiesFileResolverImpl();
 

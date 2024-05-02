@@ -36,7 +36,7 @@ import org.aktin.broker.query.xml.SingleExecution;
 
 /**
  * Utility class to generate test data for the Broker API. It provides methods for creating different types of {@link Query}, {@link QueryRequest},
- * and configuring broker clients, along with utility functions for marshalling data into XML format.
+ * and configuring {@link org.aktin.broker.client.BrokerClient}, along with utility functions for marshalling data into XML format.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0

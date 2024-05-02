@@ -17,15 +17,14 @@
 
 package org.aktin.broker.manager;
 
-import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import java.time.Duration;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
 
 /**
- * Testcontainers wrapper for managing an AKTIN Broker instance within tests.  It encapsulates the setup, configuration, and retrieval of essential
- * details for the broker.
+ * Provides a Testcontainers wrapper for managing an AKTIN Broker instance. This class simplifies spinning up a Docker container, configuring it for
+ * AKTIN Broker, and handling access to its port.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -33,11 +32,9 @@ import org.testcontainers.containers.wait.strategy.WaitStrategy;
 public class BrokerContainer extends GenericContainer<BrokerContainer> {
 
   private static final int BROKER_PORT = 8080;
-  private static final String BROKER_IMAGE = "ghcr.io/aktin/aktin-broker:latest";
+  private static final String BROKER_IMAGE = "ghcr.io/aktin/aktin-broker:1.3.4";
   private static final WaitStrategy WAIT_STRATEGY = Wait.forHttp("/broker/status").forStatusCode(200);
   private static final Duration STARTUP_TIMEOUT = Duration.ofSeconds(20);
-
-  private final String brokerUrl;
 
   public BrokerContainer() {
     super(BROKER_IMAGE);
@@ -45,36 +42,9 @@ public class BrokerContainer extends GenericContainer<BrokerContainer> {
     waitingFor(WAIT_STRATEGY);
     withStartupTimeout(STARTUP_TIMEOUT);
     withReuse(true);
-    this.brokerUrl = initBrokerUrl();
   }
 
-  private String initBrokerUrl() {
-    URIBuilder builder = new URIBuilder();
-    builder
-        .setScheme("http")
-        .setHost(getHost())
-        .setPort(getMappedPort(8080))
-        .setPath("broker/");
-    return builder.toString();
-  }
-
-  public String getBrokerUrl() {
-    return brokerUrl;
-  }
-
-  public String getDefaultAdminKey() {
-    return "xxxAdmin1234";
-  }
-
-  public String getDefaultKey1() {
-    return "xxxApiKey123";
-  }
-
-  public String getDefaultKey2() {
-    return "xxxApiKey567";
-  }
-
-  public String getDefaultKey3() {
-    return "xxxApiKey890";
+  public int getBrokerPort() {
+    return getMappedPort(BROKER_PORT);
   }
 }

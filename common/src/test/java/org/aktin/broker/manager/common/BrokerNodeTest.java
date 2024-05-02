@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2024  AKTIN
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.aktin.broker.manager.common;
 
 import java.io.IOException;
@@ -6,56 +23,33 @@ import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.BrokerClientImpl;
-import org.aktin.broker.manager.BrokerContainer;
-import org.aktin.broker.manager.BrokerTestDataGenerator;
-import org.aktin.broker.manager.api.common.PropertiesFileResolver;
-import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.aktin.broker.xml.Node;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
+/**
+ * Verifies the functionalities of fetching broker node information and their associated properties, along with handling potential error scenarios
+ * such as accessing non-existent resources.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
-public class TestBrokerNodeConnection {
-
-  private static BrokerTestDataGenerator generator;
-  private static BrokerContainer broker;
-  private static String brokerUrl;
-
-  @Mock
-  private PropertiesFileResolver propertiesFileResolver;
-
-  @InjectMocks
-  private BrokerAdminInitializerImpl brokerAdminInitializerImpl = new BrokerAdminInitializerImpl();
-
-  private BrokerAdmin adminClient;
+public class BrokerNodeTest extends AbstractBrokerConnectionTest {
 
   @BeforeAll
   public static void init() throws IOException {
-    broker = new BrokerContainer();
-    brokerUrl = broker.getBrokerUrl();
-    generator = new BrokerTestDataGenerator(brokerUrl);
     initBrokerClient1();
     initBrokerClient2();
   }
 
   private static void initBrokerClient1() throws IOException {
-    BrokerClientImpl client = generator.getNewBrokerClient(broker.getDefaultKey1());
+    BrokerClientImpl client = generator.createNewBrokerClient(getDefaultKey1());
     Properties properties = new Properties();
     properties.put("wildfly", "18");
     properties.put("postgresql", "14");
@@ -64,21 +58,11 @@ public class TestBrokerNodeConnection {
   }
 
   private static void initBrokerClient2() throws IOException {
-    BrokerClientImpl client = generator.getNewBrokerClient(broker.getDefaultKey2());
+    BrokerClientImpl client = generator.createNewBrokerClient(getDefaultKey2());
     Properties properties = new Properties();
     properties.put("dwh-j2ee", "1.5.1");
     properties.put("dwh-api", "0.10");
     client.putMyResourceProperties("versions", properties);
-  }
-
-  @BeforeEach
-  public void openMocks() {
-    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.URL))
-        .thenReturn(brokerUrl);
-    Mockito.when(propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY))
-        .thenReturn(broker.getDefaultAdminKey());
-    brokerAdminInitializerImpl.init();
-    adminClient = brokerAdminInitializerImpl.getAdminClient();
   }
 
   @Order(1)
@@ -104,7 +88,7 @@ public class TestBrokerNodeConnection {
 
   @Order(4)
   @Test
-  void getNonexistingBrokerNode() throws IOException {
+  void getNonExistingBrokerNode() throws IOException {
     Assertions.assertNull(adminClient.getNode(99));
   }
 
@@ -137,7 +121,7 @@ public class TestBrokerNodeConnection {
 
   @Order(7)
   @Test
-  void getNonexistingNodeRessource() {
+  void getNonExistingNodeResource() {
     // http code 404
     Assertions.assertThrows(InvalidPropertiesFormatException.class,
         () -> adminClient.getNodeProperties(0, "resources"));

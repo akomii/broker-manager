@@ -28,7 +28,7 @@ import org.aktin.broker.client.BrokerAdmin;
 public interface BrokerAdminInitializer {
 
   /**
-   * Returns an initialized and configured BrokerAdmin client instance.
+   * Returns an initialized and configured {@link BrokerAdmin} client instance.
    *
    * @return The ready-to-use {@link BrokerAdmin} client.
    */

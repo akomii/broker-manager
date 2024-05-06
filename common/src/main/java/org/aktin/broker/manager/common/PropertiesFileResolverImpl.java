@@ -40,6 +40,7 @@ import org.springframework.stereotype.Service;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
+// TODO remove PropertiesFileResolver and read broker url and api key form application.yml
 @Service
 public class PropertiesFileResolverImpl implements PropertiesFileResolver {
 

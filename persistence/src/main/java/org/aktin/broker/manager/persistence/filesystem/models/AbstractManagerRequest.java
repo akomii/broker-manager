@@ -17,6 +17,8 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +38,12 @@ import org.w3c.dom.Element;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = SingleRequestImpl.class, name = "SingleRequest"),
+    @JsonSubTypes.Type(value = SeriesRequestImpl.class, name = "SeriesRequest")
+})
+public abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
   int id;
 

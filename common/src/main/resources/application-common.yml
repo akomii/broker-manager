@@ -1,3 +1,5 @@
 broker-manager:
-  config:
-    default-linux-path: /etc/broker-manager/config.properties
+  connection:
+    broker:
+      uri: http://localhost:8080/broker/
+      apiKey: xxxAdmin1234

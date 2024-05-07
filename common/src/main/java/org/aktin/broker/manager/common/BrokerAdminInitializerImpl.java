@@ -22,11 +22,9 @@ import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client2.BrokerAdmin2;
 import org.aktin.broker.client2.auth.ApiKeyAuthentication;
 import org.aktin.broker.manager.api.common.BrokerAdminInitializer;
-import org.aktin.broker.manager.api.common.PropertiesFileResolver;
-import org.aktin.broker.manager.api.enums.PropertiesKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,18 +38,22 @@ public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {
 
   private static final Logger log = LoggerFactory.getLogger(BrokerAdminInitializerImpl.class);
 
-  private final PropertiesFileResolver propertiesFileResolver;
+  @Value("${broker-manager.connection.broker.uri}")
+  private String uriString;
+
+  @Value("${broker-manager.connection.broker.apiKey}")
+  private String apiKey;
 
   private final BrokerAdmin brokerAdmin;
 
-  /**
-   * Constructor which injects the {@link PropertiesFileResolver} to load configuration properties and initializes the {@link BrokerAdmin} client.
-   *
-   * @param propertiesFileResolver The PropertiesFileResolver instance to use for accessing properties.
-   */
-  public BrokerAdminInitializerImpl(@Autowired PropertiesFileResolver propertiesFileResolver) {
-    this.propertiesFileResolver = propertiesFileResolver;
-    this.brokerAdmin = initBrokerAdmin();
+  public BrokerAdminInitializerImpl() {
+    brokerAdmin = initBrokerAdmin();
+  }
+
+  public BrokerAdminInitializerImpl(String uriString, String apiKey) {
+    this.uriString = uriString;
+    this.apiKey = apiKey;
+    brokerAdmin = initBrokerAdmin();
   }
 
   /**
@@ -61,8 +63,6 @@ public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {
    * @throws IllegalStateException If the required configuration variables are invalid.
    */
   private BrokerAdmin initBrokerAdmin() throws IllegalStateException {
-    String uriString = propertiesFileResolver.getKeyValue(PropertiesKey.URL);
-    String apiKey = propertiesFileResolver.getKeyValue(PropertiesKey.APIKEY);
     if (uriString == null || apiKey == null) {
       throw new IllegalStateException("Broker URI or API key is null. Initialization failed");
     }

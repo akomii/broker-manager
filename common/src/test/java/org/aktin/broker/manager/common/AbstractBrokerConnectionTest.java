@@ -18,11 +18,6 @@
 package org.aktin.broker.manager.common;
 
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.manager.BrokerContainer;
 import org.aktin.broker.manager.BrokerTestDataGenerator;
@@ -38,7 +33,6 @@ import org.testcontainers.junit.jupiter.Container;
  *   <li>A {@link BrokerTestDataGenerator} for creating test data.</li>
  *   <li>A {@link BrokerAdmin} client, facilitating interaction with AKTIN Broker admin functions.</li>
  * </ul>
- * Note: Expects a properties file (`broker.properties`) to be present in your test resources' folder.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -48,8 +42,6 @@ abstract class AbstractBrokerConnectionTest {
   @Container
   private static final BrokerContainer CONTAINER = new BrokerContainer();
 
-  private static final String PROPERTIES_PATH = "src/test/resources/broker.properties";
-
   public static BrokerTestDataGenerator generator;
 
   public static BrokerAdmin adminClient;
@@ -58,11 +50,7 @@ abstract class AbstractBrokerConnectionTest {
   public static void setup() {
     CONTAINER.start();
     generator = new BrokerTestDataGenerator(buildBrokerUrl());
-    writeBrokerConfigToProperties();
-    System.setProperty("brokermanager.config.path", PROPERTIES_PATH);
-    PropertiesFileResolverImpl resolver = new PropertiesFileResolverImpl();
-    resolver.init();
-    BrokerAdminInitializer initializer = new BrokerAdminInitializerImpl(resolver);
+    BrokerAdminInitializer initializer = new BrokerAdminInitializerImpl(buildBrokerUrl(), getDefaultAdminKey());
     adminClient = initializer.getAdminClient();
   }
 
@@ -76,24 +64,9 @@ abstract class AbstractBrokerConnectionTest {
     return builder.toString();
   }
 
-  private static void writeBrokerConfigToProperties() {
-    try (OutputStream output = new FileOutputStream(PROPERTIES_PATH)) {
-      Properties properties = new Properties();
-      properties.setProperty("broker.url", buildBrokerUrl());
-      properties.setProperty("broker.apikey", getDefaultAdminKey());
-      properties.store(output, null);
-    } catch (IOException e) {
-      throw new RuntimeException("Failed to write broker.properties", e);
-    }
-  }
-
   @AfterAll
   public static void teardown() {
     CONTAINER.stop();
-    File propertiesFile = new File(PROPERTIES_PATH);
-    if (propertiesFile.exists() && !propertiesFile.delete()) {
-      System.err.println("Warning: Could not delete broker.properties");
-    }
   }
 
   public static String getDefaultAdminKey() {

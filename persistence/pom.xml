@@ -34,12 +34,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.aktin.broker-manager</groupId>
-      <artifactId>api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
     <!-- Lombok for fully featured builder -->
     <dependency>
       <groupId>org.projectlombok</groupId>

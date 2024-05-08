@@ -39,6 +39,12 @@ public class ManagerRequestArchiverImpl implements ManagerRequestArchiver {
     Files.createDirectories(Paths.get(archiveDirectory));
   }
 
+  public ManagerRequestArchiverImpl(String storageDirectory, String archiveDirectory) throws IOException {
+    this.storageDirectory = storageDirectory;
+    this.archiveDirectory = archiveDirectory;
+    Files.createDirectories(Paths.get(archiveDirectory));
+  }
+
   @Override
   public void archive(int id) throws ArchiveDataException {
     Path sourceFile = Paths.get(storageDirectory, id + ".json");

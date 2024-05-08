@@ -1,42 +1,41 @@
 /*
- *    Copyright (c) 2024  AKTIN
+ * Copyright (c) 2024 AKTIN
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License as
- *    published by the Free Software Foundation, either version 3 of the
- *    License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *    GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
  *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.common;
+package org.aktin.broker.manager.util.connection;
 
 import java.net.URI;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client2.BrokerAdmin2;
 import org.aktin.broker.client2.auth.ApiKeyAuthentication;
-import org.aktin.broker.manager.api.common.BrokerAdminInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class responsible for initializing a {@link BrokerAdmin} client, which provides access to administrative functions of a broker.
+ * Service class responsible for initializing a {@link BrokerAdmin2} client, which provides access to administrative functions of a broker.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
 @Service
-public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {
+class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
-  private static final Logger log = LoggerFactory.getLogger(BrokerAdminInitializerImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
 
   @Value("${broker-manager.connection.broker.uri}")
   private String uriString;
@@ -46,11 +45,11 @@ public class BrokerAdminInitializerImpl implements BrokerAdminInitializer {
 
   private final BrokerAdmin brokerAdmin;
 
-  public BrokerAdminInitializerImpl() {
+  public BrokerAdmin2InitializerImpl() {
     brokerAdmin = initBrokerAdmin();
   }
 
-  public BrokerAdminInitializerImpl(String uriString, String apiKey) {
+  public BrokerAdmin2InitializerImpl(String uriString, String apiKey) {
     this.uriString = uriString;
     this.apiKey = apiKey;
     brokerAdmin = initBrokerAdmin();

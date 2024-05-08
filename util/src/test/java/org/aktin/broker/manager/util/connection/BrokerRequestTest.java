@@ -1,21 +1,21 @@
 /*
- *    Copyright (c) 2024  AKTIN
+ * Copyright (c) 2024 AKTIN
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License as
- *    published by the Free Software Foundation, either version 3 of the
- *    License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *    GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
  *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.common;
+package org.aktin.broker.manager.util.connection;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -47,8 +47,8 @@ import org.xml.sax.SAXException;
  * Tests the functionality of creating, manipulating, publishing, closing, and retrieving AKTIN Broker requests, along with associated error handling.
  * This includes tests for non-existing requests, invalid targets, and various state transitions.
  *
- * <p><b>Warning:</b> deleteRequest() deletes request and results; throws 405 with IOException
- * if either is missing; request results are not available in this tests</p>
+ * <p><b>Warning:</b> deleteRequest() deletes request and results; throws 405 with IOException if either is missing; request results are not available
+ * in this tests</p>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0

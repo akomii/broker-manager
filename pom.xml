@@ -33,7 +33,7 @@
 
   <modules>
     <module>api</module>
-    <module>common</module>
+    <module>util</module>
     <module>persistence</module>
     <module>security</module>
     <module>endpoint</module>
@@ -45,10 +45,18 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <aktin.query-model.version>1.0.4-SNAPSHOT</aktin.query-model.version>
     <testcontainers.version>1.19.7</testcontainers.version>
   </properties>
 
   <dependencies>
+    <!-- Provides the core data structures and interfaces for defining and submitting queries to the broker-server -->
+    <dependency>
+      <groupId>org.aktin.broker</groupId>
+      <artifactId>query-model</artifactId>
+      <version>${aktin.query-model.version}</version>
+    </dependency>
+
     <!-- Essential libraries to build web applications with Spring including Spring MVC, embedded Tomcat server and other tools. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

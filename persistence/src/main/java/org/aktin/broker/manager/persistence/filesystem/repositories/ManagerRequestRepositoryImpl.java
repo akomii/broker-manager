@@ -1,24 +1,25 @@
 /*
- *    Copyright (c) 2024  AKTIN
+ * Copyright (c) 2024 AKTIN
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License as
- *    published by the Free Software Foundation, either version 3 of the
- *    License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *    GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
  *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.handler;
+package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,11 +29,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.aktin.broker.manager.api.exceptions.DeletePersistedDataException;
-import org.aktin.broker.manager.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.api.exceptions.ReadPersistedDataException;
-import org.aktin.broker.manager.api.models.ManagerRequest;
-import org.aktin.broker.manager.api.persistence.ManagerRequestHandler;
+import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.models.AbstractManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.utils.FilesystemIdGenerator;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -40,18 +41,28 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FilesystemManagerRequestHandler implements ManagerRequestHandler {
+public class ManagerRequestRepositoryImpl implements ManagerRequestRepository {
 
   @Value("${broker-manager.storage.directory.requests}")
   private String storageDirectory;
 
+  private final ObjectMapper mapper = new ObjectMapper()
+      .enable(SerializationFeature.INDENT_OUTPUT)
+      .registerModule(new JavaTimeModule());
+
   private final FilesystemIdGenerator filesystemIdGenerator;
 
-  private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
-  public FilesystemManagerRequestHandler() throws IOException {
+  public ManagerRequestRepositoryImpl() throws IOException {
     Files.createDirectories(Paths.get(storageDirectory));
     Path storagePath = Paths.get(storageDirectory);
+    Files.createDirectories(storagePath);
+    filesystemIdGenerator = new FilesystemIdGenerator(storagePath);
+  }
+
+  public ManagerRequestRepositoryImpl(String storageDirectory) throws IOException {
+    this.storageDirectory = storageDirectory;
+    Path storagePath = Paths.get(storageDirectory);
+    Files.createDirectories(storagePath);
     filesystemIdGenerator = new FilesystemIdGenerator(storagePath);
   }
 

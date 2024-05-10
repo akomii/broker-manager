@@ -45,10 +45,19 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
   private final BrokerAdmin brokerAdmin;
 
+  /**
+   * Default constructor. Initializes the {@link BrokerAdmin} client using configuration values obtained from the Spring environment.
+   */
   public BrokerAdmin2InitializerImpl() {
     brokerAdmin = initBrokerAdmin();
   }
 
+  /**
+   * Constructor for providing the broker URI and API key directly. Initializes the {@link BrokerAdmin2} client using the specified parameters.
+   *
+   * @param uriString The URI of the broker.
+   * @param apiKey    The API key for authentication with the broker.
+   */
   public BrokerAdmin2InitializerImpl(String uriString, String apiKey) {
     this.uriString = uriString;
     this.apiKey = apiKey;
@@ -56,10 +65,10 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
   }
 
   /**
-   * Helper method to create and configure a {@link BrokerAdmin} instance.
+   * Helper method to create and configure a {@link BrokerAdmin2} instance.
    *
-   * @return The initialized and configured {@link BrokerAdmin2} instance (conforming to the {@link BrokerAdmin} interface)
-   * @throws IllegalStateException If the required configuration variables are invalid.
+   * @return The initialized and configured {@link BrokerAdmin2} instance (conforming to the {@link BrokerAdmin} interface).
+   * @throws IllegalStateException If the required configuration variables (broker URI or API key) are invalid.
    */
   private BrokerAdmin initBrokerAdmin() throws IllegalStateException {
     if (uriString == null || apiKey == null) {

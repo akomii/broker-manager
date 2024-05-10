@@ -35,6 +35,8 @@ import org.aktin.broker.xml.Node;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ManagerNodeImpl extends Node implements ManagerNode {
 
+  int dataVersion;
+
   String apiKey;
 
   Set<String> tags;

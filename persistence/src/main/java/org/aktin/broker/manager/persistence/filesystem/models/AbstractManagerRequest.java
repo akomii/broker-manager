@@ -45,6 +45,8 @@ import org.w3c.dom.Element;
 })
 public abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
+  int dataVersion;
+
   int id;
 
   Set<String> tags;

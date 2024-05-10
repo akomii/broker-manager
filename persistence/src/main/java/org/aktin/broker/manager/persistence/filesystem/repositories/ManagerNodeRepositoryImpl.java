@@ -18,8 +18,6 @@
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,7 +31,7 @@ import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.filesystem.models.ManagerNodeImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -44,15 +42,14 @@ public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
   @Value("${broker-manager.storage.directory.nodes}")
   private String storageDirectory;
 
-  private final ObjectMapper mapper = new ObjectMapper()
-      .enable(SerializationFeature.INDENT_OUTPUT)
-      .registerModule(new JavaTimeModule());
+  private ObjectMapper mapper;
 
-  public ManagerNodeRepositoryImpl() throws IOException {
+  public ManagerNodeRepositoryImpl(@Autowired ObjectMapper mapper) throws IOException {
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
-  public ManagerNodeRepositoryImpl(String storageDirectory) throws IOException {
+  public ManagerNodeRepositoryImpl(ObjectMapper mapper, String storageDirectory) throws IOException {
+    this.mapper = mapper;
     this.storageDirectory = storageDirectory;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
@@ -96,7 +93,7 @@ public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
 
   private Optional<ManagerNode> deserializeManagerNode(File file) {
     try {
-      return Optional.of(mapper.readValue(file, ManagerNodeImpl.class));
+      return Optional.of(mapper.readValue(file, ManagerNode.class));
     } catch (IOException e) {
       throw new ReadPersistedDataException("Error reading ManagerNode from file: " + file.getName(), e);
     }

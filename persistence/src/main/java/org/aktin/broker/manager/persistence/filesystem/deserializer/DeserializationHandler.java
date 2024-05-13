@@ -19,14 +19,20 @@ package org.aktin.broker.manager.persistence.filesystem.deserializer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Instant;
+import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
 
 public abstract class DeserializationHandler<T> {
 
   private final MigrationHandler<T> migrationChainRoot;
 
-  protected DeserializationHandler(MigrationHandler<T> migrationHandlerChain) {
+  @Getter
+  private final int version;
+
+  protected DeserializationHandler(int version, MigrationHandler<T> migrationHandlerChain) {
+    this.version = version;
     migrationChainRoot = findHandlerByFromVersion(migrationHandlerChain);
   }
 
@@ -39,8 +45,6 @@ public abstract class DeserializationHandler<T> {
     }
     return null;
   }
-
-  public abstract int getVersion();
 
   public T deserialize(JsonNode node) {
     T entity = doSerialization(node);
@@ -80,5 +84,13 @@ public abstract class DeserializationHandler<T> {
 
   protected Instant deserializeDate(JsonNode node, String key) {
     return Instant.parse(node.get(key).asText());
+  }
+
+  protected boolean deserializeBool(JsonNode node, String key) {
+    return node.get(key).asBoolean();
+  }
+
+  protected Period deserializePeriod(JsonNode node, String key) {
+    return Period.parse(node.get(key).asText());
   }
 }

@@ -29,12 +29,7 @@ import org.aktin.broker.manager.persistence.filesystem.models.UserNoteImpl;
 class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<ManagerNodeImpl> {
 
   public ManagerNodeDeserializationHandlerV1(MigrationHandler<ManagerNodeImpl> migrationHandlerChain) {
-    super(migrationHandlerChain);
-  }
-
-  @Override
-  public int getVersion() {
-    return 1;
+    super(1, migrationHandlerChain);
   }
 
   @Override

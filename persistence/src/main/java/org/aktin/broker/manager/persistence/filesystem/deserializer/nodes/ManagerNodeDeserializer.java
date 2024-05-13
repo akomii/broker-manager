@@ -34,9 +34,12 @@ public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
 
   private static final Map<Integer, DeserializationHandler<ManagerNodeImpl>> HANDLERS = new HashMap<>();
 
+  static {
+    HANDLERS.put(1, new ManagerNodeDeserializationHandlerV1(null));
+  }
+
   public ManagerNodeDeserializer() {
     this(null);
-    HANDLERS.put(1, new ManagerNodeDeserializationHandlerV1(null));
   }
 
   protected ManagerNodeDeserializer(Class<?> vc) {
@@ -47,7 +50,10 @@ public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
   public ManagerNode deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     JsonNode node = parser.getCodec().readTree(parser);
     int dataVersion = node.has("dataVersion") ? node.get("dataVersion").asInt() : 1;
-    DeserializationHandler<ManagerNodeImpl> handler = HANDLERS.get(dataVersion);
+    DeserializationHandler<? extends ManagerNode> handler = HANDLERS.get(dataVersion);
+    if (handler == null) {
+      throw new IllegalArgumentException("No handler found for data version: " + dataVersion);
+    }
     return handler.deserialize(node);
   }
 }

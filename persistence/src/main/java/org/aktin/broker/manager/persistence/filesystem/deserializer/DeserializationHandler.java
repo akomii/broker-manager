@@ -57,40 +57,49 @@ public abstract class DeserializationHandler<T> {
   protected abstract T doSerialization(JsonNode node);
 
   protected String deserializeText(JsonNode node, String key) {
-    return node.get(key).asText();
+    JsonNode valueNode = node.get(key);
+    return valueNode != null ? valueNode.asText() : null;
   }
 
   protected Set<String> deserializeTextList(JsonNode node, String key) {
     JsonNode textList = node.get(key);
     Set<String> texts = new HashSet<>();
-    for (JsonNode text : textList) {
-      texts.add(text.asText());
+    if (textList != null) {
+      for (JsonNode text : textList) {
+        texts.add(text.asText());
+      }
     }
     return texts;
   }
 
   protected int deserializeNumber(JsonNode node, String key) {
-    return node.get(key).asInt();
+    JsonNode valueNode = node.get(key);
+    return valueNode != null ? valueNode.asInt() : 0;
   }
 
   protected Set<Integer> deserializeNumbersList(JsonNode node, String key) {
     JsonNode numbersList = node.get(key);
     Set<Integer> numbers = new HashSet<>();
-    for (JsonNode number : numbersList) {
-      numbers.add(number.asInt());
+    if (numbersList != null) {
+      for (JsonNode number : numbersList) {
+        numbers.add(number.asInt());
+      }
     }
     return numbers;
   }
 
   protected Instant deserializeDate(JsonNode node, String key) {
-    return Instant.parse(node.get(key).asText());
+    JsonNode valueNode = node.get(key);
+    return valueNode != null ? Instant.parse(valueNode.asText()) : null;
   }
 
   protected boolean deserializeBool(JsonNode node, String key) {
-    return node.get(key).asBoolean();
+    JsonNode valueNode = node.get(key);
+    return valueNode != null && valueNode.asBoolean();
   }
 
   protected Period deserializePeriod(JsonNode node, String key) {
-    return Period.parse(node.get(key).asText());
+    JsonNode valueNode = node.get(key);
+    return valueNode != null ? Period.parse(valueNode.asText()) : null;
   }
 }

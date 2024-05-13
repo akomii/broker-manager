@@ -38,7 +38,7 @@ public abstract class MigrationHandler<T> {
   public T migrate(T entity) {
     T migratedEntity = doMigration(entity);
     if (successor != null) {
-      migratedEntity = successor.doMigration(migratedEntity);
+      migratedEntity = successor.migrate(migratedEntity);
     }
     return migratedEntity;
   }

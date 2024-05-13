@@ -48,12 +48,14 @@ class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<Manager
   private List<UserNote> deserializeUserNotes(JsonNode node) {
     JsonNode userNotesNode = node.get("userNotes");
     List<UserNote> userNotes = new ArrayList<>();
-    for (JsonNode userNoteNode : userNotesNode) {
-      UserNoteImpl userNote = new UserNoteImpl();
-      userNote.setUsername(deserializeText(userNoteNode, "username"));
-      userNote.setDate(deserializeDate(userNoteNode, "date"));
-      userNote.setText(deserializeText(userNoteNode, "text"));
-      userNotes.add(userNote);
+    if (userNotesNode != null) {
+      for (JsonNode userNoteNode : userNotesNode) {
+        UserNoteImpl userNote = new UserNoteImpl();
+        userNote.setUsername(deserializeText(userNoteNode, "username"));
+        userNote.setDate(deserializeDate(userNoteNode, "date"));
+        userNote.setText(deserializeText(userNoteNode, "text"));
+        userNotes.add(userNote);
+      }
     }
     return userNotes;
   }

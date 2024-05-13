@@ -22,7 +22,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.nodes.ManagerNodeDeserializer;
+import org.aktin.broker.manager.persistence.filesystem.deserializer.requests.ManagerRequestDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,10 +39,11 @@ public class JacksonConfig {
   }
 
   @Bean
-  public ObjectMapper objectMapper() {
+  public ObjectMapper objectMapper(ManagerRequestDeserializer managerRequestDeserializer) {
     ObjectMapper objectMapper = new ObjectMapper();
     SimpleModule module = new SimpleModule();
     module.addDeserializer(ManagerNode.class, managerNodeDeserializer);
+    module.addDeserializer(ManagerRequest.class, managerRequestDeserializer);
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.registerModule(module);
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);

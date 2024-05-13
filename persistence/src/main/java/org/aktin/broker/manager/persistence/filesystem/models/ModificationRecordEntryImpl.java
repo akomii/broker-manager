@@ -23,12 +23,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ModificationRecordEntryImpl {
+public class ModificationRecordEntryImpl implements ModificationRecordEntry {
 
   Instant modificationDate;
   String username;

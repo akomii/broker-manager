@@ -24,16 +24,16 @@ public abstract class MigrationHandler<T> {
   @Getter
   private MigrationHandler<T> successor;
 
+  public abstract int getFromVersion();
+
+  public abstract int getToVersion();
+
   public void setSuccessor(MigrationHandler<T> successor) {
     if (successor != null && successor.getFromVersion() != getToVersion()) {
       throw new IllegalArgumentException("Successor's fromVersion must align with this handler's toVersion");
     }
     this.successor = successor;
   }
-
-  public abstract int getFromVersion();
-
-  public abstract int getToVersion();
 
   public T migrate(T entity) {
     T migratedEntity = doMigration(entity);

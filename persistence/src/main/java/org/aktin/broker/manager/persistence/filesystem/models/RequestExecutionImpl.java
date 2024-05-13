@@ -36,32 +36,18 @@ import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 public class RequestExecutionImpl implements RequestExecution {
 
   int sequenceId;
-
   int externalId;
-
   Instant referenceDate;
-
   Instant executionDate;
-
   Instant scheduledPublishDate;
-
   Instant publishedDate;
-
   Instant scheduledClosingDate;
-
   Instant closedDate;
-
   Instant scheduledArchiveDate;
-
   Instant archivedDate;
-
   Instant createdDate;
-
   String createdBy;
-
   RequestExecutionState state;
-
   List<NodeStatusInfo> nodeStatusInfos;
-
   List<DownloadEvent> downloadEvents;
 }

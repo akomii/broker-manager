@@ -36,11 +36,8 @@ import org.aktin.broker.xml.Node;
 public class ManagerNodeImpl extends Node implements ManagerNode {
 
   int dataVersion;
-
   String apiKey;
-
   Set<String> tags;
-
   List<UserNote> userNotes;
 
   public int getId() {

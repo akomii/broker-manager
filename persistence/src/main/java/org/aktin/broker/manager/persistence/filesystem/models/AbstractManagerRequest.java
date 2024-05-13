@@ -46,25 +46,15 @@ import org.w3c.dom.Element;
 public abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
   int dataVersion;
-
   int id;
-
   Set<String> tags;
-
   Set<Integer> authorizedOrganizations;
-
   Set<Integer> targetNodes;
-
   RequestState state;
-
   List<ModificationRecordEntry> modificationRecord;
-
   List<RequestExecution> executions;
-
   Instant createdDate;
-
   String createdBy;
-
   Query query;
 
   public String getTitle() {

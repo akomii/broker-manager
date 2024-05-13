@@ -34,11 +34,8 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 public class SeriesRequestImpl extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
 
   int anchoredSequenceIdRef;
-
   boolean isAutoPublishing;
-
   Instant seriesClosingDate;
-
   Instant seriesArchiveDate;
 
   @Override

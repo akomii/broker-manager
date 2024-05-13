@@ -32,18 +32,21 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfig {
 
+  private final ManagerRequestDeserializer managerRequestDeserializer;
+
   private final ManagerNodeDeserializer managerNodeDeserializer;
 
-  public JacksonConfig(@Autowired ManagerNodeDeserializer managerNodeDeserializer) {
+  public JacksonConfig(@Autowired ManagerRequestDeserializer managerRequestDeserializer, @Autowired ManagerNodeDeserializer managerNodeDeserializer) {
+    this.managerRequestDeserializer = managerRequestDeserializer;
     this.managerNodeDeserializer = managerNodeDeserializer;
   }
 
   @Bean
-  public ObjectMapper objectMapper(ManagerRequestDeserializer managerRequestDeserializer) {
+  public ObjectMapper objectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
     SimpleModule module = new SimpleModule();
-    module.addDeserializer(ManagerNode.class, managerNodeDeserializer);
     module.addDeserializer(ManagerRequest.class, managerRequestDeserializer);
+    module.addDeserializer(ManagerNode.class, managerNodeDeserializer);
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.registerModule(module);
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);

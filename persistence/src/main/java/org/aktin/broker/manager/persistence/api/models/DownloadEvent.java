@@ -37,9 +37,9 @@ public interface DownloadEvent {
 
   void setUserOrganizations(Set<String> userOrganizations);
 
-  Instant getDownloadDate();
+  Instant getDate();
 
-  void setDownloadDate(Instant downloadDate);
+  void setDate(Instant date);
 
   String getDownloadHash();
 

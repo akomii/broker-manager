@@ -28,15 +28,15 @@ import java.time.Instant;
  */
 public interface ModificationRecordEntry {
 
-  Instant getModificationDate();
+  Instant getDate();
 
-  void setModificationDate(Instant modificationDate);
+  void setDate(Instant date);
 
   String getUsername();
 
   void setUsername(String username);
 
-  String getRequestClob();
+  String getClob();
 
-  void setRequestClob(String requestClob);
+  void setClob(String clob);
 }

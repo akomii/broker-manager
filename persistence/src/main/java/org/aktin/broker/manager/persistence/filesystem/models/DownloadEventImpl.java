@@ -34,7 +34,7 @@ public class DownloadEventImpl implements DownloadEvent {
 
   String username;
   Set<String> userOrganizations;
-  Instant downloadDate;
+  Instant date;
   String downloadHash;
   String hashAlgorithm;
 }

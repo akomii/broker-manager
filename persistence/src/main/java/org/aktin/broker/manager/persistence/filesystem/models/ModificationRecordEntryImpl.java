@@ -31,7 +31,7 @@ import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ModificationRecordEntryImpl implements ModificationRecordEntry {
 
-  Instant modificationDate;
+  Instant date;
   String username;
-  String requestClob;
+  String clob;
 }

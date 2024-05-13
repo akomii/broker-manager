@@ -32,11 +32,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
 
-  private static final Map<Integer, DeserializationHandler<ManagerNodeImpl>> DESERIALIZATION_HANDLER_MAP = new HashMap<>();
+  private static final Map<Integer, DeserializationHandler<ManagerNodeImpl>> HANDLERS = new HashMap<>();
 
   public ManagerNodeDeserializer() {
     this(null);
-    DESERIALIZATION_HANDLER_MAP.put(1, new ManagerNodeDeserializationHandlerV1(null));
+    HANDLERS.put(1, new ManagerNodeDeserializationHandlerV1(null));
   }
 
   protected ManagerNodeDeserializer(Class<?> vc) {
@@ -47,7 +47,7 @@ public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
   public ManagerNode deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     JsonNode node = parser.getCodec().readTree(parser);
     int dataVersion = node.has("dataVersion") ? node.get("dataVersion").asInt() : 1;
-    DeserializationHandler<ManagerNodeImpl> handler = DESERIALIZATION_HANDLER_MAP.get(dataVersion);
+    DeserializationHandler<ManagerNodeImpl> handler = HANDLERS.get(dataVersion);
     return handler.deserialize(node);
   }
 }

@@ -33,5 +33,5 @@ public class UserNoteImpl implements UserNote {
 
   String username;
   Instant date;
-  String noteText;
+  String text;
 }

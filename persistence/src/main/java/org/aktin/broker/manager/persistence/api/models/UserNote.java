@@ -35,7 +35,7 @@ public interface UserNote {
 
   void setDate(Instant date);
 
-  String getNoteText();
+  String getText();
 
-  void setNoteText(String noteText);
+  void setText(String text);
 }

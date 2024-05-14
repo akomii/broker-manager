@@ -27,7 +27,7 @@ import java.util.Set;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface DownloadEvent {
+public interface ResultsDownloadEvent {
 
   String getUsername();
 
@@ -37,9 +37,9 @@ public interface DownloadEvent {
 
   void setUserOrganizations(Set<String> userOrganizations);
 
-  Instant getDate();
+  Instant getDownloadDate();
 
-  void setDate(Instant date);
+  void setDownloadDate(Instant downloadDate);
 
   String getDownloadHash();
 

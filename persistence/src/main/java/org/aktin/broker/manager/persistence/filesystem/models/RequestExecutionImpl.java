@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
-import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 
@@ -49,5 +49,5 @@ public class RequestExecutionImpl implements RequestExecution {
   String createdBy;
   RequestExecutionState state;
   List<NodeStatusInfo> nodeStatusInfos;
-  List<DownloadEvent> downloadEvents;
+  List<ResultsDownloadEvent> resultsDownloadEvents;
 }

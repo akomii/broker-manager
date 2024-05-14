@@ -32,6 +32,6 @@ import org.aktin.broker.manager.persistence.api.models.UserNote;
 public class UserNoteImpl implements UserNote {
 
   String username;
-  Instant date;
+  Instant createdDate;
   String text;
 }

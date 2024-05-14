@@ -28,9 +28,9 @@ import java.time.Instant;
  */
 public interface ModificationRecordEntry {
 
-  Instant getDate();
+  Instant getModificationDate();
 
-  void setDate(Instant date);
+  void setModificationDate(Instant modificationDate);
 
   String getUsername();
 

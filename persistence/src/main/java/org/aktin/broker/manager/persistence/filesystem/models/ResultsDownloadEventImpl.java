@@ -24,17 +24,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DownloadEventImpl implements DownloadEvent {
+public class ResultsDownloadEventImpl implements ResultsDownloadEvent {
 
   String username;
   Set<String> userOrganizations;
-  Instant date;
+  Instant downloadDate;
   String downloadHash;
   String hashAlgorithm;
 }

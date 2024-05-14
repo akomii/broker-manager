@@ -31,9 +31,9 @@ public interface UserNote {
 
   void setUsername(String username);
 
-  Instant getDate();
+  Instant getCreatedDate();
 
-  void setDate(Instant date);
+  void setCreatedDate(Instant createdDate);
 
   String getText();
 

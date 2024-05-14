@@ -27,14 +27,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
 import org.aktin.broker.manager.persistence.api.enums.RequestState;
-import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
 import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.DownloadEventImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.ResultsDownloadEventImpl;
 import org.aktin.broker.manager.persistence.filesystem.models.ModificationRecordEntryImpl;
 import org.aktin.broker.manager.persistence.filesystem.models.NodeStatusInfoImpl;
 import org.aktin.broker.manager.persistence.filesystem.models.RequestExecutionImpl;
@@ -82,9 +82,9 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     if (recordEntriesNode != null) {
       for (JsonNode recordEntryNode : recordEntriesNode) {
         ModificationRecordEntryImpl recordEntry = new ModificationRecordEntryImpl();
-        recordEntry.setDate(deserializeDate(recordEntryNode, "modificationDate"));
+        recordEntry.setModificationDate(deserializeDate(recordEntryNode, "modificationDate"));
         recordEntry.setUsername(deserializeText(recordEntryNode, "username"));
-        recordEntry.setClob(deserializeText(recordEntryNode, "requestClob"));
+        recordEntry.setClob(deserializeText(recordEntryNode, "clob"));
         recordEntries.add(recordEntry);
       }
     }
@@ -111,7 +111,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
         execution.setCreatedBy(deserializeText(executionNode, "createdBy"));
         execution.setState(RequestExecutionState.valueOf(node.get("state").asText()));
         execution.setNodeStatusInfos(deserializeNodeStatusInfos(node));
-        execution.setDownloadEvents(deserializeDownloadEvents(node));
+        execution.setResultsDownloadEvents(deserializeDownloadEvents(node));
       }
     }
     return executions;
@@ -139,21 +139,21 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     return statusInfos;
   }
 
-  private List<DownloadEvent> deserializeDownloadEvents(JsonNode node) {
+  private List<ResultsDownloadEvent> deserializeDownloadEvents(JsonNode node) {
     JsonNode downloadEventsNode = node.get("downloadEvents");
-    List<DownloadEvent> downloadEvents = new ArrayList<>();
+    List<ResultsDownloadEvent> resultsDownloadEvents = new ArrayList<>();
     if (downloadEventsNode != null) {
       for (JsonNode downloadEventNode : downloadEventsNode) {
-        DownloadEventImpl downloadEvent = new DownloadEventImpl();
+        ResultsDownloadEventImpl downloadEvent = new ResultsDownloadEventImpl();
         downloadEvent.setUsername(deserializeText(downloadEventNode, "username"));
         downloadEvent.setUserOrganizations(deserializeTextList(downloadEventNode, "userOrganizations"));
-        downloadEvent.setDate(deserializeDate(downloadEventNode, "downloadDate"));
+        downloadEvent.setDownloadDate(deserializeDate(downloadEventNode, "downloadDate"));
         downloadEvent.setDownloadHash(deserializeText(downloadEventNode, "downloadHash"));
         downloadEvent.setHashAlgorithm(deserializeText(downloadEventNode, "hashAlgorithm"));
-        downloadEvents.add(downloadEvent);
+        resultsDownloadEvents.add(downloadEvent);
       }
     }
-    return downloadEvents;
+    return resultsDownloadEvents;
   }
 
   private Query deserializeQuery(JsonNode node) {

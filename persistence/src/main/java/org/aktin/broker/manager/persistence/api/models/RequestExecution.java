@@ -80,13 +80,13 @@ public interface RequestExecution {
 
   RequestExecutionState getState();
 
-  void setState(RequestExecutionState executionState);
+  void setState(RequestExecutionState state);
 
   List<NodeStatusInfo> getNodeStatusInfos();
 
   void setNodeStatusInfos(List<NodeStatusInfo> nodeStatusInfos);
 
-  List<DownloadEvent> getDownloadEvents();
+  List<ResultsDownloadEvent> getResultsDownloadEvents();
 
-  void setDownloadEvents(List<DownloadEvent> downloadEvents);
+  void setResultsDownloadEvents(List<ResultsDownloadEvent> resultsDownloadEvents);
 }

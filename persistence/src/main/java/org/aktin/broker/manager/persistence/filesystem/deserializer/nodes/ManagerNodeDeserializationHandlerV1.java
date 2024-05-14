@@ -52,7 +52,7 @@ class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<Manager
       for (JsonNode userNoteNode : userNotesNode) {
         UserNoteImpl userNote = new UserNoteImpl();
         userNote.setUsername(deserializeText(userNoteNode, "username"));
-        userNote.setDate(deserializeDate(userNoteNode, "date"));
+        userNote.setCreatedDate(deserializeDate(userNoteNode, "createdDate"));
         userNote.setText(deserializeText(userNoteNode, "text"));
         userNotes.add(userNote);
       }

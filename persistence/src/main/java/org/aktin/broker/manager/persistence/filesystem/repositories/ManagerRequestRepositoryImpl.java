@@ -108,7 +108,7 @@ public class ManagerRequestRepositoryImpl implements ManagerRequestRepository {
 
   private Optional<ManagerRequest<QuerySchedule>> deserializeManagerRequest(File file) {
     try {
-      return Optional.of(mapper.readValue(file, AbstractManagerRequest.class));
+      return Optional.of(mapper.readValue(file, ManagerRequest.class));
     } catch (IOException e) {
       throw new ReadPersistedDataException("Error reading ManagerRequest from file: " + file.getName(), e);
     }

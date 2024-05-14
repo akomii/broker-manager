@@ -31,7 +31,6 @@ import org.w3c.dom.Element;
  * {@link org.aktin.broker.query.xml.QueryRequest} with more capabilities.
  *
  * @param <T> The specific type of {@link QuerySchedule} associated with the request
- *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
@@ -55,7 +54,7 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   RequestState getState();
 
-  void setState(RequestState requestState);
+  void setState(RequestState state);
 
   List<ModificationRecordEntry> getModificationRecord();
 
@@ -87,7 +86,7 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   List<RequestExecution> getExecutions();
 
-  void setExecutions(List<RequestExecution> requestExecutions);
+  void setExecutions(List<RequestExecution> executions);
 
   Instant getCreatedDate();
 

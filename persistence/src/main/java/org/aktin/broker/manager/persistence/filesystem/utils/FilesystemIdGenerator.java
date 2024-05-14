@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 
 public class FilesystemIdGenerator {
 
+  private static final String FILE_EXTENSION = ".json";
   private int idCounter;
 
   public FilesystemIdGenerator(Path workingDir) throws IOException {
@@ -35,12 +36,16 @@ public class FilesystemIdGenerator {
       return paths.filter(Files::isRegularFile)
           .map(Path::getFileName)
           .map(Path::toString)
-          .filter(name -> name.endsWith(".json"))
-          .map(name -> name.substring(0, name.length() - 5)) // Remove ".json" extension
-          .mapToInt(Integer::parseInt)
+          .filter(name -> name.endsWith(FILE_EXTENSION))
+          .mapToInt(this::parseId)
           .max()
           .orElse(0);
     }
+  }
+
+  private int parseId(String fileName) {
+    String idString = fileName.substring(0, fileName.length() - FILE_EXTENSION.length());
+    return Integer.parseInt(idString);
   }
 
   public int generateId() {

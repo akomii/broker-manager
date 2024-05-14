@@ -25,7 +25,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
@@ -33,18 +34,27 @@ import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-// TODO create merged abstract class together with RequestHandler
 @Repository
 public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
+
+  private static final String JSON_EXTENSION = ".json";
+  private static final String FILE_SEPARATOR = File.separator;
 
   @Value("${broker-manager.storage.directory.nodes}")
   private String storageDirectory;
 
-  private ObjectMapper mapper;
+  private final ObjectMapper mapper;
+
+  private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+  private final Lock readLock = rwLock.readLock();
+  private final Lock writeLock = rwLock.writeLock();
 
   public ManagerNodeRepositoryImpl(@Autowired ObjectMapper mapper) throws IOException {
+    this.mapper = mapper;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
@@ -54,41 +64,65 @@ public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
+  @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public void save(ManagerNode entity) throws PersistDataException {
+    writeLock.lock();
     try {
-      String filename = storageDirectory + "/" + entity.getId() + ".json";
+      String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
       mapper.writeValue(new File(filename), entity);
     } catch (IOException e) {
       throw new PersistDataException("Failed to save ManagerNode: " + entity.getId(), e);
+    } finally {
+      writeLock.unlock();
     }
   }
 
+  @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DeletePersistedDataException {
+    writeLock.lock();
     try {
-      String filename = storageDirectory + "/" + id + ".json";
+      String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
       throw new DeletePersistedDataException("Failed to delete ManagerNode: " + id, e);
+    } finally {
+      writeLock.unlock();
     }
   }
 
+  @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws ReadPersistedDataException {
-    String filename = storageDirectory + "/" + id + ".json";
-    File file = new File(filename);
-    return file.exists() ? deserializeManagerNode(file) : Optional.empty();
+    readLock.lock();
+    try {
+      String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+      File file = new File(filename);
+      return file.exists() ? deserializeManagerNode(file) : Optional.empty();
+    } finally {
+      readLock.unlock();
+    }
   }
 
+  @Cacheable(cacheNames = "managerNodes")
   @Override
   public List<ManagerNode> getAll() throws ReadPersistedDataException {
-    File storageDir = new File(storageDirectory);
-    return Arrays.stream(storageDir.listFiles((dir, name) -> name.endsWith(".json")))
-        .map(this::deserializeManagerNode)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.toList());
+    readLock.lock();
+    try {
+      File storageDir = new File(storageDirectory);
+      File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
+      if (files == null) {
+        return List.of();
+      }
+      return Arrays.stream(files)
+          .map(this::deserializeManagerNode)
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .toList();
+    } finally {
+      readLock.unlock();
+    }
   }
 
   private Optional<ManagerNode> deserializeManagerNode(File file) {

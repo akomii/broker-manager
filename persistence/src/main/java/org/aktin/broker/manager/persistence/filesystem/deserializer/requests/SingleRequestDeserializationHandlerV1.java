@@ -48,5 +48,4 @@ class SingleRequestDeserializationHandlerV1 extends AbstractRequestDeserializati
     execution.duration = deserializePeriod(scheduleNode, "duration");
     return execution;
   }
-
 }

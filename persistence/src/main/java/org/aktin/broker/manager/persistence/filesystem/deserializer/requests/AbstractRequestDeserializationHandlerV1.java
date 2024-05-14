@@ -46,15 +46,14 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest> extends DeserializationHandler<T> {
+abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<? extends QuerySchedule>> extends DeserializationHandler<T> {
 
   private final DocumentBuilder builder;
 
   protected AbstractRequestDeserializationHandlerV1(int version, MigrationHandler<T> migrationHandlerChain) {
     super(version, migrationHandlerChain);
     try {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      builder = factory.newDocumentBuilder();
+      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     } catch (ParserConfigurationException e) {
       throw new RuntimeException("Error initializing DocumentBuilder", e);
     }
@@ -77,7 +76,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
 
   protected abstract T createRequestInstance();
 
-  protected List<ModificationRecordEntry> deserializeModificationRecordEntries(JsonNode node) {
+  private List<ModificationRecordEntry> deserializeModificationRecordEntries(JsonNode node) {
     JsonNode recordEntriesNode = node.get("modificationRecord");
     List<ModificationRecordEntry> recordEntries = new ArrayList<>();
     if (recordEntriesNode != null) {
@@ -92,7 +91,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
     return recordEntries;
   }
 
-  protected List<RequestExecution> deserializeRequestExecutions(JsonNode node) {
+  private List<RequestExecution> deserializeRequestExecutions(JsonNode node) {
     JsonNode executionsNode = node.get("executions");
     List<RequestExecution> executions = new ArrayList<>();
     if (executionsNode != null) {
@@ -118,7 +117,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
     return executions;
   }
 
-  protected List<NodeStatusInfo> deserializeNodeStatusInfos(JsonNode node) {
+  private List<NodeStatusInfo> deserializeNodeStatusInfos(JsonNode node) {
     JsonNode statusInfosNode = node.get("nodeStatusInfos");
     List<NodeStatusInfo> statusInfos = new ArrayList<>();
     if (statusInfosNode != null) {
@@ -140,7 +139,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
     return statusInfos;
   }
 
-  protected List<DownloadEvent> deserializeDownloadEvents(JsonNode node) {
+  private List<DownloadEvent> deserializeDownloadEvents(JsonNode node) {
     JsonNode downloadEventsNode = node.get("downloadEvents");
     List<DownloadEvent> downloadEvents = new ArrayList<>();
     if (downloadEventsNode != null) {
@@ -157,7 +156,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
     return downloadEvents;
   }
 
-  protected Query deserializeQuery(JsonNode node) {
+  private Query deserializeQuery(JsonNode node) {
     JsonNode queryNode = node.get("query");
     Query query = new Query();
     query.title = deserializeText(queryNode, "title");
@@ -187,7 +186,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest>
       for (JsonNode extensionNode : extensionsNode) {
         String elementString = extensionNode.asText();
         Document document = builder.parse(new InputSource(new StringReader(elementString)));
-        extensions.add((Element) document);
+        extensions.add(document.getDocumentElement());
       }
       return extensions;
     } catch (IOException | SAXException e) {

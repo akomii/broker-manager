@@ -28,10 +28,11 @@ import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.SeriesRequestImpl;
 import org.aktin.broker.manager.persistence.filesystem.models.SingleRequestImpl;
+import org.aktin.broker.query.xml.QuerySchedule;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest> {
+public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<? extends QuerySchedule>> {
 
   private static final Map<Integer, DeserializationHandler<SingleRequestImpl>> SINGLE_HANDLERS = new HashMap<>();
   private static final Map<Integer, DeserializationHandler<SeriesRequestImpl>> SERIES_HANDLERS = new HashMap<>();
@@ -50,11 +51,11 @@ public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest> 
   }
 
   @Override
-  public ManagerRequest deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+  public ManagerRequest<? extends QuerySchedule> deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     JsonNode node = parser.getCodec().readTree(parser);
     int dataVersion = node.has("dataVersion") ? node.get("dataVersion").asInt() : 1;
     String requestType = node.get("type").asText();
-    DeserializationHandler<? extends ManagerRequest> handler = switch (requestType) {
+    DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>> handler = switch (requestType) {
       case "SingleRequest" -> SINGLE_HANDLERS.get(dataVersion);
       case "SeriesRequest" -> SERIES_HANDLERS.get(dataVersion);
       default -> throw new IllegalArgumentException("Unknown request type: " + requestType);

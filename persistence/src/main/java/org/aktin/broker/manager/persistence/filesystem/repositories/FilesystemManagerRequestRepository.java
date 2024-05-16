@@ -18,17 +18,17 @@
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
@@ -36,73 +36,100 @@ import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.utils.FilesystemIdGenerator;
 import org.aktin.broker.query.xml.QuerySchedule;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
-@Repository
 public class FilesystemManagerRequestRepository implements ManagerRequestRepository {
 
-  @Value("${broker-manager.storage.directory.requests}")
-  private String storageDirectory;
+  private static final String JSON_EXTENSION = ".json";
+  private static final String FILE_SEPARATOR = File.separator;
 
-  private final ObjectMapper mapper = new ObjectMapper()
-      .enable(SerializationFeature.INDENT_OUTPUT)
-      .registerModule(new JavaTimeModule());
+  private final ObjectMapper mapper;
+  private final String storageDirectory;
 
+  private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
   private final FilesystemIdGenerator filesystemIdGenerator;
 
-  public FilesystemManagerRequestRepository() throws IOException {
-    Files.createDirectories(Paths.get(storageDirectory));
-    Path storagePath = Paths.get(storageDirectory);
-    Files.createDirectories(storagePath);
-    filesystemIdGenerator = new FilesystemIdGenerator(storagePath);
-  }
-
-  public FilesystemManagerRequestRepository(String storageDirectory) throws IOException {
+  public FilesystemManagerRequestRepository(ObjectMapper mapper, String storageDirectory) throws IOException {
+    this.mapper = mapper;
     this.storageDirectory = storageDirectory;
     Path storagePath = Paths.get(storageDirectory);
     Files.createDirectories(storagePath);
     filesystemIdGenerator = new FilesystemIdGenerator(storagePath);
   }
 
+  private ReentrantReadWriteLock getLock(String filename) {
+    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
+  }
+
+  @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
   public void save(ManagerRequest<QuerySchedule> entity) throws PersistDataException {
     if (entity.getId() == 0) {
       entity.setId(filesystemIdGenerator.generateId());
     }
+    String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.writeLock().lock();
     try {
-      String filename = storageDirectory + "/" + entity.getId() + ".json";
       mapper.writeValue(new File(filename), entity);
     } catch (IOException e) {
       throw new PersistDataException("Failed to save ManagerRequest: " + entity.getId(), e);
+    } finally {
+      lock.writeLock().unlock();
     }
   }
 
+  @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DeletePersistedDataException {
+    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.writeLock().lock();
     try {
-      String filename = storageDirectory + "/" + id + ".json";
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
       throw new DeletePersistedDataException("Failed to delete ManagerRequest: " + id, e);
+    } finally {
+      lock.writeLock().unlock();
     }
   }
 
+  @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
   public Optional<ManagerRequest<QuerySchedule>> get(int id) throws ReadPersistedDataException {
-    String filename = storageDirectory + "/" + id + ".json";
-    File file = new File(filename);
-    return file.exists() ? deserializeManagerRequest(file) : Optional.empty();
+    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.readLock().lock();
+    try {
+      File file = new File(filename);
+      return file.exists() ? deserializeManagerRequest(file) : Optional.empty();
+    } finally {
+      lock.readLock().unlock();
+    }
   }
 
+  @Cacheable(cacheNames = "managerRequests")
   @Override
   public List<ManagerRequest<QuerySchedule>> getAll() throws ReadPersistedDataException {
+    List<ManagerRequest<QuerySchedule>> managerRequests = new ArrayList<>();
     File storageDir = new File(storageDirectory);
-    return Arrays.stream(storageDir.listFiles((dir, name) -> name.endsWith(".json")))
-        .map(this::deserializeManagerRequest)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.toList());
+    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
+    if (files == null) {
+      return managerRequests;
+    }
+    for (File file : files) {
+      String filename = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filename);
+      lock.readLock().lock();
+      try {
+        Optional<ManagerRequest<QuerySchedule>> managerRequest = deserializeManagerRequest(file);
+        managerRequest.ifPresent(managerRequests::add);
+      } finally {
+        lock.readLock().unlock();
+      }
+    }
+    return managerRequests;
   }
 
   private Optional<ManagerRequest<QuerySchedule>> deserializeManagerRequest(File file) {

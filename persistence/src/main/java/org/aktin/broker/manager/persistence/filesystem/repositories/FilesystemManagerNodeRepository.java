@@ -22,41 +22,29 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   private static final String JSON_EXTENSION = ".json";
   private static final String FILE_SEPARATOR = File.separator;
 
-  @Value("${broker-manager.storage.directory.nodes}")
-  private String storageDirectory;
-
   private final ObjectMapper mapper;
+  private final String storageDirectory;
 
-  private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
-  private final Lock readLock = rwLock.readLock();
-  private final Lock writeLock = rwLock.writeLock();
-
-  public FilesystemManagerNodeRepository(@Autowired ObjectMapper mapper) throws IOException {
-    this.mapper = mapper;
-    Files.createDirectories(Paths.get(this.storageDirectory));
-  }
+  private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
   public FilesystemManagerNodeRepository(ObjectMapper mapper, String storageDirectory) throws IOException {
     this.mapper = mapper;
@@ -64,65 +52,75 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
+  private ReentrantReadWriteLock getLock(String filename) {
+    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
+  }
+
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public void save(ManagerNode entity) throws PersistDataException {
-    writeLock.lock();
+    String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.writeLock().lock();
     try {
-      String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
       mapper.writeValue(new File(filename), entity);
     } catch (IOException e) {
       throw new PersistDataException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
-      writeLock.unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DeletePersistedDataException {
-    writeLock.lock();
+    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.writeLock().lock();
     try {
-      String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
       throw new DeletePersistedDataException("Failed to delete ManagerNode: " + id, e);
     } finally {
-      writeLock.unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws ReadPersistedDataException {
-    readLock.lock();
+    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    ReentrantReadWriteLock lock = getLock(filename);
+    lock.readLock().lock();
     try {
-      String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
       File file = new File(filename);
       return file.exists() ? deserializeManagerNode(file) : Optional.empty();
     } finally {
-      readLock.unlock();
+      lock.readLock().unlock();
     }
   }
 
   @Cacheable(cacheNames = "managerNodes")
   @Override
   public List<ManagerNode> getAll() throws ReadPersistedDataException {
-    readLock.lock();
-    try {
-      File storageDir = new File(storageDirectory);
-      File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
-      if (files == null) {
-        return List.of();
-      }
-      return Arrays.stream(files)
-          .map(this::deserializeManagerNode)
-          .filter(Optional::isPresent)
-          .map(Optional::get)
-          .toList();
-    } finally {
-      readLock.unlock();
+    List<ManagerNode> managerNodes = new ArrayList<>();
+    File storageDir = new File(storageDirectory);
+    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
+    if (files == null) {
+      return managerNodes;
     }
+    for (File file : files) {
+      String filename = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filename);
+      lock.readLock().lock();
+      try {
+        Optional<ManagerNode> managerNode = deserializeManagerNode(file);
+        managerNode.ifPresent(managerNodes::add);
+      } finally {
+        lock.readLock().unlock();
+      }
+    }
+    return managerNodes;
   }
 
   private Optional<ManagerNode> deserializeManagerNode(File file) {

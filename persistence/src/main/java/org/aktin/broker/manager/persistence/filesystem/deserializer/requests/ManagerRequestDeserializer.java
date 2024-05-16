@@ -51,7 +51,10 @@ public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<?
   @Override
   public ManagerRequest<? extends QuerySchedule> deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     JsonNode node = parser.getCodec().readTree(parser);
-    int dataVersion = node.has("dataVersion") ? node.get("dataVersion").asInt() : 1;
+    if (!node.has("dataVersion")) {
+      throw new IllegalArgumentException("dataVersion is required in ManagerRequest");
+    }
+    int dataVersion = node.get("dataVersion").asInt();
     String requestType = node.get("type").asText();
     DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>> handler = switch (requestType) {
       case "SingleRequest" -> SINGLE_HANDLERS.get(dataVersion);

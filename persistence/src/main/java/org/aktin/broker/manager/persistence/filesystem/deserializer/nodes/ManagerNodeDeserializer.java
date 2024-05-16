@@ -47,7 +47,10 @@ public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
   @Override
   public ManagerNode deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     JsonNode node = parser.getCodec().readTree(parser);
-    int dataVersion = node.has("dataVersion") ? node.get("dataVersion").asInt() : 1;
+    if (!node.has("dataVersion")) {
+      throw new IllegalArgumentException("dataVersion is required in ManagerNode");
+    }
+    int dataVersion = node.get("dataVersion").asInt();
     DeserializationHandler<? extends ManagerNode> handler = HANDLERS.get(dataVersion);
     if (handler == null) {
       throw new IllegalArgumentException("No handler found for data version: " + dataVersion);

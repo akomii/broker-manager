@@ -29,9 +29,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.utils.FilesystemIdGenerator;
@@ -64,7 +64,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public void save(ManagerRequest<QuerySchedule> entity) throws PersistDataException {
+  public void save(ManagerRequest<QuerySchedule> entity) throws DataPersistException {
     if (entity.getId() == 0) {
       entity.setId(filesystemIdGenerator.generateId());
     }
@@ -74,7 +74,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
     try {
       mapper.writeValue(new File(filename), entity);
     } catch (IOException e) {
-      throw new PersistDataException("Failed to save ManagerRequest: " + entity.getId(), e);
+      throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -82,14 +82,14 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
 
   @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
-  public void delete(int id) throws DeletePersistedDataException {
+  public void delete(int id) throws DataDeleteException {
     String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
-      throw new DeletePersistedDataException("Failed to delete ManagerRequest: " + id, e);
+      throw new DataDeleteException("Failed to delete ManagerRequest: " + id, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -97,7 +97,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
 
   @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
-  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws ReadPersistedDataException {
+  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException {
     String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.readLock().lock();
@@ -111,7 +111,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
 
   @Cacheable(cacheNames = "managerRequests")
   @Override
-  public List<ManagerRequest<QuerySchedule>> getAll() throws ReadPersistedDataException {
+  public List<ManagerRequest<QuerySchedule>> getAll() throws DataReadException {
     List<ManagerRequest<QuerySchedule>> managerRequests = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
@@ -136,7 +136,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
     try {
       return Optional.of(mapper.readValue(file, ManagerRequest.class));
     } catch (IOException e) {
-      throw new ReadPersistedDataException("Error reading ManagerRequest from file: " + file.getName(), e);
+      throw new DataReadException("Error reading ManagerRequest from file: " + file.getName(), e);
     }
   }
 }

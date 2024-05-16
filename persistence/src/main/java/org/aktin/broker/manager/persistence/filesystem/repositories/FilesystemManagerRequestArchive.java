@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.ArchiveDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.ArchiveException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -57,7 +57,7 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public void archive(int id) throws PersistDataException {
+  public void archive(int id) throws DataPersistException {
     String sourceFile = requestStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
     String destinationFile = archiveStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(sourceFile);
@@ -65,7 +65,7 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
     try {
       Files.move(Paths.get(sourceFile), Paths.get(destinationFile));
     } catch (IOException e) {
-      throw new ArchiveDataException("Failed to archive ManagerRequest with ID: " + id, e);
+      throw new ArchiveException("Failed to archive ManagerRequest with ID: " + id, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -73,7 +73,7 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
 
   @Cacheable(cacheNames = "requestsArchive", key = "#id")
   @Override
-  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws ReadPersistedDataException {
+  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException {
     String filename = archiveStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.readLock().lock();
@@ -89,7 +89,7 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
     try {
       return Optional.of(mapper.readValue(file, ManagerRequest.class));
     } catch (IOException e) {
-      throw new ReadPersistedDataException("Error reading ManagerRequest from file: " + file.getName(), e);
+      throw new DataReadException("Error reading ManagerRequest from file: " + file.getName(), e);
     }
   }
 }

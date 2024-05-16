@@ -17,13 +17,13 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
-public class DeletePersistedDataException extends RuntimeException {
+public class DataDeleteException extends RuntimeException {
 
-  public DeletePersistedDataException(String message) {
+  public DataDeleteException(String message) {
     super(message);
   }
 
-  public DeletePersistedDataException(String message, Throwable cause) {
+  public DataDeleteException(String message, Throwable cause) {
     super(message, cause);
   }
 }

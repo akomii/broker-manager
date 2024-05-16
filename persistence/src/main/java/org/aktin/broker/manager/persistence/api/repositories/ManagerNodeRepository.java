@@ -19,9 +19,9 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.List;
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 
 /**
@@ -36,32 +36,32 @@ public interface ManagerNodeRepository {
    * Saves or updates the provided {@link ManagerNode} entity in persistent storage.
    *
    * @param entity The {@link ManagerNode} object to be saved or updated
-   * @throws PersistDataException If there are general problems during the save or update operation
+   * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerNode entity) throws PersistDataException;
+  void save(ManagerNode entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerNode} with the specified ID from persistent storage.
    *
    * @param id The ID of the {@link ManagerNode} to delete
-   * @throws DeletePersistedDataException If there's an error while deleting the {@link ManagerNode}
+   * @throws DataDeleteException If there's an error while deleting the {@link ManagerNode}
    */
-  void delete(int id) throws DeletePersistedDataException;
+  void delete(int id) throws DataDeleteException;
 
   /**
    * Retrieves a {@link ManagerNode} from persistent storage based on its ID.
    *
    * @param id The ID of the {@link ManagerNode} to retrieve
    * @return An Optional containing the {@link ManagerNode} if found, or an empty Optional if not
-   * @throws ReadPersistedDataException If there's an error while reading the {@link ManagerNode} data
+   * @throws DataReadException If there's an error while reading the {@link ManagerNode} data
    */
-  Optional<ManagerNode> get(int id) throws ReadPersistedDataException;
+  Optional<ManagerNode> get(int id) throws DataReadException;
 
   /**
    * Retrieves all {@link ManagerNode}s from persistent storage.
    *
    * @return A List containing the {@link ManagerNode}s, an empty list if none exist
-   * @throws ReadPersistedDataException If there's an error while reading the {@link ManagerNode} data
+   * @throws DataReadException If there's an error while reading the {@link ManagerNode} data
    */
-  List<ManagerNode> getAll() throws ReadPersistedDataException;
+  List<ManagerNode> getAll() throws DataReadException;
 }

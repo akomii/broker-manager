@@ -17,13 +17,13 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
-public class ReadPersistedDataException extends RuntimeException {
+public class DataReadException extends RuntimeException {
 
-  public ReadPersistedDataException(String message) {
+  public DataReadException(String message) {
     super(message);
   }
 
-  public ReadPersistedDataException(String message, Throwable cause) {
+  public DataReadException(String message, Throwable cause) {
     super(message, cause);
   }
 }

@@ -19,9 +19,9 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.List;
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 
@@ -37,32 +37,32 @@ public interface ManagerRequestRepository {
    * Saves or updates the provided {@link ManagerRequest} entity in persistent storage.
    *
    * @param entity The {@link ManagerRequest} object to be saved or updated
-   * @throws PersistDataException If there are general problems during the save or update operation
+   * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerRequest<QuerySchedule> entity) throws PersistDataException;
+  void save(ManagerRequest<QuerySchedule> entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.
    *
    * @param id The ID of the {@link ManagerRequest} to delete
-   * @throws DeletePersistedDataException If there's an error while deleting the {@link ManagerRequest}
+   * @throws DataDeleteException If there's an error while deleting the {@link ManagerRequest}
    */
-  void delete(int id) throws DeletePersistedDataException;
+  void delete(int id) throws DataDeleteException;
 
   /**
    * Retrieves a {@link ManagerRequest} from persistent storage based on its ID.
    *
    * @param id The ID of the {@link ManagerRequest} to retrieve
    * @return An Optional containing the {@link ManagerRequest} if found, or an empty Optional if not
-   * @throws ReadPersistedDataException If there's an error while reading the {@link ManagerRequest} data
+   * @throws DataReadException If there's an error while reading the {@link ManagerRequest} data
    */
-  Optional<ManagerRequest<QuerySchedule>> get(int id) throws ReadPersistedDataException;
+  Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException;
 
   /**
    * Retrieves all {@link ManagerRequest}s from persistent storage.
    *
    * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist.
-   * @throws ReadPersistedDataException If there's an error while reading the {@link ManagerRequest} data
+   * @throws DataReadException If there's an error while reading the {@link ManagerRequest} data
    */
-  List<ManagerRequest<QuerySchedule>> getAll() throws ReadPersistedDataException;
+  List<ManagerRequest<QuerySchedule>> getAll() throws DataReadException;
 }

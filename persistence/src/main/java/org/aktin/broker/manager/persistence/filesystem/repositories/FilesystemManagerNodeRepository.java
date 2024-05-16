@@ -28,9 +28,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.DeletePersistedDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
-import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.springframework.cache.annotation.CacheEvict;
@@ -58,14 +58,14 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
-  public void save(ManagerNode entity) throws PersistDataException {
+  public void save(ManagerNode entity) throws DataPersistException {
     String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
       mapper.writeValue(new File(filename), entity);
     } catch (IOException e) {
-      throw new PersistDataException("Failed to save ManagerNode: " + entity.getId(), e);
+      throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -73,14 +73,14 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
-  public void delete(int id) throws DeletePersistedDataException {
+  public void delete(int id) throws DataDeleteException {
     String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
-      throw new DeletePersistedDataException("Failed to delete ManagerNode: " + id, e);
+      throw new DataDeleteException("Failed to delete ManagerNode: " + id, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -88,7 +88,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
-  public Optional<ManagerNode> get(int id) throws ReadPersistedDataException {
+  public Optional<ManagerNode> get(int id) throws DataReadException {
     String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.readLock().lock();
@@ -102,7 +102,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @Cacheable(cacheNames = "managerNodes")
   @Override
-  public List<ManagerNode> getAll() throws ReadPersistedDataException {
+  public List<ManagerNode> getAll() throws DataReadException {
     List<ManagerNode> managerNodes = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
@@ -127,7 +127,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     try {
       return Optional.of(mapper.readValue(file, ManagerNode.class));
     } catch (IOException e) {
-      throw new ReadPersistedDataException("Error reading ManagerNode from file: " + file.getName(), e);
+      throw new DataReadException("Error reading ManagerNode from file: " + file.getName(), e);
     }
   }
 }

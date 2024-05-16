@@ -17,14 +17,13 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
-public class PersistDataException extends RuntimeException {
+public class ArchiveException extends RuntimeException {
 
-  public PersistDataException(String message) {
+  public ArchiveException(String message) {
     super(message);
   }
 
-  public PersistDataException(String message, Throwable cause) {
+  public ArchiveException(String message, Throwable cause) {
     super(message, cause);
   }
 }
-

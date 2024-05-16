@@ -23,6 +23,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -35,6 +36,7 @@ import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)

@@ -19,12 +19,14 @@ package org.aktin.broker.manager.persistence.filesystem.models;
 
 import java.time.Instant;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
 
+@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter

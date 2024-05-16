@@ -17,11 +17,13 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.aktin.broker.manager.persistence.api.models.SingleRequest;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.SingleExecution;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class FilesystemSingleRequest extends AbstractManagerRequest<SingleExecution> implements SingleRequest {
 

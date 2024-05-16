@@ -19,6 +19,7 @@ package org.aktin.broker.manager.persistence.filesystem.models;
 
 import java.time.Instant;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import org.aktin.broker.manager.persistence.api.models.SeriesRequest;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Getter
 @Setter

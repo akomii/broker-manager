@@ -20,15 +20,17 @@ package org.aktin.broker.manager.persistence.filesystem.models;
 import java.time.Instant;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
-import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 
+@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter

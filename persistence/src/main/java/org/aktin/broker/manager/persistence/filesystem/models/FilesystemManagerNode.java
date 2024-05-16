@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,7 @@ import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
 import org.aktin.broker.xml.Node;
 
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Getter
 @Setter

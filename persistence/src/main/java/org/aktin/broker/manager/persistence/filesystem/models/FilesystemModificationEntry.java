@@ -18,38 +18,22 @@
 package org.aktin.broker.manager.persistence.filesystem.models;
 
 import java.time.Instant;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
-import org.aktin.broker.manager.persistence.api.models.NodeStatus;
-import org.aktin.broker.manager.persistence.api.models.RequestExecution;
-import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemRequestExecution implements RequestExecution {
+public class FilesystemModificationEntry implements ModificationEntry {
 
-  int sequenceId;
-  int externalId;
-  Instant referenceDate;
-  Instant executionDate;
-  Instant scheduledPublishDate;
-  Instant publishedDate;
-  Instant scheduledClosingDate;
-  Instant closedDate;
-  Instant scheduledArchiveDate;
-  Instant archivedDate;
-  Instant createdDate;
-  String createdBy;
-  RequestExecutionState state;
-  List<NodeStatus> nodeStatuses;
-  List<DownloadEvent> downloadEvents;
+  Instant modificationDate;
+  String username;
+  String clob;
 }

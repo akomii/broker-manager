@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("filesystem")
-public class FilesystemPersistenceConfig {
+public class PersistenceConfig {
 
   @Bean
   public ManagerRequestRepository filesystemManagerRequestRepository(@Autowired ObjectMapper objectMapper,

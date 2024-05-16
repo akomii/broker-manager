@@ -15,25 +15,37 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.models;
+package org.aktin.broker.manager.persistence.api.models;
 
 import java.time.Instant;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
+import java.util.Set;
 
-@EqualsAndHashCode
-@NoArgsConstructor
-@Getter
-@Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemModificationRecordEntry implements ModificationRecordEntry {
+/**
+ * Represents a single event of a user downloading the results of a {@link RequestExecution}. This class is used for tracking and auditing download
+ * activity.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
+public interface DownloadEvent {
 
-  Instant modificationDate;
-  String username;
-  String clob;
+  String getUsername();
+
+  void setUsername(String username);
+
+  Set<String> getUserOrganizations();
+
+  void setUserOrganizations(Set<String> userOrganizations);
+
+  Instant getDownloadDate();
+
+  void setDownloadDate(Instant downloadDate);
+
+  String getDownloadHash();
+
+  void setDownloadHash(String downloadHash);
+
+  String getHashAlgorithm();
+
+  void setHashAlgorithm(String hashAlgorithm);
 }

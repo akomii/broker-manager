@@ -29,7 +29,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.enums.RequestState;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
+import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
@@ -53,7 +53,7 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
   Set<Integer> authorizedOrganizations;
   Set<Integer> targetNodes;
   RequestState state;
-  List<ModificationRecordEntry> modificationRecord;
+  List<ModificationEntry> modificationEntries;
   List<RequestExecution> executions;
   Instant createdDate;
   String createdBy;

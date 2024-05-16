@@ -27,16 +27,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
 import org.aktin.broker.manager.persistence.api.enums.RequestState;
-import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.models.ModificationRecordEntry;
-import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
+import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
+import org.aktin.broker.manager.persistence.api.models.NodeStatus;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemResultsDownloadEvent;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemModificationRecordEntry;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemNodeStatusInfo;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemDownloadEvent;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemModificationEntry;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemNodeStatus;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemRequestExecution;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
@@ -46,11 +46,11 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<? extends QuerySchedule>> extends DeserializationHandler<T> {
+abstract class RequestDeserializationHandlerV1<T extends ManagerRequest<? extends QuerySchedule>> extends DeserializationHandler<T> {
 
   private final DocumentBuilder builder;
 
-  protected AbstractRequestDeserializationHandlerV1(int version, MigrationHandler<T> migrationHandlerChain) {
+  protected RequestDeserializationHandlerV1(int version, MigrationHandler<T> migrationHandlerChain) {
     super(version, migrationHandlerChain);
     try {
       builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -66,7 +66,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     request.setAuthorizedOrganizations(deserializeNumbersList(node, "authorizedOrganizations"));
     request.setTargetNodes(deserializeNumbersList(node, "targetNodes"));
     request.setState(RequestState.valueOf(node.get("state").asText()));
-    request.setModificationRecord(deserializeModificationRecordEntries(node));
+    request.setModificationEntries(deserializeModificationRecordEntries(node));
     request.setExecutions(deserializeRequestExecutions(node));
     request.setCreatedDate(deserializeDate(node, "createdDate"));
     request.setCreatedBy(deserializeText(node, "createdBy"));
@@ -76,12 +76,12 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
 
   protected abstract T createRequestInstance();
 
-  private List<ModificationRecordEntry> deserializeModificationRecordEntries(JsonNode node) {
+  private List<ModificationEntry> deserializeModificationRecordEntries(JsonNode node) {
     JsonNode recordEntriesNode = node.get("modificationRecord");
-    List<ModificationRecordEntry> recordEntries = new ArrayList<>();
+    List<ModificationEntry> recordEntries = new ArrayList<>();
     if (recordEntriesNode != null) {
       for (JsonNode recordEntryNode : recordEntriesNode) {
-        FilesystemModificationRecordEntry recordEntry = new FilesystemModificationRecordEntry();
+        FilesystemModificationEntry recordEntry = new FilesystemModificationEntry();
         recordEntry.setModificationDate(deserializeDate(recordEntryNode, "modificationDate"));
         recordEntry.setUsername(deserializeText(recordEntryNode, "username"));
         recordEntry.setClob(deserializeText(recordEntryNode, "clob"));
@@ -110,19 +110,19 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
         execution.setCreatedDate(deserializeDate(executionNode, "createdDate"));
         execution.setCreatedBy(deserializeText(executionNode, "createdBy"));
         execution.setState(RequestExecutionState.valueOf(node.get("state").asText()));
-        execution.setNodeStatusInfos(deserializeNodeStatusInfos(node));
-        execution.setResultsDownloadEvents(deserializeDownloadEvents(node));
+        execution.setNodeStatuses(deserializeNodeStatusInfos(node));
+        execution.setDownloadEvents(deserializeDownloadEvents(node));
       }
     }
     return executions;
   }
 
-  private List<NodeStatusInfo> deserializeNodeStatusInfos(JsonNode node) {
+  private List<NodeStatus> deserializeNodeStatusInfos(JsonNode node) {
     JsonNode statusInfosNode = node.get("nodeStatusInfos");
-    List<NodeStatusInfo> statusInfos = new ArrayList<>();
+    List<NodeStatus> statusInfos = new ArrayList<>();
     if (statusInfosNode != null) {
       for (JsonNode statusInfoNode : statusInfosNode) {
-        FilesystemNodeStatusInfo statusInfo = new FilesystemNodeStatusInfo();
+        FilesystemNodeStatus statusInfo = new FilesystemNodeStatus();
         statusInfo.setStatusMessage(deserializeText(statusInfoNode, "statusMessage"));
         statusInfo.setNode(deserializeNumber(statusInfoNode, "node"));
         statusInfo.setDeleted(deserializeDate(statusInfoNode, "deleted"));
@@ -139,21 +139,21 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     return statusInfos;
   }
 
-  private List<ResultsDownloadEvent> deserializeDownloadEvents(JsonNode node) {
+  private List<DownloadEvent> deserializeDownloadEvents(JsonNode node) {
     JsonNode downloadEventsNode = node.get("downloadEvents");
-    List<ResultsDownloadEvent> resultsDownloadEvents = new ArrayList<>();
+    List<DownloadEvent> downloadEvents = new ArrayList<>();
     if (downloadEventsNode != null) {
       for (JsonNode downloadEventNode : downloadEventsNode) {
-        FilesystemResultsDownloadEvent downloadEvent = new FilesystemResultsDownloadEvent();
+        FilesystemDownloadEvent downloadEvent = new FilesystemDownloadEvent();
         downloadEvent.setUsername(deserializeText(downloadEventNode, "username"));
         downloadEvent.setUserOrganizations(deserializeTextList(downloadEventNode, "userOrganizations"));
         downloadEvent.setDownloadDate(deserializeDate(downloadEventNode, "downloadDate"));
         downloadEvent.setDownloadHash(deserializeText(downloadEventNode, "downloadHash"));
         downloadEvent.setHashAlgorithm(deserializeText(downloadEventNode, "hashAlgorithm"));
-        resultsDownloadEvents.add(downloadEvent);
+        downloadEvents.add(downloadEvent);
       }
     }
-    return resultsDownloadEvents;
+    return downloadEvents;
   }
 
   private Query deserializeQuery(JsonNode node) {

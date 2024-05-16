@@ -18,34 +18,53 @@
 package org.aktin.broker.manager.persistence.api.models;
 
 import java.time.Instant;
-import java.util.Set;
 
 /**
- * Represents a single event of a user downloading the results of a {@link RequestExecution}. This class is used for tracking and auditing download
- * activity.
+ * Represents the status of a {@link RequestExecution} on a specific {@link ManagerNode}. Tracks the progress of the execution through various
+ * stages.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ResultsDownloadEvent {
+public interface NodeStatus {
 
-  String getUsername();
+  int getNode();
 
-  void setUsername(String username);
+  void setNode(int id);
 
-  Set<String> getUserOrganizations();
+  String getStatusMessage();
 
-  void setUserOrganizations(Set<String> userOrganizations);
+  void setStatusMessage(String statusMessage);
 
-  Instant getDownloadDate();
+  Instant getDeleted();
 
-  void setDownloadDate(Instant downloadDate);
+  void setDeleted(Instant deleted);
 
-  String getDownloadHash();
+  Instant getRetrieved();
 
-  void setDownloadHash(String downloadHash);
+  void setRetrieved(Instant retrieved);
 
-  String getHashAlgorithm();
+  Instant getQueued();
 
-  void setHashAlgorithm(String hashAlgorithm);
+  void setQueued(Instant queued);
+
+  Instant getProcessing();
+
+  void setProcessing(Instant processing);
+
+  Instant getCompleted();
+
+  void setCompleted(Instant completed);
+
+  Instant getRejected();
+
+  void setRejected(Instant rejected);
+
+  Instant getFailed();
+
+  void setFailed(Instant failed);
+
+  Instant getExpired();
+
+  void setExpired(Instant expired);
 }

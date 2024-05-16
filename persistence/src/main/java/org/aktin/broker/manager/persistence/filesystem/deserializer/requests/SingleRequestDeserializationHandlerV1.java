@@ -23,7 +23,7 @@ import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRe
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.SingleExecution;
 
-class SingleRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<FilesystemSingleRequest> {
+class SingleRequestDeserializationHandlerV1 extends RequestDeserializationHandlerV1<FilesystemSingleRequest> {
 
   public SingleRequestDeserializationHandlerV1(MigrationHandler<FilesystemSingleRequest> migrationHandlerChain) {
     super(1, migrationHandlerChain);

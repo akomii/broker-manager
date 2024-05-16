@@ -25,14 +25,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemResultsDownloadEvent implements ResultsDownloadEvent {
+public class FilesystemDownloadEvent implements DownloadEvent {
 
   String username;
   Set<String> userOrganizations;

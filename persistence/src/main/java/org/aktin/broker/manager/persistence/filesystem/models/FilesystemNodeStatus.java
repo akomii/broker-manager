@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
+import org.aktin.broker.manager.persistence.api.models.NodeStatus;
 import org.aktin.broker.xml.RequestStatusInfo;
 
 @EqualsAndHashCode(callSuper = false)
@@ -32,7 +32,7 @@ import org.aktin.broker.xml.RequestStatusInfo;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemNodeStatusInfo extends RequestStatusInfo implements NodeStatusInfo {
+public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatus {
 
   String statusMessage;
 

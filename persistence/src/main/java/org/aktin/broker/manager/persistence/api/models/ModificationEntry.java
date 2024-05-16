@@ -26,7 +26,7 @@ import java.time.Instant;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ModificationRecordEntry {
+public interface ModificationEntry {
 
   Instant getModificationDate();
 

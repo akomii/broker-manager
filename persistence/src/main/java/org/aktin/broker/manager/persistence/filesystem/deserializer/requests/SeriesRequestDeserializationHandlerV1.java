@@ -23,7 +23,7 @@ import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRe
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
-class SeriesRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<FilesystemSeriesRequest> {
+class SeriesRequestDeserializationHandlerV1 extends RequestDeserializationHandlerV1<FilesystemSeriesRequest> {
 
   public SeriesRequestDeserializationHandlerV1(MigrationHandler<FilesystemSeriesRequest> migrationHandlerChain) {
     super(1, migrationHandlerChain);

@@ -18,8 +18,11 @@
 package org.aktin.broker.manager.persistence.api.repositories;
 
 
+import java.util.Optional;
 import org.aktin.broker.manager.persistence.api.exceptions.ArchiveDataException;
+import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+import org.aktin.broker.query.xml.QuerySchedule;
 
 /**
  * Enables the relocation of {@link ManagerRequest} from primary data storage to designated archive storages to manage storage resources and
@@ -28,7 +31,7 @@ import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerRequestArchiver {
+public interface ManagerRequestArchive {
 
   /**
    * Moves a persisted {@link ManagerRequest} to an archive storage location.
@@ -37,4 +40,13 @@ public interface ManagerRequestArchiver {
    * @throws ArchiveDataException If there's an error during the archival process
    */
   void archive(int id) throws ArchiveDataException;
+
+  /**
+   * Retrieves a {@link ManagerRequest} from archive storage based on its ID.
+   *
+   * @param id The ID of the {@link ManagerRequest} to retrieve
+   * @return An Optional containing the {@link ManagerRequest} if found, or an empty Optional if not
+   * @throws ReadPersistedDataException If there's an error while reading the {@link ManagerRequest} data
+   */
+  Optional<ManagerRequest<QuerySchedule>> get(int id) throws ReadPersistedDataException;
 }

@@ -36,6 +36,7 @@ import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeReposito
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
+// ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
 public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   private static final String JSON_EXTENSION = ".json";
@@ -58,12 +59,13 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
-  public void save(ManagerNode entity) throws DataPersistException {
+  public int save(ManagerNode entity) throws DataPersistException {
     String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
       mapper.writeValue(new File(filename), entity);
+      return entity.getId();
     } catch (IOException e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {

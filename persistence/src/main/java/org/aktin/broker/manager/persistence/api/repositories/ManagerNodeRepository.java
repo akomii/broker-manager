@@ -36,9 +36,10 @@ public interface ManagerNodeRepository {
    * Saves or updates the provided {@link ManagerNode} entity in persistent storage.
    *
    * @param entity The {@link ManagerNode} object to be saved or updated
+   * @return The ID of the saved or updated {@link ManagerNode}.
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerNode entity) throws DataPersistException;
+  int save(ManagerNode entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerNode} with the specified ID from persistent storage.

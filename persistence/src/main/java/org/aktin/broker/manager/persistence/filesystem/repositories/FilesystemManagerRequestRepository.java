@@ -64,7 +64,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public void save(ManagerRequest<QuerySchedule> entity) throws DataPersistException {
+  public int save(ManagerRequest<QuerySchedule> entity) throws DataPersistException {
     if (entity.getId() == 0) {
       entity.setId(filesystemIdGenerator.generateId());
     }
@@ -73,6 +73,7 @@ public class FilesystemManagerRequestRepository implements ManagerRequestReposit
     lock.writeLock().lock();
     try {
       mapper.writeValue(new File(filename), entity);
+      return entity.getId();
     } catch (IOException e) {
       throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
     } finally {

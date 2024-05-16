@@ -36,10 +36,11 @@ public interface ManagerRequestArchive {
   /**
    * Moves a persisted {@link ManagerRequest} to an archive storage location.
    *
-   * @param id The ID of the {@link ManagerRequest} object to move to the archive
-   * @throws ArchiveException If there's an error during the archival process
+   * @param id The unique identifier of the {@link ManagerRequest} to archive
+   * @return The ID of the archived {@link ManagerRequest}
+   * @throws ArchiveException If an error occurs during the archival process
    */
-  void archive(int id) throws ArchiveException;
+  int archive(int id) throws ArchiveException;
 
   /**
    * Retrieves a {@link ManagerRequest} from archive storage based on its ID.

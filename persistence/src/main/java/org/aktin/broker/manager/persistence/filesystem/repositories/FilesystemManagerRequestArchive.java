@@ -57,13 +57,14 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public void archive(int id) throws DataPersistException {
+  public int archive(int id) throws DataPersistException {
     String sourceFile = requestStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
     String destinationFile = archiveStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
     ReentrantReadWriteLock lock = getLock(sourceFile);
     lock.writeLock().lock();
     try {
       Files.move(Paths.get(sourceFile), Paths.get(destinationFile));
+      return id;
     } catch (IOException e) {
       throw new ArchiveException("Failed to archive ManagerRequest with ID: " + id, e);
     } finally {

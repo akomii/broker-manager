@@ -37,9 +37,10 @@ public interface ManagerRequestRepository {
    * Saves or updates the provided {@link ManagerRequest} entity in persistent storage.
    *
    * @param entity The {@link ManagerRequest} object to be saved or updated
+   * @return The ID of the saved or updated {@link ManagerRequest}.
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerRequest<QuerySchedule> entity) throws DataPersistException;
+  int save(ManagerRequest<QuerySchedule> entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.

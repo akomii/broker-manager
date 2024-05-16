@@ -27,9 +27,7 @@ import java.util.Map;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
 
   private static final Map<Integer, DeserializationHandler<FilesystemManagerNode>> HANDLERS = new HashMap<>();

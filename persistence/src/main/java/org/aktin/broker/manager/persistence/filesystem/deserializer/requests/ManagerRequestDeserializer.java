@@ -29,9 +29,7 @@ import org.aktin.broker.manager.persistence.filesystem.deserializer.Deserializat
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<? extends QuerySchedule>> {
 
   private static final Map<Integer, DeserializationHandler<FilesystemSingleRequest>> SINGLE_HANDLERS = new HashMap<>();

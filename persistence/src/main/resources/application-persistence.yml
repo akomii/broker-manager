@@ -4,3 +4,7 @@ broker-manager:
       nodes: /var/lib/broker-manager/nodes
       requests: /var/lib/broker-manager/requests
       archive: /var/lib/broker-manager/archive
+
+spring:
+  profiles:
+    active: filesystem

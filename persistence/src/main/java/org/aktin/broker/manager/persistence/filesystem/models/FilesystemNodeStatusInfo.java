@@ -30,7 +30,7 @@ import org.aktin.broker.xml.RequestStatusInfo;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NodeStatusInfoImpl extends RequestStatusInfo implements NodeStatusInfo {
+public class FilesystemNodeStatusInfo extends RequestStatusInfo implements NodeStatusInfo {
 
   String statusMessage;
 

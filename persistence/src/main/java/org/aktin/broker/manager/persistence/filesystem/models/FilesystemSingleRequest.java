@@ -23,7 +23,7 @@ import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.SingleExecution;
 
 @NoArgsConstructor
-public class SingleRequestImpl extends AbstractManagerRequest<SingleExecution> implements SingleRequest {
+public class FilesystemSingleRequest extends AbstractManagerRequest<SingleExecution> implements SingleRequest {
 
   @Override
   public void setQuery(Query query) {

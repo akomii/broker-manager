@@ -34,14 +34,13 @@ import org.aktin.broker.manager.persistence.api.exceptions.PersistDataException;
 import org.aktin.broker.manager.persistence.api.exceptions.ReadPersistedDataException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
-import org.aktin.broker.manager.persistence.filesystem.models.AbstractManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.utils.FilesystemIdGenerator;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ManagerRequestRepositoryImpl implements ManagerRequestRepository {
+public class FilesystemManagerRequestRepository implements ManagerRequestRepository {
 
   @Value("${broker-manager.storage.directory.requests}")
   private String storageDirectory;
@@ -52,14 +51,14 @@ public class ManagerRequestRepositoryImpl implements ManagerRequestRepository {
 
   private final FilesystemIdGenerator filesystemIdGenerator;
 
-  public ManagerRequestRepositoryImpl() throws IOException {
+  public FilesystemManagerRequestRepository() throws IOException {
     Files.createDirectories(Paths.get(storageDirectory));
     Path storagePath = Paths.get(storageDirectory);
     Files.createDirectories(storagePath);
     filesystemIdGenerator = new FilesystemIdGenerator(storagePath);
   }
 
-  public ManagerRequestRepositoryImpl(String storageDirectory) throws IOException {
+  public FilesystemManagerRequestRepository(String storageDirectory) throws IOException {
     this.storageDirectory = storageDirectory;
     Path storagePath = Paths.get(storageDirectory);
     Files.createDirectories(storagePath);

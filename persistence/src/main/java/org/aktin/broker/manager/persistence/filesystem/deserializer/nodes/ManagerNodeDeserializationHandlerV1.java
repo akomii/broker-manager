@@ -23,18 +23,18 @@ import java.util.List;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.ManagerNodeImpl;
-import org.aktin.broker.manager.persistence.filesystem.models.UserNoteImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
 
-class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<ManagerNodeImpl> {
+class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<FilesystemManagerNode> {
 
-  public ManagerNodeDeserializationHandlerV1(MigrationHandler<ManagerNodeImpl> migrationHandlerChain) {
+  public ManagerNodeDeserializationHandlerV1(MigrationHandler<FilesystemManagerNode> migrationHandlerChain) {
     super(1, migrationHandlerChain);
   }
 
   @Override
-  protected ManagerNodeImpl doSerialization(JsonNode node) {
-    ManagerNodeImpl managerNode = new ManagerNodeImpl();
+  protected FilesystemManagerNode doSerialization(JsonNode node) {
+    FilesystemManagerNode managerNode = new FilesystemManagerNode();
     managerNode.setDataVersion(getVersion());
     managerNode.setApiKey(deserializeText(node, "apiKey"));
     managerNode.setTags(deserializeTextList(node, "tags"));
@@ -50,7 +50,7 @@ class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<Manager
     List<UserNote> userNotes = new ArrayList<>();
     if (userNotesNode != null) {
       for (JsonNode userNoteNode : userNotesNode) {
-        UserNoteImpl userNote = new UserNoteImpl();
+        FilesystemUserNote userNote = new FilesystemUserNote();
         userNote.setUsername(deserializeText(userNoteNode, "username"));
         userNote.setCreatedDate(deserializeDate(userNoteNode, "createdDate"));
         userNote.setText(deserializeText(userNoteNode, "text"));

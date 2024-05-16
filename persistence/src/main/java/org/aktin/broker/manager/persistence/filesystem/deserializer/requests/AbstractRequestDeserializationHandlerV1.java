@@ -34,10 +34,10 @@ import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.ResultsDownloadEventImpl;
-import org.aktin.broker.manager.persistence.filesystem.models.ModificationRecordEntryImpl;
-import org.aktin.broker.manager.persistence.filesystem.models.NodeStatusInfoImpl;
-import org.aktin.broker.manager.persistence.filesystem.models.RequestExecutionImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemResultsDownloadEvent;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemModificationRecordEntry;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemNodeStatusInfo;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemRequestExecution;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -81,7 +81,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     List<ModificationRecordEntry> recordEntries = new ArrayList<>();
     if (recordEntriesNode != null) {
       for (JsonNode recordEntryNode : recordEntriesNode) {
-        ModificationRecordEntryImpl recordEntry = new ModificationRecordEntryImpl();
+        FilesystemModificationRecordEntry recordEntry = new FilesystemModificationRecordEntry();
         recordEntry.setModificationDate(deserializeDate(recordEntryNode, "modificationDate"));
         recordEntry.setUsername(deserializeText(recordEntryNode, "username"));
         recordEntry.setClob(deserializeText(recordEntryNode, "clob"));
@@ -96,7 +96,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     List<RequestExecution> executions = new ArrayList<>();
     if (executionsNode != null) {
       for (JsonNode executionNode : executionsNode) {
-        RequestExecutionImpl execution = new RequestExecutionImpl();
+        FilesystemRequestExecution execution = new FilesystemRequestExecution();
         execution.setSequenceId(deserializeNumber(executionNode, "sequenceId"));
         execution.setExternalId(deserializeNumber(executionNode, "externalId"));
         execution.setReferenceDate(deserializeDate(executionNode, "referenceDate"));
@@ -122,7 +122,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     List<NodeStatusInfo> statusInfos = new ArrayList<>();
     if (statusInfosNode != null) {
       for (JsonNode statusInfoNode : statusInfosNode) {
-        NodeStatusInfoImpl statusInfo = new NodeStatusInfoImpl();
+        FilesystemNodeStatusInfo statusInfo = new FilesystemNodeStatusInfo();
         statusInfo.setStatusMessage(deserializeText(statusInfoNode, "statusMessage"));
         statusInfo.setNode(deserializeNumber(statusInfoNode, "node"));
         statusInfo.setDeleted(deserializeDate(statusInfoNode, "deleted"));
@@ -144,7 +144,7 @@ abstract class AbstractRequestDeserializationHandlerV1<T extends ManagerRequest<
     List<ResultsDownloadEvent> resultsDownloadEvents = new ArrayList<>();
     if (downloadEventsNode != null) {
       for (JsonNode downloadEventNode : downloadEventsNode) {
-        ResultsDownloadEventImpl downloadEvent = new ResultsDownloadEventImpl();
+        FilesystemResultsDownloadEvent downloadEvent = new FilesystemResultsDownloadEvent();
         downloadEvent.setUsername(deserializeText(downloadEventNode, "username"));
         downloadEvent.setUserOrganizations(deserializeTextList(downloadEventNode, "userOrganizations"));
         downloadEvent.setDownloadDate(deserializeDate(downloadEventNode, "downloadDate"));

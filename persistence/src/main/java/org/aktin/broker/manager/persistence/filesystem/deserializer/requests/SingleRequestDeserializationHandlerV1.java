@@ -19,24 +19,24 @@ package org.aktin.broker.manager.persistence.filesystem.deserializer.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.SingleRequestImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.SingleExecution;
 
-class SingleRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<SingleRequestImpl> {
+class SingleRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<FilesystemSingleRequest> {
 
-  public SingleRequestDeserializationHandlerV1(MigrationHandler<SingleRequestImpl> migrationHandlerChain) {
+  public SingleRequestDeserializationHandlerV1(MigrationHandler<FilesystemSingleRequest> migrationHandlerChain) {
     super(1, migrationHandlerChain);
   }
 
   @Override
-  protected SingleRequestImpl createRequestInstance() {
-    return new SingleRequestImpl();
+  protected FilesystemSingleRequest createRequestInstance() {
+    return new FilesystemSingleRequest();
   }
 
   @Override
-  protected SingleRequestImpl doSerialization(JsonNode node) {
-    SingleRequestImpl request = super.doSerialization(node);
+  protected FilesystemSingleRequest doSerialization(JsonNode node) {
+    FilesystemSingleRequest request = super.doSerialization(node);
     request.setDataVersion(getVersion());
     return request;
   }

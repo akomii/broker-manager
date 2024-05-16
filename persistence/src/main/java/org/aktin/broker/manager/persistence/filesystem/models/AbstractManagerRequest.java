@@ -40,10 +40,10 @@ import org.w3c.dom.Element;
 @FieldDefaults(level = AccessLevel.PROTECTED)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = SingleRequestImpl.class, name = "SingleRequest"),
-    @JsonSubTypes.Type(value = SeriesRequestImpl.class, name = "SeriesRequest")
+    @JsonSubTypes.Type(value = FilesystemSingleRequest.class, name = "SingleRequest"),
+    @JsonSubTypes.Type(value = FilesystemSeriesRequest.class, name = "SeriesRequest")
 })
-public abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
+abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
   int dataVersion;
   int id;

@@ -30,7 +30,7 @@ import org.aktin.broker.manager.persistence.api.models.ResultsDownloadEvent;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ResultsDownloadEventImpl implements ResultsDownloadEvent {
+public class FilesystemResultsDownloadEvent implements ResultsDownloadEvent {
 
   String username;
   Set<String> userOrganizations;

@@ -19,24 +19,24 @@ package org.aktin.broker.manager.persistence.filesystem.deserializer.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.SeriesRequestImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
-class SeriesRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<SeriesRequestImpl> {
+class SeriesRequestDeserializationHandlerV1 extends AbstractRequestDeserializationHandlerV1<FilesystemSeriesRequest> {
 
-  public SeriesRequestDeserializationHandlerV1(MigrationHandler<SeriesRequestImpl> migrationHandlerChain) {
+  public SeriesRequestDeserializationHandlerV1(MigrationHandler<FilesystemSeriesRequest> migrationHandlerChain) {
     super(1, migrationHandlerChain);
   }
 
   @Override
-  protected SeriesRequestImpl createRequestInstance() {
-    return new SeriesRequestImpl();
+  protected FilesystemSeriesRequest createRequestInstance() {
+    return new FilesystemSeriesRequest();
   }
 
   @Override
-  protected SeriesRequestImpl doSerialization(JsonNode node) {
-    SeriesRequestImpl request = super.doSerialization(node);
+  protected FilesystemSeriesRequest doSerialization(JsonNode node) {
+    FilesystemSeriesRequest request = super.doSerialization(node);
     request.setDataVersion(getVersion());
     request.setAnchoredSequenceIdRef(deserializeNumber(node, "anchoredSequenceIdRef"));
     request.setAutoPublishing(deserializeBool(node, "isAutoPublishing"));

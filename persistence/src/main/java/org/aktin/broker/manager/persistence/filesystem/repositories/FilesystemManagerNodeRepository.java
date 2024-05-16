@@ -39,7 +39,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
+public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   private static final String JSON_EXTENSION = ".json";
   private static final String FILE_SEPARATOR = File.separator;
@@ -53,12 +53,12 @@ public class ManagerNodeRepositoryImpl implements ManagerNodeRepository {
   private final Lock readLock = rwLock.readLock();
   private final Lock writeLock = rwLock.writeLock();
 
-  public ManagerNodeRepositoryImpl(@Autowired ObjectMapper mapper) throws IOException {
+  public FilesystemManagerNodeRepository(@Autowired ObjectMapper mapper) throws IOException {
     this.mapper = mapper;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
-  public ManagerNodeRepositoryImpl(ObjectMapper mapper, String storageDirectory) throws IOException {
+  public FilesystemManagerNodeRepository(ObjectMapper mapper, String storageDirectory) throws IOException {
     this.mapper = mapper;
     this.storageDirectory = storageDirectory;
     Files.createDirectories(Paths.get(this.storageDirectory));

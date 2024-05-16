@@ -18,49 +18,20 @@
 package org.aktin.broker.manager.persistence.filesystem.models;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.xml.Node;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ManagerNodeImpl extends Node implements ManagerNode {
+public class FilesystemUserNote implements UserNote {
 
-  int dataVersion;
-  String apiKey;
-  Set<String> tags;
-  List<UserNote> userNotes;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getClientDN() {
-    return clientDN;
-  }
-
-  public void setClientDN(String clientDN) {
-    this.clientDN = clientDN;
-  }
-
-  public Instant getLastContact() {
-    return lastContact;
-  }
-
-  public void setLastContact(Instant lastContact) {
-    this.lastContact = lastContact;
-  }
+  String username;
+  Instant createdDate;
+  String text;
 }

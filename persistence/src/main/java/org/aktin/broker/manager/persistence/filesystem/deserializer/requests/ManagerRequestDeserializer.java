@@ -26,16 +26,16 @@ import java.util.HashMap;
 import java.util.Map;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.SeriesRequestImpl;
-import org.aktin.broker.manager.persistence.filesystem.models.SingleRequestImpl;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<? extends QuerySchedule>> {
 
-  private static final Map<Integer, DeserializationHandler<SingleRequestImpl>> SINGLE_HANDLERS = new HashMap<>();
-  private static final Map<Integer, DeserializationHandler<SeriesRequestImpl>> SERIES_HANDLERS = new HashMap<>();
+  private static final Map<Integer, DeserializationHandler<FilesystemSingleRequest>> SINGLE_HANDLERS = new HashMap<>();
+  private static final Map<Integer, DeserializationHandler<FilesystemSeriesRequest>> SERIES_HANDLERS = new HashMap<>();
 
   static {
     SINGLE_HANDLERS.put(1, new SingleRequestDeserializationHandlerV1(null));

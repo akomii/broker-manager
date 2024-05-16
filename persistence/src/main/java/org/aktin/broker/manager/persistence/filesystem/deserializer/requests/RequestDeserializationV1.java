@@ -46,11 +46,11 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-abstract class RequestDeserializationHandlerV1<T extends ManagerRequest<? extends QuerySchedule>> extends DeserializationHandler<T> {
+abstract class RequestDeserializationV1<T extends ManagerRequest<? extends QuerySchedule>> extends DeserializationHandler<T> {
 
   private final DocumentBuilder builder;
 
-  protected RequestDeserializationHandlerV1(int version, MigrationHandler<T> migrationHandlerChain) {
+  protected RequestDeserializationV1(int version, MigrationHandler<T> migrationHandlerChain) {
     super(version, migrationHandlerChain);
     try {
       builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -59,7 +59,7 @@ abstract class RequestDeserializationHandlerV1<T extends ManagerRequest<? extend
     }
   }
 
-  protected T doSerialization(JsonNode node) {
+  protected T doDeserialization(JsonNode node) {
     T request = createRequestInstance();
     request.setId(deserializeNumber(node, "id"));
     request.setTags(deserializeTextList(node, "tags"));

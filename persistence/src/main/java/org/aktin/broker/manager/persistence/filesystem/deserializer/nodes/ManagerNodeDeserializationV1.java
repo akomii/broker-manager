@@ -26,14 +26,14 @@ import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHan
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
 
-class ManagerNodeDeserializationHandlerV1 extends DeserializationHandler<FilesystemManagerNode> {
+class ManagerNodeDeserializationV1 extends DeserializationHandler<FilesystemManagerNode> {
 
-  public ManagerNodeDeserializationHandlerV1(MigrationHandler<FilesystemManagerNode> migrationHandlerChain) {
+  public ManagerNodeDeserializationV1(MigrationHandler<FilesystemManagerNode> migrationHandlerChain) {
     super(1, migrationHandlerChain);
   }
 
   @Override
-  protected FilesystemManagerNode doSerialization(JsonNode node) {
+  protected FilesystemManagerNode doDeserialization(JsonNode node) {
     FilesystemManagerNode managerNode = new FilesystemManagerNode();
     managerNode.setDataVersion(getVersion());
     managerNode.setApiKey(deserializeText(node, "apiKey"));

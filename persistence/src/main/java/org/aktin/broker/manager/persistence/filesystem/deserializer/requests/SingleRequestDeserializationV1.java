@@ -19,40 +19,33 @@ package org.aktin.broker.manager.persistence.filesystem.deserializer.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
-import org.aktin.broker.query.xml.RepeatedExecution;
+import org.aktin.broker.query.xml.SingleExecution;
 
-class SeriesRequestDeserializationHandlerV1 extends RequestDeserializationHandlerV1<FilesystemSeriesRequest> {
+class SingleRequestDeserializationV1 extends RequestDeserializationV1<FilesystemSingleRequest> {
 
-  public SeriesRequestDeserializationHandlerV1(MigrationHandler<FilesystemSeriesRequest> migrationHandlerChain) {
+  public SingleRequestDeserializationV1(MigrationHandler<FilesystemSingleRequest> migrationHandlerChain) {
     super(1, migrationHandlerChain);
   }
 
   @Override
-  protected FilesystemSeriesRequest createRequestInstance() {
-    return new FilesystemSeriesRequest();
+  protected FilesystemSingleRequest createRequestInstance() {
+    return new FilesystemSingleRequest();
   }
 
   @Override
-  protected FilesystemSeriesRequest doSerialization(JsonNode node) {
-    FilesystemSeriesRequest request = super.doSerialization(node);
+  protected FilesystemSingleRequest doDeserialization(JsonNode node) {
+    FilesystemSingleRequest request = super.doDeserialization(node);
     request.setDataVersion(getVersion());
-    request.setAnchoredSequenceIdRef(deserializeNumber(node, "anchoredSequenceIdRef"));
-    request.setAutoPublishing(deserializeBool(node, "isAutoPublishing"));
-    request.setSeriesClosingDate(deserializeDate(node, "seriesClosingDate"));
-    request.setSeriesArchiveDate(deserializeDate(node, "seriesArchiveDate"));
     return request;
   }
 
   @Override
   protected QuerySchedule deserializeQuerySchedule(JsonNode node) {
     JsonNode scheduleNode = node.get("schedule");
-    RepeatedExecution execution = new RepeatedExecution();
+    SingleExecution execution = new SingleExecution();
     execution.duration = deserializePeriod(scheduleNode, "duration");
-    execution.interval = deserializePeriod(scheduleNode, "interval");
-    execution.intervalHours = deserializeNumber(scheduleNode, "intervalHours");
-    execution.id = deserializeNumber(scheduleNode, "id");
     return execution;
   }
 }

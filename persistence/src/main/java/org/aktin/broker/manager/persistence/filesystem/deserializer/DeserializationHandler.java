@@ -47,14 +47,14 @@ public abstract class DeserializationHandler<T> {
   }
 
   public T deserialize(JsonNode node) {
-    T entity = doSerialization(node);
+    T entity = doDeserialization(node);
     if (migrationChainRoot != null) {
       entity = migrationChainRoot.migrate(entity);
     }
     return entity;
   }
 
-  protected abstract T doSerialization(JsonNode node);
+  protected abstract T doDeserialization(JsonNode node);
 
   protected String deserializeText(JsonNode node, String key) {
     JsonNode valueNode = node.get(key);

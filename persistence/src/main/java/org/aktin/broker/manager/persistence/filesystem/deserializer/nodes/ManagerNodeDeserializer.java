@@ -33,7 +33,7 @@ public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
   private static final Map<Integer, DeserializationHandler<FilesystemManagerNode>> HANDLERS = new HashMap<>();
 
   static {
-    HANDLERS.put(1, new ManagerNodeDeserializationHandlerV1(null));
+    HANDLERS.put(1, new ManagerNodeDeserializationV1(null));
   }
 
   public ManagerNodeDeserializer() {

@@ -36,8 +36,8 @@ public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<?
   private static final Map<Integer, DeserializationHandler<FilesystemSeriesRequest>> SERIES_HANDLERS = new HashMap<>();
 
   static {
-    SINGLE_HANDLERS.put(1, new SingleRequestDeserializationHandlerV1(null));
-    SERIES_HANDLERS.put(1, new SeriesRequestDeserializationHandlerV1(null));
+    SINGLE_HANDLERS.put(1, new SingleRequestDeserializationV1(null));
+    SERIES_HANDLERS.put(1, new SeriesRequestDeserializationV1(null));
   }
 
   public ManagerRequestDeserializer() {

@@ -61,9 +61,7 @@ public interface ManagerRequestRepository {
 
   /**
    * Retrieves all {@link ManagerRequest}s from persistent storage.
-   *
-   * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist.
-   * @throws DataReadException If there's an error while reading the {@link ManagerRequest} data
+   * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist or all entities are invalid.
    */
-  List<ManagerRequest<QuerySchedule>> getAll() throws DataReadException;
+  List<ManagerRequest<QuerySchedule>> getAll();
 }

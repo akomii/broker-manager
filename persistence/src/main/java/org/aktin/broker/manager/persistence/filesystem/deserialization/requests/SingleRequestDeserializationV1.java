@@ -15,10 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.deserializer.requests;
+package org.aktin.broker.manager.persistence.filesystem.deserialization.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
+import org.aktin.broker.manager.persistence.filesystem.deserialization.MigrationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.SingleExecution;

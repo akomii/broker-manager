@@ -15,14 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.deserializer.nodes;
+package org.aktin.broker.manager.persistence.filesystem.deserialization.nodes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.List;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
-import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
+import org.aktin.broker.manager.persistence.filesystem.deserialization.DeserializationHandler;
+import org.aktin.broker.manager.persistence.filesystem.deserialization.MigrationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
 

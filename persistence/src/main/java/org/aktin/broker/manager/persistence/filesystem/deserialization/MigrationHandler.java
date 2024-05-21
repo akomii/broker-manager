@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.deserializer;
+package org.aktin.broker.manager.persistence.filesystem.deserialization;
 
 import lombok.Getter;
 

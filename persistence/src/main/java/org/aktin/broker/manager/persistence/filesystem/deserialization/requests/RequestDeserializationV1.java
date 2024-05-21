@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.deserializer.requests;
+package org.aktin.broker.manager.persistence.filesystem.deserialization.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
@@ -32,8 +32,8 @@ import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 import org.aktin.broker.manager.persistence.api.models.NodeStatus;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
-import org.aktin.broker.manager.persistence.filesystem.deserializer.DeserializationHandler;
-import org.aktin.broker.manager.persistence.filesystem.deserializer.MigrationHandler;
+import org.aktin.broker.manager.persistence.filesystem.deserialization.DeserializationHandler;
+import org.aktin.broker.manager.persistence.filesystem.deserialization.MigrationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemDownloadEvent;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemModificationEntry;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemNodeStatus;

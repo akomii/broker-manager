@@ -26,18 +26,17 @@ import java.util.HashMap;
 import java.util.Map;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.deserialization.DeserializationHandler;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.query.xml.QuerySchedule;
 
 public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<? extends QuerySchedule>> {
 
-  private static final Map<Integer, DeserializationHandler<FilesystemSingleRequest>> SINGLE_HANDLERS = new HashMap<>();
-  private static final Map<Integer, DeserializationHandler<FilesystemSeriesRequest>> SERIES_HANDLERS = new HashMap<>();
+  private static final Map<Integer, Map<String, DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>>>> HANDLERS = new HashMap<>();
 
   static {
-    SINGLE_HANDLERS.put(1, new SingleRequestDeserializationV1(null));
-    SERIES_HANDLERS.put(1, new SeriesRequestDeserializationV1(null));
+    Map<String, DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>>> v1Handlers = new HashMap<>();
+    v1Handlers.put("SingleRequest", new SingleRequestDeserializationV1(null));
+    v1Handlers.put("SeriesRequest", new SeriesRequestDeserializationV1(null));
+    HANDLERS.put(1, v1Handlers);
   }
 
   public ManagerRequestDeserializer() {
@@ -56,13 +55,13 @@ public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<?
     }
     int dataVersion = node.get("dataVersion").asInt();
     String requestType = node.get("type").asText();
-    DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>> handler = switch (requestType) {
-      case "SingleRequest" -> SINGLE_HANDLERS.get(dataVersion);
-      case "SeriesRequest" -> SERIES_HANDLERS.get(dataVersion);
-      default -> throw new IllegalArgumentException("Unknown request type: " + requestType);
-    };
+    Map<String, DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>>> handlers = HANDLERS.get(dataVersion);
+    if (handlers == null) {
+      throw new IllegalArgumentException("No handlers found for data version: " + dataVersion);
+    }
+    DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>> handler = handlers.get(requestType);
     if (handler == null) {
-      throw new IllegalArgumentException("No handler found for data version: " + dataVersion);
+      throw new IllegalArgumentException("Unknown request type: " + requestType);
     }
     return handler.deserialize(node);
   }

@@ -33,23 +33,31 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
+import org.aktin.broker.manager.persistence.filesystem.validation.ManagerNodeValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
 public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
+  private static final Logger log = LoggerFactory.getLogger(FilesystemManagerNodeRepository.class);
+
   private static final String JSON_EXTENSION = ".json";
   private static final String FILE_SEPARATOR = File.separator;
 
   private final ObjectMapper mapper;
   private final String storageDirectory;
+  private final ManagerNodeValidator validator;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FilesystemManagerNodeRepository(ObjectMapper mapper, String storageDirectory) throws IOException {
+  public FilesystemManagerNodeRepository(ObjectMapper mapper, String storageDirectory, ManagerNodeValidator validator) throws IOException {
     this.mapper = mapper;
     this.storageDirectory = storageDirectory;
+    this.validator = validator;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
@@ -64,9 +72,10 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
+      validator.validate(entity);
       mapper.writeValue(new File(filename), entity);
       return entity.getId();
-    } catch (IOException e) {
+    } catch (IOException | IllegalArgumentException | DataValidationException e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
@@ -82,7 +91,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     try {
       Files.deleteIfExists(Paths.get(filename));
     } catch (IOException e) {
-      throw new DataDeleteException("Failed to delete ManagerNode: " + id, e);
+      throw new DataDeleteException("Error deleting ManagerNode: " + filename, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -96,7 +105,9 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.readLock().lock();
     try {
       File file = new File(filename);
-      return file.exists() ? deserializeManagerNode(file) : Optional.empty();
+      return file.exists() ? validateAndDeserialize(file) : Optional.empty();
+    } catch (IOException | IllegalArgumentException | DataValidationException e) {
+      throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
     }
@@ -104,7 +115,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   @Cacheable(cacheNames = "managerNodes")
   @Override
-  public List<ManagerNode> getAll() throws DataReadException {
+  public List<ManagerNode> getAll() {
     List<ManagerNode> managerNodes = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
@@ -116,8 +127,10 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
       ReentrantReadWriteLock lock = getLock(filename);
       lock.readLock().lock();
       try {
-        Optional<ManagerNode> managerNode = deserializeManagerNode(file);
+        Optional<ManagerNode> managerNode = validateAndDeserialize(file);
         managerNode.ifPresent(managerNodes::add);
+      } catch (IOException | IllegalArgumentException | DataValidationException e) {
+        log.warn("Error retrieving ManagerNode: {}, skipping...", filename);
       } finally {
         lock.readLock().unlock();
       }
@@ -125,11 +138,9 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     return managerNodes;
   }
 
-  private Optional<ManagerNode> deserializeManagerNode(File file) {
-    try {
-      return Optional.of(mapper.readValue(file, ManagerNode.class));
-    } catch (IOException e) {
-      throw new DataReadException("Error reading ManagerNode from file: " + file.getName(), e);
-    }
+  private Optional<ManagerNode> validateAndDeserialize(File file) throws IOException, IllegalArgumentException, DataValidationException {
+    ManagerNode node = mapper.readValue(file, ManagerNode.class);
+    validator.validate(node);
+    return Optional.of(node);
   }
 }

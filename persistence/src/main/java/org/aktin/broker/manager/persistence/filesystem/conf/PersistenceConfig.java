@@ -25,6 +25,7 @@ import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepos
 import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerRequestRepository;
+import org.aktin.broker.manager.persistence.filesystem.validation.ManagerNodeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +45,7 @@ public class PersistenceConfig {
   @Bean
   public ManagerNodeRepository filesystemManagerNodeRepository(@Autowired ObjectMapper objectMapper,
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory) throws IOException {
-    return new FilesystemManagerNodeRepository(objectMapper, storageDirectory);
+    return new FilesystemManagerNodeRepository(objectMapper, storageDirectory, new ManagerNodeValidator());
   }
 
   @Bean

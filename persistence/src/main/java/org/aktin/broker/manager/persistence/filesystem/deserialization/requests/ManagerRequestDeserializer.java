@@ -19,8 +19,8 @@ package org.aktin.broker.manager.persistence.filesystem.deserialization.requests
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.deserialization.DeserializationHandler;
 import org.aktin.broker.query.xml.QuerySchedule;
 
-public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<? extends QuerySchedule>> {
+public class ManagerRequestDeserializer extends JsonDeserializer<ManagerRequest<? extends QuerySchedule>> {
 
   private static final Map<Integer, Map<String, DeserializationHandler<? extends ManagerRequest<? extends QuerySchedule>>>> HANDLERS = new HashMap<>();
 
@@ -37,14 +37,6 @@ public class ManagerRequestDeserializer extends StdDeserializer<ManagerRequest<?
     v1Handlers.put("SingleRequest", new SingleRequestDeserializationV1(null));
     v1Handlers.put("SeriesRequest", new SeriesRequestDeserializationV1(null));
     HANDLERS.put(1, v1Handlers);
-  }
-
-  public ManagerRequestDeserializer() {
-    this(null);
-  }
-
-  protected ManagerRequestDeserializer(Class<?> vc) {
-    super(vc);
   }
 
   @Override

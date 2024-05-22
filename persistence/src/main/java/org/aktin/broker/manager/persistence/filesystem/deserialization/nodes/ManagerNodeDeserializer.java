@@ -19,8 +19,8 @@ package org.aktin.broker.manager.persistence.filesystem.deserialization.nodes;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,20 +28,12 @@ import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.deserialization.DeserializationHandler;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 
-public class ManagerNodeDeserializer extends StdDeserializer<ManagerNode> {
+public class ManagerNodeDeserializer extends JsonDeserializer<ManagerNode> {
 
   private static final Map<Integer, DeserializationHandler<FilesystemManagerNode>> HANDLERS = new HashMap<>();
 
   static {
     HANDLERS.put(1, new ManagerNodeDeserializationV1(null));
-  }
-
-  public ManagerNodeDeserializer() {
-    this(null);
-  }
-
-  protected ManagerNodeDeserializer(Class<?> vc) {
-    super(vc);
   }
 
   @Override

@@ -18,6 +18,9 @@
 package org.aktin.broker.manager.persistence.filesystem.conf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.io.IOException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
@@ -37,15 +40,24 @@ import org.springframework.context.annotation.Profile;
 public class PersistenceConfig {
 
   @Bean
+  public Validator validator() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    return factory.getValidator();
+  }
+
+  /*
+  @Bean
   public ManagerRequestRepository filesystemManagerRequestRepository(@Autowired ObjectMapper objectMapper,
       @Value("${broker-manager.storage.directory.requests}") String storageDirectory) throws IOException {
     return new FilesystemManagerRequestRepository(objectMapper, storageDirectory);
   }
 
   @Bean
-  public ManagerNodeRepository filesystemManagerNodeRepository(@Autowired ObjectMapper objectMapper,
+  public ManagerNodeRepository filesystemManagerNodeRepository(
+      @Autowired ObjectMapper objectMapper,
+      @Autowired Validator validator,
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory) throws IOException {
-    return new FilesystemManagerNodeRepository(objectMapper, storageDirectory, new ManagerNodeValidator());
+    return new FilesystemManagerNodeRepository(objectMapper, validator, storageDirectory);
   }
 
   @Bean

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Validator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,8 +38,8 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.conf.JacksonConfig;
+import org.aktin.broker.manager.persistence.filesystem.conf.PersistenceConfig;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
-import org.aktin.broker.manager.persistence.filesystem.validation.ManagerNodeValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,8 +55,9 @@ class ManagerNodeRepositoryTest {
 
   @BeforeEach
   void setUp() throws IOException {
+    Validator validator = new PersistenceConfig().validator();
     mapper = new JacksonConfig().objectMapper();
-    repository = new FilesystemManagerNodeRepository(mapper, tempDir.toString(), new ManagerNodeValidator());
+    repository = new FilesystemManagerNodeRepository(mapper, validator, tempDir.toString());
   }
 
   @AfterEach

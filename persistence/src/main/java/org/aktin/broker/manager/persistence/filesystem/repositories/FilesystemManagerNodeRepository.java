@@ -18,6 +18,8 @@
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
@@ -34,7 +37,6 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
-import org.aktin.broker.manager.persistence.filesystem.validation.ManagerNodeValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -50,14 +52,14 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   private final ObjectMapper mapper;
   private final String storageDirectory;
-  private final ManagerNodeValidator validator;
+  private final Validator validator;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FilesystemManagerNodeRepository(ObjectMapper mapper, String storageDirectory, ManagerNodeValidator validator) throws IOException {
+  public FilesystemManagerNodeRepository(ObjectMapper mapper, Validator validator, String storageDirectory) throws IOException {
     this.mapper = mapper;
-    this.storageDirectory = storageDirectory;
     this.validator = validator;
+    this.storageDirectory = storageDirectory;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
 
@@ -72,7 +74,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
-      validator.validate(entity);
+      validateManagerNode(entity);
       mapper.writeValue(new File(filename), entity);
       return entity.getId();
     } catch (IOException | IllegalArgumentException | DataValidationException e) {
@@ -138,9 +140,18 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     return managerNodes;
   }
 
+  private void validateManagerNode(ManagerNode node) throws DataValidationException {
+    Set<ConstraintViolation<ManagerNode>> violations = validator.validate(node);
+    if (!violations.isEmpty()) {
+      StringBuilder errorMessage = new StringBuilder("Validation failed for ManagerNode: " + node.getId());
+      violations.forEach(violation -> errorMessage.append("\n").append(violation.getPropertyPath()).append(" ").append(violation.getMessage()));
+      throw new DataValidationException(errorMessage.toString());
+    }
+  }
+
   private Optional<ManagerNode> validateAndDeserialize(File file) throws IOException, IllegalArgumentException, DataValidationException {
     ManagerNode node = mapper.readValue(file, ManagerNode.class);
-    validator.validate(node);
+    validateManagerNode(node);
     return Optional.of(node);
   }
 }

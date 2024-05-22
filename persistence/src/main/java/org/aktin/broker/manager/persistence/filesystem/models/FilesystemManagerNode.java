@@ -17,6 +17,12 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -37,11 +43,18 @@ import org.aktin.broker.xml.Node;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemManagerNode extends Node implements ManagerNode {
 
+  @Min(value = 1, message = "Data version must be 1 or higher")
   int dataVersion;
+
+  @NotNull(message = "API key cannot be null, but it can be an empty string")
   String apiKey;
-  Set<String> tags;
+
+  Set<@NotBlank String> tags;
+
+  @Valid
   List<UserNote> userNotes;
 
+  @Min(value = 1, message = "ID must be 1 or higher")
   public int getId() {
     return id;
   }
@@ -50,6 +63,8 @@ public class FilesystemManagerNode extends Node implements ManagerNode {
     this.id = id;
   }
 
+  @NotBlank(message = "Client DN is mandatory")
+  @Pattern(regexp = "CN=[\\w ,'-]+,O=[\\w ,'-]+,L=[\\w ,'-]+", message = "Client DN must follow the pattern CN=XXX,O=XXX,L=XXX")
   public String getClientDN() {
     return clientDN;
   }
@@ -58,6 +73,8 @@ public class FilesystemManagerNode extends Node implements ManagerNode {
     this.clientDN = clientDN;
   }
 
+  @NotNull(message = "Last contact is mandatory")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getLastContact() {
     return lastContact;
   }

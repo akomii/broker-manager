@@ -1,11 +1,11 @@
 {
+  "dataVersion": 1,
   "apiKey": "c8d9e0f1",
   "tags": [
-    "general medicine",
     "emergency-care",
+    "general medicine",
     "research"
   ],
-  "dataVersion": 1,
   "userNotes": [
     {
       "username": "omartinez",

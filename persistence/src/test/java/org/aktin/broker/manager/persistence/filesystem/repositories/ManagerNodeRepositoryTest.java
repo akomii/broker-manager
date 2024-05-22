@@ -22,12 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Validator;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -69,12 +71,19 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testSaveAndGet() throws IOException {
-    ManagerNode node = loadManagerNodeFromJson("1.json");
-    int id = repository.save(node);
-    Optional<ManagerNode> readNode = repository.get(id);
-    assertTrue(readNode.isPresent());
-    assertEquals(node, readNode.get());
+  void testSave() throws IOException {
+    ManagerNode originalNode = loadManagerNodeFromJson("1.json");
+    int id = repository.save(originalNode);
+    compareJsonFiles(id);
+  }
+
+  void compareJsonFiles(int id) throws IOException {
+    String originalFilePath = getTestResourcePath("1.json");
+    String savedFilePath = tempDir + "/" + id + ".json";
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode normalizedOriginal = objectMapper.readTree(new File(originalFilePath));
+    JsonNode normalizedSaved = objectMapper.readTree(new File(savedFilePath));
+    assertEquals(normalizedOriginal, normalizedSaved);
   }
 
   @Test
@@ -92,7 +101,7 @@ class ManagerNodeRepositoryTest {
 
   @Test
   void testDelete() throws IOException {
-    copyManagerNodeToTempDir("1.json");
+    copyJsonToTempDir("1.json");
     repository.delete(1);
     Optional<ManagerNode> deletedNode = repository.get(1);
     assertFalse(deletedNode.isPresent());
@@ -104,6 +113,15 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
+  void testGet() throws IOException {
+    copyJsonToTempDir("1.json");
+    ManagerNode expected = loadManagerNodeFromJson("1.json");
+    Optional<ManagerNode> loadedNode = repository.get(1);
+    assertTrue(loadedNode.isPresent());
+    assertEquals(expected, loadedNode.get());
+  }
+
+  @Test
   void testGetNotFound() {
     Optional<ManagerNode> node = repository.get(1);
     assertFalse(node.isPresent());
@@ -111,15 +129,15 @@ class ManagerNodeRepositoryTest {
 
   @Test
   void testGetNodeWithMissingKeys() throws IOException {
-    copyManagerNodeToTempDir("3.json");
+    copyJsonToTempDir("3.json");
     assertThrows(DataReadException.class, () -> repository.get(3));
   }
 
   @Test
   void testGetAllWithValidAndInvalidNodes() throws IOException {
-    copyManagerNodeToTempDir("1.json");
-    copyManagerNodeToTempDir("2.json");
-    copyManagerNodeToTempDir("3.json");
+    copyJsonToTempDir("1.json");
+    copyJsonToTempDir("2.json");
+    copyJsonToTempDir("3.json");
     List<ManagerNode> validNodes = repository.getAll();
     assertEquals(1, validNodes.size());
   }
@@ -130,23 +148,26 @@ class ManagerNodeRepositoryTest {
     assertEquals(0, allNodes.size());
   }
 
-  private ManagerNode loadManagerNodeFromJson(String filename) throws IOException {
+  private String getTestResourcePath(String filename) {
     String resourcePath = "nodes/" + filename;
-    try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
-      if (inputStream == null) {
-        throw new FileNotFoundException("Resource not found: " + resourcePath);
-      }
+    URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
+    if (resourceUrl == null) {
+      throw new IllegalArgumentException("Test resource not found: " + resourcePath);
+    }
+    return resourceUrl.getPath();
+  }
+
+  private ManagerNode loadManagerNodeFromJson(String filename) throws IOException {
+    String resourcePath = getTestResourcePath(filename);
+    try (InputStream inputStream = new FileInputStream(resourcePath)) {
       return mapper.readValue(inputStream, ManagerNode.class);
     }
   }
 
-  private void copyManagerNodeToTempDir(String filename) throws IOException {
-    String resourcePath = "nodes/" + filename;
+  private void copyJsonToTempDir(String filename) throws IOException {
+    String resourcePath = getTestResourcePath(filename);
     Path tempFile = Files.createFile(Path.of(tempDir + File.separator + filename));
-    try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
-      if (inputStream == null) {
-        throw new FileNotFoundException("Resource not found: " + resourcePath);
-      }
+    try (InputStream inputStream = new FileInputStream(resourcePath)) {
       Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
     }
   }

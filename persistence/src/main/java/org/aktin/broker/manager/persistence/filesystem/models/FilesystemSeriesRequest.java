@@ -17,6 +17,9 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -35,9 +38,15 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemSeriesRequest extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
 
+  @Min(value = 1, message = "Anchored sequence ID reference must be 1 or higher")
   int anchoredSequenceIdRef;
+
   boolean isAutoPublishing;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant seriesClosingDate;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant seriesArchiveDate;
 
   @Override
@@ -48,6 +57,7 @@ public class FilesystemSeriesRequest extends AbstractManagerRequest<RepeatedExec
     super.setQuery(query);
   }
 
+  @NotNull(message = "RepeatedExecution is mandatory")
   public RepeatedExecution getQuerySchedule() {
     return (RepeatedExecution) query.schedule;
   }

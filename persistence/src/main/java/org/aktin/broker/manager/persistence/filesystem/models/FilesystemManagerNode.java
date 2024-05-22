@@ -49,7 +49,7 @@ public class FilesystemManagerNode extends Node implements ManagerNode {
   @NotNull(message = "API key cannot be null, but it can be an empty string")
   String apiKey;
 
-  Set<@NotBlank String> tags;
+  Set<String> tags;
 
   @Valid
   List<UserNote> userNotes;

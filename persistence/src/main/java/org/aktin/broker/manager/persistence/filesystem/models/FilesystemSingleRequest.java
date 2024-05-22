@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.aktin.broker.manager.persistence.api.models.SingleRequest;
@@ -35,6 +36,7 @@ public class FilesystemSingleRequest extends AbstractManagerRequest<SingleExecut
     super.setQuery(query);
   }
 
+  @NotNull(message = "SingleExecution is mandatory")
   public SingleExecution getQuerySchedule() {
     return (SingleExecution) query.schedule;
   }

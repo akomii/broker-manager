@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
 
@@ -32,24 +34,36 @@ public class ManagerNodeSerializer extends JsonSerializer<ManagerNode> {
   public void serialize(ManagerNode managerNode, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
     jsonGenerator.writeStartObject();
     jsonGenerator.writeNumberField("dataVersion", DATA_VERSION);
-    jsonGenerator.writeStringField("apiKey", managerNode.getApiKey());
-    jsonGenerator.writeArrayFieldStart("tags");
-    for (String tag : managerNode.getTags()) {
-      jsonGenerator.writeString(tag);
-    }
-    jsonGenerator.writeEndArray();
-    jsonGenerator.writeArrayFieldStart("userNotes");
-    for (UserNote userNote : managerNode.getUserNotes()) {
-      jsonGenerator.writeStartObject();
-      jsonGenerator.writeStringField("username", userNote.getUsername());
-      jsonGenerator.writeStringField("createdDate", userNote.getCreatedDate().toString());
-      jsonGenerator.writeStringField("text", userNote.getText());
-      jsonGenerator.writeEndObject();
-    }
-    jsonGenerator.writeEndArray();
+    jsonGenerator.writeStringField("apiKey", managerNode.getApiKey() != null ? managerNode.getApiKey() : "");
+    serializeTags(managerNode.getTags(), jsonGenerator);
+    serializeUserNote(managerNode.getUserNotes(), jsonGenerator);
     jsonGenerator.writeNumberField("id", managerNode.getId());
     jsonGenerator.writeStringField("clientDN", managerNode.getClientDN());
     jsonGenerator.writeStringField("lastContact", managerNode.getLastContact().toString());
     jsonGenerator.writeEndObject();
+  }
+
+  private void serializeTags(Set<String> tags, JsonGenerator jsonGenerator) throws IOException {
+    if (tags != null && !tags.isEmpty()) {
+      jsonGenerator.writeArrayFieldStart("tags");
+      for (String tag : tags) {
+        jsonGenerator.writeString(tag);
+      }
+      jsonGenerator.writeEndArray();
+    }
+  }
+
+  private void serializeUserNote(List<UserNote> userNotes, JsonGenerator jsonGenerator) throws IOException {
+    if (userNotes != null && !userNotes.isEmpty()) {
+      jsonGenerator.writeArrayFieldStart("userNotes");
+      for (UserNote userNote : userNotes) {
+        jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("username", userNote.getUsername());
+        jsonGenerator.writeStringField("createdDate", userNote.getCreatedDate().toString());
+        jsonGenerator.writeStringField("text", userNote.getText());
+        jsonGenerator.writeEndObject();
+      }
+      jsonGenerator.writeEndArray();
+    }
   }
 }

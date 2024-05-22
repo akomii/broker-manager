@@ -17,11 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import lombok.AccessLevel;
@@ -42,49 +37,19 @@ import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemRequestExecution implements RequestExecution {
 
-  @Min(value = 1, message = "Sequence ID must be 1 or higher")
   int sequenceId;
-
-  @Min(value = 1, message = "External ID must be 1 or higher")
   int externalId;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant referenceDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant executionDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant scheduledPublishDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant publishedDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant scheduledClosingDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant closedDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant scheduledArchiveDate;
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant archivedDate;
-
-  @NotNull(message = "Creation date is mandatory")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant createdDate;
-
-  @NotBlank(message = "Created by is mandatory")
   String createdBy;
-
-  @NotNull(message = "Execution state is mandatory")
   RequestExecutionState state;
-
-  @Valid
   List<NodeStatus> nodeStatuses;
-
-  @Valid
   List<DownloadEvent> downloadEvents;
 }

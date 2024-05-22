@@ -17,9 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -36,13 +33,7 @@ import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemModificationEntry implements ModificationEntry {
 
-  @NotNull(message = "Modification date is mandatory")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant modificationDate;
-
-  @NotBlank(message = "Username is mandatory")
   String username;
-
-  @NotBlank(message = "Clob data is mandatory")
   String clob;
 }

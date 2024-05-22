@@ -17,13 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -45,40 +38,18 @@ import org.w3c.dom.Element;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = FilesystemSingleRequest.class, name = "SingleRequest"),
-    @JsonSubTypes.Type(value = FilesystemSeriesRequest.class, name = "SeriesRequest")
-})
 abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
-  @Min(value = 1, message = "Data version must be 1 or higher")
   int dataVersion;
-
-  @Min(value = 1, message = "ID must be 1 or higher")
   int id;
-
   Set<String> tags;
   Set<Integer> authorizedOrganizations;
   Set<Integer> targetNodes;
-
-  @NotNull(message = "Request state is mandatory")
   RequestState state;
-
-  @Valid
   List<ModificationEntry> modificationEntries;
-
-  @Valid
   List<RequestExecution> executions;
-
-  @NotNull(message = "Creation date is mandatory")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant createdDate;
-
-  @NotBlank(message = "Created by is mandatory")
   String createdBy;
-
-  @NotNull(message = "Query is mandatory")
   Query query;
 
   public String getTitle() {

@@ -17,9 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -36,13 +33,7 @@ import org.aktin.broker.manager.persistence.api.models.UserNote;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemUserNote implements UserNote {
 
-  @NotBlank(message = "Username is mandatory")
   String username;
-
-  @NotNull(message = "Creation date is mandatory")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant createdDate;
-
-  @NotBlank(message = "Text is mandatory")
   String text;
 }

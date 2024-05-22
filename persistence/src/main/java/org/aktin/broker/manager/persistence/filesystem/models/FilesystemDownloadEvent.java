@@ -17,10 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -38,19 +34,9 @@ import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemDownloadEvent implements DownloadEvent {
 
-  @NotBlank(message = "Username is mandatory")
   String username;
-
-  @NotEmpty(message = "User organizations cannot be empty")
   Set<String> userOrganizations;
-
-  @NotNull(message = "Download date is mandatory")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   Instant downloadDate;
-
-  @NotBlank(message = "Download hash is mandatory")
   String downloadHash;
-
-  @NotBlank(message = "Hash algorithm is mandatory")
   String hashAlgorithm;
 }

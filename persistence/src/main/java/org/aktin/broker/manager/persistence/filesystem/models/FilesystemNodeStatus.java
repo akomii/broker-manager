@@ -17,8 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Min;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -38,7 +36,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
 
   String statusMessage;
 
-  @Min(value = 1, message = "Node ID must be 1 or higher")
   public int getNode() {
     return node;
   }
@@ -47,7 +44,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     node = id;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getDeleted() {
     return deleted;
   }
@@ -56,7 +52,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.deleted = deleted;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getRetrieved() {
     return retrieved;
   }
@@ -65,7 +60,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.retrieved = retrieved;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getQueued() {
     return queued;
   }
@@ -74,7 +68,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.queued = queued;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getProcessing() {
     return processing;
   }
@@ -83,7 +76,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.processing = processing;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getCompleted() {
     return completed;
   }
@@ -92,7 +84,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.completed = completed;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getRejected() {
     return rejected;
   }
@@ -101,7 +92,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.rejected = rejected;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getFailed() {
     return failed;
   }
@@ -110,7 +100,6 @@ public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatu
     this.failed = failed;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   public Instant getExpired() {
     return expired;
   }

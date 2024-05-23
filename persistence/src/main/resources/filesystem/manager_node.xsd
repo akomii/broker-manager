@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 AKTIN
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="managerNode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:positiveInteger" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="apiKey" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="tags" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="userNotes" type="userNotesType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="clientDN" type="clientDNType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="lastContact" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="dataVersion" type="xs:positiveInteger" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="userNotesType">
+    <xs:sequence>
+      <xs:element name="userNote" type="userNoteType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userNoteType">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="createdDate" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="clientDNType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="CN=[^,]+,O=[^,]+,L=[^,]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

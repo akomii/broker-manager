@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<managerNode dataVersion="1">
+  <id>1</id>
+  <apiKey>c8d9e0f1</apiKey>
+  <tags>
+    <tag>emergency-care</tag>
+    <tag>general medicine</tag>
+    <tag>research</tag>
+  </tags>
+  <userNotes>
+    <userNote>
+      <username>omartinez</username>
+      <createdDate>2023-09-05T15:42:00Z</createdDate>
+      <text>Enrolled in new clinical trial</text>
+    </userNote>
+    <userNote>
+      <username>dclark</username>
+      <createdDate>2023-01-10T12:11:00Z</createdDate>
+      <text>Initial assessment notes</text>
+    </userNote>
+  </userNotes>
+  <clientDN>CN=General Hospital,O=General Health System,L=Rochester</clientDN>
+  <lastContact>2023-04-16T15:30:00Z</lastContact>
+</managerNode>

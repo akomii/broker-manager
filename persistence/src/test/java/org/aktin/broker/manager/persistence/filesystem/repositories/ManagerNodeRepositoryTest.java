@@ -22,9 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Validator;
+import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,13 +37,18 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.filesystem.conf.JacksonConfig;
-import org.aktin.broker.manager.persistence.filesystem.conf.PersistenceConfig;
+import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 class ManagerNodeRepositoryTest {
 
@@ -53,13 +56,13 @@ class ManagerNodeRepositoryTest {
   private Path tempDir;
 
   private ManagerNodeRepository repository;
-  private ObjectMapper mapper;
+  private XmlUnmarshaller<FilesystemManagerNode> unmarshaller;
 
   @BeforeEach
-  void setUp() throws IOException {
-    Validator validator = new PersistenceConfig().validator();
-    mapper = new JacksonConfig().objectMapper();
-    repository = new FilesystemManagerNodeRepository(mapper, validator, tempDir.toString());
+  void setUp() throws IOException, JAXBException {
+    XmlMarshaller marshaller = new JaxbConfig().managerNodeXmlMarshaller();
+    unmarshaller = new JaxbConfig().managerNodeXmlUnmarshaller();
+    repository = new FilesystemManagerNodeRepository(marshaller, unmarshaller, tempDir.toString());
   }
 
   @AfterEach
@@ -71,19 +74,27 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testSave() throws IOException {
-    ManagerNode originalNode = loadManagerNodeFromJson("1.json");
+  void testSave() {
+    ManagerNode originalNode = loadManagerNodeFromTestResources(1);
     int id = repository.save(originalNode);
-    compareJsonFiles(id);
+    compareXmlFiles(id);
   }
 
-  void compareJsonFiles(int id) throws IOException {
-    String originalFilePath = getTestResourcePath("1.json");
-    String savedFilePath = tempDir + "/" + id + ".json";
-    ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode normalizedOriginal = objectMapper.readTree(new File(originalFilePath));
-    JsonNode normalizedSaved = objectMapper.readTree(new File(savedFilePath));
-    assertEquals(normalizedOriginal, normalizedSaved);
+  void compareXmlFiles(int id) {
+    String originalFilePath = getTestResourcePath(id + ".xml");
+    String savedFilePath = tempDir + File.separator + id + ".xml";
+    try {
+      File expected = new File(originalFilePath);
+      File actual = new File(savedFilePath);
+      Diff diff = DiffBuilder.compare(Input.fromFile(expected))
+          .withTest(Input.fromFile(actual))
+          .ignoreWhitespace()
+          .ignoreComments()
+          .build();
+      assertFalse(diff.hasDifferences());
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -93,15 +104,15 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testSaveNodeWithMissingKeys() throws IOException {
-    ManagerNode incompleteNode = loadManagerNodeFromJson("1.json");
+  void testSaveNodeWithMissingKeys() {
+    ManagerNode incompleteNode = loadManagerNodeFromTestResources(1);
     incompleteNode.setLastContact(null);
     assertThrows(DataPersistException.class, () -> repository.save(incompleteNode));
   }
 
   @Test
-  void testDelete() throws IOException {
-    copyJsonToTempDir("1.json");
+  void testDelete() {
+    copyManagerNodeTestResourceToTempDir(1);
     repository.delete(1);
     Optional<ManagerNode> deletedNode = repository.get(1);
     assertFalse(deletedNode.isPresent());
@@ -113,9 +124,9 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testGet() throws IOException {
-    copyJsonToTempDir("1.json");
-    ManagerNode expected = loadManagerNodeFromJson("1.json");
+  void testGet() {
+    copyManagerNodeTestResourceToTempDir(1);
+    ManagerNode expected = loadManagerNodeFromTestResources(1);
     Optional<ManagerNode> loadedNode = repository.get(1);
     assertTrue(loadedNode.isPresent());
     assertEquals(expected, loadedNode.get());
@@ -128,16 +139,16 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testGetNodeWithMissingKeys() throws IOException {
-    copyJsonToTempDir("3.json");
+  void testGetNodeWithMissingKeys() {
+    copyManagerNodeTestResourceToTempDir(3);
     assertThrows(DataReadException.class, () -> repository.get(3));
   }
 
   @Test
-  void testGetAllWithValidAndInvalidNodes() throws IOException {
-    copyJsonToTempDir("1.json");
-    copyJsonToTempDir("2.json");
-    copyJsonToTempDir("3.json");
+  void testGetAllWithValidAndInvalidNodes() {
+    copyManagerNodeTestResourceToTempDir(1);
+    copyManagerNodeTestResourceToTempDir(2);
+    copyManagerNodeTestResourceToTempDir(3);
     List<ManagerNode> validNodes = repository.getAll();
     assertEquals(1, validNodes.size());
   }
@@ -148,7 +159,7 @@ class ManagerNodeRepositoryTest {
     assertEquals(0, allNodes.size());
   }
 
-  private String getTestResourcePath(String filename) {
+  private String getTestResourcePath(String filename) throws IllegalArgumentException {
     String resourcePath = "nodes/" + filename;
     URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
     if (resourceUrl == null) {
@@ -157,18 +168,28 @@ class ManagerNodeRepositoryTest {
     return resourceUrl.getPath();
   }
 
-  private ManagerNode loadManagerNodeFromJson(String filename) throws IOException {
+  private ManagerNode loadManagerNodeFromTestResources(int id) {
+    String filename = id + ".xml";
     String resourcePath = getTestResourcePath(filename);
-    try (InputStream inputStream = new FileInputStream(resourcePath)) {
-      return mapper.readValue(inputStream, ManagerNode.class);
+    File file = new File(resourcePath);
+    try {
+      return unmarshaller.unmarshal(file);
+    } catch (JAXBException | DataValidationException | IOException e) {
+      e.printStackTrace();
     }
+    return null;
   }
 
-  private void copyJsonToTempDir(String filename) throws IOException {
+  private void copyManagerNodeTestResourceToTempDir(int id) {
+    String filename = id + ".xml";
     String resourcePath = getTestResourcePath(filename);
-    Path tempFile = Files.createFile(Path.of(tempDir + File.separator + filename));
-    try (InputStream inputStream = new FileInputStream(resourcePath)) {
-      Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+    try {
+      Path tempFile = Files.createFile(Path.of(tempDir + File.separator + filename));
+      try (InputStream inputStream = new FileInputStream(resourcePath)) {
+        Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }

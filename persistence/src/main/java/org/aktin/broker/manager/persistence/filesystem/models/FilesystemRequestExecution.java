@@ -17,6 +17,12 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.List;
 import lombok.AccessLevel;
@@ -29,7 +35,12 @@ import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
 import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 import org.aktin.broker.manager.persistence.api.models.NodeStatus;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.filesystem.adapters.DownloadEventAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.NodeStatusAdapter;
 
+@XmlRootElement(name = "requestExecution")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
@@ -38,18 +49,47 @@ import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 public class FilesystemRequestExecution implements RequestExecution {
 
   int sequenceId;
+
   int externalId;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant referenceDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant executionDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant scheduledPublishDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant publishedDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant scheduledClosingDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant closedDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant scheduledArchiveDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant archivedDate;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant createdDate;
+
   String createdBy;
-  RequestExecutionState state;
+
+  RequestExecutionState executionState;
+
+  @XmlElementWrapper(name = "nodeStatuses")
+  @XmlElement(name = "nodeStatus")
+  @XmlJavaTypeAdapter(NodeStatusAdapter.class)
   List<NodeStatus> nodeStatuses;
+
+  @XmlElementWrapper(name = "downloadEvents")
+  @XmlElement(name = "downloadEvent")
+  @XmlJavaTypeAdapter(DownloadEventAdapter.class)
   List<DownloadEvent> downloadEvents;
 }

@@ -17,6 +17,12 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -26,7 +32,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
 
+@XmlRootElement(name = "downloadEvent")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
@@ -35,8 +44,15 @@ import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 public class FilesystemDownloadEvent implements DownloadEvent {
 
   String username;
+
+  @XmlElementWrapper(name = "userOrganizations")
+  @XmlElement(name = "userOrganization")
   Set<String> userOrganizations;
+
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant downloadDate;
+
   String downloadHash;
+
   String hashAlgorithm;
 }

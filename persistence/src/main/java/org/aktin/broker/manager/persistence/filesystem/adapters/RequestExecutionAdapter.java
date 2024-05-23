@@ -17,12 +17,12 @@
 
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
-import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
+import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemRequestExecution;
 
-public class UserNoteAdapter extends AbstractFilesystemAdapter<FilesystemUserNote, UserNote> {
+public class RequestExecutionAdapter extends AbstractFilesystemAdapter<FilesystemRequestExecution, RequestExecution> {
 
-  public UserNoteAdapter() {
-    super(FilesystemUserNote.class);
+  public RequestExecutionAdapter(Class<FilesystemRequestExecution> filesystemClass) {
+    super(FilesystemRequestExecution.class);
   }
 }

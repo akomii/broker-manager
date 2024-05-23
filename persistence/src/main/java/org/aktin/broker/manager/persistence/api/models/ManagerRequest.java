@@ -52,9 +52,9 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   void setTargetNodes(Set<Integer> targetNodes);
 
-  RequestState getState();
+  RequestState getRequestState();
 
-  void setState(RequestState state);
+  void setRequestState(RequestState requestState);
 
   List<ModificationEntry> getModificationEntries();
 
@@ -84,9 +84,9 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   void setQuerySchedule(T schedule);
 
-  List<RequestExecution> getExecutions();
+  List<RequestExecution> getRequestExecutions();
 
-  void setExecutions(List<RequestExecution> executions);
+  void setRequestExecutions(List<RequestExecution> requestExecutions);
 
   Instant getCreatedDate();
 

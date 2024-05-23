@@ -78,9 +78,9 @@ public interface RequestExecution {
 
   void setCreatedBy(String createdBy);
 
-  RequestExecutionState getState();
+  RequestExecutionState getExecutionState();
 
-  void setState(RequestExecutionState state);
+  void setExecutionState(RequestExecutionState executionState);
 
   List<NodeStatus> getNodeStatuses();
 

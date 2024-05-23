@@ -17,12 +17,26 @@
 
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
-import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class UserNoteAdapter extends AbstractFilesystemAdapter<FilesystemUserNote, UserNote> {
+public class AbstractFilesystemAdapter<F extends D, D> extends XmlAdapter<F, D> {
 
-  public UserNoteAdapter() {
-    super(FilesystemUserNote.class);
+  private final Class<F> filesystemClass;
+
+  public AbstractFilesystemAdapter(Class<F> filesystemClass) {
+    this.filesystemClass = filesystemClass;
+  }
+
+  @Override
+  public D unmarshal(F filesystemObject) {
+    return filesystemObject;
+  }
+
+  @Override
+  public F marshal(D domainObject) {
+    if (filesystemClass.isInstance(domainObject)) {
+      return filesystemClass.cast(domainObject);
+    }
+    throw new IllegalArgumentException("Invalid instance type of " + filesystemClass);
   }
 }

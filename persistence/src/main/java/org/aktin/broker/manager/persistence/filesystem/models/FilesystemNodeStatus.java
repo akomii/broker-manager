@@ -17,6 +17,9 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -27,6 +30,8 @@ import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.NodeStatus;
 import org.aktin.broker.xml.RequestStatusInfo;
 
+@XmlRootElement(name = "nodeStatus")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Getter

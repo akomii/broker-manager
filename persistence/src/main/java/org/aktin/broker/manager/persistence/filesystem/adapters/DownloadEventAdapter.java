@@ -17,12 +17,12 @@
 
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
-import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
+import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemDownloadEvent;
 
-public class UserNoteAdapter extends AbstractFilesystemAdapter<FilesystemUserNote, UserNote> {
+public class DownloadEventAdapter extends AbstractFilesystemAdapter<FilesystemDownloadEvent, DownloadEvent> {
 
-  public UserNoteAdapter() {
-    super(FilesystemUserNote.class);
+  public DownloadEventAdapter() {
+    super(FilesystemDownloadEvent.class);
   }
 }

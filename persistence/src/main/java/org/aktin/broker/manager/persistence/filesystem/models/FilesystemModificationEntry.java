@@ -17,6 +17,10 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -25,7 +29,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
+import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
 
+@XmlRootElement(name = "modificationEntry")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
@@ -33,7 +40,10 @@ import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemModificationEntry implements ModificationEntry {
 
+  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant modificationDate;
+
   String username;
+
   String clob;
 }

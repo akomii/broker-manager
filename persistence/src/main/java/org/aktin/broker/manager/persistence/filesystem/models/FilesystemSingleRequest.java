@@ -17,12 +17,18 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.aktin.broker.manager.persistence.api.models.SingleRequest;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.SingleExecution;
 
+@XmlRootElement(name = "singleRequest")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class FilesystemSingleRequest extends AbstractManagerRequest<SingleExecution> implements SingleRequest {
@@ -35,10 +41,12 @@ public class FilesystemSingleRequest extends AbstractManagerRequest<SingleExecut
     super.setQuery(query);
   }
 
+  @XmlTransient
   public SingleExecution getQuerySchedule() {
     return (SingleExecution) query.schedule;
   }
 
+  @XmlTransient
   public void setQuerySchedule(SingleExecution schedule) {
     query.schedule = schedule;
   }

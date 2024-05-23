@@ -56,7 +56,7 @@ class ManagerNodeRepositoryTest {
   private Path tempDir;
 
   private ManagerNodeRepository repository;
-  private XmlUnmarshaller<FilesystemManagerNode> unmarshaller;
+  private XmlUnmarshaller<ManagerNode> unmarshaller;
 
   @BeforeEach
   void setUp() throws IOException, JAXBException {

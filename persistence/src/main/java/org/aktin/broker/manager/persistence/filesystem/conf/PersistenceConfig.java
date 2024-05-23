@@ -55,7 +55,7 @@ public class PersistenceConfig {
   @Bean
   public ManagerNodeRepository filesystemManagerNodeRepository(
       @Qualifier("managerNodeXmlMarshaller") XmlMarshaller xmlMarshaller,
-      @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller,
+      @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
   ) throws IOException {
     return new FilesystemManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);

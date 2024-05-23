@@ -50,8 +50,12 @@ public class JaxbConfig {
   }
 
   @Bean
-  public XmlUnmarshaller<FilesystemManagerNode> managerNodeXmlUnmarshaller() throws JAXBException {
-    return new XmlUnmarshaller<>(managerNodeJaxbContext(), managerNodeSchemaValidator(), FilesystemManagerNode.class);
+  public XmlUnmarshaller<ManagerNode> managerNodeXmlUnmarshaller() throws JAXBException {
+    return new XmlUnmarshaller<>(managerNodeJaxbContext(), managerNodeSchemaValidator(), ManagerNode.class);
+  }
+
+  JAXBContext managerRequestJaxbContext() throws JAXBException {
+    return JAXBContext.newInstance(FilesystemSingleRequest.class, FilesystemSeriesRequest.class);
   }
 
   private Validator createSchemaValidator(String schemaFileName) throws JAXBException {

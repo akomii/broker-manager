@@ -27,10 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
@@ -38,7 +34,6 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.slf4j.Logger;
@@ -53,14 +48,13 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   private static final String XML_EXTENSION = ".xml";
 
   private final XmlMarshaller xmlMarshaller;
-  private final XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller;
+  private final XmlUnmarshaller<ManagerNode> xmlUnmarshaller;
   private final String storageDirectory;
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
-  private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
   public FilesystemManagerNodeRepository(
       XmlMarshaller xmlMarshaller,
-      XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller,
+      XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
       String storageDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
@@ -138,30 +132,19 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     if (files == null) {
       return managerNodes;
     }
-    List<Future<ManagerNode>> futures = new ArrayList<>();
     for (File file : files) {
-      futures.add(executorService.submit(() -> {
-        String filename = file.getAbsolutePath();
-        ReentrantReadWriteLock lock = getLock(filename);
-        lock.readLock().lock();
-        try {
-          return xmlUnmarshaller.unmarshal(file);
-        } catch (JAXBException | DataValidationException | IOException e) {
-          log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
-          return null;
-        } finally {
-          lock.readLock().unlock();
-        }
-      }));
-    }
-    for (Future<ManagerNode> future : futures) {
+      String filename = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filename);
+      lock.readLock().lock();
       try {
-        ManagerNode node = future.get();
+        ManagerNode node = xmlUnmarshaller.unmarshal(file);
         if (node != null) {
           managerNodes.add(node);
         }
-      } catch (InterruptedException | ExecutionException e) {
-        log.warn("Error retrieving ManagerNode from future, skipping...", e);
+      } catch (JAXBException | DataValidationException | IOException e) {
+        log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
+      } finally {
+        lock.readLock().unlock();
       }
     }
     return managerNodes;

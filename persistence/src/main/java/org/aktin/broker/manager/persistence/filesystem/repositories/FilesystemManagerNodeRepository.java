@@ -17,9 +17,7 @@
 
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validator;
+import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,8 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
@@ -37,6 +38,9 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -46,19 +50,21 @@ import org.springframework.cache.annotation.Cacheable;
 public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
 
   private static final Logger log = LoggerFactory.getLogger(FilesystemManagerNodeRepository.class);
+  private static final String XML_EXTENSION = ".xml";
 
-  private static final String JSON_EXTENSION = ".json";
-  private static final String FILE_SEPARATOR = File.separator;
-
-  private final ObjectMapper mapper;
+  private final XmlMarshaller xmlMarshaller;
+  private final XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller;
   private final String storageDirectory;
-  private final Validator validator;
-
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
+  private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-  public FilesystemManagerNodeRepository(ObjectMapper mapper, Validator validator, String storageDirectory) throws IOException {
-    this.mapper = mapper;
-    this.validator = validator;
+  public FilesystemManagerNodeRepository(
+      XmlMarshaller xmlMarshaller,
+      XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller,
+      String storageDirectory)
+      throws IOException {
+    this.xmlMarshaller = xmlMarshaller;
+    this.xmlUnmarshaller = xmlUnmarshaller;
     this.storageDirectory = storageDirectory;
     Files.createDirectories(Paths.get(this.storageDirectory));
   }
@@ -70,14 +76,14 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public int save(ManagerNode entity) throws DataPersistException {
-    String filename = storageDirectory + FILE_SEPARATOR + entity.getId() + JSON_EXTENSION;
+    String filename = Paths.get(storageDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
-      validateManagerNode(entity);
-      mapper.writeValue(new File(filename), entity);
+      File file = new File(filename);
+      xmlMarshaller.marshal(entity, file);
       return entity.getId();
-    } catch (IOException | IllegalArgumentException | DataValidationException e) {
+    } catch (JAXBException | DataValidationException | IOException e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
@@ -87,11 +93,16 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
-      Files.deleteIfExists(Paths.get(filename));
+      boolean deleted = Files.deleteIfExists(Paths.get(filename));
+      if (!deleted) {
+        log.warn("ManagerNode file not found for deletion: {}", filename);
+      } else {
+        log.info("Deleted ManagerNode file: {}", filename);
+      }
     } catch (IOException e) {
       throw new DataDeleteException("Error deleting ManagerNode: " + filename, e);
     } finally {
@@ -102,13 +113,16 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws DataReadException {
-    String filename = storageDirectory + FILE_SEPARATOR + id + JSON_EXTENSION;
+    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
+    File file = new File(filename);
+    if (!file.exists()) {
+      return Optional.empty();
+    }
     ReentrantReadWriteLock lock = getLock(filename);
     lock.readLock().lock();
     try {
-      File file = new File(filename);
-      return file.exists() ? validateAndDeserialize(file) : Optional.empty();
-    } catch (IOException | IllegalArgumentException | DataValidationException e) {
+      return Optional.of(xmlUnmarshaller.unmarshal(file));
+    } catch (JAXBException | DataValidationException | IOException e) {
       throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
@@ -120,38 +134,36 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   public List<ManagerNode> getAll() {
     List<ManagerNode> managerNodes = new ArrayList<>();
     File storageDir = new File(storageDirectory);
-    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(JSON_EXTENSION));
+    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
       return managerNodes;
     }
+    List<Future<ManagerNode>> futures = new ArrayList<>();
     for (File file : files) {
-      String filename = file.getAbsolutePath();
-      ReentrantReadWriteLock lock = getLock(filename);
-      lock.readLock().lock();
+      futures.add(executorService.submit(() -> {
+        String filename = file.getAbsolutePath();
+        ReentrantReadWriteLock lock = getLock(filename);
+        lock.readLock().lock();
+        try {
+          return xmlUnmarshaller.unmarshal(file);
+        } catch (JAXBException | DataValidationException | IOException e) {
+          log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
+          return null;
+        } finally {
+          lock.readLock().unlock();
+        }
+      }));
+    }
+    for (Future<ManagerNode> future : futures) {
       try {
-        Optional<ManagerNode> managerNode = validateAndDeserialize(file);
-        managerNode.ifPresent(managerNodes::add);
-      } catch (IOException | IllegalArgumentException | DataValidationException e) {
-        log.warn("Error retrieving ManagerNode: {}, skipping...", filename);
-      } finally {
-        lock.readLock().unlock();
+        ManagerNode node = future.get();
+        if (node != null) {
+          managerNodes.add(node);
+        }
+      } catch (InterruptedException | ExecutionException e) {
+        log.warn("Error retrieving ManagerNode from future, skipping...", e);
       }
     }
     return managerNodes;
-  }
-
-  private void validateManagerNode(ManagerNode node) throws DataValidationException {
-    Set<ConstraintViolation<ManagerNode>> violations = validator.validate(node);
-    if (!violations.isEmpty()) {
-      StringBuilder errorMessage = new StringBuilder("Validation failed for ManagerNode: " + node.getId());
-      violations.forEach(violation -> errorMessage.append("\n").append(violation.getPropertyPath()).append(" ").append(violation.getMessage()));
-      throw new DataValidationException(errorMessage.toString());
-    }
-  }
-
-  private Optional<ManagerNode> validateAndDeserialize(File file) throws IOException, IllegalArgumentException, DataValidationException {
-    ManagerNode node = mapper.readValue(file, ManagerNode.class);
-    validateManagerNode(node);
-    return Optional.of(node);
   }
 }

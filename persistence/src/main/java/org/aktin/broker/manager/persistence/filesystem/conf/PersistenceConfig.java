@@ -54,10 +54,11 @@ public class PersistenceConfig {
 
   @Bean
   public ManagerNodeRepository filesystemManagerNodeRepository(
-      @Autowired ObjectMapper objectMapper,
-      @Autowired Validator validator,
-      @Value("${broker-manager.storage.directory.nodes}") String storageDirectory) throws IOException {
-    return new FilesystemManagerNodeRepository(objectMapper, validator, storageDirectory);
+      @Qualifier("managerNodeXmlMarshaller") XmlMarshaller xmlMarshaller,
+      @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<FilesystemManagerNode> xmlUnmarshaller,
+      @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
+  ) throws IOException {
+    return new FilesystemManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
   }
 
   @Bean

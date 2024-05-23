@@ -17,6 +17,13 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -28,41 +35,36 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.xml.Node;
+import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.UserNoteAdapter;
 
+@XmlRootElement(name = "managerNode")
+@XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemManagerNode extends Node implements ManagerNode {
+public class FilesystemManagerNode implements ManagerNode {
 
+  @XmlAttribute
   int dataVersion;
+
+  int id;
+
   String apiKey;
+
+  @XmlElementWrapper(name = "tags")
+  @XmlElement(name = "tag")
   Set<String> tags;
+
+  @XmlElementWrapper(name = "userNotes")
+  @XmlElement(name = "userNote")
+  @XmlJavaTypeAdapter(UserNoteAdapter.class)
   List<UserNote> userNotes;
 
-  public int getId() {
-    return id;
-  }
+  String clientDN;
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getClientDN() {
-    return clientDN;
-  }
-
-  public void setClientDN(String clientDN) {
-    this.clientDN = clientDN;
-  }
-
-  public Instant getLastContact() {
-    return lastContact;
-  }
-
-  public void setLastContact(Instant lastContact) {
-    this.lastContact = lastContact;
-  }
+  @XmlJavaTypeAdapter(InstantAdapter.class)
+  Instant lastContact;
 }

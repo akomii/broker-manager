@@ -25,7 +25,11 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
+import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.context.annotation.Bean;
@@ -36,11 +40,11 @@ import org.springframework.context.annotation.Profile;
 @Profile("filesystem")
 public class JaxbConfig {
 
-  JAXBContext managerNodeJaxbContext() throws JAXBException {
+  private JAXBContext managerNodeJaxbContext() throws JAXBException {
     return JAXBContext.newInstance(FilesystemManagerNode.class);
   }
 
-  Validator managerNodeSchemaValidator() throws JAXBException {
+  private Validator managerNodeSchemaValidator() throws JAXBException {
     return createSchemaValidator("manager_node.xsd");
   }
 
@@ -54,14 +58,30 @@ public class JaxbConfig {
     return new XmlUnmarshaller<>(managerNodeJaxbContext(), managerNodeSchemaValidator(), ManagerNode.class);
   }
 
-  JAXBContext managerRequestJaxbContext() throws JAXBException {
+  private JAXBContext managerRequestJaxbContext() throws JAXBException {
     return JAXBContext.newInstance(FilesystemSingleRequest.class, FilesystemSeriesRequest.class);
+  }
+
+  private Validator managerRequestSchemaValidator() throws JAXBException {
+    return createSchemaValidator("manager_request.xsd");
+  }
+
+  @Bean
+  public XmlMarshaller managerRequestXmlMarshaller() throws JAXBException {
+    return new XmlMarshaller(managerRequestJaxbContext(), managerRequestSchemaValidator());
+  }
+
+  @Bean
+  public XmlUnmarshaller<ManagerRequest> managerRequestXmlUnmarshaller() throws JAXBException {
+    return new XmlUnmarshaller<>(managerRequestJaxbContext(), managerRequestSchemaValidator(), ManagerRequest.class);
   }
 
   private Validator createSchemaValidator(String schemaFileName) throws JAXBException {
     String resourceName = "filesystem" + File.separator + schemaFileName;
     try {
       SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      sf.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      sf.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       Schema schema = sf.newSchema(new StreamSource(getClass().getClassLoader().getResourceAsStream(resourceName)));
       return schema.newValidator();
     } catch (Exception e) {

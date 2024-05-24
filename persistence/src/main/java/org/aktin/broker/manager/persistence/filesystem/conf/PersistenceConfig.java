@@ -17,19 +17,13 @@
 
 package org.aktin.broker.manager.persistence.filesystem.conf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import java.io.IOException;
+import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerNodeRepository;
-import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerRequestArchive;
-import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerRequestRepository;
-import org.aktin.broker.manager.persistence.filesystem.validation.ManagerNodeValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,31 +34,11 @@ import org.springframework.context.annotation.Profile;
 public class PersistenceConfig {
 
   @Bean
-  public Validator validator() {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    return factory.getValidator();
-  }
-
-  /*
-  @Bean
-  public ManagerRequestRepository filesystemManagerRequestRepository(@Autowired ObjectMapper objectMapper,
-      @Value("${broker-manager.storage.directory.requests}") String storageDirectory) throws IOException {
-    return new FilesystemManagerRequestRepository(objectMapper, storageDirectory);
-  }
-
-  @Bean
   public ManagerNodeRepository filesystemManagerNodeRepository(
       @Qualifier("managerNodeXmlMarshaller") XmlMarshaller xmlMarshaller,
       @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
   ) throws IOException {
     return new FilesystemManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
-  }
-
-  @Bean
-  public ManagerRequestArchive filesystemManagerRequestArchive(@Autowired ObjectMapper objectMapper,
-      @Value("${broker-manager.storage.directory.requests}") String requestStorage,
-      @Value("${broker-manager.storage.directory.archive}") String requestArchive) throws IOException {
-    return new FilesystemManagerRequestArchive(objectMapper, requestStorage, requestArchive);
   }
 }

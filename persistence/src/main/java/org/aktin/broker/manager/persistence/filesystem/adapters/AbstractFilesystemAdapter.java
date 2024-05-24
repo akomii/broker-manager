@@ -19,11 +19,11 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class AbstractFilesystemAdapter<F extends D, D> extends XmlAdapter<F, D> {
+abstract class AbstractFilesystemAdapter<F extends D, D> extends XmlAdapter<F, D> {
 
   private final Class<F> filesystemClass;
 
-  public AbstractFilesystemAdapter(Class<F> filesystemClass) {
+  AbstractFilesystemAdapter(Class<F> filesystemClass) {
     this.filesystemClass = filesystemClass;
   }
 

@@ -22,6 +22,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso({FilesystemSingleRequest.class, FilesystemSeriesRequest.class})
 @EqualsAndHashCode
 @Getter
 @Setter

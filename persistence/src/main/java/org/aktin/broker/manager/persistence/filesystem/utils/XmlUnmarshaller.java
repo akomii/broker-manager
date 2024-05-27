@@ -17,15 +17,18 @@
 
 package org.aktin.broker.manager.persistence.filesystem.utils;
 
-
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Validator;
+import lombok.Setter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
+import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
 import org.xml.sax.SAXException;
 
 public class XmlUnmarshaller<T> {
@@ -34,6 +37,9 @@ public class XmlUnmarshaller<T> {
   private final Validator schemaValidator;
   private final Class<T> type;
 
+  @Setter
+  private MigrationHandler<T> migrationChain = null;
+
   public XmlUnmarshaller(JAXBContext jaxbContext, Validator schemaValidator, Class<T> type) {
     this.jaxbContext = jaxbContext;
     this.schemaValidator = schemaValidator;
@@ -41,16 +47,50 @@ public class XmlUnmarshaller<T> {
   }
 
   public T unmarshal(File xmlFile) throws JAXBException, DataValidationException, IOException {
-    try {
-      schemaValidator.validate(new StreamSource(xmlFile));
-    } catch (SAXException e) {
-      throw new DataValidationException("Error during validation of " + xmlFile, e);
+    String xmlContent = readXmlFile(xmlFile);
+    if (migrationChain != null) {
+      int dataVersion = getDataVersion(xmlContent);
+      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
+      if (migrationHandler != null) {
+        xmlContent = migrationHandler.migrate(xmlContent);
+      } else {
+        throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
+      }
     }
+    validateAgainstSchema(xmlContent);
     Unmarshaller unmarshaller = createUnmarshaller();
-    return type.cast(unmarshaller.unmarshal(xmlFile));
+    return type.cast(unmarshaller.unmarshal(new StringReader(xmlContent)));
   }
 
   private Unmarshaller createUnmarshaller() throws JAXBException {
     return jaxbContext.createUnmarshaller();
+  }
+
+  private String readXmlFile(File xmlFile) throws IOException {
+    return new String(Files.readAllBytes(xmlFile.toPath()));
+  }
+
+  private int getDataVersion(String xmlContent) {
+    String versionString = xmlContent.replaceAll(".*dataVersion=\"(\\d+)\".*", "$1");
+    return Integer.parseInt(versionString);
+  }
+
+  private MigrationHandler<T> findHandlerByFromVersion(int dataVersion) {
+    MigrationHandler<T> handler = migrationChain;
+    while (handler != null) {
+      if (handler.getFromVersion() == dataVersion) {
+        return handler;
+      }
+      handler = handler.getSuccessor();
+    }
+    return null;
+  }
+
+  private void validateAgainstSchema(String xmlContent) throws DataValidationException {
+    try {
+      schemaValidator.validate(new StreamSource(new StringReader(xmlContent)));
+    } catch (SAXException | IOException e) {
+      throw new DataValidationException("Error during validation of migrated XML content", e);
+    }
   }
 }

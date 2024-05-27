@@ -27,10 +27,12 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Validator;
 import lombok.Setter;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
 import org.xml.sax.SAXException;
 
+//TODO get latestSchemaVersion directly from Schema or Validator
 public class XmlUnmarshaller<T> {
 
   private final JAXBContext jaxbContext;
@@ -40,21 +42,26 @@ public class XmlUnmarshaller<T> {
   @Setter
   private MigrationHandler<T> migrationChain = null;
 
+  @Setter
+  private int latestSchemaVersion = 0;
+
   public XmlUnmarshaller(JAXBContext jaxbContext, Validator schemaValidator, Class<T> type) {
     this.jaxbContext = jaxbContext;
     this.schemaValidator = schemaValidator;
     this.type = type;
   }
 
-  public T unmarshal(File xmlFile) throws JAXBException, DataValidationException, IOException {
+  public T unmarshal(File xmlFile) throws JAXBException, DataValidationException, DataMigrationException, IOException {
     String xmlContent = readXmlFile(xmlFile);
     if (migrationChain != null) {
       int dataVersion = getDataVersion(xmlContent);
-      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
-      if (migrationHandler != null) {
-        xmlContent = migrationHandler.migrate(xmlContent);
-      } else {
-        throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
+      if (dataVersion < latestSchemaVersion && migrationChain != null) {
+        MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
+        if (migrationHandler != null) {
+          xmlContent = migrationHandler.migrate(xmlContent);
+        } else {
+          throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
+        }
       }
     }
     validateAgainstSchema(xmlContent);

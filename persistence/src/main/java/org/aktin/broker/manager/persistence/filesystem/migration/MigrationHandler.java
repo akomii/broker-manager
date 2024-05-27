@@ -18,6 +18,7 @@
 package org.aktin.broker.manager.persistence.filesystem.migration;
 
 import lombok.Getter;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 
 public abstract class MigrationHandler<T> {
 
@@ -28,14 +29,14 @@ public abstract class MigrationHandler<T> {
 
   public abstract int getToVersion();
 
-  public void setSuccessor(MigrationHandler<T> successor) {
+  public void setSuccessor(MigrationHandler<T> successor) throws IllegalArgumentException {
     if (successor != null && successor.getFromVersion() != getToVersion()) {
       throw new IllegalArgumentException("Successor's fromVersion must align with this handler's toVersion");
     }
     this.successor = successor;
   }
 
-  public String migrate(String entity) {
+  public String migrate(String entity) throws DataMigrationException {
     String migratedEntity = doMigration(entity);
     if (successor != null) {
       migratedEntity = successor.migrate(migratedEntity);
@@ -43,5 +44,5 @@ public abstract class MigrationHandler<T> {
     return migratedEntity;
   }
 
-  protected abstract String doMigration(String entity);
+  protected abstract String doMigration(String entity) throws DataMigrationException;
 }

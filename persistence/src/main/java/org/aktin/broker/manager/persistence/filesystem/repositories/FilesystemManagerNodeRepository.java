@@ -17,7 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,11 +27,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import javax.xml.bind.JAXBException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
@@ -116,7 +117,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (JAXBException | DataValidationException | IOException e) {
+    } catch (JAXBException | DataValidationException | DataMigrationException | IOException e) {
       throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
@@ -141,7 +142,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
         if (node != null) {
           managerNodes.add(node);
         }
-      } catch (JAXBException | DataValidationException | IOException e) {
+      } catch (JAXBException | DataValidationException | DataMigrationException | IOException e) {
         log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
       } finally {
         lock.readLock().unlock();

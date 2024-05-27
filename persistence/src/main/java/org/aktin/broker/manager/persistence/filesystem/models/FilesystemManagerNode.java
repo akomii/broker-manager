@@ -17,16 +17,15 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,8 +34,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
-import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
-import org.aktin.broker.manager.persistence.filesystem.adapters.UserNoteAdapter;
+import org.aktin.broker.xml.Node;
 
 @XmlRootElement(name = "managerNode")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -50,8 +48,6 @@ public class FilesystemManagerNode implements ManagerNode {
   @XmlAttribute
   int dataVersion;
 
-  int id;
-
   String apiKey;
 
   @XmlElementWrapper(name = "tags")
@@ -60,11 +56,34 @@ public class FilesystemManagerNode implements ManagerNode {
 
   @XmlElementWrapper(name = "userNotes")
   @XmlElement(name = "userNote")
-  @XmlJavaTypeAdapter(UserNoteAdapter.class)
   List<UserNote> userNotes;
 
-  String clientDN;
+  @XmlElement(namespace = "http://aktin.org/ns/exchange")
+  Node node;
 
-  @XmlJavaTypeAdapter(InstantAdapter.class)
-  Instant lastContact;
+  public int getId() {
+    return node.id;
+  }
+
+  public void setId(int id) {
+    node.id = id;
+  }
+
+  public String getClientDN() {
+    return node.clientDN;
+  }
+
+  public void setClientDN(String clientDN) {
+    node.clientDN = clientDN;
+  }
+
+  @Override
+  public Instant getLastContact() {
+    return node.lastContact;
+  }
+
+  @Override
+  public void setLastContact(Instant lastContact) {
+    node.lastContact = lastContact;
+  }
 }

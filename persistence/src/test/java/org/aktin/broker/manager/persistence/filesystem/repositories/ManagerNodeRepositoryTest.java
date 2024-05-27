@@ -22,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jakarta.xml.bind.JAXBException;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -33,6 +35,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import javax.xml.bind.JAXBException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
@@ -86,6 +89,27 @@ class ManagerNodeRepositoryTest {
     try {
       File expected = new File(originalFilePath);
       File actual = new File(savedFilePath);
+
+      try (BufferedReader br = new BufferedReader(new FileReader(expected))) {
+        String line = null;
+        while ((line = br.readLine()) != null) {
+          System.out.println(line);
+        }
+      } catch (FileNotFoundException e) {
+        throw new RuntimeException(e);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      System.out.println("###################################");
+      try (BufferedReader br = new BufferedReader(new FileReader(actual))) {
+        String line = null;
+        while ((line = br.readLine()) != null) {
+          System.out.println(line);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
       Diff diff = DiffBuilder.compare(Input.fromFile(expected))
           .withTest(Input.fromFile(actual))
           .ignoreWhitespace()

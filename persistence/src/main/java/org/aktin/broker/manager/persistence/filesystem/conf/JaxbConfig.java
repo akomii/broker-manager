@@ -17,19 +17,16 @@
 
 package org.aktin.broker.manager.persistence.filesystem.conf;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSeriesRequest;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemSingleRequest;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.context.annotation.Bean;

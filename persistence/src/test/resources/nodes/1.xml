@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<managerNode dataVersion="1">
-  <id>1</id>
+<managerNode xmlns:ns2="http://aktin.org/ns/exchange" dataVersion="1">
   <apiKey>c8d9e0f1</apiKey>
   <tags>
     <tag>emergency-care</tag>
@@ -19,6 +18,10 @@
       <text>Initial assessment notes</text>
     </userNote>
   </userNotes>
-  <clientDN>CN=General Hospital,O=General Health System,L=Rochester</clientDN>
-  <lastContact>2023-04-16T15:30:00Z</lastContact>
+  <ns2:node>
+    <ns2:id>1</ns2:id>
+    <ns2:clientDN>CN=General Hospital,O=General Health System,L=Rochester</ns2:clientDN>
+    <ns2:last-contact>2023-04-16T15:30:00Z</ns2:last-contact>
+    <ns2:websocket>false</ns2:websocket>
+  </ns2:node>
 </managerNode>

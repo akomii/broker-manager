@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
-import jakarta.xml.bind.JAXBException;
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 abstract class AbstractFilesystemAdapter<F extends D, D> extends XmlAdapter<F, D> {
 

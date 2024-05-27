@@ -17,7 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.utils;
 
-
 import java.io.File;
 import java.io.IOException;
 import javax.xml.bind.JAXBContext;

@@ -22,7 +22,7 @@ import org.aktin.broker.manager.persistence.filesystem.models.FilesystemRequestE
 
 public class RequestExecutionAdapter extends AbstractFilesystemAdapter<FilesystemRequestExecution, RequestExecution> {
 
-  public RequestExecutionAdapter(Class<FilesystemRequestExecution> filesystemClass) {
+  public RequestExecutionAdapter() {
     super(FilesystemRequestExecution.class);
   }
 }

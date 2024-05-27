@@ -17,10 +17,10 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.aktin.broker.manager.persistence.api.models.SingleRequest;

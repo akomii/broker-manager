@@ -17,11 +17,10 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -30,7 +29,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.SeriesRequest;
-import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
@@ -44,13 +42,8 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 public class FilesystemSeriesRequest extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
 
   int anchoredSequenceIdRef;
-
   boolean isAutoPublishing;
-
-  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant seriesClosingDate;
-
-  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant seriesArchiveDate;
 
   @Override

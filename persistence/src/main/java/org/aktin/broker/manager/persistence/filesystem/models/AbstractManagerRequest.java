@@ -17,16 +17,15 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlSeeAlso;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,9 +35,6 @@ import org.aktin.broker.manager.persistence.api.enums.RequestState;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
-import org.aktin.broker.manager.persistence.filesystem.adapters.InstantAdapter;
-import org.aktin.broker.manager.persistence.filesystem.adapters.ModificationEntryAdapter;
-import org.aktin.broker.manager.persistence.filesystem.adapters.RequestExecutionAdapter;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -73,19 +69,14 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
 
   @XmlElementWrapper(name = "modificationEntries")
   @XmlElement(name = "modificationEntry")
-  @XmlJavaTypeAdapter(ModificationEntryAdapter.class)
   List<ModificationEntry> modificationEntries;
 
   @XmlElementWrapper(name = "requestExecutions")
   @XmlElement(name = "requestExecution")
-  @XmlJavaTypeAdapter(RequestExecutionAdapter.class)
   List<RequestExecution> requestExecutions;
 
-  @XmlJavaTypeAdapter(InstantAdapter.class)
   Instant createdDate;
-
   String createdBy;
-
   Query query;
 
   public String getTitle() {

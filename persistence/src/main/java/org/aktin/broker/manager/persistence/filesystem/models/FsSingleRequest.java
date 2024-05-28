@@ -35,7 +35,7 @@ public class FsSingleRequest extends AbstractManagerRequest implements SingleReq
 
   @Override
   public void setQuery(Query query) {
-    if (!(query.schedule instanceof SingleExecution)) {
+    if (query.schedule != null && !(query.schedule instanceof SingleExecution)) {
       throw new IllegalArgumentException("Expected a Query with a SingleExecution schedule");
     }
     super.setQuery(query);

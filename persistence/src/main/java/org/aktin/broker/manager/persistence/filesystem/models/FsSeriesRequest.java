@@ -48,7 +48,7 @@ public class FsSeriesRequest extends AbstractManagerRequest implements SeriesReq
 
   @Override
   public void setQuery(Query query) {
-    if (!(query.schedule instanceof RepeatedExecution)) {
+    if (query.schedule != null && !(query.schedule instanceof RepeatedExecution)) {
       throw new IllegalArgumentException("Expected a Query with a RepeatedExecution schedule");
     }
     super.setQuery(query);

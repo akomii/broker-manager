@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,6 +30,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
@@ -40,13 +40,14 @@ import org.aktin.broker.xml.Node;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FilesystemManagerNode implements ManagerNode {
 
   @XmlAttribute
-  static int dataVersion = 1;
+  int dataVersion;
 
   String apiKey;
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <managerNode>
-  <id>2</id>
-  <apikey/>
+  <apiKey/>
   <tags>
     <tag>endocrinology</tag>
     <tag>diabetes</tag>
@@ -9,10 +8,7 @@
   <userNotes>
     <userNote>
       <username>omartinez</username>
-      <createdDate>2023-09-05T15:42:00Z</createdDate>
       <text>New insulin delivery systems</text>
     </userNote>
   </userNotes>
-  <clientDN>CN=Kaiser Permanente,O=,L=Oakland</clientDN>
-  <lastContact>2023-10-10T15:10:00Z</lastContact>
 </managerNode>

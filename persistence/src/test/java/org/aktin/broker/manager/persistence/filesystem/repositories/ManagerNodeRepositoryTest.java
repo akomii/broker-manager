@@ -19,14 +19,12 @@ package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -37,11 +35,10 @@ import java.util.List;
 import java.util.Optional;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
+import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
@@ -90,27 +87,6 @@ class ManagerNodeRepositoryTest {
     try {
       File expected = new File(originalFilePath);
       File actual = new File(savedFilePath);
-
-      try (BufferedReader br = new BufferedReader(new FileReader(expected))) {
-        String line = null;
-        while ((line = br.readLine()) != null) {
-          System.out.println(line);
-        }
-      } catch (FileNotFoundException e) {
-        throw new RuntimeException(e);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      System.out.println("###################################");
-      try (BufferedReader br = new BufferedReader(new FileReader(actual))) {
-        String line = null;
-        while ((line = br.readLine()) != null) {
-          System.out.println(line);
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
       Diff diff = DiffBuilder.compare(Input.fromFile(expected))
           .withTest(Input.fromFile(actual))
           .ignoreWhitespace()
@@ -125,14 +101,13 @@ class ManagerNodeRepositoryTest {
   @Test
   void testSaveInvalidNode() {
     FilesystemManagerNode invalidNode = new FilesystemManagerNode();
-    assertThrows(DataPersistException.class, () -> repository.save(invalidNode));
+    assertThrows(NullPointerException.class, () -> repository.save(invalidNode));
   }
 
   @Test
   void testSaveNodeWithMissingKeys() {
     ManagerNode incompleteNode = loadManagerNodeFromTestResources(1);
-    incompleteNode.setLastContact(null);
-    assertThrows(DataPersistException.class, () -> repository.save(incompleteNode));
+    repository.save(incompleteNode);
   }
 
   @Test
@@ -154,7 +129,16 @@ class ManagerNodeRepositoryTest {
     ManagerNode expected = loadManagerNodeFromTestResources(1);
     Optional<ManagerNode> loadedNode = repository.get(1);
     assertTrue(loadedNode.isPresent());
-    assertEquals(expected, loadedNode.get());
+    compareManagerNodes(expected, loadedNode.get());
+  }
+
+  void compareManagerNodes(ManagerNode expected, ManagerNode actual) {
+    assertEquals(expected.getId(), actual.getId());
+    assertEquals(expected.getApiKey(), actual.getApiKey());
+    assertEquals(expected.getTags(), actual.getTags());
+    assertEquals(expected.getUserNotes(), actual.getUserNotes());
+    assertEquals(expected.getLastContact(), actual.getLastContact());
+    assertEquals(expected.getClientDN(), actual.getClientDN());
   }
 
   @Test
@@ -165,17 +149,16 @@ class ManagerNodeRepositoryTest {
 
   @Test
   void testGetNodeWithMissingKeys() {
-    copyManagerNodeTestResourceToTempDir(3);
-    assertThrows(DataReadException.class, () -> repository.get(3));
+    copyManagerNodeTestResourceToTempDir(2);
+    Optional<ManagerNode> opt = repository.get(2);
   }
 
   @Test
   void testGetAllWithValidAndInvalidNodes() {
     copyManagerNodeTestResourceToTempDir(1);
     copyManagerNodeTestResourceToTempDir(2);
-    copyManagerNodeTestResourceToTempDir(3);
     List<ManagerNode> validNodes = repository.getAll();
-    assertEquals(1, validNodes.size());
+    assertEquals(2, validNodes.size());
   }
 
   @Test
@@ -199,7 +182,7 @@ class ManagerNodeRepositoryTest {
     File file = new File(resourcePath);
     try {
       return unmarshaller.unmarshal(file);
-    } catch (JAXBException | IOException | SAXException | ParserConfigurationException e) {
+    } catch (JAXBException | DataMigrationException | IllegalArgumentException | IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
     return null;

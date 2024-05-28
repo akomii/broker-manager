@@ -23,5 +23,6 @@
     <ns2:clientDN>CN=General Hospital,O=General Health System,L=Rochester</ns2:clientDN>
     <ns2:last-contact>2023-04-16T15:30:00Z</ns2:last-contact>
     <ns2:websocket>false</ns2:websocket>
+    <ns2:modules/>
   </ns2:node>
 </managerNode>

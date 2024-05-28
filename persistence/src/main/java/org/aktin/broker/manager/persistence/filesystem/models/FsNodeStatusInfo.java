@@ -28,17 +28,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.NodeStatus;
+import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.xml.RequestStatusInfo;
 
-@XmlRootElement(name = "nodeStatus")
+@XmlRootElement(name = "nodeStatusInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FsNodeStatus implements NodeStatus {
+public class FsNodeStatusInfo implements NodeStatusInfo {
 
   String statusMessage;
 

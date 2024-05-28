@@ -32,7 +32,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
 import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.api.models.NodeStatus;
+import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 
 @XmlRootElement(name = "requestExecution")
@@ -58,9 +58,9 @@ public class FsRequestExecution implements RequestExecution {
   String createdBy;
   RequestExecutionState executionState;
 
-  @XmlElementWrapper(name = "nodeStatuses")
-  @XmlElement(name = "nodeStatus")
-  List<NodeStatus> nodeStatuses;
+  @XmlElementWrapper(name = "nodeStatusInfos")
+  @XmlElement(name = "nodeStatusInfo")
+  List<NodeStatusInfo> nodeStatusInfos;
 
   @XmlElementWrapper(name = "downloadEvents")
   @XmlElement(name = "downloadEvent")

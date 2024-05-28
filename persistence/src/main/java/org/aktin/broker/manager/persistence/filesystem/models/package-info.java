@@ -21,7 +21,7 @@
     @XmlJavaTypeAdapter(type = Instant.class, value = InstantAdapter.class),
     @XmlJavaTypeAdapter(type = TextEntry.class, value = TextEntryAdapter.class),
     @XmlJavaTypeAdapter(type = RequestExecution.class, value = RequestExecutionAdapter.class),
-    @XmlJavaTypeAdapter(type = NodeStatus.class, value = NodeStatusAdapter.class),
+    @XmlJavaTypeAdapter(type = NodeStatusInfo.class, value = NodeStatusInfoAdapter.class),
     @XmlJavaTypeAdapter(type = DownloadEvent.class, value = DownloadEventAdapter.class)
 })
 
@@ -33,11 +33,11 @@ import java.time.Period;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.api.models.NodeStatus;
+import org.aktin.broker.manager.persistence.api.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.api.models.TextEntry;
 import org.aktin.broker.manager.persistence.filesystem.adapters.DownloadEventAdapter;
-import org.aktin.broker.manager.persistence.filesystem.adapters.NodeStatusAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.NodeStatusInfoAdapter;
 import org.aktin.broker.manager.persistence.filesystem.adapters.RequestExecutionAdapter;
 import org.aktin.broker.manager.persistence.filesystem.adapters.TextEntryAdapter;
 import org.aktin.broker.xml.util.DurationAdapter;

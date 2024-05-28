@@ -71,8 +71,8 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
   @XmlElement(name = "modificationEntry")
   List<TextEntry> modificationEntries;
 
-  @XmlElementWrapper(name = "executions")
-  @XmlElement(name = "execution")
+  @XmlElementWrapper(name = "requestExecutions")
+  @XmlElement(name = "requestExecution")
   List<RequestExecution> requestExecutions;
 
   Instant createdDate;

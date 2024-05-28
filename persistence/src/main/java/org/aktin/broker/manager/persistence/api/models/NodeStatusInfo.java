@@ -26,7 +26,7 @@ import java.time.Instant;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface NodeStatus {
+public interface NodeStatusInfo {
 
   int getNode();
 

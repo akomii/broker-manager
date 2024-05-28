@@ -82,9 +82,9 @@ public interface RequestExecution {
 
   void setExecutionState(RequestExecutionState executionState);
 
-  List<NodeStatus> getNodeStatuses();
+  List<NodeStatusInfo> getNodeStatusInfos();
 
-  void setNodeStatuses(List<NodeStatus> nodeStatuses);
+  void setNodeStatusInfos(List<NodeStatusInfo> nodeStatusInfos);
 
   List<DownloadEvent> getDownloadEvents();
 

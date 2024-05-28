@@ -60,7 +60,7 @@ public class FilesystemManagerNode implements ManagerNode {
   @XmlElement(name = "userNote")
   List<TextEntry> userNotes;
 
-  @XmlElement(namespace = "http://aktin.org/ns/exchange")
+  @XmlElement(namespace = org.aktin.broker.xml.XMLConstants.XML_NAMESPACE)
   Node node;
 
   public int getId() {

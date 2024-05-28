@@ -43,8 +43,8 @@ public class FilesystemDownloadEvent implements DownloadEvent {
 
   String username;
 
-  @XmlElementWrapper(name = "userOrganizations")
-  @XmlElement(name = "userOrganization")
+  @XmlElementWrapper(name = "userOrgs")
+  @XmlElement(name = "userOrg")
   Set<String> userOrganizations;
 
   Instant downloadDate;

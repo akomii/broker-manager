@@ -20,6 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.models;
 import java.time.Instant;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -37,79 +38,82 @@ import org.aktin.broker.xml.RequestStatusInfo;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemNodeStatus extends RequestStatusInfo implements NodeStatus {
+public class FilesystemNodeStatus implements NodeStatus {
 
   String statusMessage;
 
+  @XmlElement(namespace = org.aktin.broker.xml.XMLConstants.XML_NAMESPACE)
+  RequestStatusInfo statusInfo;
+
   public int getNode() {
-    return node;
+    return statusInfo.node;
   }
 
   public void setNode(int id) {
-    node = id;
+    statusInfo.node = id;
   }
 
   public Instant getDeleted() {
-    return deleted;
+    return statusInfo.deleted;
   }
 
   public void setDeleted(Instant deleted) {
-    this.deleted = deleted;
+    statusInfo.deleted = deleted;
   }
 
   public Instant getRetrieved() {
-    return retrieved;
+    return statusInfo.retrieved;
   }
 
   public void setRetrieved(Instant retrieved) {
-    this.retrieved = retrieved;
+    statusInfo.retrieved = retrieved;
   }
 
   public Instant getQueued() {
-    return queued;
+    return statusInfo.queued;
   }
 
   public void setQueued(Instant queued) {
-    this.queued = queued;
+    statusInfo.queued = queued;
   }
 
   public Instant getProcessing() {
-    return processing;
+    return statusInfo.processing;
   }
 
   public void setProcessing(Instant processing) {
-    this.processing = processing;
+    statusInfo.processing = processing;
   }
 
   public Instant getCompleted() {
-    return completed;
+    return statusInfo.completed;
   }
 
   public void setCompleted(Instant completed) {
-    this.completed = completed;
+    statusInfo.completed = completed;
   }
 
   public Instant getRejected() {
-    return rejected;
+    return statusInfo.rejected;
   }
 
   public void setRejected(Instant rejected) {
-    this.rejected = rejected;
+    statusInfo.rejected = rejected;
   }
 
   public Instant getFailed() {
-    return failed;
+    return statusInfo.failed;
   }
 
   public void setFailed(Instant failed) {
-    this.failed = failed;
+    statusInfo.failed = failed;
   }
 
   public Instant getExpired() {
-    return expired;
+    return statusInfo.expired;
   }
 
   public void setExpired(Instant expired) {
-    this.expired = expired;
+    statusInfo.expired = expired;
   }
 }

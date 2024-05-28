@@ -57,8 +57,8 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
   @XmlElement(name = "tag")
   Set<String> tags;
 
-  @XmlElementWrapper(name = "authorizedOrganizations")
-  @XmlElement(name = "authorizedOrganization")
+  @XmlElementWrapper(name = "authorizedOrgs")
+  @XmlElement(name = "authorizedOrg")
   Set<Integer> authorizedOrganizations;
 
   @XmlElementWrapper(name = "targetNodes")
@@ -71,12 +71,14 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
   @XmlElement(name = "modificationEntry")
   List<TextEntry> modificationEntries;
 
-  @XmlElementWrapper(name = "requestExecutions")
-  @XmlElement(name = "requestExecution")
+  @XmlElementWrapper(name = "executions")
+  @XmlElement(name = "execution")
   List<RequestExecution> requestExecutions;
 
   Instant createdDate;
   String createdBy;
+
+  @XmlElement(namespace = org.aktin.broker.xml.XMLConstants.XML_NAMESPACE)
   Query query;
 
   public String getTitle() {

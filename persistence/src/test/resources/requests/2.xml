@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<seriesRequest xmlns:ns2="http://aktin.org/ns/exchange" dataVersion="1">
+  <id>2</id>
+  <tags>
+    <tag>urgent</tag>
+    <tag>medical</tag>
+    <tag>diagnosis</tag>
+  </tags>
+  <authorizedOrgs>
+    <authorizedOrg>1</authorizedOrg>
+    <authorizedOrg>2</authorizedOrg>
+  </authorizedOrgs>
+  <targetNodes>
+    <targetNode>1</targetNode>
+    <targetNode>2</targetNode>
+    <targetNode>3</targetNode>
+    <targetNode>4</targetNode>
+    <targetNode>5</targetNode>
+  </targetNodes>
+  <requestState>DRAFT</requestState>
+  <createdDate>2023-01-01T00:00:00Z</createdDate>
+  <createdBy>jsmith123</createdBy>
+  <anchoredSequenceIdRef/>
+  <isAutoPublishing>false</isAutoPublishing>
+  <seriesClosingDate/>
+  <seriesArchiveDate/>
+  <modificationEntries>
+    <modificationEntry>
+      <username>jdoe123</username>
+      <createdDate>2023-08-05T11:15:00Z</createdDate>
+      <content>
+        <![CDATA[<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.authorizedOrg/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequence minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequence></xsd:complexType><xsd:complexType name="bookType"><xsd:sequence><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequence><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequence><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequence></xsd:complexType></xsd:schema>]]>
+      </content>
+    </modificationEntry>
+    <modificationEntry>
+      <username>asmith456</username>
+      <createdDate>2023-09-15T14:30:00Z</createdDate>
+      <content>
+        <![CDATA[<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.authorizedOrg/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequence minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequence></xsd:complexType><xsd:complexType name="bookType"><xsd:sequence><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequence><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequence><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequence></xsd:complexType></xsd:schema>]]>
+      </content>
+    </modificationEntry>
+    <modificationEntry>
+      <user>kjohnson789</user>
+      <createdDate>2023-10-20T09:45:00Z</createdDate>
+      <content>
+        <![CDATA[<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.authorizedOrg/2001/XMLSchema"><xsd:element name="bookstore" type="bookstoreType" /><xsd:complexType name="bookstoreType"><xsd:sequence minOccurs="0" maxOccurs="unbounded"><xsd:element name="book" type="bookType" /></xsd:sequence></xsd:complexType><xsd:complexType name="bookType"><xsd:sequence><xsd:element name="title" type="xsd:string" /><xsd:element name="author" type="authorName" /><xsd:element name="genre" type="xsd:string" minOccurs="0" /></xsd:sequence><xsd:attribute name="price" type="xsd:decimal" use="required" /><xsd:attribute name="publicationdate" type="xsd:date" /><xsd:attribute name="ISBN" type="xsd:string" /></xsd:complexType><xsd:complexType name="authorName"><xsd:sequence><xsd:element name="first-name" type="xsd:string" /><xsd:element name="last-name" type="xsd:string" /></xsd:sequence></xsd:complexType></xsd:schema>]]>
+      </content>
+    </modificationEntry>
+  </modificationEntries>
+  <requestExecutions/>
+  <ns2:query>
+    <ns2:title>2019-003: Wochenbericht der Notaufnahmesurveillance am RKI</ns2:title>
+    <ns2:principal>
+      <ns2:name>Dr. Allen Smith</ns2:name>
+      <ns2:organisation>HealthOrg of healthy organisation</ns2:organisation>
+      <ns2:email>dr.smith@healthorg.com</ns2:email>
+      <ns2:phone>1111-2222-3333-4444-5555</ns2:phone>
+    </ns2:principal>
+    <ns2:schedule xsi:type="repeatedExecution">
+      <ns2:duration>-P2M</ns2:duration>
+      <ns2:interval>P2Y3M10D</ns2:interval>
+      <ns2:intervalHours>8</ns2:intervalHours>
+      <ns2:id>1</ns2:id>
+    </ns2:schedule>
+  </ns2:query>
+</seriesRequest>

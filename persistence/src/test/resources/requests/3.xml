@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<singleRequest xmlns:ns2="http://aktin.org/ns/exchange" dataVersion="1">
+  <id>3</id>
+  <tags>
+    <tag>physical-therapy</tag>
+    <tag>cardiology</tag>
+    <tag>radiology</tag>
+    <tag>dermatology</tag>
+    <tag>allergy</tag>
+    <tag>orthopedics</tag>
+  </tags>
+  <authorizedOrgs>
+    <authorizedOrg>1</authorizedOrg>
+  </authorizedOrgs>
+  <targetNodes>
+    <targetNode>1</targetNode>
+    <targetNode>3</targetNode>
+    <targetNode>5</targetNode>
+  </targetNodes>
+  <requestState>ONLINE</requestState>
+  <createdDate>2023-01-01T00:00:00Z</createdDate>
+  <createdBy>jsmith123</createdBy>
+  <modificationEntries>
+    <modificationEntry>
+      <username>lsanders987</username>
+      <createdDate>2023-11-25T13:45</createdDate>
+      <content>
+        <![CDATA[<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>]]>
+      </content>
+    </modificationEntry>
+    <modificationEntry>
+      <username>rsmith789</username>
+      <createdDate>2023-12-15T10:23</createdDate>
+      <content>
+        <![CDATA[<?xml version="1.0" encoding="utf-8" ?><xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:element "name"="bookstore" "type"="bookstoreType" /><xsd:complexType "name"="bookstoreType"><xsd:"sequenceId" minOccurs="0" maxOccurs="unbounded"><xsd:element "name"="book" "type"="bookType" /></xsd:"sequenceId"></xsd:complexType><xsd:complexType "name"="bookType"><xsd:"sequenceId"><xsd:element "name"=""title"" "type"="xsd:string" /><xsd:element "name"="author" "type"="authorName" /><xsd:element "name"="genre" "type"="xsd:string" minOccurs="0" /></xsd:"sequenceId"><xsd:attribute "name"="price" "type"="xsd:decimal" use="required" /><xsd:attribute "name"="publicationdate" "type"="xsd:date" /><xsd:attribute "name"="ISBN" "type"="xsd:string" /></xsd:complexType><xsd:complexType "name"="authorName"><xsd:"sequenceId"><xsd:element "name"="first-"name"" "type"="xsd:string" /><xsd:element "name"="last-"name"" "type"="xsd:string" /></xsd:"sequenceId"></xsd:complexType></xsd:schema>]]>
+      </content>
+    </modificationEntry>
+  </modificationEntries>
+  <requestExecutions>
+    <requestExecution>
+      <sequenceId>1</sequenceId>
+      <externalId>106</externalId>
+      <referenceDate>2023-12-15T00:00</referenceDate>
+      <executionDate>2023-12-22T00:00</executionDate>
+      <scheduledPublishDate>2023-12-23T00:00</scheduledPublishDate>
+      <publishedDate>2023-12-23T02:00</publishedDate>
+      <scheduledClosingDate>2023-12-30T02:20</scheduledClosingDate>
+      <scheduledArchiveDate>2024-01-04T00:00</scheduledArchiveDate>
+      <creator>tgreen456</creator>
+      <createdDate>2023-12-10T00:00</createdDate>
+      <executionState>ARCHIVED</executionState>
+      <nodeStatusInfos>
+        <nodeStatusInfo>
+          <request-node-status>
+            <node>1</node>
+            <retrieved>2024-01-05T08:00</retrieved>
+            <queued>2024-01-05T08:10</queued>
+            <processing>2024-01-05T08:15</processing>
+            <completed>2024-01-05T08:30</completed>
+          </request-node-status>
+        </nodeStatusInfo>
+        <nodeStatusInfo>
+          <statusMessage>Failed with error: Node 3 processing error.</statusMessage>
+          <request-node-status>
+            <node>3</node>
+            <retrieved>2024-01-05T08:00</retrieved>
+            <queued>2024-01-05T08:10</queued>
+            <processing>2024-01-05T08:15</processing>
+            <failed>2024-01-05T08:25</failed>
+          </request-node-status>
+        </nodeStatusInfo>
+        <nodeStatusInfo>
+          <request-node-status>
+            <node>5</node>
+            <retrieved>2024-01-05T08:00</retrieved>
+          </request-node-status>
+        </nodeStatusInfo>
+      </nodeStatusInfos>
+      <downloadEvents>
+        <downloadLog>
+          <user>asmith</user>
+          <userOrgs>
+            <userOrg>AKTIN</userOrg>
+          </userOrgs>
+          <downloadDate>2024-01-13T14:45</downloadDate>
+          <downloadHash>5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8</downloadHash>
+          <hashAlgorithm>sha1</hashAlgorithm>
+        </downloadLog>
+        <downloadLog>
+          <user>asmith</user>
+          <userOrgs>
+            <userOrg>AKTIN</userOrg>
+          </userOrgs>
+          <downloadDate>2024-01-13T15:30</downloadDate>
+          <downloadHash>9c4a6a156b9c51d57227be4dbf6149d1122b85b1</downloadHash>
+          <hashAlgorithm>sha1</hashAlgorithm>
+        </downloadLog>
+        <downloadLog>
+          <user>kjohnson</user>
+          <userOrgs>
+            <userOrg>AKTIN</userOrg>
+            <userOrg>RKI</userOrg>
+          </userOrgs>
+          <downloadDate>2024-01-14T09:00</downloadDate>
+          <downloadHash>d8e8fca2dc0f896fd7cb4cb0031ba2499cc77390</downloadHash>
+          <hashAlgorithm>sha1</hashAlgorithm>
+        </downloadLog>
+      </downloadEvents>
+    </requestExecution>
+  </requestExecutions>
+  <ns2:query>
+    <ns2:title>Research Data Collection for Cardiovascular Studies</ns2:title>
+    <ns2:description>
+      This request aims to gather comprehensive data on cardiovascular diseases for a large-scale research project. The data will be used to analyze
+      trends, treatment outcomes, and patient demographics across various healthcare institutions. The study focuses on improving diagnostic methods
+      and treatment strategies for cardiovascular conditions. We are looking for detailed patient records, treatment histories, and follow-up data
+      from participating organizations. The data should be anonymized to ensure patient confidentiality and comply with all relevant data protection
+      regulations
+    </ns2:description>
+    <ns2:principal>
+      <ns2:name>Dr. Emily Johnson</ns2:name>
+      <ns2:organisation>Cardio Research Institute</ns2:organisation>
+      <ns2:email>dr.johnson@cardio-reserach-institute.com</ns2:email>
+      <ns2:phone>1111-2222-3333-4444-5555</ns2:phone>
+    </ns2:principal>
+    <ns2:schedule xsi:type="singleExecution">
+      <ns2:duration>-P1Y2D</ns2:duration>
+    </ns2:schedule>
+    <ns2:sql xmlns="http://aktin.authorizedOrg/ns/i2b2/sql">
+      <![CDATA[<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SSELECT p.patient_id, p."name", p.age, p.gender, d.diagnosis, t.treatment, t.outcome, t.follow_up_date FROM patients p INNER JOIN diagnoses d ON p.patient_id = d.patient_id INNER JOIN treatments t ON p.patient_id = t.patient_id WHERE d.condition = \'Cardiovascular\' AND t.treatment_date BETWEEN \'2022-01-01\' AND \'2023-01-01\' ORDER BY t.follow_up_date;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">]]>
+    </ns2:sql>
+  </ns2:query>
+</singleRequest>

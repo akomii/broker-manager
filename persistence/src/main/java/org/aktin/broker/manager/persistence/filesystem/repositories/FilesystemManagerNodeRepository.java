@@ -74,6 +74,9 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.writeLock().lock();
     try {
       File file = new File(filename);
+      if (!file.exists()) {
+        log.info("Creating new ManagerNode: {}", filename);
+      }
       xmlMarshaller.marshal(entity, file);
       return entity.getId();
     } catch (JAXBException e) {
@@ -115,7 +118,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (JAXBException | DataMigrationException | IOException | SAXException | ParserConfigurationException e) {
+    } catch (JAXBException | DataMigrationException | IllegalArgumentException | IOException | SAXException | ParserConfigurationException e) {
       throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
@@ -140,7 +143,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
         if (node != null) {
           managerNodes.add(node);
         }
-      } catch (JAXBException | DataMigrationException | IOException | SAXException | ParserConfigurationException e) {
+      } catch (JAXBException | DataMigrationException | IllegalArgumentException | IOException | SAXException | ParserConfigurationException e) {
         log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
       } finally {
         lock.readLock().unlock();

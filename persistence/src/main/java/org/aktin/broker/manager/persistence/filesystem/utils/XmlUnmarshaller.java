@@ -30,10 +30,14 @@ import javax.xml.transform.dom.DOMSource;
 import lombok.Setter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class XmlUnmarshaller<T> {
+
+  private static final Logger log = LoggerFactory.getLogger(XmlUnmarshaller.class);
 
   private final JAXBContext jaxbContext;
   private final Class<T> type;
@@ -49,13 +53,33 @@ public class XmlUnmarshaller<T> {
     this.type = type;
   }
 
-  public T unmarshal(File xmlFile) throws JAXBException, DataMigrationException, IOException, SAXException, ParserConfigurationException {
-    Document xmlDocument = readXmlFile(xmlFile);
-    if (migrationChain != null) {
-      xmlDocument = migrateIfNeeded(xmlDocument);
-    }
+  public T unmarshal(File xmlFile)
+      throws JAXBException, DataMigrationException, IllegalArgumentException, IOException, SAXException, ParserConfigurationException {
     Unmarshaller unmarshaller = createUnmarshaller();
-    return type.cast(unmarshaller.unmarshal(new DOMSource(xmlDocument)));
+    if (migrationChain != null) {
+      Document xmlDocument = readXmlFile(xmlFile);
+      xmlDocument = migrateIfNeeded(xmlDocument, xmlFile.getAbsolutePath());
+      return type.cast(unmarshaller.unmarshal(new DOMSource(xmlDocument)));
+    }
+    return type.cast(unmarshaller.unmarshal(xmlFile));
+  }
+
+  private Unmarshaller createUnmarshaller() throws JAXBException {
+    return jaxbContext.createUnmarshaller();
+  }
+
+  private Document migrateIfNeeded(Document xmlDocument, String xmlPath) throws DataMigrationException, IllegalArgumentException {
+    int dataVersion = getDataVersion(xmlDocument);
+    if (dataVersion < latestVersion) {
+      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
+      if (migrationHandler != null) {
+        log.info("Migrating XML content of {} from version {} to latest version {}", xmlPath, dataVersion, latestVersion);
+        xmlDocument = migrationHandler.migrate(xmlDocument);
+      } else {
+        throw new IllegalArgumentException("No migration handler found for: " + xmlPath);
+      }
+    }
+    return xmlDocument;
   }
 
   private Document readXmlFile(File xmlFile) throws IOException, SAXException, ParserConfigurationException {
@@ -63,21 +87,9 @@ public class XmlUnmarshaller<T> {
     dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
     dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+    dbFactory.setNamespaceAware(true);
     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
     return dBuilder.parse(xmlFile);
-  }
-
-  private Document migrateIfNeeded(Document xmlDocument) throws DataMigrationException, IllegalArgumentException {
-    int dataVersion = getDataVersion(xmlDocument);
-    if (dataVersion < latestVersion) {
-      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
-      if (migrationHandler != null) {
-        xmlDocument = migrationHandler.migrate(xmlDocument);
-      } else {
-        throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
-      }
-    }
-    return xmlDocument;
   }
 
   private int getDataVersion(Document xmlDocument) {
@@ -93,9 +105,5 @@ public class XmlUnmarshaller<T> {
       handler = handler.getSuccessor();
     }
     return null;
-  }
-
-  private Unmarshaller createUnmarshaller() throws JAXBException {
-    return jaxbContext.createUnmarshaller();
   }
 }

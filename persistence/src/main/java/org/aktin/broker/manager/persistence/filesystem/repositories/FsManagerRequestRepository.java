@@ -20,70 +20,83 @@ package org.aktin.broker.manager.persistence.filesystem.repositories;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.persistence.filesystem.utils.FsIdGenerator;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.aktin.broker.query.xml.QuerySchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
-// ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
-public class FsManagerNodeRepository implements ManagerNodeRepository {
+//TODO refactor and simplify
+//TODO add SqlLite for indexing requests with Tags, Name, ID, external IDs and Orgs?
+public class FsManagerRequestRepository implements ManagerRequestRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(FsManagerNodeRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(FsManagerRequestRepository.class);
   private static final String XML_EXTENSION = ".xml";
 
   private final XmlMarshaller xmlMarshaller;
-  private final XmlUnmarshaller<ManagerNode> xmlUnmarshaller;
+  private final XmlUnmarshaller<ManagerRequest<QuerySchedule>> xmlUnmarshaller;
   private final String storageDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
+  private final FsIdGenerator fsIdGenerator;
 
-  public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String storageDirectory)
+  public FsManagerRequestRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest<QuerySchedule>> xmlUnmarshaller,
+      String storageDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
     this.storageDirectory = storageDirectory;
-    Files.createDirectories(Paths.get(this.storageDirectory));
+    Path storagePath = Paths.get(storageDirectory);
+    Files.createDirectories(storagePath);
+    this.fsIdGenerator = new FsIdGenerator(storagePath);
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
     return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
   }
 
-  @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
+  @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public int save(ManagerNode entity) throws DataPersistException {
+  public int save(ManagerRequest<QuerySchedule> entity) throws DataPersistException {
+    if (entity.getId() == 0) {
+      entity.setId(fsIdGenerator.generateId());
+    }
     String filename = Paths.get(storageDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
       File file = new File(filename);
       if (!file.exists()) {
-        log.info("Creating new ManagerNode: {}", filename);
+        log.info("Creating new ManagerRequest: {}", filename);
       }
       xmlMarshaller.marshal(entity, file);
       return entity.getId();
     } catch (Exception e) {
-      throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
+      throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
     }
   }
 
-  @CacheEvict(cacheNames = "managerNodes", key = "#id")
+  @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
     String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
@@ -92,20 +105,20 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     try {
       boolean deleted = Files.deleteIfExists(Paths.get(filename));
       if (!deleted) {
-        log.warn("ManagerNode file not found for deletion: {}", filename);
+        log.warn("ManagerRequest file not found for deletion: {}", filename);
       } else {
-        log.info("Deleted ManagerNode file: {}", filename);
+        log.info("Deleted ManagerRequest file: {}", filename);
       }
     } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerNode: " + filename, e);
+      throw new DataDeleteException("Error deleting ManagerRequest: " + filename, e);
     } finally {
       lock.writeLock().unlock();
     }
   }
 
-  @Cacheable(cacheNames = "managerNodes", key = "#id")
+  @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
-  public Optional<ManagerNode> get(int id) throws DataReadException {
+  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException {
     String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
     File file = new File(filename);
     if (!file.exists()) {
@@ -116,36 +129,68 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
     } catch (Exception e) {
-      throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
+      throw new DataReadException("Error retrieving ManagerRequest: " + filename, e);
     } finally {
       lock.readLock().unlock();
     }
   }
 
-  @Cacheable(cacheNames = "managerNodes")
+  @Cacheable(cacheNames = "managerRequests")
   @Override
-  public List<ManagerNode> getAll() {
-    List<ManagerNode> managerNodes = new ArrayList<>();
+  public List<ManagerRequest<QuerySchedule>> getAll() {
+    List<ManagerRequest<QuerySchedule>> requests = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
-      return managerNodes;
+      return requests;
     }
     for (File file : files) {
       String filename = file.getAbsolutePath();
       ReentrantReadWriteLock lock = getLock(filename);
       lock.readLock().lock();
       try {
-        ManagerNode node = xmlUnmarshaller.unmarshal(file);
-        if (node != null) {
-          managerNodes.add(node);
+        ManagerRequest<QuerySchedule> request = xmlUnmarshaller.unmarshal(file);
+        if (request != null) {
+          requests.add(request);
         }
       } catch (Exception e) {
-        log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
+        log.warn("Error retrieving ManagerRequest: {}, skipping...", filename, e);
       } finally {
         lock.readLock().unlock();
       }
     }
-    return managerNodes;
+    return requests;
+  }
+
+  @Cacheable(cacheNames = "managerRequests")
+  @Override
+  public List<ManagerRequest<QuerySchedule>> getAllForOrganizations(List<Integer> authorizedOrgIds) {
+    List<ManagerRequest<QuerySchedule>> filteredRequests = new ArrayList<>();
+    File storageDir = new File(storageDirectory);
+    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
+    if (files == null) {
+      return filteredRequests;
+    }
+    for (File file : files) {
+      String filename = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filename);
+      lock.readLock().lock();
+      try {
+        ManagerRequest<QuerySchedule> request = xmlUnmarshaller.unmarshal(file);
+        if (request != null && hasAuthorizedOrganization(request, authorizedOrgIds)) {
+          filteredRequests.add(request);
+        }
+      } catch (Exception e) {
+        log.warn("Error retrieving ManagerRequest: {}, skipping...", filename, e);
+      } finally {
+        lock.readLock().unlock();
+      }
+    }
+    return filteredRequests;
+  }
+
+  private boolean hasAuthorizedOrganization(ManagerRequest<QuerySchedule> request, List<Integer> authorizedOrgIds) {
+    Set<Integer> requestOrgIds = request.getAuthorizedOrganizations();
+    return !Collections.disjoint(requestOrgIds, authorizedOrgIds);
   }
 }

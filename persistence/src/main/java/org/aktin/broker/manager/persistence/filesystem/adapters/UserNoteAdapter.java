@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 import org.aktin.broker.manager.persistence.api.models.UserNote;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemUserNote;
 
-public class UserNoteAdapter extends AbstractFilesystemAdapter<FilesystemUserNote, UserNote> {
+public class UserNoteAdapter extends AbstractAdapter<FilesystemUserNote, UserNote> {
 
   public UserNoteAdapter() {
     super(FilesystemUserNote.class);

@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemModificationEntry;
 
-public class ModificationEntryAdapter extends AbstractFilesystemAdapter<FilesystemModificationEntry, ModificationEntry> {
+public class ModificationEntryAdapter extends AbstractAdapter<FilesystemModificationEntry, ModificationEntry> {
 
   public ModificationEntryAdapter() {
     super(FilesystemModificationEntry.class);

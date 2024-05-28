@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemRequestExecution;
 
-public class RequestExecutionAdapter extends AbstractFilesystemAdapter<FilesystemRequestExecution, RequestExecution> {
+public class RequestExecutionAdapter extends AbstractAdapter<FilesystemRequestExecution, RequestExecution> {
 
   public RequestExecutionAdapter() {
     super(FilesystemRequestExecution.class);

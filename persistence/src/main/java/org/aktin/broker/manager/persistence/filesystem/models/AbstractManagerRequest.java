@@ -37,7 +37,6 @@ import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.api.models.TextEntry;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
-import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -46,7 +45,7 @@ import org.w3c.dom.Element;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
+abstract class AbstractManagerRequest implements ManagerRequest {
 
   @XmlAttribute
   int dataVersion;

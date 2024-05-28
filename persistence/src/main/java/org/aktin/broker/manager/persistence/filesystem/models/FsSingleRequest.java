@@ -20,18 +20,18 @@ package org.aktin.broker.manager.persistence.filesystem.models;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.aktin.broker.manager.persistence.api.models.SingleRequest;
 import org.aktin.broker.query.xml.Query;
+import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.SingleExecution;
 
 @XmlRootElement(name = "singleRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class FsSingleRequest extends AbstractManagerRequest<SingleExecution> implements SingleRequest {
+public class FsSingleRequest extends AbstractManagerRequest implements SingleRequest {
 
   @Override
   public void setQuery(Query query) {
@@ -41,13 +41,14 @@ public class FsSingleRequest extends AbstractManagerRequest<SingleExecution> imp
     super.setQuery(query);
   }
 
-  @XmlTransient
-  public SingleExecution getQuerySchedule() {
-    return (SingleExecution) query.schedule;
+  public void setQuerySchedule(QuerySchedule schedule) {
+    if (!(schedule instanceof SingleExecution)) {
+      throw new IllegalArgumentException("Expected a SingleExecution schedule");
+    }
+    query.schedule = schedule;
   }
 
-  @XmlTransient
-  public void setQuerySchedule(SingleExecution schedule) {
-    query.schedule = schedule;
+  public SingleExecution getQuerySchedule() {
+    return (SingleExecution) query.schedule;
   }
 }

@@ -23,7 +23,6 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.query.xml.QuerySchedule;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerRequest} entities.
@@ -40,7 +39,7 @@ public interface ManagerRequestRepository {
    * @return The ID of the saved or updated {@link ManagerRequest}.
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  int save(ManagerRequest<QuerySchedule> entity) throws DataPersistException;
+  int save(ManagerRequest entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.
@@ -57,19 +56,19 @@ public interface ManagerRequestRepository {
    * @return An Optional containing the {@link ManagerRequest} if found, or an empty Optional if not
    * @throws DataReadException If there's an error while reading the {@link ManagerRequest} data
    */
-  Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException;
+  Optional<ManagerRequest> get(int id) throws DataReadException;
 
   /**
    * Retrieves all {@link ManagerRequest}s from persistent storage.
    *
    * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist or all entities are invalid.
    */
-  List<ManagerRequest<QuerySchedule>> getAll();
+  List<ManagerRequest> getAll();
 
   /**
    * Retrieves all {@link ManagerRequest}s from persistent storage with corresponding authorized user organization.
    *
    * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist or all entities are invalid.
    */
-  List<ManagerRequest<QuerySchedule>> getAllForOrganizations(List<Integer> authorizedOrgIds);
+  List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds);
 }

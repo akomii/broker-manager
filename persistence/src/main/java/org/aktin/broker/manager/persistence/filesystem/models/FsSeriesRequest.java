@@ -17,11 +17,10 @@
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import java.time.Instant;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,6 +29,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.SeriesRequest;
 import org.aktin.broker.query.xml.Query;
+import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.RepeatedExecution;
 
 @XmlRootElement(name = "seriesRequest")
@@ -39,7 +39,7 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FsSeriesRequest extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
+public class FsSeriesRequest extends AbstractManagerRequest implements SeriesRequest {
 
   int anchoredSequenceIdRef;
   boolean isAutoPublishing;
@@ -54,13 +54,14 @@ public class FsSeriesRequest extends AbstractManagerRequest<RepeatedExecution> i
     super.setQuery(query);
   }
 
-  @XmlTransient
-  public RepeatedExecution getQuerySchedule() {
-    return (RepeatedExecution) query.schedule;
+  public void setQuerySchedule(QuerySchedule schedule) {
+    if (!(schedule instanceof RepeatedExecution)) {
+      throw new IllegalArgumentException("Expected a RepeatedExecution schedule");
+    }
+    query.schedule = schedule;
   }
 
-  @XmlTransient
-  public void setQuerySchedule(RepeatedExecution schedule) {
-    query.schedule = schedule;
+  public RepeatedExecution getQuerySchedule() {
+    return (RepeatedExecution) query.schedule;
   }
 }

@@ -19,8 +19,11 @@ package org.aktin.broker.manager.persistence.filesystem.conf;
 
 import java.io.IOException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
+import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,5 +43,14 @@ public class PersistenceConfig {
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
   ) throws IOException {
     return new FsManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
+  }
+
+  @Bean
+  public ManagerRequestRepository filesystemManagerRequestRepository(
+      @Qualifier("managerRequestXmlMarshaller") XmlMarshaller xmlMarshaller,
+      @Qualifier("managerRequestXmlUnmarshaller") XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
+      @Value("${broker-manager.storage.directory.requests}") String storageDirectory
+  ) throws IOException {
+    return new FsManagerRequestRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
   }
 }

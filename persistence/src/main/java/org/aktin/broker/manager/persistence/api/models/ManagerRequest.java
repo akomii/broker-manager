@@ -27,14 +27,13 @@ import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
 /**
- * Represents a data request within the AKTIN infrastructure. Consists of at least one {@link RequestExecution}. Corresponds to a
- * {@link org.aktin.broker.query.xml.QueryRequest} with more capabilities.
+ * Represents a data request within the AKTIN infrastructure. Corresponds to a {@link org.aktin.broker.query.xml.QueryRequest} with more
+ * capabilities.
  *
- * @param <T> The specific type of {@link QuerySchedule} associated with the request
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerRequest<T extends QuerySchedule> {
+public interface ManagerRequest {
 
   int getId();
 
@@ -80,9 +79,9 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   void setPrincipal(Principal principal);
 
-  T getQuerySchedule();
+  QuerySchedule getQuerySchedule();
 
-  void setQuerySchedule(T schedule);
+  void setQuerySchedule(QuerySchedule schedule);
 
   List<RequestExecution> getRequestExecutions();
 

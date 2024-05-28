@@ -20,7 +20,10 @@ package org.aktin.broker.manager.persistence.filesystem.conf;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.filesystem.models.FsManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.models.FsSeriesRequest;
+import org.aktin.broker.manager.persistence.filesystem.models.FsSingleRequest;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.context.annotation.Bean;
@@ -45,24 +48,17 @@ public class JaxbConfig {
     return new XmlUnmarshaller<>(managerNodeJaxbContext(), ManagerNode.class);
   }
 
-  /*
   private JAXBContext managerRequestJaxbContext() throws JAXBException {
-    return JAXBContext.newInstance(FilesystemSingleRequest.class, FilesystemSeriesRequest.class);
-  }
-
-  private Validator managerRequestSchemaValidator() throws JAXBException {
-    return createSchemaValidator("manager_request.xsd");
+    return JAXBContext.newInstance(FsSingleRequest.class, FsSeriesRequest.class);
   }
 
   @Bean
   public XmlMarshaller managerRequestXmlMarshaller() throws JAXBException {
-    return new XmlMarshaller(managerRequestJaxbContext(), managerRequestSchemaValidator());
+    return new XmlMarshaller(managerRequestJaxbContext());
   }
 
   @Bean
   public XmlUnmarshaller<ManagerRequest> managerRequestXmlUnmarshaller() throws JAXBException {
-    return new XmlUnmarshaller<>(managerRequestJaxbContext(), managerRequestSchemaValidator(), ManagerRequest.class);
+    return new XmlUnmarshaller<>(managerRequestJaxbContext(), ManagerRequest.class);
   }
-   */
-
 }

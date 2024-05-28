@@ -38,7 +38,6 @@ import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepos
 import org.aktin.broker.manager.persistence.filesystem.utils.FsIdGenerator;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
-import org.aktin.broker.query.xml.QuerySchedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -52,13 +51,13 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   private static final String XML_EXTENSION = ".xml";
 
   private final XmlMarshaller xmlMarshaller;
-  private final XmlUnmarshaller<ManagerRequest<QuerySchedule>> xmlUnmarshaller;
+  private final XmlUnmarshaller<ManagerRequest> xmlUnmarshaller;
   private final String storageDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
   private final FsIdGenerator fsIdGenerator;
 
-  public FsManagerRequestRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest<QuerySchedule>> xmlUnmarshaller,
+  public FsManagerRequestRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
       String storageDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
@@ -75,7 +74,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public int save(ManagerRequest<QuerySchedule> entity) throws DataPersistException {
+  public int save(ManagerRequest entity) throws DataPersistException {
     if (entity.getId() == 0) {
       entity.setId(fsIdGenerator.generateId());
     }
@@ -118,7 +117,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
-  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException {
+  public Optional<ManagerRequest> get(int id) throws DataReadException {
     String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
     File file = new File(filename);
     if (!file.exists()) {
@@ -137,8 +136,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @Cacheable(cacheNames = "managerRequests")
   @Override
-  public List<ManagerRequest<QuerySchedule>> getAll() {
-    List<ManagerRequest<QuerySchedule>> requests = new ArrayList<>();
+  public List<ManagerRequest> getAll() {
+    List<ManagerRequest> requests = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
@@ -149,7 +148,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       ReentrantReadWriteLock lock = getLock(filename);
       lock.readLock().lock();
       try {
-        ManagerRequest<QuerySchedule> request = xmlUnmarshaller.unmarshal(file);
+        ManagerRequest request = xmlUnmarshaller.unmarshal(file);
         if (request != null) {
           requests.add(request);
         }
@@ -164,8 +163,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @Cacheable(cacheNames = "managerRequests")
   @Override
-  public List<ManagerRequest<QuerySchedule>> getAllForOrganizations(List<Integer> authorizedOrgIds) {
-    List<ManagerRequest<QuerySchedule>> filteredRequests = new ArrayList<>();
+  public List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds) {
+    List<ManagerRequest> filteredRequests = new ArrayList<>();
     File storageDir = new File(storageDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
@@ -176,7 +175,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       ReentrantReadWriteLock lock = getLock(filename);
       lock.readLock().lock();
       try {
-        ManagerRequest<QuerySchedule> request = xmlUnmarshaller.unmarshal(file);
+        ManagerRequest request = xmlUnmarshaller.unmarshal(file);
         if (request != null && hasAuthorizedOrganization(request, authorizedOrgIds)) {
           filteredRequests.add(request);
         }
@@ -189,7 +188,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     return filteredRequests;
   }
 
-  private boolean hasAuthorizedOrganization(ManagerRequest<QuerySchedule> request, List<Integer> authorizedOrgIds) {
+  private boolean hasAuthorizedOrganization(ManagerRequest request, List<Integer> authorizedOrgIds) {
     Set<Integer> requestOrgIds = request.getAuthorizedOrganizations();
     return !Collections.disjoint(requestOrgIds, authorizedOrgIds);
   }

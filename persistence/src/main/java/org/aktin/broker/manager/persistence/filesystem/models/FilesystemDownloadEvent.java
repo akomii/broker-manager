@@ -48,8 +48,6 @@ public class FilesystemDownloadEvent implements DownloadEvent {
   Set<String> userOrganizations;
 
   Instant downloadDate;
-
   String downloadHash;
-
   String hashAlgorithm;
 }

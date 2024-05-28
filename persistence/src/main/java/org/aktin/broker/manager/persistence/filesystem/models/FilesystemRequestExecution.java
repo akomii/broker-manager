@@ -56,7 +56,6 @@ public class FilesystemRequestExecution implements RequestExecution {
   Instant archivedDate;
   Instant createdDate;
   String createdBy;
-
   RequestExecutionState executionState;
 
   @XmlElementWrapper(name = "nodeStatuses")

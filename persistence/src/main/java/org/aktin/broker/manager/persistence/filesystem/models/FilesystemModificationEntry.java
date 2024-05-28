@@ -39,8 +39,6 @@ import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 public class FilesystemModificationEntry implements ModificationEntry {
 
   Instant modificationDate;
-
   String username;
-
   String clob;
 }

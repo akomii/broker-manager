@@ -19,16 +19,20 @@ package org.aktin.broker.manager.persistence.filesystem.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
 import lombok.Setter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-//TODO get latestSchemaVersion directly from Schema
 public class XmlUnmarshaller<T> {
 
   private final JAXBContext jaxbContext;
@@ -38,43 +42,46 @@ public class XmlUnmarshaller<T> {
   private MigrationHandler<T> migrationChain = null;
 
   @Setter
-  private int latestSchemaVersion = 0;
+  private int latestVersion = 0;
 
   public XmlUnmarshaller(JAXBContext jaxbContext, Class<T> type) {
     this.jaxbContext = jaxbContext;
     this.type = type;
   }
 
-  public T unmarshal(File xmlFile) throws JAXBException, DataMigrationException, IOException {
-    String xmlContent = readXmlFile(xmlFile);
+  public T unmarshal(File xmlFile) throws JAXBException, DataMigrationException, IOException, SAXException, ParserConfigurationException {
+    Document xmlDocument = readXmlFile(xmlFile);
     if (migrationChain != null) {
-      int dataVersion = getDataVersion(xmlContent);
-      if (dataVersion < latestSchemaVersion && migrationChain != null) {
-        MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
-        if (migrationHandler != null) {
-          xmlContent = migrationHandler.migrate(xmlContent);
-        } else {
-          throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
-        }
-      }
+      xmlDocument = migrateIfNeeded(xmlDocument);
     }
     Unmarshaller unmarshaller = createUnmarshaller();
-    return type.cast(unmarshaller.unmarshal(new StringReader(xmlContent)));
+    return type.cast(unmarshaller.unmarshal(new DOMSource(xmlDocument)));
   }
 
-  private Unmarshaller createUnmarshaller() throws JAXBException {
-    return jaxbContext.createUnmarshaller();
+  private Document readXmlFile(File xmlFile) throws IOException, SAXException, ParserConfigurationException {
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+    dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    return dBuilder.parse(xmlFile);
   }
 
-  // TODO encoding nicht ignorieren
-  // TODO XML als DOM einlesen
-  private String readXmlFile(File xmlFile) throws IOException {
-    return new String(Files.readAllBytes(xmlFile.toPath()));
+  private Document migrateIfNeeded(Document xmlDocument) throws DataMigrationException, IllegalArgumentException {
+    int dataVersion = getDataVersion(xmlDocument);
+    if (dataVersion < latestVersion) {
+      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
+      if (migrationHandler != null) {
+        xmlDocument = migrationHandler.migrate(xmlDocument);
+      } else {
+        throw new IllegalArgumentException("No migration handler found for version: " + dataVersion);
+      }
+    }
+    return xmlDocument;
   }
 
-  private int getDataVersion(String xmlContent) {
-    String versionString = xmlContent.replaceAll(".*dataVersion=\"(\\d+)\".*", "$1");
-    return Integer.parseInt(versionString);
+  private int getDataVersion(Document xmlDocument) {
+    return Integer.parseInt(xmlDocument.getDocumentElement().getAttribute("dataVersion"));
   }
 
   private MigrationHandler<T> findHandlerByFromVersion(int dataVersion) {
@@ -86,5 +93,9 @@ public class XmlUnmarshaller<T> {
       handler = handler.getSuccessor();
     }
     return null;
+  }
+
+  private Unmarshaller createUnmarshaller() throws JAXBException {
+    return jaxbContext.createUnmarshaller();
   }
 }

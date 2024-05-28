@@ -19,6 +19,7 @@ package org.aktin.broker.manager.persistence.filesystem.migration;
 
 import lombok.Getter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
+import org.w3c.dom.Document;
 
 public abstract class MigrationHandler<T> {
 
@@ -36,13 +37,13 @@ public abstract class MigrationHandler<T> {
     this.successor = successor;
   }
 
-  public String migrate(String entity) throws DataMigrationException {
-    String migratedEntity = doMigration(entity);
+  public Document migrate(Document entity) throws DataMigrationException {
+    Document migratedEntity = doMigration(entity);
     if (successor != null) {
       migratedEntity = successor.migrate(migratedEntity);
     }
     return migratedEntity;
   }
 
-  protected abstract String doMigration(String entity) throws DataMigrationException;
+  protected abstract Document doMigration(Document entity) throws DataMigrationException;
 }

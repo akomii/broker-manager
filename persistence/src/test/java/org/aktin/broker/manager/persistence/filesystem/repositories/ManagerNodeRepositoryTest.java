@@ -36,6 +36,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
@@ -48,6 +49,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.xml.sax.SAXException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -197,7 +199,7 @@ class ManagerNodeRepositoryTest {
     File file = new File(resourcePath);
     try {
       return unmarshaller.unmarshal(file);
-    } catch (JAXBException | DataValidationException | IOException e) {
+    } catch (JAXBException | IOException | SAXException | ParserConfigurationException e) {
       e.printStackTrace();
     }
     return null;

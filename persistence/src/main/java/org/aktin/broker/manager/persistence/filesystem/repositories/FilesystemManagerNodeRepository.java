@@ -28,6 +28,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
@@ -40,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.xml.sax.SAXException;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
 public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
@@ -113,7 +115,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (JAXBException | DataMigrationException | IOException e) {
+    } catch (JAXBException | DataMigrationException | IOException | SAXException | ParserConfigurationException e) {
       throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
@@ -138,7 +140,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
         if (node != null) {
           managerNodes.add(node);
         }
-      } catch (JAXBException | DataMigrationException | IOException e) {
+      } catch (JAXBException | DataMigrationException | IOException | SAXException | ParserConfigurationException e) {
         log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
       } finally {
         lock.readLock().unlock();

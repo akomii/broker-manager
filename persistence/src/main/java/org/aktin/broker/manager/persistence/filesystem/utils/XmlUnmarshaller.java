@@ -29,7 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMSource;
 import lombok.Setter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
-import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
+import org.aktin.broker.manager.persistence.filesystem.migration.AbstractMigrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -43,7 +43,7 @@ public class XmlUnmarshaller<T> {
   private final Class<T> type;
 
   @Setter
-  private MigrationHandler<T> migrationChain = null;
+  private AbstractMigrationHandler<T> migrationChain = null;
 
   @Setter
   private int latestVersion = 0;
@@ -71,7 +71,7 @@ public class XmlUnmarshaller<T> {
   private Document migrateIfNeeded(Document xmlDocument, String xmlPath) throws DataMigrationException, IllegalArgumentException {
     int dataVersion = getDataVersion(xmlDocument);
     if (dataVersion < latestVersion) {
-      MigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
+      AbstractMigrationHandler<T> migrationHandler = findHandlerByFromVersion(dataVersion);
       if (migrationHandler != null) {
         log.info("Migrating XML content of {} from version {} to latest version {}", xmlPath, dataVersion, latestVersion);
         xmlDocument = migrationHandler.migrate(xmlDocument);
@@ -96,8 +96,8 @@ public class XmlUnmarshaller<T> {
     return Integer.parseInt(xmlDocument.getDocumentElement().getAttribute("dataVersion"));
   }
 
-  private MigrationHandler<T> findHandlerByFromVersion(int dataVersion) {
-    MigrationHandler<T> handler = migrationChain;
+  private AbstractMigrationHandler<T> findHandlerByFromVersion(int dataVersion) {
+    AbstractMigrationHandler<T> handler = migrationChain;
     while (handler != null) {
       if (handler.getFromVersion() == dataVersion) {
         return handler;

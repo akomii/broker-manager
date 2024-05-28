@@ -21,16 +21,16 @@ import lombok.Getter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.w3c.dom.Document;
 
-public abstract class MigrationHandler<T> {
+public abstract class AbstractMigrationHandler<T> {
 
   @Getter
-  private MigrationHandler<T> successor;
+  private AbstractMigrationHandler<T> successor;
 
   public abstract int getFromVersion();
 
   public abstract int getToVersion();
 
-  public void setSuccessor(MigrationHandler<T> successor) throws IllegalArgumentException {
+  public void setSuccessor(AbstractMigrationHandler<T> successor) throws IllegalArgumentException {
     if (successor != null && successor.getFromVersion() != getToVersion()) {
       throw new IllegalArgumentException("Successor's fromVersion must align with this handler's toVersion");
     }

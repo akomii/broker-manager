@@ -10,12 +10,12 @@
     <userNote>
       <username>omartinez</username>
       <createdDate>2023-09-05T15:42:00Z</createdDate>
-      <text>Enrolled in new clinical trial</text>
+      <content>Enrolled in new clinical trial</content>
     </userNote>
     <userNote>
       <username>dclark</username>
       <createdDate>2023-01-10T12:11:00Z</createdDate>
-      <text>Initial assessment notes</text>
+      <content>Initial assessment notes</content>
     </userNote>
   </userNotes>
   <ns2:node>

@@ -46,7 +46,7 @@ import org.aktin.broker.xml.Node;
 public class FilesystemManagerNode implements ManagerNode {
 
   @XmlAttribute
-  int dataVersion;
+  static int dataVersion = 1;
 
   String apiKey;
 

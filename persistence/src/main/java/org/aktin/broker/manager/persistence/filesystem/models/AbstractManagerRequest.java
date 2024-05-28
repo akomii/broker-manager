@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
 abstract class AbstractManagerRequest<T extends QuerySchedule> implements ManagerRequest<T> {
 
   @XmlAttribute
-  int dataVersion;
+  static int dataVersion = 1;
 
   int id;
 

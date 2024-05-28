@@ -42,9 +42,7 @@ public class JaxbConfig {
 
   @Bean
   public XmlUnmarshaller<ManagerNode> managerNodeXmlUnmarshaller() throws JAXBException {
-    XmlUnmarshaller<ManagerNode> unmarshaller = new XmlUnmarshaller<>(managerNodeJaxbContext(), ManagerNode.class);
-    unmarshaller.setLatestSchemaVersion(1);
-    return unmarshaller;
+    return new XmlUnmarshaller<>(managerNodeJaxbContext(), ManagerNode.class);
   }
 
   /*

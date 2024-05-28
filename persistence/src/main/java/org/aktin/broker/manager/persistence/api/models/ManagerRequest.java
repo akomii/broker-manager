@@ -56,9 +56,9 @@ public interface ManagerRequest<T extends QuerySchedule> {
 
   void setRequestState(RequestState requestState);
 
-  List<ModificationEntry> getModificationEntries();
+  List<TextEntry> getModificationEntries();
 
-  void setModificationEntries(List<ModificationEntry> modificationEntries);
+  void setModificationEntries(List<TextEntry> modificationEntries);
 
   Query getQuery();
 

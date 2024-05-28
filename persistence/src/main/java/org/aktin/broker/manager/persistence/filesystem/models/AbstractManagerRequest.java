@@ -33,8 +33,8 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.enums.RequestState;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
 import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.api.models.TextEntry;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -69,7 +69,7 @@ abstract class AbstractManagerRequest<T extends QuerySchedule> implements Manage
 
   @XmlElementWrapper(name = "modificationEntries")
   @XmlElement(name = "modificationEntry")
-  List<ModificationEntry> modificationEntries;
+  List<TextEntry> modificationEntries;
 
   @XmlElementWrapper(name = "requestExecutions")
   @XmlElement(name = "requestExecution")

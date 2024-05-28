@@ -20,23 +20,25 @@ package org.aktin.broker.manager.persistence.api.models;
 import java.time.Instant;
 
 /**
- * Represents a single entry in the modification history of a {@link ManagerRequest}. This class is used for tracking and auditing the modified
- * content done by user.
+ * Represents a textual entry associated with a user, such as a note or modification entry. Implementations of this interface encapsulate information
+ * about the author, creation date, and content of the text entry.
+ *
+ * <p>Examples of text entries include notes in {@link ManagerNode} or modification entries in {@link ManagerRequest}.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ModificationEntry {
-
-  Instant getModificationDate();
-
-  void setModificationDate(Instant modificationDate);
+public interface TextEntry {
 
   String getUsername();
 
   void setUsername(String username);
 
-  String getClob();
+  Instant getCreatedDate();
 
-  void setClob(String clob);
+  void setCreatedDate(Instant createdDate);
+
+  String getContent();
+
+  void setContent(String content);
 }

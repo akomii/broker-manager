@@ -27,18 +27,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.ModificationEntry;
+import org.aktin.broker.manager.persistence.api.models.TextEntry;
 
-@XmlRootElement(name = "modificationEntry")
+@XmlRootElement(name = "textEntry")
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemModificationEntry implements ModificationEntry {
+public class FilesystemTextEntry implements TextEntry {
 
-  Instant modificationDate;
   String username;
-  String clob;
+  Instant createdDate;
+  String content;
 }

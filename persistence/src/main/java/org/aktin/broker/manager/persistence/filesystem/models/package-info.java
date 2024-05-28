@@ -16,17 +16,30 @@
  */
 
 @XmlJavaTypeAdapters(value = {
-    @XmlJavaTypeAdapter(type = java.time.Duration.class, value = org.aktin.broker.xml.util.DurationAdapter.class),
-    @XmlJavaTypeAdapter(type = java.time.Period.class, value = org.aktin.broker.xml.util.PeriodAdapter.class),
-    @XmlJavaTypeAdapter(type = java.time.Instant.class, value = org.aktin.broker.xml.util.InstantAdapter.class),
-    @XmlJavaTypeAdapter(type = org.aktin.broker.manager.persistence.api.models.UserNote.class, value = org.aktin.broker.manager.persistence.filesystem.adapters.UserNoteAdapter.class),
-    @XmlJavaTypeAdapter(type = org.aktin.broker.manager.persistence.api.models.ModificationEntry.class, value = org.aktin.broker.manager.persistence.filesystem.adapters.ModificationEntryAdapter.class),
-    @XmlJavaTypeAdapter(type = org.aktin.broker.manager.persistence.api.models.RequestExecution.class, value = org.aktin.broker.manager.persistence.filesystem.adapters.RequestExecutionAdapter.class),
-    @XmlJavaTypeAdapter(type = org.aktin.broker.manager.persistence.api.models.NodeStatus.class, value = org.aktin.broker.manager.persistence.filesystem.adapters.NodeStatusAdapter.class),
-    @XmlJavaTypeAdapter(type = org.aktin.broker.manager.persistence.api.models.DownloadEvent.class, value = org.aktin.broker.manager.persistence.filesystem.adapters.DownloadEventAdapter.class)
+    @XmlJavaTypeAdapter(type = Duration.class, value = DurationAdapter.class),
+    @XmlJavaTypeAdapter(type = Period.class, value = PeriodAdapter.class),
+    @XmlJavaTypeAdapter(type = Instant.class, value = InstantAdapter.class),
+    @XmlJavaTypeAdapter(type = TextEntry.class, value = TextEntryAdapter.class),
+    @XmlJavaTypeAdapter(type = RequestExecution.class, value = RequestExecutionAdapter.class),
+    @XmlJavaTypeAdapter(type = NodeStatus.class, value = NodeStatusAdapter.class),
+    @XmlJavaTypeAdapter(type = DownloadEvent.class, value = DownloadEventAdapter.class)
 })
 
 package org.aktin.broker.manager.persistence.filesystem.models;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.Period;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
+import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.NodeStatus;
+import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.api.models.TextEntry;
+import org.aktin.broker.manager.persistence.filesystem.adapters.DownloadEventAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.NodeStatusAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.RequestExecutionAdapter;
+import org.aktin.broker.manager.persistence.filesystem.adapters.TextEntryAdapter;
+import org.aktin.broker.xml.util.DurationAdapter;
+import org.aktin.broker.xml.util.InstantAdapter;
+import org.aktin.broker.xml.util.PeriodAdapter;

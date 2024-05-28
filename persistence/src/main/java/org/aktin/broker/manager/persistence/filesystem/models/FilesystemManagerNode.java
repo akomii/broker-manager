@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,7 +34,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.models.UserNote;
+import org.aktin.broker.manager.persistence.api.models.TextEntry;
 import org.aktin.broker.xml.Node;
 
 @XmlRootElement(name = "managerNode")
@@ -57,7 +58,7 @@ public class FilesystemManagerNode implements ManagerNode {
 
   @XmlElementWrapper(name = "userNotes")
   @XmlElement(name = "userNote")
-  List<UserNote> userNotes;
+  List<TextEntry> userNotes;
 
   @XmlElement(namespace = "http://aktin.org/ns/exchange")
   Node node;

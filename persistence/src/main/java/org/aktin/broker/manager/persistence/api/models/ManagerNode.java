@@ -41,9 +41,9 @@ public interface ManagerNode {
 
   void setTags(Set<String> tags);
 
-  List<UserNote> getUserNotes();
+  List<TextEntry> getUserNotes();
 
-  void setUserNotes(List<UserNote> userNotes);
+  void setUserNotes(List<TextEntry> userNotes);
 
   String getClientDN();
 

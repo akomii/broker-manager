@@ -19,11 +19,11 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-abstract class AbstractAdapter<F extends D, D> extends XmlAdapter<F, D> {
+abstract class AbstractXmlAdapter<F extends D, D> extends XmlAdapter<F, D> {
 
   private final Class<F> filesystemClass;
 
-  AbstractAdapter(Class<F> filesystemClass) {
+  AbstractXmlAdapter(Class<F> filesystemClass) {
     this.filesystemClass = filesystemClass;
   }
 

@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.adapters;
 import org.aktin.broker.manager.persistence.api.models.TextEntry;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemTextEntry;
 
-public class TextEntryAdapter extends AbstractAdapter<FilesystemTextEntry, TextEntry> {
+public class TextEntryAdapter extends AbstractXmlAdapter<FsTextEntry, TextEntry> {
 
   public TextEntryAdapter() {
     super(FilesystemTextEntry.class);

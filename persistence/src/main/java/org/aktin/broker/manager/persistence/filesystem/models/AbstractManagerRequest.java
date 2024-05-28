@@ -41,7 +41,7 @@ import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso({FilesystemSingleRequest.class, FilesystemSeriesRequest.class})
+@XmlSeeAlso({FsSingleRequest.class, FsSeriesRequest.class})
 @EqualsAndHashCode
 @Getter
 @Setter

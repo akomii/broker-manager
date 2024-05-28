@@ -45,7 +45,7 @@ import org.aktin.broker.xml.Node;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemManagerNode implements ManagerNode {
+public class FsManagerNode implements ManagerNode {
 
   @XmlAttribute
   int dataVersion;

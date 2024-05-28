@@ -22,12 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-public class FilesystemIdGenerator {
+public class FsIdGenerator {
 
-  private static final String FILE_EXTENSION = ".json";
+  private static final String FILE_EXTENSION = ".xml";
   private int idCounter;
 
-  public FilesystemIdGenerator(Path workingDir) throws IOException {
+  public FsIdGenerator(Path workingDir) throws IOException {
     this.idCounter = findHighestPersistedId(workingDir);
   }
 

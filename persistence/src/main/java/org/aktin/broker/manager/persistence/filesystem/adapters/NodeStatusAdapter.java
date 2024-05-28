@@ -18,11 +18,11 @@
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
 import org.aktin.broker.manager.persistence.api.models.NodeStatus;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemNodeStatus;
+import org.aktin.broker.manager.persistence.filesystem.models.FsNodeStatus;
 
 public class NodeStatusAdapter extends AbstractXmlAdapter<FsNodeStatus, NodeStatus> {
 
   public NodeStatusAdapter() {
-    super(FilesystemNodeStatus.class);
+    super(FsNodeStatus.class);
   }
 }

@@ -18,11 +18,11 @@
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
 import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemDownloadEvent;
+import org.aktin.broker.manager.persistence.filesystem.models.FsDownloadEvent;
 
 public class DownloadEventAdapter extends AbstractXmlAdapter<FsDownloadEvent, DownloadEvent> {
 
   public DownloadEventAdapter() {
-    super(FilesystemDownloadEvent.class);
+    super(FsDownloadEvent.class);
   }
 }

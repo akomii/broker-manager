@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.conf;
 import java.io.IOException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.filesystem.repositories.FilesystemManagerNodeRepository;
+import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,6 +39,6 @@ public class PersistenceConfig {
       @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
       @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
   ) throws IOException {
-    return new FilesystemManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
+    return new FsManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
   }
 }

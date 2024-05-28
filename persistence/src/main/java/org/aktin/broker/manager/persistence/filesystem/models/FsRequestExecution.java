@@ -18,8 +18,11 @@
 package org.aktin.broker.manager.persistence.filesystem.models;
 
 import java.time.Instant;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -27,18 +30,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.persistence.api.models.TextEntry;
+import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
+import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
+import org.aktin.broker.manager.persistence.api.models.NodeStatus;
+import org.aktin.broker.manager.persistence.api.models.RequestExecution;
 
-@XmlRootElement(name = "textEntry")
+@XmlRootElement(name = "requestExecution")
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemTextEntry implements TextEntry {
+public class FsRequestExecution implements RequestExecution {
 
-  String username;
+  int sequenceId;
+  int externalId;
+  Instant referenceDate;
+  Instant executionDate;
+  Instant scheduledPublishDate;
+  Instant publishedDate;
+  Instant scheduledClosingDate;
+  Instant closedDate;
+  Instant scheduledArchiveDate;
+  Instant archivedDate;
   Instant createdDate;
-  String content;
+  String createdBy;
+  RequestExecutionState executionState;
+
+  @XmlElementWrapper(name = "nodeStatuses")
+  @XmlElement(name = "nodeStatus")
+  List<NodeStatus> nodeStatuses;
+
+  @XmlElementWrapper(name = "downloadEvents")
+  @XmlElement(name = "downloadEvent")
+  List<DownloadEvent> downloadEvents;
 }

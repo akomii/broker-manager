@@ -39,7 +39,7 @@ import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.models.FsManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.junit.jupiter.api.AfterEach;
@@ -63,7 +63,7 @@ class ManagerNodeRepositoryTest {
   void setUp() throws IOException, JAXBException {
     XmlMarshaller marshaller = new JaxbConfig().managerNodeXmlMarshaller();
     unmarshaller = new JaxbConfig().managerNodeXmlUnmarshaller();
-    repository = new FilesystemManagerNodeRepository(marshaller, unmarshaller, tempDir.toString());
+    repository = new FsManagerNodeRepository(marshaller, unmarshaller, tempDir.toString());
   }
 
   @AfterEach
@@ -100,7 +100,7 @@ class ManagerNodeRepositoryTest {
 
   @Test
   void testSaveInvalidNode() {
-    FilesystemManagerNode invalidNode = new FilesystemManagerNode();
+    FsManagerNode invalidNode = new FsManagerNode();
     assertThrows(NullPointerException.class, () -> repository.save(invalidNode));
   }
 

@@ -44,9 +44,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.xml.sax.SAXException;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
-public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
+public class FsManagerNodeRepository implements ManagerNodeRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(FilesystemManagerNodeRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(FsManagerNodeRepository.class);
   private static final String XML_EXTENSION = ".xml";
 
   private final XmlMarshaller xmlMarshaller;
@@ -54,7 +54,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   private final String storageDirectory;
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FilesystemManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String storageDirectory)
+  public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String storageDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;

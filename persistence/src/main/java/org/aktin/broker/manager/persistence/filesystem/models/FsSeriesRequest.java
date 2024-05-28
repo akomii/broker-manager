@@ -39,7 +39,7 @@ import org.aktin.broker.query.xml.RepeatedExecution;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemSeriesRequest extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
+public class FsSeriesRequest extends AbstractManagerRequest<RepeatedExecution> implements SeriesRequest {
 
   int anchoredSequenceIdRef;
   boolean isAutoPublishing;

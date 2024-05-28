@@ -39,7 +39,7 @@ import org.aktin.broker.manager.persistence.api.models.DownloadEvent;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FilesystemDownloadEvent implements DownloadEvent {
+public class FsDownloadEvent implements DownloadEvent {
 
   String username;
 

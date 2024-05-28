@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.filesystem.conf;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
+import org.aktin.broker.manager.persistence.filesystem.models.FsManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Profile;
 public class JaxbConfig {
 
   private JAXBContext managerNodeJaxbContext() throws JAXBException {
-    return JAXBContext.newInstance(FilesystemManagerNode.class);
+    return JAXBContext.newInstance(FsManagerNode.class);
   }
 
   @Bean

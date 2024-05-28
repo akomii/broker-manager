@@ -17,14 +17,8 @@
 
 package org.aktin.broker.manager.persistence.filesystem.conf;
 
-import java.io.File;
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
@@ -41,22 +35,19 @@ public class JaxbConfig {
     return JAXBContext.newInstance(FilesystemManagerNode.class);
   }
 
-  private Validator managerNodeSchemaValidator() throws JAXBException {
-    return createSchemaValidator("manager_node.xsd");
-  }
-
   @Bean
   public XmlMarshaller managerNodeXmlMarshaller() throws JAXBException {
-    return new XmlMarshaller(managerNodeJaxbContext(), managerNodeSchemaValidator());
+    return new XmlMarshaller(managerNodeJaxbContext());
   }
 
   @Bean
   public XmlUnmarshaller<ManagerNode> managerNodeXmlUnmarshaller() throws JAXBException {
-    XmlUnmarshaller<ManagerNode> unmarshaller = new XmlUnmarshaller<>(managerNodeJaxbContext(), managerNodeSchemaValidator(), ManagerNode.class);
+    XmlUnmarshaller<ManagerNode> unmarshaller = new XmlUnmarshaller<>(managerNodeJaxbContext(), ManagerNode.class);
     unmarshaller.setLatestSchemaVersion(1);
     return unmarshaller;
   }
 
+  /*
   private JAXBContext managerRequestJaxbContext() throws JAXBException {
     return JAXBContext.newInstance(FilesystemSingleRequest.class, FilesystemSeriesRequest.class);
   }
@@ -74,17 +65,6 @@ public class JaxbConfig {
   public XmlUnmarshaller<ManagerRequest> managerRequestXmlUnmarshaller() throws JAXBException {
     return new XmlUnmarshaller<>(managerRequestJaxbContext(), managerRequestSchemaValidator(), ManagerRequest.class);
   }
+   */
 
-  private Validator createSchemaValidator(String schemaFileName) throws JAXBException {
-    String resourceName = "filesystem" + File.separator + schemaFileName;
-    try {
-      SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-      sf.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-      sf.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-      Schema schema = sf.newSchema(new StreamSource(getClass().getClassLoader().getResourceAsStream(resourceName)));
-      return schema.newValidator();
-    } catch (Exception e) {
-      throw new JAXBException("Error loading XSD schema for validation: " + e.getMessage(), e);
-    }
-  }
 }

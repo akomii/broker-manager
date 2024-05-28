@@ -41,7 +41,6 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
-import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.models.FilesystemManagerNode;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;

@@ -34,7 +34,6 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
-import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.slf4j.Logger;
@@ -53,10 +52,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
   private final String storageDirectory;
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FilesystemManagerNodeRepository(
-      XmlMarshaller xmlMarshaller,
-      XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
-      String storageDirectory)
+  public FilesystemManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String storageDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
@@ -78,7 +74,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
       File file = new File(filename);
       xmlMarshaller.marshal(entity, file);
       return entity.getId();
-    } catch (JAXBException | DataValidationException | IOException e) {
+    } catch (JAXBException e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
@@ -117,7 +113,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (JAXBException | DataValidationException | DataMigrationException | IOException e) {
+    } catch (JAXBException | DataMigrationException | IOException e) {
       throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
     } finally {
       lock.readLock().unlock();
@@ -142,7 +138,7 @@ public class FilesystemManagerNodeRepository implements ManagerNodeRepository {
         if (node != null) {
           managerNodes.add(node);
         }
-      } catch (JAXBException | DataValidationException | DataMigrationException | IOException e) {
+      } catch (JAXBException | DataMigrationException | IOException e) {
         log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
       } finally {
         lock.readLock().unlock();

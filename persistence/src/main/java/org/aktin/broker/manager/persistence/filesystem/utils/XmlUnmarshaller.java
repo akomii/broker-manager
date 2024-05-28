@@ -24,19 +24,14 @@ import java.nio.file.Files;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Validator;
 import lombok.Setter;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
-import org.aktin.broker.manager.persistence.filesystem.exceptions.DataValidationException;
 import org.aktin.broker.manager.persistence.filesystem.migration.MigrationHandler;
-import org.xml.sax.SAXException;
 
-//TODO get latestSchemaVersion directly from Schema or Validator
+//TODO get latestSchemaVersion directly from Schema
 public class XmlUnmarshaller<T> {
 
   private final JAXBContext jaxbContext;
-  private final Validator schemaValidator;
   private final Class<T> type;
 
   @Setter
@@ -45,13 +40,12 @@ public class XmlUnmarshaller<T> {
   @Setter
   private int latestSchemaVersion = 0;
 
-  public XmlUnmarshaller(JAXBContext jaxbContext, Validator schemaValidator, Class<T> type) {
+  public XmlUnmarshaller(JAXBContext jaxbContext, Class<T> type) {
     this.jaxbContext = jaxbContext;
-    this.schemaValidator = schemaValidator;
     this.type = type;
   }
 
-  public T unmarshal(File xmlFile) throws JAXBException, DataValidationException, DataMigrationException, IOException {
+  public T unmarshal(File xmlFile) throws JAXBException, DataMigrationException, IOException {
     String xmlContent = readXmlFile(xmlFile);
     if (migrationChain != null) {
       int dataVersion = getDataVersion(xmlContent);
@@ -64,7 +58,6 @@ public class XmlUnmarshaller<T> {
         }
       }
     }
-    validateAgainstSchema(xmlContent);
     Unmarshaller unmarshaller = createUnmarshaller();
     return type.cast(unmarshaller.unmarshal(new StringReader(xmlContent)));
   }
@@ -73,6 +66,8 @@ public class XmlUnmarshaller<T> {
     return jaxbContext.createUnmarshaller();
   }
 
+  // TODO encoding nicht ignorieren
+  // TODO XML als DOM einlesen
   private String readXmlFile(File xmlFile) throws IOException {
     return new String(Files.readAllBytes(xmlFile.toPath()));
   }
@@ -91,13 +86,5 @@ public class XmlUnmarshaller<T> {
       handler = handler.getSuccessor();
     }
     return null;
-  }
-
-  private void validateAgainstSchema(String xmlContent) throws DataValidationException {
-    try {
-      schemaValidator.validate(new StreamSource(new StringReader(xmlContent)));
-    } catch (SAXException | IOException e) {
-      throw new DataValidationException("Error during validation of migrated XML content", e);
-    }
   }
 }

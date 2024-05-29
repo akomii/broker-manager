@@ -40,6 +40,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
+//TODO refactor
 public class FsManagerNodeRepository implements ManagerNodeRepository {
 
   private static final Logger log = LoggerFactory.getLogger(FsManagerNodeRepository.class);
@@ -66,13 +67,13 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public int save(ManagerNode entity) throws DataPersistException {
-    String filename = Paths.get(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filename);
+    String filePath = Paths.get(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      File file = new File(filename);
+      File file = new File(filePath);
       if (!file.exists()) {
-        log.info("Creating new ManagerNode: {}", filename);
+        log.info("Creating new ManagerNode: {}", filePath);
       }
       xmlMarshaller.marshal(entity, file);
       return entity.getId();
@@ -86,18 +87,18 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filename = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filename);
+    String filePath = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      boolean deleted = Files.deleteIfExists(Paths.get(filename));
+      boolean deleted = Files.deleteIfExists(Paths.get(filePath));
       if (!deleted) {
-        log.warn("ManagerNode file not found for deletion: {}", filename);
+        log.warn("ManagerNode file not found for deletion: {}", filePath);
       } else {
-        log.info("Deleted ManagerNode file: {}", filename);
+        log.info("Deleted ManagerNode file: {}", filePath);
       }
     } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerNode: " + filename, e);
+      throw new DataDeleteException("Error deleting ManagerNode: " + filePath, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -106,17 +107,17 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws DataReadException {
-    String filename = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
-    File file = new File(filename);
+    String filePath = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
+    File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();
     }
-    ReentrantReadWriteLock lock = getLock(filename);
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
     } catch (Exception e) {
-      throw new DataReadException("Error retrieving ManagerNode: " + filename, e);
+      throw new DataReadException("Error retrieving ManagerNode: " + filePath, e);
     } finally {
       lock.readLock().unlock();
     }
@@ -132,8 +133,8 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
       return managerNodes;
     }
     for (File file : files) {
-      String filename = file.getAbsolutePath();
-      ReentrantReadWriteLock lock = getLock(filename);
+      String filePath = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filePath);
       lock.readLock().lock();
       try {
         ManagerNode node = xmlUnmarshaller.unmarshal(file);
@@ -141,7 +142,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
           managerNodes.add(node);
         }
       } catch (Exception e) {
-        log.warn("Error retrieving ManagerNode: {}, skipping...", filename, e);
+        log.warn("Error retrieving ManagerNode: {}, skipping...", filePath, e);
       } finally {
         lock.readLock().unlock();
       }

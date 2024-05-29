@@ -44,6 +44,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 //TODO refactor and simplify
+//TODO test Cache
 //TODO add SqlLite for indexing requests with Tags, Name, ID, external IDs and Orgs?
 public class FsManagerRequestRepository implements ManagerRequestRepository {
 
@@ -67,8 +68,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     this.fsIdGenerator = new FsIdGenerator(storagePath);
   }
 
-  private ReentrantReadWriteLock getLock(String filename) {
-    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
+  private ReentrantReadWriteLock getLock(String filePath) {
+    return fileLocks.computeIfAbsent(filePath, f -> new ReentrantReadWriteLock());
   }
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
@@ -77,13 +78,13 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     if (entity.getId() == 0) {
       entity.setId(fsIdGenerator.generateId());
     }
-    String filename = Paths.get(requestsDirectory, entity.getId() + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filename);
+    String filePath = Paths.get(requestsDirectory, entity.getId() + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      File file = new File(filename);
+      File file = new File(filePath);
       if (!file.exists()) {
-        log.info("Creating new ManagerRequest: {}", filename);
+        log.info("Creating new ManagerRequest: {}", filePath);
       }
       xmlMarshaller.marshal(entity, file);
       return entity.getId();
@@ -97,18 +98,18 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filename = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filename);
+    String filePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      boolean deleted = Files.deleteIfExists(Paths.get(filename));
+      boolean deleted = Files.deleteIfExists(Paths.get(filePath));
       if (!deleted) {
-        log.warn("ManagerRequest file not found for deletion: {}", filename);
+        log.warn("ManagerRequest file not found for deletion: {}", filePath);
       } else {
-        log.info("Deleted ManagerRequest file: {}", filename);
+        log.info("Deleted ManagerRequest file: {}", filePath);
       }
     } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerRequest: " + filename, e);
+      throw new DataDeleteException("Error deleting ManagerRequest: " + filePath, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -117,17 +118,17 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filename = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
-    File file = new File(filename);
+    String filePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();
     }
-    ReentrantReadWriteLock lock = getLock(filename);
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
     } catch (Exception e) {
-      throw new DataReadException("Error retrieving ManagerRequest: " + filename, e);
+      throw new DataReadException("Error retrieving ManagerRequest: " + filePath, e);
     } finally {
       lock.readLock().unlock();
     }
@@ -143,8 +144,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       return requests;
     }
     for (File file : files) {
-      String filename = file.getAbsolutePath();
-      ReentrantReadWriteLock lock = getLock(filename);
+      String filePath = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filePath);
       lock.readLock().lock();
       try {
         ManagerRequest request = xmlUnmarshaller.unmarshal(file);
@@ -152,7 +153,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
           requests.add(request);
         }
       } catch (Exception e) {
-        log.warn("Error retrieving ManagerRequest: {}, skipping...", filename, e);
+        log.warn("Error retrieving ManagerRequest: {}, skipping...", filePath, e);
       } finally {
         lock.readLock().unlock();
       }
@@ -170,8 +171,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       return filteredRequests;
     }
     for (File file : files) {
-      String filename = file.getAbsolutePath();
-      ReentrantReadWriteLock lock = getLock(filename);
+      String filePath = file.getAbsolutePath();
+      ReentrantReadWriteLock lock = getLock(filePath);
       lock.readLock().lock();
       try {
         ManagerRequest request = xmlUnmarshaller.unmarshal(file);
@@ -179,7 +180,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
           filteredRequests.add(request);
         }
       } catch (Exception e) {
-        log.warn("Error retrieving ManagerRequest: {}, skipping...", filename, e);
+        log.warn("Error retrieving ManagerRequest: {}, skipping...", filePath, e);
       } finally {
         lock.readLock().unlock();
       }

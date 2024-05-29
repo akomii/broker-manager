@@ -60,13 +60,13 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
 
   @Override
   public int archive(int id) throws DataArchiveException {
-    String sourceFile = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
-    String destinationFile = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(sourceFile);
+    String sourcePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    String destinationPath = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(sourcePath);
     lock.writeLock().lock();
     try {
-      log.info("Archiving ManagerRequest: {}", sourceFile);
-      Files.move(Paths.get(sourceFile), Paths.get(destinationFile));
+      log.info("Archiving ManagerRequest: {}", sourcePath);
+      Files.move(Paths.get(sourcePath), Paths.get(destinationPath));
       return id;
     } catch (Exception e) {
       throw new DataArchiveException("Failed to archive ManagerRequest: " + id, e);
@@ -78,17 +78,17 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   @Cacheable(cacheNames = "requestsArchive", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filename = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
-    File file = new File(filename);
+    String filePath = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
+    File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();
     }
-    ReentrantReadWriteLock lock = getLock(filename);
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.readLock().lock();
     try {
       return Optional.of(xmlUnmarshaller.unmarshal(file));
     } catch (Exception e) {
-      throw new DataReadException("Error retrieving archived ManagerRequest: " + filename, e);
+      throw new DataReadException("Error retrieving archived ManagerRequest: " + filePath, e);
     } finally {
       lock.readLock().unlock();
     }

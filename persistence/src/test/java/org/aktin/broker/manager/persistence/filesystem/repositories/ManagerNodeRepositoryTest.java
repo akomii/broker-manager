@@ -19,7 +19,6 @@ package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
@@ -105,12 +105,6 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testSaveNodeWithMissingKeys() {
-    ManagerNode incompleteNode = loadManagerNodeFromTestResources(1);
-    repository.save(incompleteNode);
-  }
-
-  @Test
   void testDelete() {
     copyManagerNodeTestResourceToTempDir(1);
     repository.delete(1);
@@ -148,15 +142,16 @@ class ManagerNodeRepositoryTest {
   }
 
   @Test
-  void testGetNodeWithMissingKeys() {
-    copyManagerNodeTestResourceToTempDir(2);
-    Optional<ManagerNode> opt = repository.get(2);
+  void testGetInvalidNode() {
+    copyManagerNodeTestResourceToTempDir(3);
+    assertThrows(DataReadException.class, () -> repository.get(3));
   }
 
   @Test
   void testGetAllWithValidAndInvalidNodes() {
     copyManagerNodeTestResourceToTempDir(1);
     copyManagerNodeTestResourceToTempDir(2);
+    copyManagerNodeTestResourceToTempDir(3);
     List<ManagerNode> validNodes = repository.getAll();
     assertEquals(2, validNodes.size());
   }

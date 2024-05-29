@@ -32,7 +32,6 @@
 
   <properties>
     <aktin.broker-client.version>1.5.1-SNAPSHOT</aktin.broker-client.version>
-    <jaxb.version>2.3.1</jaxb.version>
   </properties>
 
   <dependencies>
@@ -41,19 +40,6 @@
       <groupId>org.aktin</groupId>
       <artifactId>broker-client</artifactId>
       <version>${aktin.broker-client.version}</version>
-    </dependency>
-
-    <!-- Java API for processing XML data using JAXB -->
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>${jaxb.version}</version>
-    </dependency>
-    <!-- JAXB implementation to convert Java objects to XML and vice-versa -->
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>${jaxb.version}</version>
     </dependency>
   </dependencies>
 </project>

@@ -21,8 +21,10 @@ import java.io.IOException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
+import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
@@ -50,5 +52,13 @@ public class PersistenceConfig {
       @Qualifier("managerRequestXmlUnmarshaller") XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
       @Value("${broker-manager.storage.directory.requests}") String requestsDirectory) throws IOException {
     return new FsManagerRequestRepository(xmlMarshaller, xmlUnmarshaller, requestsDirectory);
+  }
+
+  @Bean
+  public ManagerRequestArchive fsManagerRequestArchive(
+      @Qualifier("managerRequestXmlUnmarshaller") XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
+      @Value("${broker-manager.storage.directory.requests}") String requestsDirectory,
+      @Value("${broker-manager.storage.directory.archive}") String archiveDirectory) throws IOException {
+    return new FsManagerRequestArchive(xmlUnmarshaller, requestsDirectory, archiveDirectory);
   }
 }

@@ -17,7 +17,6 @@
 
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,30 +25,33 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.ArchiveException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
-import org.aktin.broker.query.xml.QuerySchedule;
+import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
-public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
+//TODO refactor and simplify
+public class FsManagerRequestArchive implements ManagerRequestArchive {
 
-  private static final String JSON_EXTENSION = ".json";
-  private static final String FILE_SEPARATOR = File.separator;
+  private static final Logger log = LoggerFactory.getLogger(FsManagerRequestArchive.class);
+  private static final String XML_EXTENSION = ".xml";
 
-  private final ObjectMapper mapper;
-  private final String requestStorage;
-  private final String archiveStorage;
+  private final XmlUnmarshaller<ManagerRequest> xmlUnmarshaller;
+  private final String requestsDirectory;
+  private final String archiveDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FilesystemManagerRequestArchive(ObjectMapper mapper, String requestStorage, String archiveStorage) throws IOException {
-    this.mapper = mapper;
-    this.requestStorage = requestStorage;
-    this.archiveStorage = archiveStorage;
-    Files.createDirectories(Paths.get(this.archiveStorage));
+  public FsManagerRequestArchive(XmlUnmarshaller<ManagerRequest> xmlUnmarshaller, String requestsDirectory, String archiveDirectory)
+      throws IOException {
+    this.xmlUnmarshaller = xmlUnmarshaller;
+    this.requestsDirectory = requestsDirectory;
+    this.archiveDirectory = archiveDirectory;
+    Files.createDirectories(Paths.get(this.archiveDirectory));
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
@@ -57,16 +59,17 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public int archive(int id) throws DataPersistException {
-    String sourceFile = requestStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
-    String destinationFile = archiveStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
+  public int archive(int id) throws DataArchiveException {
+    String sourceFile = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    String destinationFile = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(sourceFile);
     lock.writeLock().lock();
     try {
+      log.info("Archiving ManagerRequest: {}", sourceFile);
       Files.move(Paths.get(sourceFile), Paths.get(destinationFile));
       return id;
-    } catch (IOException e) {
-      throw new ArchiveException("Failed to archive ManagerRequest with ID: " + id, e);
+    } catch (Exception e) {
+      throw new DataArchiveException("Failed to archive ManagerRequest: " + id, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -74,23 +77,20 @@ public class FilesystemManagerRequestArchive implements ManagerRequestArchive {
 
   @Cacheable(cacheNames = "requestsArchive", key = "#id")
   @Override
-  public Optional<ManagerRequest<QuerySchedule>> get(int id) throws DataReadException {
-    String filename = archiveStorage + FILE_SEPARATOR + id + JSON_EXTENSION;
+  public Optional<ManagerRequest> get(int id) throws DataReadException {
+    String filename = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
+    File file = new File(filename);
+    if (!file.exists()) {
+      return Optional.empty();
+    }
     ReentrantReadWriteLock lock = getLock(filename);
     lock.readLock().lock();
     try {
-      File file = new File(filename);
-      return file.exists() ? deserializeManagerRequest(file) : Optional.empty();
+      return Optional.of(xmlUnmarshaller.unmarshal(file));
+    } catch (Exception e) {
+      throw new DataReadException("Error retrieving archived ManagerRequest: " + filename, e);
     } finally {
       lock.readLock().unlock();
-    }
-  }
-
-  private Optional<ManagerRequest<QuerySchedule>> deserializeManagerRequest(File file) {
-    try {
-      return Optional.of(mapper.readValue(file, ManagerRequest.class));
-    } catch (IOException e) {
-      throw new DataReadException("Error reading ManagerRequest from file: " + file.getName(), e);
     }
   }
 }

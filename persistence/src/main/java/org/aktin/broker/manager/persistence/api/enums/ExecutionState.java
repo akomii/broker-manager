@@ -24,7 +24,7 @@ package org.aktin.broker.manager.persistence.api.enums;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public enum RequestExecutionState {
+public enum ExecutionState {
   /**
    * The execution has been created and is waiting for publishing.
    */

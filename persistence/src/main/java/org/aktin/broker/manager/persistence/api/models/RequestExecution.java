@@ -19,7 +19,7 @@ package org.aktin.broker.manager.persistence.api.models;
 
 import java.time.Instant;
 import java.util.List;
-import org.aktin.broker.manager.persistence.api.enums.RequestExecutionState;
+import org.aktin.broker.manager.persistence.api.enums.ExecutionState;
 
 /**
  * Represents a single execution of a {@link ManagerRequest}. Captures execution-specific timestamps, state, and associated events (e.g., node
@@ -78,9 +78,9 @@ public interface RequestExecution {
 
   void setCreatedBy(String createdBy);
 
-  RequestExecutionState getExecutionState();
+  ExecutionState getExecutionState();
 
-  void setExecutionState(RequestExecutionState executionState);
+  void setExecutionState(ExecutionState executionState);
 
   List<NodeStatusInfo> getNodeStatusInfos();
 

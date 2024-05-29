@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<seriesRequest xmlns:ns2="http://aktin.org/ns/exchange" dataVersion="1">
+<seriesRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://aktin.org/ns/exchange" dataVersion="1">
   <id>2</id>
   <tags>
     <tag>urgent</tag>
@@ -18,12 +18,6 @@
     <targetNode>5</targetNode>
   </targetNodes>
   <requestState>DRAFT</requestState>
-  <createdDate>2023-01-01T00:00:00Z</createdDate>
-  <createdBy>jsmith123</createdBy>
-  <anchoredSequenceIdRef/>
-  <isAutoPublishing>false</isAutoPublishing>
-  <seriesClosingDate/>
-  <seriesArchiveDate/>
   <modificationEntries>
     <modificationEntry>
       <username>jdoe123</username>
@@ -47,20 +41,25 @@
       </content>
     </modificationEntry>
   </modificationEntries>
-  <requestExecutions/>
-  <ns2:query>
-    <ns2:title>2019-003: Wochenbericht der Notaufnahmesurveillance am RKI</ns2:title>
-    <ns2:principal>
-      <ns2:name>Dr. Allen Smith</ns2:name>
-      <ns2:organisation>HealthOrg of healthy organisation</ns2:organisation>
-      <ns2:email>dr.smith@healthorg.com</ns2:email>
-      <ns2:phone>1111-2222-3333-4444-5555</ns2:phone>
-    </ns2:principal>
-    <ns2:schedule xsi:type="repeatedExecution">
-      <ns2:duration>-P2M</ns2:duration>
-      <ns2:interval>P2Y3M10D</ns2:interval>
-      <ns2:intervalHours>8</ns2:intervalHours>
-      <ns2:id>1</ns2:id>
-    </ns2:schedule>
-  </ns2:query>
+  <createdDate>2023-01-01T00:00:00Z</createdDate>
+  <createdBy>jsmith123</createdBy>
+  <ns3:query>
+    <ns3:title>2019-003: Wochenbericht der Notaufnahmesurveillance am RKI</ns3:title>
+    <ns3:principal>
+      <ns3:name>Dr. Allen Smith</ns3:name>
+      <ns3:organisation>HealthOrg of healthy organisation</ns3:organisation>
+      <ns3:email>dr.smith@healthorg.com</ns3:email>
+      <ns3:phone>1111-2222-3333-4444-5555</ns3:phone>
+    </ns3:principal>
+    <ns3:schedule xsi:type="ns3:repeatedExecution">
+      <ns3:duration>P-2M</ns3:duration>
+      <ns3:interval>P2Y3M10D</ns3:interval>
+      <ns3:intervalHours>8</ns3:intervalHours>
+      <ns3:id>1</ns3:id>
+    </ns3:schedule>
+    <sql xmlns="http://aktin.authorizedOrg/ns/i2b2/sql" xmlns:ns2="http://aktin.org/ns/exchange">
+      <![CDATA[<"sql" xmlns="http://aktin.org/ns/i2b2/"sql""><temporary-table "name"="temp_data"/><source "type"="application/"sql"">SELECT p.patient_id, p."name", p.age, p.gender, d.diagnosis, t.treatment, t.outcome, t.follow_up_date FROM patients p INNER JOIN diagnoses d ON p.patient_id = d.patient_id INNER JOIN treatments t ON p.patient_id = t.patient_id WHERE d.condition = \'Cardiovascular\' AND t.treatment_date BETWEEN \'2022-01-01\' AND \'2023-01-01\' ORDER BY t.follow_up_date;</source><anonymize><ref table="temp_data" column="encounter_num"/></anonymize><export destination="technical_report" table="temp_data"/></"sql">]]>
+    </sql>
+  </ns3:query>
+  <isAutoPublishing>true</isAutoPublishing>
 </seriesRequest>

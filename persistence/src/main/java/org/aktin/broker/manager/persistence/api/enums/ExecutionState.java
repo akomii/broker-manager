@@ -17,9 +17,12 @@
 
 package org.aktin.broker.manager.persistence.api.enums;
 
+import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+
 /**
- * Enumerates the potential states of a {@link org.aktin.broker.manager.persistence.api.models.RequestExecution}. States typically progress from
- * PENDING -> PUBLISHED -> CLOSED -> ARCHIVED.
+ * Enumerates the potential states of a {@link RequestExecution}. States typically progress from
+ * <code>PENDING</code> => <code>PUBLISHED</code> => <code>CLOSED</code> => <code>ARCHIVED</code>.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -29,17 +32,14 @@ public enum ExecutionState {
    * The execution has been created and is waiting for publishing.
    */
   PENDING,
-
   /**
-   * The execution has been sent to corresponding {@link org.aktin.broker.manager.persistence.api.models.ManagerNode}. Results may be available.
+   * The execution has been sent to corresponding {@link ManagerNode}. Results may be available.
    */
   PUBLISHED,
-
   /**
    * The execution has been closed and results can no longer be contributed.
    */
   CLOSED,
-
   /**
    * The execution has been moved to long-term storage. The corresponding results have been deleted and are no longer available.
    */

@@ -17,31 +17,29 @@
 
 package org.aktin.broker.manager.persistence.api.enums;
 
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+
 /**
- * Enumerates the potential states of a {@link org.aktin.broker.manager.persistence.api.models.ManagerRequest}. States typically progress from DRAFT
- * -> ONLINE -> CLOSED -> ARCHIVED.
+ * Enumerates the potential states of a {@link ManagerRequest}. States typically progress from
+ * <code>DRAFT</code> => <code>ONLINE</code> => <code>CLOSED</code> => <code>ARCHIVED</code>.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
 public enum RequestState {
-
   /**
-   * The request is a work in progress. All contents of the request can be changed. It can be used to create other drafts or be set in the ONLINE
-   * state.
+   * The request is a work in progress. All contents of the request can be changed. It can be used to create other drafts or be set in the
+   * <code>ONLINE</code> state.
    */
   DRAFT,
-
   /**
    * The request is active and its content is not editable anymore.
    */
   ONLINE,
-
   /**
    * The request and all of its executions are closed. Executions cannot receive results anymore.
    */
   CLOSED,
-
   /**
    * The request and all of its executions have been moved to a long-term archive for historical or auditing purposes.
    */

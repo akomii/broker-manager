@@ -17,12 +17,31 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+/**
+ * This exception is used to wrap any exceptions that occur during data read operations across all
+ * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data read processes within
+ * the application.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 public class DataReadException extends RuntimeException {
 
+  /**
+   * Constructs a new DataReadException with the specified detail message.
+   *
+   * @param message the detail message explaining the cause of the read failure.
+   */
   public DataReadException(String message) {
     super(message);
   }
 
+  /**
+   * Constructs a new DataReadException with the specified detail message and cause.
+   *
+   * @param message the detail message explaining the cause of the read failure.
+   * @param cause   the underlying cause of the exception.
+   */
   public DataReadException(String message, Throwable cause) {
     super(message, cause);
   }

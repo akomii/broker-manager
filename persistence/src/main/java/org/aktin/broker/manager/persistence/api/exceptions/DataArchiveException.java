@@ -17,12 +17,33 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
+
+/**
+ * This exception is used to wrap any exceptions that occur during the archival process. It is specifically intended for use with archiving operations
+ * related to {@link ManagerRequest} inside the {@link ManagerRequestArchive}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 public class DataArchiveException extends RuntimeException {
 
+  /**
+   * Constructs a new DataArchiveException with the specified detail message.
+   *
+   * @param message the detail message explaining the cause of the archival failure.
+   */
   public DataArchiveException(String message) {
     super(message);
   }
 
+  /**
+   * Constructs a new DataArchiveException with the specified detail message and cause.
+   *
+   * @param message the detail message explaining the cause of the archival failure.
+   * @param cause   the underlying cause of the exception.
+   */
   public DataArchiveException(String message, Throwable cause) {
     super(message, cause);
   }

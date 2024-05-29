@@ -17,12 +17,31 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+/**
+ * This exception is used to wrap any exceptions that occur during delete operations across all
+ * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data deletion processes
+ * within the application.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 public class DataDeleteException extends RuntimeException {
 
+  /**
+   * Constructs a new DataDeleteException with the specified detail message.
+   *
+   * @param message the detail message explaining the cause of the deletion failure.
+   */
   public DataDeleteException(String message) {
     super(message);
   }
 
+  /**
+   * Constructs a new DataDeleteException with the specified detail message and cause.
+   *
+   * @param message the detail message explaining the cause of the deletion failure.
+   * @param cause   the underlying cause of the exception.
+   */
   public DataDeleteException(String message, Throwable cause) {
     super(message, cause);
   }

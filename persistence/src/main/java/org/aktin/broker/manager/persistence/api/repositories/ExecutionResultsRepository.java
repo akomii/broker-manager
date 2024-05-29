@@ -18,6 +18,7 @@
 package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.io.InputStream;
+import java.util.Optional;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
@@ -34,11 +35,12 @@ public interface ExecutionResultsRepository {
   /**
    * Saves the provided result data as an {@link InputStream} and returns a unique filename associated with the saved result.
    *
-   * @param result the {@link InputStream} containing the result data to be saved
+   * @param result   the {@link InputStream} containing the result data to be saved
+   * @param filename the name of the result data to store as
    * @return a unique filename associated with the saved result
    * @throws DataPersistException if an error occurs while saving the result data
    */
-  String save(InputStream result) throws DataPersistException;
+  String save(InputStream result, String filename) throws DataPersistException;
 
   /**
    * Retrieves the result data associated with the provided filename as an {@link InputStream}.
@@ -47,7 +49,7 @@ public interface ExecutionResultsRepository {
    * @return an {@link InputStream} containing the result data
    * @throws DataReadException if an error occurs while retrieving the result data
    */
-  InputStream get(String filename) throws DataReadException;
+  Optional<InputStream> get(String filename) throws DataReadException;
 
   /**
    * Deletes the result data associated with the provided filename.

@@ -65,7 +65,7 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
     ReentrantReadWriteLock lock = getLock(sourcePath);
     lock.writeLock().lock();
     try {
-      log.info("Archiving ManagerRequest: {}", sourcePath);
+      log.info("Archiving ManagerRequest: {} to {}", sourcePath, destinationPath);
       Files.move(Paths.get(sourcePath), Paths.get(destinationPath));
       return id;
     } catch (Exception e) {

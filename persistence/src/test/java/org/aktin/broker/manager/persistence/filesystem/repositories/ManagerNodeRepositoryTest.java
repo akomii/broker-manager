@@ -81,7 +81,7 @@ class ManagerNodeRepositoryTest {
     compareXmlFiles(id);
   }
 
-  void compareXmlFiles(int id) {
+  private void compareXmlFiles(int id) {
     String originalFilePath = getTestResourcePath(id + ".xml");
     String savedFilePath = tempDir + File.separator + id + ".xml";
     try {
@@ -126,7 +126,7 @@ class ManagerNodeRepositoryTest {
     compareManagerNodes(expected, loadedNode.get());
   }
 
-  void compareManagerNodes(ManagerNode expected, ManagerNode actual) {
+  private void compareManagerNodes(ManagerNode expected, ManagerNode actual) {
     assertEquals(expected.getId(), actual.getId());
     assertEquals(expected.getApiKey(), actual.getApiKey());
     assertEquals(expected.getTags(), actual.getTags());

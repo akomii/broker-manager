@@ -1,20 +1,3 @@
-/*
- * Copyright (c) 2024 AKTIN
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,16 +15,16 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.models.FsSeriesRequest;
-import org.aktin.broker.manager.persistence.filesystem.models.FsSingleRequest;
-import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
 import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.QuerySchedule;
@@ -56,39 +39,50 @@ import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
-class ManagerRequestRepositoryTest {
+public class ManagerRequestArchiveTest {
 
   @TempDir
-  private Path tempDir;
+  private Path tempArchiveDir;
 
-  private ManagerRequestRepository repository;
+  @TempDir
+  private Path tempRequestsDir;
+
   private XmlUnmarshaller<ManagerRequest> unmarshaller;
+  private ManagerRequestArchive archive;
+
 
   @BeforeEach
   void setUp() throws IOException, JAXBException {
-    XmlMarshaller marshaller = new JaxbConfig().managerRequestXmlMarshaller();
     unmarshaller = new JaxbConfig().managerRequestXmlUnmarshaller();
-    repository = new FsManagerRequestRepository(marshaller, unmarshaller, tempDir.toString());
+    archive = new FsManagerRequestArchive(unmarshaller, tempRequestsDir.toString(), tempArchiveDir.toString());
   }
 
   @AfterEach
   void tearDown() throws IOException {
-    Files.walk(tempDir)
+    Files.walk(tempArchiveDir)
+        .map(Path::toFile)
+        .sorted((o1, o2) -> -o1.compareTo(o2))
+        .forEach(File::delete);
+    Files.walk(tempRequestsDir)
         .map(Path::toFile)
         .sorted((o1, o2) -> -o1.compareTo(o2))
         .forEach(File::delete);
   }
 
   @Test
-  void testSave() {
-    ManagerRequest originalRequest = loadManagerRequestFromTestResources(1);
-    int id = repository.save(originalRequest);
+  void testArchive() throws IOException {
+    copyManagerRequestTestResourceToTempDir(1, tempRequestsDir);
+    assertEquals(1, countFilesInDirectory(tempRequestsDir));
+    assertEquals(0, countFilesInDirectory(tempArchiveDir));
+    int id = archive.archive(1);
+    assertEquals(0, countFilesInDirectory(tempRequestsDir));
+    assertEquals(1, countFilesInDirectory(tempArchiveDir));
     compareXmlFiles(id);
   }
 
   private void compareXmlFiles(int id) {
     String originalFilePath = getTestResourcePath(id + ".xml");
-    String savedFilePath = tempDir + File.separator + id + ".xml";
+    String savedFilePath = tempArchiveDir + File.separator + id + ".xml";
     try {
       File expected = new File(originalFilePath);
       File actual = new File(savedFilePath);
@@ -104,29 +98,21 @@ class ManagerRequestRepositoryTest {
   }
 
   @Test
-  void testSaveInvalidRequest() {
-    ManagerRequest invalidRequest = new FsSingleRequest();
-    repository.save(invalidRequest);
+  void testArchiveNotFound() {
+    assertThrows(DataArchiveException.class, () -> archive.archive(1));
   }
 
   @Test
-  void testDelete() {
-    copyManagerRequestTestResourceToTempDir(1);
-    repository.delete(1);
-    Optional<ManagerRequest> deletedRequest = repository.get(1);
-    assertFalse(deletedRequest.isPresent());
-  }
-
-  @Test
-  void testDeleteNotFound() {
-    repository.delete(1);
+  void testArchiveInvalidRequest() {
+    copyManagerRequestTestResourceToTempDir(3, tempRequestsDir);
+    archive.archive(3);
   }
 
   @Test
   void testGet() {
-    copyManagerRequestTestResourceToTempDir(2);
+    copyManagerRequestTestResourceToTempDir(2, tempArchiveDir);
     ManagerRequest expected = loadManagerRequestFromTestResources(2);
-    Optional<ManagerRequest> loadedRequest = repository.get(2);
+    Optional<ManagerRequest> loadedRequest = archive.get(2);
     assertTrue(loadedRequest.isPresent());
     compareManagerRequests(expected, loadedRequest.get());
   }
@@ -183,40 +169,23 @@ class ManagerRequestRepositoryTest {
 
   @Test
   void testGetNotFound() {
-    Optional<ManagerRequest> request = repository.get(1);
+    Optional<ManagerRequest> request = archive.get(1);
     assertFalse(request.isPresent());
   }
 
   @Test
   void testGetInvalidRequest() {
-    copyManagerRequestTestResourceToTempDir(3);
-    assertThrows(DataReadException.class, () -> repository.get(3));
+    copyManagerRequestTestResourceToTempDir(3, tempArchiveDir);
+    assertThrows(DataReadException.class, () -> archive.get(3));
   }
 
-  @Test
-  void testGetAllWithValidAndInvalidRequests() {
-    copyManagerRequestTestResourceToTempDir(1);
-    copyManagerRequestTestResourceToTempDir(2);
-    copyManagerRequestTestResourceToTempDir(3);
-    List<ManagerRequest> validRequests = repository.getAll();
-    assertEquals(2, validRequests.size());
-  }
-
-  @Test
-  void testGetEmptyDirectory() {
-    List<ManagerRequest> allRequests = repository.getAll();
-    assertEquals(0, allRequests.size());
-  }
-
-  @Test
-  void testGetAllForOrganizations() {
-    copyManagerRequestTestResourceToTempDir(1);
-    copyManagerRequestTestResourceToTempDir(2);
-    copyManagerRequestTestResourceToTempDir(3);
-    List<ManagerRequest> r1 = repository.getAllForOrganizations(List.of(1));
-    assertEquals(2, r1.size());
-    List<ManagerRequest> r2 = repository.getAllForOrganizations(List.of(2));
-    assertEquals(1, r2.size());
+  private int countFilesInDirectory(Path directoryPath) throws IOException {
+    if (!Files.isDirectory(directoryPath)) {
+      throw new IllegalArgumentException("Provided path is not a directory: " + directoryPath);
+    }
+    try (Stream<Path> files = Files.list(directoryPath)) {
+      return (int) files.filter(Files::isRegularFile).count();
+    }
   }
 
   private String getTestResourcePath(String filename) throws IllegalArgumentException {
@@ -240,12 +209,13 @@ class ManagerRequestRepositoryTest {
     return null;
   }
 
-  private void copyManagerRequestTestResourceToTempDir(int id) {
+  private void copyManagerRequestTestResourceToTempDir(int id, Path tempDir) {
     String filename = id + ".xml";
     String resourcePath = getTestResourcePath(filename);
     try {
       Path tempFile = Files.createFile(Path.of(tempDir + File.separator + filename));
-      try (InputStream inputStream = new FileInputStream(resourcePath)) {
+      try (
+          InputStream inputStream = new FileInputStream(resourcePath)) {
         Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
       }
     } catch (IOException e) {

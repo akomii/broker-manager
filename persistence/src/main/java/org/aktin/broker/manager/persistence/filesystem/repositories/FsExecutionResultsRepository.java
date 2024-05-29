@@ -40,7 +40,7 @@ public class FsExecutionResultsRepository implements ExecutionResultsRepository 
   public String save(InputStream result, String filename) throws DataPersistException {
     String filePath = Paths.get(resultsDirectory, filename).toString();
     File file = new File(filePath);
-    if (!file.exists()) {
+    if (file.exists()) {
       throw new DataPersistException("Execution result file must be unique. File already exists: " + filePath);
     }
     try (OutputStream outputStream = Files.newOutputStream(Path.of(filePath))) {

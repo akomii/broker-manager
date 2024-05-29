@@ -37,20 +37,18 @@ import org.springframework.context.annotation.Profile;
 public class PersistenceConfig {
 
   @Bean
-  public ManagerNodeRepository filesystemManagerNodeRepository(
+  public ManagerNodeRepository fsManagerNodeRepository(
       @Qualifier("managerNodeXmlMarshaller") XmlMarshaller xmlMarshaller,
       @Qualifier("managerNodeXmlUnmarshaller") XmlUnmarshaller<ManagerNode> xmlUnmarshaller,
-      @Value("${broker-manager.storage.directory.nodes}") String storageDirectory
-  ) throws IOException {
-    return new FsManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
+      @Value("${broker-manager.storage.directory.nodes}") String nodesDirectory) throws IOException {
+    return new FsManagerNodeRepository(xmlMarshaller, xmlUnmarshaller, nodesDirectory);
   }
 
   @Bean
-  public ManagerRequestRepository filesystemManagerRequestRepository(
+  public ManagerRequestRepository fsManagerRequestRepository(
       @Qualifier("managerRequestXmlMarshaller") XmlMarshaller xmlMarshaller,
       @Qualifier("managerRequestXmlUnmarshaller") XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
-      @Value("${broker-manager.storage.directory.requests}") String storageDirectory
-  ) throws IOException {
-    return new FsManagerRequestRepository(xmlMarshaller, xmlUnmarshaller, storageDirectory);
+      @Value("${broker-manager.storage.directory.requests}") String requestsDirectory) throws IOException {
+    return new FsManagerRequestRepository(xmlMarshaller, xmlUnmarshaller, requestsDirectory);
   }
 }

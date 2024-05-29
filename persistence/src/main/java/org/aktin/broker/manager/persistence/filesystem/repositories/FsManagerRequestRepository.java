@@ -52,18 +52,17 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   private final XmlMarshaller xmlMarshaller;
   private final XmlUnmarshaller<ManagerRequest> xmlUnmarshaller;
-  private final String storageDirectory;
+  private final String requestsDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
   private final FsIdGenerator fsIdGenerator;
 
-  public FsManagerRequestRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest> xmlUnmarshaller,
-      String storageDirectory)
+  public FsManagerRequestRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest> xmlUnmarshaller, String requestsDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
-    this.storageDirectory = storageDirectory;
-    Path storagePath = Paths.get(storageDirectory);
+    this.requestsDirectory = requestsDirectory;
+    Path storagePath = Paths.get(requestsDirectory);
     Files.createDirectories(storagePath);
     this.fsIdGenerator = new FsIdGenerator(storagePath);
   }
@@ -78,7 +77,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     if (entity.getId() == 0) {
       entity.setId(fsIdGenerator.generateId());
     }
-    String filename = Paths.get(storageDirectory, entity.getId() + XML_EXTENSION).toString();
+    String filename = Paths.get(requestsDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
@@ -98,7 +97,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
+    String filename = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
@@ -118,7 +117,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
+    String filename = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
     File file = new File(filename);
     if (!file.exists()) {
       return Optional.empty();
@@ -138,7 +137,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @Override
   public List<ManagerRequest> getAll() {
     List<ManagerRequest> requests = new ArrayList<>();
-    File storageDir = new File(storageDirectory);
+    File storageDir = new File(requestsDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
       return requests;
@@ -165,7 +164,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @Override
   public List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds) {
     List<ManagerRequest> filteredRequests = new ArrayList<>();
-    File storageDir = new File(storageDirectory);
+    File storageDir = new File(requestsDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
       return filteredRequests;

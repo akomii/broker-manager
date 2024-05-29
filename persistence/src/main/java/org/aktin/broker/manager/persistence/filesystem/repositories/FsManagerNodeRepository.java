@@ -47,16 +47,16 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
 
   private final XmlMarshaller xmlMarshaller;
   private final XmlUnmarshaller<ManagerNode> xmlUnmarshaller;
-  private final String storageDirectory;
+  private final String nodesDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String storageDirectory)
+  public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String nodesDirectory)
       throws IOException {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
-    this.storageDirectory = storageDirectory;
-    Files.createDirectories(Paths.get(this.storageDirectory));
+    this.nodesDirectory = nodesDirectory;
+    Files.createDirectories(Paths.get(this.nodesDirectory));
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
@@ -66,7 +66,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public int save(ManagerNode entity) throws DataPersistException {
-    String filename = Paths.get(storageDirectory, entity.getId() + XML_EXTENSION).toString();
+    String filename = Paths.get(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
@@ -86,7 +86,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
+    String filename = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filename);
     lock.writeLock().lock();
     try {
@@ -106,7 +106,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws DataReadException {
-    String filename = Paths.get(storageDirectory, id + XML_EXTENSION).toString();
+    String filename = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
     File file = new File(filename);
     if (!file.exists()) {
       return Optional.empty();
@@ -126,7 +126,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @Override
   public List<ManagerNode> getAll() {
     List<ManagerNode> managerNodes = new ArrayList<>();
-    File storageDir = new File(storageDirectory);
+    File storageDir = new File(nodesDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
     if (files == null) {
       return managerNodes;

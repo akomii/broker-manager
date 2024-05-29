@@ -19,7 +19,7 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.ArchiveException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
 
@@ -37,9 +37,9 @@ public interface ManagerRequestArchive {
    *
    * @param id The unique identifier of the {@link ManagerRequest} to archive
    * @return The ID of the archived {@link ManagerRequest}
-   * @throws ArchiveException If an error occurs during the archival process
+   * @throws DataArchiveException If an error occurs during the archival process
    */
-  int archive(int id) throws ArchiveException;
+  int archive(int id) throws DataArchiveException;
 
   /**
    * Retrieves a {@link ManagerRequest} from archive storage based on its ID.

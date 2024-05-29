@@ -31,7 +31,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.TextEntry;
@@ -41,7 +40,6 @@ import org.aktin.broker.xml.Node;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)

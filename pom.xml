@@ -33,7 +33,7 @@
 
   <modules>
     <module>persistence</module>
-    <module>util</module>
+    <module>service</module>
     <!-- scheduler -->
     <module>security</module>
     <module>endpoint</module>

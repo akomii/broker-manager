@@ -30,7 +30,7 @@ import org.aktin.broker.manager.persistence.api.models.RequestExecution;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ExecutionResultsRepository {
+public interface ExecutionResultRepository {
 
   /**
    * Saves the provided result data as an {@link InputStream} and returns a unique filename associated with the saved result.

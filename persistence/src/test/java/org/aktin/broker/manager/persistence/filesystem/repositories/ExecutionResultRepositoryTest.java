@@ -32,23 +32,23 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultsRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 
-public class ExecutionResultsRepositoryTest {
+public class ExecutionResultRepositoryTest {
 
   @TempDir
   private Path tempDir;
 
-  private ExecutionResultsRepository repository;
+  private ExecutionResultRepository repository;
 
   @BeforeEach
   void setUp() throws IOException {
-    repository = new FsExecutionResultsRepository(tempDir.toString());
+    repository = new FsExecutionResultRepository(tempDir.toString());
   }
 
   @AfterEach

@@ -20,11 +20,11 @@ package org.aktin.broker.manager.persistence.filesystem.conf;
 import java.io.IOException;
 import org.aktin.broker.manager.persistence.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultsRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
-import org.aktin.broker.manager.persistence.filesystem.repositories.FsExecutionResultsRepository;
+import org.aktin.broker.manager.persistence.filesystem.repositories.FsExecutionResultRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestRepository;
@@ -65,8 +65,8 @@ public class PersistenceConfig {
   }
 
   @Bean
-  public ExecutionResultsRepository fsExecutionResultsRepository(
+  public ExecutionResultRepository fsExecutionResultsRepository(
       @Value("${broker-manager.storage.directory.results}") String resultsDirectory) throws IOException {
-    return new FsExecutionResultsRepository(resultsDirectory);
+    return new FsExecutionResultRepository(resultsDirectory);
   }
 }

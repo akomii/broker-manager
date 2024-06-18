@@ -14,20 +14,20 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultsRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // each stored result is unique
 // TODO refactor
-public class FsExecutionResultsRepository implements ExecutionResultsRepository {
+public class FsExecutionResultRepository implements ExecutionResultRepository {
 
-  private static final Logger log = LoggerFactory.getLogger(FsExecutionResultsRepository.class);
+  private static final Logger log = LoggerFactory.getLogger(FsExecutionResultRepository.class);
 
   private final String resultsDirectory;
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FsExecutionResultsRepository(String resultsDirectory) throws IOException {
+  public FsExecutionResultRepository(String resultsDirectory) throws IOException {
     this.resultsDirectory = resultsDirectory;
     Files.createDirectories(Paths.get(resultsDirectory));
   }

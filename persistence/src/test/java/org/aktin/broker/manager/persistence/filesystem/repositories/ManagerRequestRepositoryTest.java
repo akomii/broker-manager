@@ -83,10 +83,10 @@ class ManagerRequestRepositoryTest {
   void testSave() {
     ManagerRequest originalRequest = loadManagerRequestFromTestResources(1);
     int id = repository.save(originalRequest);
-    compareXmlFiles(id);
+    assertTrue(areXmlFilesEqual(id));
   }
 
-  private void compareXmlFiles(int id) {
+  private boolean areXmlFilesEqual(int id) {
     String originalFilePath = getTestResourcePath(id + ".xml");
     String savedFilePath = tempDir + File.separator + id + ".xml";
     try {
@@ -97,10 +97,23 @@ class ManagerRequestRepositoryTest {
           .ignoreWhitespace()
           .ignoreComments()
           .build();
-      assertFalse(diff.hasDifferences());
+      return !diff.hasDifferences();
     } catch (IllegalArgumentException e) {
       e.printStackTrace();
+      return false;
     }
+  }
+
+  @Test
+  void testUpdate() {
+    ManagerRequest newRequest = loadManagerRequestFromTestResources(1);
+    String oldTitle = newRequest.getTitle();
+    newRequest.setTitle("ABCDEF");
+    int id = repository.save(newRequest);
+    assertFalse(areXmlFilesEqual(id));
+    newRequest.setTitle(oldTitle);
+    repository.save(newRequest);
+    assertTrue(areXmlFilesEqual(id));
   }
 
   @Test

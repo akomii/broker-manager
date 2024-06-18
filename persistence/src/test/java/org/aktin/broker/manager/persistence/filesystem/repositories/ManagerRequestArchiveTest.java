@@ -93,10 +93,10 @@ class ManagerRequestArchiveTest {
     int id = archive.archive(1);
     assertEquals(0, countFilesInDirectory(tempRequestsDir));
     assertEquals(1, countFilesInDirectory(tempArchiveDir));
-    compareXmlFiles(id);
+    assertTrue(areXmlFilesEqual(id));
   }
 
-  private void compareXmlFiles(int id) {
+  private boolean areXmlFilesEqual(int id) {
     String originalFilePath = getTestResourcePath(id + ".xml");
     String savedFilePath = tempArchiveDir + File.separator + id + ".xml";
     try {
@@ -107,9 +107,10 @@ class ManagerRequestArchiveTest {
           .ignoreWhitespace()
           .ignoreComments()
           .build();
-      assertFalse(diff.hasDifferences());
+      return !diff.hasDifferences();
     } catch (IllegalArgumentException e) {
       e.printStackTrace();
+      return false;
     }
   }
 

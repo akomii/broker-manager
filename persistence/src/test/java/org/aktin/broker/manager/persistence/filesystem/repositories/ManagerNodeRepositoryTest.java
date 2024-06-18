@@ -78,10 +78,10 @@ class ManagerNodeRepositoryTest {
   void testSave() {
     ManagerNode originalNode = loadManagerNodeFromTestResources(1);
     int id = repository.save(originalNode);
-    compareXmlFiles(id);
+    assertTrue(areXmlFilesEqual(id));
   }
 
-  private void compareXmlFiles(int id) {
+  private boolean areXmlFilesEqual(int id) {
     String originalFilePath = getTestResourcePath(id + ".xml");
     String savedFilePath = tempDir + File.separator + id + ".xml";
     try {
@@ -92,10 +92,23 @@ class ManagerNodeRepositoryTest {
           .ignoreWhitespace()
           .ignoreComments()
           .build();
-      assertFalse(diff.hasDifferences());
+      return !diff.hasDifferences();
     } catch (IllegalArgumentException e) {
       e.printStackTrace();
+      return false;
     }
+  }
+
+  @Test
+  void testUpdate() {
+    ManagerNode newNode = loadManagerNodeFromTestResources(1);
+    String oldKey = newNode.getApiKey();
+    newNode.setApiKey("ABDCDEF");
+    int id = repository.save(newNode);
+    assertFalse(areXmlFilesEqual(id));
+    newNode.setApiKey(oldKey);
+    repository.save(newNode);
+    assertTrue(areXmlFilesEqual(id));
   }
 
   @Test

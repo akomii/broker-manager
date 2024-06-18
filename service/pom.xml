@@ -41,5 +41,11 @@
       <artifactId>broker-client</artifactId>
       <version>${aktin.broker-client.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.aktin.broker-manager</groupId>
+      <artifactId>persistence</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

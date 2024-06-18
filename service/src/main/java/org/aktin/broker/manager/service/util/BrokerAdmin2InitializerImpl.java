@@ -37,20 +37,9 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
   private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
 
-  @Value("${broker-manager.connection.broker.uri}")
-  private String uriString;
-
-  @Value("${broker-manager.connection.broker.apiKey}")
-  private String apiKey;
-
+  private final String uriString;
+  private final String apiKey;
   private final BrokerAdmin brokerAdmin;
-
-  /**
-   * Default constructor. Initializes the {@link BrokerAdmin} client using configuration values obtained from the Spring environment.
-   */
-  public BrokerAdmin2InitializerImpl() {
-    brokerAdmin = initBrokerAdmin();
-  }
 
   /**
    * Constructor for providing the broker URI and API key directly. Initializes the {@link BrokerAdmin2} client using the specified parameters.
@@ -58,7 +47,9 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
    * @param uriString The URI of the broker.
    * @param apiKey    The API key for authentication with the broker.
    */
-  public BrokerAdmin2InitializerImpl(String uriString, String apiKey) {
+  public BrokerAdmin2InitializerImpl(
+      @Value("${broker-manager.connection.broker.uri}") String uriString,
+      @Value("${broker-manager.connection.broker.apiKey}") String apiKey) {
     this.uriString = uriString;
     this.apiKey = apiKey;
     brokerAdmin = initBrokerAdmin();

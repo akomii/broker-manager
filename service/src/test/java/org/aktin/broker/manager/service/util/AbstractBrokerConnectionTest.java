@@ -15,12 +15,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.util.connection;
+package org.aktin.broker.manager.service.util;
 
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import org.aktin.broker.client.BrokerAdmin;
-import org.aktin.broker.manager.util.BrokerContainer;
-import org.aktin.broker.manager.util.BrokerTestDataGenerator;
+import org.aktin.broker.manager.service.BrokerContainer;
+import org.aktin.broker.manager.service.BrokerTestDataGenerator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.junit.jupiter.Container;

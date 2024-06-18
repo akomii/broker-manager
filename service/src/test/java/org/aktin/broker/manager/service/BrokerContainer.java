@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.util;
+package org.aktin.broker.manager.service;
 
 import java.time.Duration;
 import org.testcontainers.containers.GenericContainer;

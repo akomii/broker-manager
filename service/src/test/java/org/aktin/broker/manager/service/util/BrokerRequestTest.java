@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.util.connection;
+package org.aktin.broker.manager.service.util;
 
 import java.io.IOException;
 import java.io.Reader;

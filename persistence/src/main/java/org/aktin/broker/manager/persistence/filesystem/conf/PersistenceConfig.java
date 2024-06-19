@@ -28,8 +28,8 @@ import org.aktin.broker.manager.persistence.filesystem.repositories.FsExecutionR
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestRepository;
-import org.aktin.broker.manager.persistence.filesystem.utils.XmlMarshaller;
-import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.aktin.broker.manager.persistence.filesystem.util.XmlMarshaller;
+import org.aktin.broker.manager.persistence.filesystem.util.XmlUnmarshaller;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

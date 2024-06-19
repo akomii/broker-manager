@@ -42,7 +42,7 @@ import org.aktin.broker.manager.repositories.ManagerRequestArchive;
 import org.aktin.broker.manager.persistence.filesystem.conf.JaxbConfig;
 import org.aktin.broker.manager.persistence.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.filesystem.models.FsSeriesRequest;
-import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.aktin.broker.manager.persistence.filesystem.util.XmlUnmarshaller;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.RepeatedExecution;

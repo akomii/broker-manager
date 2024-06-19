@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.filesystem.utils;
+package org.aktin.broker.manager.persistence.filesystem.util;
 
 import java.io.File;
 import java.io.IOException;

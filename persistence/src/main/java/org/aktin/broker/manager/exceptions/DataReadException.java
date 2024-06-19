@@ -18,8 +18,9 @@
 package org.aktin.broker.manager.exceptions;
 
 /**
- * This exception is used to wrap any exceptions that occur during data read operations across all {@link org.aktin.broker.manager.repositories},
- * providing a way to signal issues specifically related to data read processes within the application.
+ * This exception is used to wrap any exceptions that occur during data read operations across all
+ * {@link org.aktin.broker.manager.repositories}, providing a way to signal issues specifically related to data read processes within the
+ * application.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0

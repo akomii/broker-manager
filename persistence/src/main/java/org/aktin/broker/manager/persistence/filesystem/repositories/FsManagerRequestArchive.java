@@ -29,7 +29,7 @@ import org.aktin.broker.manager.models.ManagerRequest;
 import org.aktin.broker.manager.exceptions.DataArchiveException;
 import org.aktin.broker.manager.exceptions.DataReadException;
 import org.aktin.broker.manager.repositories.ManagerRequestArchive;
-import org.aktin.broker.manager.persistence.filesystem.utils.XmlUnmarshaller;
+import org.aktin.broker.manager.persistence.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;

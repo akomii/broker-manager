@@ -15,14 +15,31 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.models;
+package org.aktin.broker.manager.models;
+
+import java.time.Instant;
 
 /**
- * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface SingleRequest extends ManagerRequest {
+public interface SeriesRequest extends ManagerRequest {
 
+  int getAnchoredSequenceIdRef();
+
+  void setAnchoredSequenceIdRef(int sequenceIdRef);
+
+  boolean isAutoPublishing();
+
+  void setAutoPublishing(boolean autoPublishing);
+
+  Instant getSeriesClosingDate();
+
+  void setSeriesClosingDate(Instant seriesClosingDate);
+
+  Instant getSeriesArchiveDate();
+
+  void setSeriesArchiveDate(Instant seriesArchiveDate);
 }

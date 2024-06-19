@@ -15,12 +15,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.models;
+package org.aktin.broker.manager.models;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
-import org.aktin.broker.manager.persistence.api.enums.RequestState;
+import org.aktin.broker.manager.enums.RequestState;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;

@@ -15,10 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.enums;
+package org.aktin.broker.manager.enums;
 
-import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.models.RequestExecution;
+import org.aktin.broker.manager.models.ManagerNode;
+import org.aktin.broker.manager.models.RequestExecution;
 
 /**
  * Enumerates the potential states of a {@link RequestExecution}. States typically progress from

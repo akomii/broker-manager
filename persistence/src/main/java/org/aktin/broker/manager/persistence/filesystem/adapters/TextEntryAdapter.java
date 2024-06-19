@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.filesystem.adapters;
 
-import org.aktin.broker.manager.persistence.api.models.TextEntry;
+import org.aktin.broker.manager.models.TextEntry;
 import org.aktin.broker.manager.persistence.filesystem.models.FsTextEntry;
 
 public class TextEntryAdapter extends AbstractXmlAdapter<FsTextEntry, TextEntry> {

@@ -15,34 +15,34 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.exceptions;
+package org.aktin.broker.manager.exceptions;
 
 /**
- * This exception is used to wrap any exceptions that occur during data persistence operations across all
- * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data persistence processes
+ * This exception is used to wrap any exceptions that occur during delete operations across all
+ * {@link org.aktin.broker.manager.repositories}, providing a way to signal issues specifically related to data deletion processes
  * within the application.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class DataPersistException extends RuntimeException {
+public class DataDeleteException extends RuntimeException {
 
   /**
-   * Constructs a new DataPersistException with the specified detail message.
+   * Constructs a new DataDeleteException with the specified detail message.
    *
-   * @param message the detail message explaining the cause of the persistence failure.
+   * @param message the detail message explaining the cause of the deletion failure.
    */
-  public DataPersistException(String message) {
+  public DataDeleteException(String message) {
     super(message);
   }
 
   /**
-   * Constructs a new DataPersistException with the specified detail message and cause.
+   * Constructs a new DataDeleteException with the specified detail message and cause.
    *
-   * @param message the detail message explaining the cause of the persistence failure.
+   * @param message the detail message explaining the cause of the deletion failure.
    * @param cause   the underlying cause of the exception.
    */
-  public DataPersistException(String message, Throwable cause) {
+  public DataDeleteException(String message, Throwable cause) {
     super(message, cause);
   }
 }

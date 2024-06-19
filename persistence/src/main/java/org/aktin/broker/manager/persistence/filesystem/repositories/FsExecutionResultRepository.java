@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2024 AKTIN
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.aktin.broker.manager.persistence.filesystem.repositories;
 
 import java.io.File;
@@ -11,10 +28,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
+import org.aktin.broker.manager.exceptions.DataDeleteException;
+import org.aktin.broker.manager.exceptions.DataPersistException;
+import org.aktin.broker.manager.exceptions.DataReadException;
+import org.aktin.broker.manager.repositories.ExecutionResultRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

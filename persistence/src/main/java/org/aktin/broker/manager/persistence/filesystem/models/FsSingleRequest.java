@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.aktin.broker.manager.persistence.api.models.SingleRequest;
+import org.aktin.broker.manager.models.SingleRequest;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.SingleExecution;

@@ -31,13 +31,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
+import org.aktin.broker.manager.exceptions.DataPersistException;
+import org.aktin.broker.manager.repositories.ExecutionResultRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-
 
 public class ExecutionResultRepositoryTest {
 

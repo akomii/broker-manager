@@ -15,13 +15,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.repositories;
-
+package org.aktin.broker.manager.repositories;
 
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
+import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.exceptions.DataArchiveException;
+import org.aktin.broker.manager.exceptions.DataReadException;
 
 /**
  * Enables the relocation of {@link ManagerRequest} from primary data storage to designated archive storages to manage storage resources and

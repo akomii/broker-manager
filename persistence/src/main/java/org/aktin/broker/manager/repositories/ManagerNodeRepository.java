@@ -15,14 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.repositories;
+package org.aktin.broker.manager.repositories;
 
 import java.util.List;
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.api.models.ManagerNode;
+import org.aktin.broker.manager.models.ManagerNode;
+import org.aktin.broker.manager.exceptions.DataDeleteException;
+import org.aktin.broker.manager.exceptions.DataPersistException;
+import org.aktin.broker.manager.exceptions.DataReadException;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerNode} entities.

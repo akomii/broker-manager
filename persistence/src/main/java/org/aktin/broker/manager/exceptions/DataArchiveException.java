@@ -15,10 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.exceptions;
+package org.aktin.broker.manager.exceptions;
 
-import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
+import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.repositories.ManagerRequestArchive;
 
 /**
  * This exception is used to wrap any exceptions that occur during the archival process. It is specifically intended for use with archiving operations

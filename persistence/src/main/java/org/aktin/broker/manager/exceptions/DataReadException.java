@@ -15,34 +15,33 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.exceptions;
+package org.aktin.broker.manager.exceptions;
 
 /**
- * This exception is used to wrap any exceptions that occur during delete operations across all
- * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data deletion processes
- * within the application.
+ * This exception is used to wrap any exceptions that occur during data read operations across all {@link org.aktin.broker.manager.repositories},
+ * providing a way to signal issues specifically related to data read processes within the application.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class DataDeleteException extends RuntimeException {
+public class DataReadException extends RuntimeException {
 
   /**
-   * Constructs a new DataDeleteException with the specified detail message.
+   * Constructs a new DataReadException with the specified detail message.
    *
-   * @param message the detail message explaining the cause of the deletion failure.
+   * @param message the detail message explaining the cause of the read failure.
    */
-  public DataDeleteException(String message) {
+  public DataReadException(String message) {
     super(message);
   }
 
   /**
-   * Constructs a new DataDeleteException with the specified detail message and cause.
+   * Constructs a new DataReadException with the specified detail message and cause.
    *
-   * @param message the detail message explaining the cause of the deletion failure.
+   * @param message the detail message explaining the cause of the read failure.
    * @param cause   the underlying cause of the exception.
    */
-  public DataDeleteException(String message, Throwable cause) {
+  public DataReadException(String message, Throwable cause) {
     super(message, cause);
   }
 }

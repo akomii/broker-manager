@@ -18,12 +18,12 @@
 package org.aktin.broker.manager.persistence.filesystem.conf;
 
 import java.io.IOException;
-import org.aktin.broker.manager.persistence.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.models.ManagerNode;
+import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.repositories.ExecutionResultRepository;
+import org.aktin.broker.manager.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.repositories.ManagerRequestArchive;
+import org.aktin.broker.manager.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsExecutionResultRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerNodeRepository;
 import org.aktin.broker.manager.persistence.filesystem.repositories.FsManagerRequestArchive;

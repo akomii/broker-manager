@@ -15,10 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.factories;
+package org.aktin.broker.manager.models.factories;
 
-import org.aktin.broker.manager.models.DownloadEvent;
+import org.aktin.broker.manager.models.TextEntry;
 
-public interface DownloadEventFactory extends GenericFactory<DownloadEvent> {
+public interface TextEntryFactory extends GenericFactory<TextEntry> {
 
 }

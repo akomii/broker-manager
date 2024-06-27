@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.factories;
+package org.aktin.broker.manager.models.factories;
 
 public interface GenericFactory<T> {
 

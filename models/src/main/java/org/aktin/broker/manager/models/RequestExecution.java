@@ -19,7 +19,7 @@ package org.aktin.broker.manager.models;
 
 import java.time.Instant;
 import java.util.List;
-import org.aktin.broker.manager.enums.ExecutionState;
+import org.aktin.broker.manager.models.enums.ExecutionState;
 
 /**
  * Represents a single execution of a {@link ManagerRequest} within the AKTIN research infrastructure. Each execution tracks its lifecycle from

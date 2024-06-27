@@ -20,7 +20,7 @@ package org.aktin.broker.manager.models;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
-import org.aktin.broker.manager.enums.RequestState;
+import org.aktin.broker.manager.models.enums.RequestState;
 import org.aktin.broker.query.xml.Principal;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;

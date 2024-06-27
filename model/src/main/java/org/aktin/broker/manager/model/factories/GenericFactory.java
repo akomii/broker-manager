@@ -15,31 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models;
+package org.aktin.broker.manager.model.factories;
 
-import java.time.Instant;
+public interface GenericFactory<T> {
 
-/**
- * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
- *
- * @author akombeiz@ukaachen.de
- * @version 1.0
- */
-public interface SeriesRequest extends ManagerRequest {
-
-  int getAnchoredSequenceIdRef();
-
-  void setAnchoredSequenceIdRef(int sequenceIdRef);
-
-  boolean isAutoPublishing();
-
-  void setAutoPublishing(boolean autoPublishing);
-
-  Instant getSeriesClosingDate();
-
-  void setSeriesClosingDate(Instant seriesClosingDate);
-
-  Instant getSeriesArchiveDate();
-
-  void setSeriesArchiveDate(Instant seriesArchiveDate);
+  T create();
 }

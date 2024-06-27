@@ -30,7 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.exceptions.DataReadException;

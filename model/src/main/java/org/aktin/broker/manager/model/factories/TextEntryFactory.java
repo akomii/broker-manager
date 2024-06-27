@@ -15,9 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models.factories;
+package org.aktin.broker.manager.model.factories;
 
-public interface GenericFactory<T> {
+import org.aktin.broker.manager.model.models.TextEntry;
 
-  T create();
+public interface TextEntryFactory extends GenericFactory<TextEntry> {
+
 }

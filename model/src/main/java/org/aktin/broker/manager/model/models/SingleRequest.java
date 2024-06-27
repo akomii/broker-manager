@@ -15,10 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models.factories;
+package org.aktin.broker.manager.model.models;
 
-import org.aktin.broker.manager.models.DownloadEvent;
-
-public interface DownloadEventFactory extends GenericFactory<DownloadEvent> {
+/**
+ * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
+public interface SingleRequest extends ManagerRequest {
 
 }

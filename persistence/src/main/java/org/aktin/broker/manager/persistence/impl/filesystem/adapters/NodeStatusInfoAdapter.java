@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
 
-import org.aktin.broker.manager.models.NodeStatusInfo;
+import org.aktin.broker.manager.model.models.NodeStatusInfo;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsNodeStatusInfo;
 
 public class NodeStatusInfoAdapter extends AbstractXmlAdapter<FsNodeStatusInfo, NodeStatusInfo> {

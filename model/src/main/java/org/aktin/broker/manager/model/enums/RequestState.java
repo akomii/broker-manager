@@ -15,9 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models.enums;
+package org.aktin.broker.manager.model.enums;
 
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 
 /**
  * Enumerates the potential states of a {@link ManagerRequest}. States typically progress from

@@ -28,7 +28,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.models.NodeStatusInfo;
+import org.aktin.broker.manager.model.models.NodeStatusInfo;
 import org.aktin.broker.xml.RequestStatusInfo;
 
 @XmlRootElement(name = "nodeStatusInfo")

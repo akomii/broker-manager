@@ -19,7 +19,7 @@ package org.aktin.broker.manager.persistence.repositories;
 
 import java.io.InputStream;
 import java.util.Optional;
-import org.aktin.broker.manager.models.RequestExecution;
+import org.aktin.broker.manager.model.models.RequestExecution;
 import org.aktin.broker.manager.persistence.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.exceptions.DataReadException;

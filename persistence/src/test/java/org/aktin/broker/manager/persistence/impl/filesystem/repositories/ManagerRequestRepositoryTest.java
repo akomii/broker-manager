@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.conf.JaxbConfig;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataMigrationException;

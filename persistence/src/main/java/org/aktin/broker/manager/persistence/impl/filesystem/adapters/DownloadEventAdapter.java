@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
 
-import org.aktin.broker.manager.models.DownloadEvent;
+import org.aktin.broker.manager.model.models.DownloadEvent;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
 
 public class DownloadEventAdapter extends AbstractXmlAdapter<FsDownloadEvent, DownloadEvent> {

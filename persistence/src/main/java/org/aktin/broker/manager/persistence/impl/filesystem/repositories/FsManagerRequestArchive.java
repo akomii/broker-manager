@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;

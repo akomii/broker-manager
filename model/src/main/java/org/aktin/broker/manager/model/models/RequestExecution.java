@@ -15,11 +15,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models;
+package org.aktin.broker.manager.model.models;
 
 import java.time.Instant;
 import java.util.List;
-import org.aktin.broker.manager.models.enums.ExecutionState;
+import org.aktin.broker.manager.model.enums.ExecutionState;
 
 /**
  * Represents a single execution of a {@link ManagerRequest} within the AKTIN research infrastructure. Each execution tracks its lifecycle from

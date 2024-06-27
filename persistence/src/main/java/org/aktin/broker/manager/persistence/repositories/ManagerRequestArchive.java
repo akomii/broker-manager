@@ -18,7 +18,7 @@
 package org.aktin.broker.manager.persistence.repositories;
 
 import java.util.Optional;
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.exceptions.DataReadException;
 

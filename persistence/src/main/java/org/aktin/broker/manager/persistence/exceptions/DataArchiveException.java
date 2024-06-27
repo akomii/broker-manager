@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.exceptions;
 
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.repositories.ManagerRequestArchive;
 
 /**

@@ -19,8 +19,8 @@ package org.aktin.broker.manager.persistence.impl.filesystem.conf;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import org.aktin.broker.manager.models.ManagerNode;
-import org.aktin.broker.manager.models.ManagerRequest;
+import org.aktin.broker.manager.model.models.ManagerNode;
+import org.aktin.broker.manager.model.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsManagerNode;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSeriesRequest;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSingleRequest;

@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.models.SeriesRequest;
+import org.aktin.broker.manager.model.models.SeriesRequest;
 import org.aktin.broker.query.xml.Query;
 import org.aktin.broker.query.xml.QuerySchedule;
 import org.aktin.broker.query.xml.RepeatedExecution;

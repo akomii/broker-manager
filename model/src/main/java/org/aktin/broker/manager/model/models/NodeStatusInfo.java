@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.models;
+package org.aktin.broker.manager.model.models;
 
 import java.time.Instant;
 

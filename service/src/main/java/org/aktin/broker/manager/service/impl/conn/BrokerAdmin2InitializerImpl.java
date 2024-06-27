@@ -38,8 +38,6 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
   private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
 
-  private final String uriString;
-  private final String apiKey;
   private final BrokerAdmin brokerAdmin;
 
   /**
@@ -51,9 +49,7 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
   public BrokerAdmin2InitializerImpl(
       @Value("${broker-manager.connection.broker.uri}") String uriString,
       @Value("${broker-manager.connection.broker.apiKey}") String apiKey) {
-    this.uriString = uriString;
-    this.apiKey = apiKey;
-    brokerAdmin = initBrokerAdmin();
+    brokerAdmin = initBrokerAdmin(uriString, apiKey);
   }
 
   /**
@@ -62,7 +58,7 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
    * @return The initialized and configured {@link BrokerAdmin2} instance (conforming to the {@link BrokerAdmin} interface).
    * @throws IllegalStateException If the required configuration variables (broker URI or API key) are invalid.
    */
-  private BrokerAdmin initBrokerAdmin() throws IllegalStateException {
+  private BrokerAdmin initBrokerAdmin(String uriString, String apiKey) throws IllegalStateException {
     if (uriString == null || apiKey == null) {
       throw new IllegalStateException("Broker URI or API key is null. Initialization failed");
     }

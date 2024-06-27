@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.service.util;
+package org.aktin.broker.manager.service.conn;
 
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;

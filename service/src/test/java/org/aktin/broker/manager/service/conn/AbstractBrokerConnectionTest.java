@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.service.util;
+package org.aktin.broker.manager.service.conn;
 
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import org.aktin.broker.client.BrokerAdmin;

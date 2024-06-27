@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.service.util;
+package org.aktin.broker.manager.service.conn;
 
 import java.net.URI;
 import org.aktin.broker.client.BrokerAdmin;
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
+public class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
   private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
 

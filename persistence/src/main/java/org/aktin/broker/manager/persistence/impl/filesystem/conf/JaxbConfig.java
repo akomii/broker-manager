@@ -19,13 +19,13 @@ package org.aktin.broker.manager.persistence.impl.filesystem.conf;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import org.aktin.broker.manager.model.models.ManagerNode;
-import org.aktin.broker.manager.model.models.ManagerRequest;
+import org.aktin.broker.manager.model.api.models.ManagerNode;
+import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsManagerNode;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSeriesRequest;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSingleRequest;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
+import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSeriesRequest;
+import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSingleRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

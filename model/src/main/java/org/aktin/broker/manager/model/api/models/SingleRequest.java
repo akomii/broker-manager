@@ -15,14 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
+package org.aktin.broker.manager.model.api.models;
 
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
+/**
+ * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
+public interface SingleRequest extends ManagerRequest {
 
-public class DownloadEventAdapter extends AbstractXmlAdapter<FsDownloadEvent, DownloadEvent> {
-
-  public DownloadEventAdapter() {
-    super(FsDownloadEvent.class);
-  }
 }

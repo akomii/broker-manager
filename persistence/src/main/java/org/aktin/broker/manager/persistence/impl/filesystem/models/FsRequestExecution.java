@@ -30,10 +30,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.model.enums.ExecutionState;
-import org.aktin.broker.manager.model.models.DownloadEvent;
-import org.aktin.broker.manager.model.models.NodeStatusInfo;
-import org.aktin.broker.manager.model.models.RequestExecution;
+import org.aktin.broker.manager.model.api.enums.ExecutionState;
+import org.aktin.broker.manager.model.api.models.DownloadEvent;
+import org.aktin.broker.manager.model.api.models.NodeStatusInfo;
+import org.aktin.broker.manager.model.api.models.RequestExecution;
 
 @XmlRootElement(name = "requestExecution")
 @XmlAccessorType(XmlAccessType.FIELD)

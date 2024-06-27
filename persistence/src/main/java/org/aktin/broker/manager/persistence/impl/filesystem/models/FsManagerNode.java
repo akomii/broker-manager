@@ -32,8 +32,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.model.models.ManagerNode;
-import org.aktin.broker.manager.model.models.TextEntry;
+import org.aktin.broker.manager.model.api.models.ManagerNode;
+import org.aktin.broker.manager.model.api.models.TextEntry;
 import org.aktin.broker.xml.Node;
 
 @XmlRootElement(name = "managerNode")

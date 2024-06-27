@@ -15,14 +15,31 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
+package org.aktin.broker.manager.model.api.models;
 
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
+import java.time.Instant;
 
-public class DownloadEventAdapter extends AbstractXmlAdapter<FsDownloadEvent, DownloadEvent> {
+/**
+ * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
+public interface SeriesRequest extends ManagerRequest {
 
-  public DownloadEventAdapter() {
-    super(FsDownloadEvent.class);
-  }
+  int getAnchoredSequenceIdRef();
+
+  void setAnchoredSequenceIdRef(int sequenceIdRef);
+
+  boolean isAutoPublishing();
+
+  void setAutoPublishing(boolean autoPublishing);
+
+  Instant getSeriesClosingDate();
+
+  void setSeriesClosingDate(Instant seriesClosingDate);
+
+  Instant getSeriesArchiveDate();
+
+  void setSeriesArchiveDate(Instant seriesArchiveDate);
 }

@@ -15,14 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
+package org.aktin.broker.manager.model.api.factories;
 
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
 
-public class DownloadEventAdapter extends AbstractXmlAdapter<FsDownloadEvent, DownloadEvent> {
+public interface DownloadEventFactory extends GenericFactory<DownloadEvent> {
 
-  public DownloadEventAdapter() {
-    super(FsDownloadEvent.class);
-  }
 }

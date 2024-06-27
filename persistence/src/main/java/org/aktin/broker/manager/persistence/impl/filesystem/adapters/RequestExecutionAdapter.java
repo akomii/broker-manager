@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
 
-import org.aktin.broker.manager.model.models.RequestExecution;
+import org.aktin.broker.manager.model.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsRequestExecution;
 
 public class RequestExecutionAdapter extends AbstractXmlAdapter<FsRequestExecution, RequestExecution> {

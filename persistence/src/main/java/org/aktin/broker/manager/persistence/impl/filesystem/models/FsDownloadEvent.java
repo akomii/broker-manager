@@ -30,7 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.model.models.DownloadEvent;
+import org.aktin.broker.manager.model.api.models.DownloadEvent;
 
 @XmlRootElement(name = "downloadEvent")
 @XmlAccessorType(XmlAccessType.FIELD)

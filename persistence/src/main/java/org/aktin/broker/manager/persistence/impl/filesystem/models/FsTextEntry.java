@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.model.models.TextEntry;
+import org.aktin.broker.manager.model.api.models.TextEntry;
 
 @XmlRootElement(name = "textEntry")
 @XmlAccessorType(XmlAccessType.FIELD)

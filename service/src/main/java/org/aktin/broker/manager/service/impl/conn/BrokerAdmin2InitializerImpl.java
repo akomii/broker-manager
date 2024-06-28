@@ -24,8 +24,6 @@ import org.aktin.broker.client2.auth.ApiKeyAuthentication;
 import org.aktin.broker.manager.service.api.conn.BrokerAdminInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 /**
  * Service class responsible for initializing a {@link BrokerAdmin2} client, which provides access to administrative functions of a broker.
@@ -33,8 +31,7 @@ import org.springframework.stereotype.Service;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-@Service
-class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
+public class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
 
   private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
 
@@ -46,9 +43,7 @@ class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
    * @param uriString The URI of the broker.
    * @param apiKey    The API key for authentication with the broker.
    */
-  public BrokerAdmin2InitializerImpl(
-      @Value("${broker-manager.connection.broker.uri}") String uriString,
-      @Value("${broker-manager.connection.broker.apiKey}") String apiKey) {
+  public BrokerAdmin2InitializerImpl(String uriString, String apiKey) {
     brokerAdmin = initBrokerAdmin(uriString, apiKey);
   }
 

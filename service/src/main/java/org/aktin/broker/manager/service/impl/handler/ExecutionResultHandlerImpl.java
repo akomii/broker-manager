@@ -68,7 +68,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     // get result export from broker
     ManagerRequest request = getRequestFromRepository(requestId);
-    RequestExecution execution = request.getRequestExecutionBySeqId(sequenceId);
+    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     InputStream resultStream = getResultStreamFromBroker(execution);
     // store result export locally
     int nextIteration = getNextIterationOfFileDownload(execution);
@@ -85,6 +85,15 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
         .orElseThrow(() -> new EntityNotFoundException("Request not found: " + requestId));
   }
 
+  private RequestExecution getExecutionFromRequest(ManagerRequest request, int sequenceId) throws EntityNotFoundException {
+    RequestExecution execution = request.getRequestExecutionBySeqId(sequenceId);
+    if (execution == null) {
+      throw new EntityNotFoundException("Execution not found: " + sequenceId);
+    }
+    return execution;
+  }
+
+  // TODO add timeout??
   private InputStream getResultStreamFromBroker(RequestExecution execution) throws IOException {
     int externalId = execution.getExternalId();
     ResponseWithMetadata response = brokerAdmin.getResult(externalId, 1); // TODO change this method to getRequestBundleExport(int requestid)
@@ -121,7 +130,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   private void saveDownloadEventInRequest(ManagerRequest request, int sequenceId, DownloadEvent downloadEvent) {
-    RequestExecution execution = request.getRequestExecutionBySeqId(sequenceId);
+    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
     downloadEvents.add(downloadEvent);
     requestRepository.save(request);
@@ -149,7 +158,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   public void deleteExecutionResults(int requestId, int sequenceId) throws EntityNotFoundException {
     log.info("Deleting execution results for requestId={} sequenceId={}", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
-    RequestExecution execution = request.getRequestExecutionBySeqId(sequenceId);
+    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     deleteDownloadedResults(execution);
   }
 

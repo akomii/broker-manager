@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.persistence.api.repositories;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
@@ -36,10 +37,9 @@ public interface ManagerRequestRepository {
    * Saves or updates the provided {@link ManagerRequest} entity in persistent storage.
    *
    * @param entity The {@link ManagerRequest} object to be saved or updated
-   * @return The ID of the saved or updated {@link ManagerRequest}.
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  int save(ManagerRequest entity) throws DataPersistException;
+  void save(ManagerRequest entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.

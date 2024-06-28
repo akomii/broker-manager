@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,7 +45,7 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
 
   public FsExecutionResultRepository(String resultsDirectory) throws IOException {
     this.resultsDirectory = resultsDirectory;
-    Files.createDirectories(Paths.get(resultsDirectory));
+    Files.createDirectories(Path.of(resultsDirectory));
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
@@ -54,8 +53,8 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
   }
 
   @Override
-  public String save(InputStream result, String filename) throws DataPersistException {
-    String filePath = Paths.get(resultsDirectory, filename).toString();
+  public void save(InputStream result, String filename) throws DataPersistException {
+    String filePath = Path.of(resultsDirectory, filename).toString();
     File file = new File(filePath);
     if (file.exists()) {
       throw new DataPersistException("Execution result file must be unique. File already exists: " + filePath);
@@ -63,7 +62,6 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
     try (OutputStream outputStream = Files.newOutputStream(Path.of(filePath))) {
       result.transferTo(outputStream);
       log.info("Saved result to: {}", filePath);
-      return filename;
     } catch (Exception e) {
       throw new DataPersistException("Failed to save execution results to file: " + filePath, e);
     }
@@ -71,7 +69,7 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
 
   @Override
   public Optional<InputStream> get(String filename) throws DataReadException {
-    String filePath = Paths.get(resultsDirectory, filename).toString();
+    String filePath = Path.of(resultsDirectory, filename).toString();
     File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();
@@ -89,11 +87,11 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
 
   @Override
   public void delete(String filename) throws DataDeleteException {
-    String filePath = Paths.get(resultsDirectory, filename).toString();
+    String filePath = Path.of(resultsDirectory, filename).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      boolean deleted = Files.deleteIfExists(Paths.get(filePath));
+      boolean deleted = Files.deleteIfExists(Path.of(filePath));
       if (!deleted) {
         log.warn("Execution result not found for deletion: {}", filePath);
       } else {

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,10 +33,10 @@ import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.FsIdGenerator;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -63,7 +62,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
     this.requestsDirectory = requestsDirectory;
-    Path storagePath = Paths.get(requestsDirectory);
+    Path storagePath = Path.of(requestsDirectory);
     Files.createDirectories(storagePath);
     this.fsIdGenerator = new FsIdGenerator(storagePath);
   }
@@ -74,11 +73,11 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public int save(ManagerRequest entity) throws DataPersistException {
+  public void save(ManagerRequest entity) throws DataPersistException {
     if (entity.getId() == 0) {
       entity.setId(fsIdGenerator.generateId());
     }
-    String filePath = Paths.get(requestsDirectory, entity.getId() + XML_EXTENSION).toString();
+    String filePath = Path.of(requestsDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
@@ -87,7 +86,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
         log.info("Creating new ManagerRequest: {}", filePath);
       }
       xmlMarshaller.marshal(entity, file);
-      return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
     } finally {
@@ -98,11 +96,11 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      boolean deleted = Files.deleteIfExists(Paths.get(filePath));
+      boolean deleted = Files.deleteIfExists(Path.of(filePath));
       if (!deleted) {
         log.warn("ManagerRequest file not found for deletion: {}", filePath);
       } else {
@@ -118,7 +116,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   @Cacheable(cacheNames = "managerRequests", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
+    String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
     File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();

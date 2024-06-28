@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +31,9 @@ import org.aktin.broker.manager.model.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -57,7 +57,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
     this.nodesDirectory = nodesDirectory;
-    Files.createDirectories(Paths.get(this.nodesDirectory));
+    Files.createDirectories(Path.of(this.nodesDirectory));
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
@@ -66,8 +66,8 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
 
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
-  public int save(ManagerNode entity) throws DataPersistException {
-    String filePath = Paths.get(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
+  public void save(ManagerNode entity) throws DataPersistException {
+    String filePath = Path.of(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
@@ -76,7 +76,6 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
         log.info("Creating new ManagerNode: {}", filePath);
       }
       xmlMarshaller.marshal(entity, file);
-      return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
     } finally {
@@ -87,11 +86,11 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
-    String filePath = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
+    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      boolean deleted = Files.deleteIfExists(Paths.get(filePath));
+      boolean deleted = Files.deleteIfExists(Path.of(filePath));
       if (!deleted) {
         log.warn("ManagerNode file not found for deletion: {}", filePath);
       } else {
@@ -107,7 +106,7 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws DataReadException {
-    String filePath = Paths.get(nodesDirectory, id + XML_EXTENSION).toString();
+    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
     File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();

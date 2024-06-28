@@ -20,7 +20,7 @@ package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,8 +28,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
+import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -51,7 +51,7 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
     this.xmlUnmarshaller = xmlUnmarshaller;
     this.requestsDirectory = requestsDirectory;
     this.archiveDirectory = archiveDirectory;
-    Files.createDirectories(Paths.get(this.archiveDirectory));
+    Files.createDirectories(Path.of(this.archiveDirectory));
   }
 
   private ReentrantReadWriteLock getLock(String filename) {
@@ -59,15 +59,14 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public int archive(int id) throws DataArchiveException {
-    String sourcePath = Paths.get(requestsDirectory, id + XML_EXTENSION).toString();
-    String destinationPath = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
+  public void archive(int id) throws DataArchiveException {
+    String sourcePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
+    String destinationPath = Path.of(archiveDirectory, id + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(sourcePath);
     lock.writeLock().lock();
     try {
       log.info("Archiving ManagerRequest: {} to {}", sourcePath, destinationPath);
-      Files.move(Paths.get(sourcePath), Paths.get(destinationPath));
-      return id;
+      Files.move(Path.of(sourcePath), Path.of(destinationPath));
     } catch (Exception e) {
       throw new DataArchiveException("Failed to archive ManagerRequest: " + id, e);
     } finally {
@@ -78,7 +77,7 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   @Cacheable(cacheNames = "requestsArchive", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filePath = Paths.get(archiveDirectory, id + XML_EXTENSION).toString();
+    String filePath = Path.of(archiveDirectory, id + XML_EXTENSION).toString();
     File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();

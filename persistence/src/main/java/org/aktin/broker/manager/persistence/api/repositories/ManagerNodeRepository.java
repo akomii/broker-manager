@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.persistence.api.repositories;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
@@ -36,10 +37,9 @@ public interface ManagerNodeRepository {
    * Saves or updates the provided {@link ManagerNode} entity in persistent storage.
    *
    * @param entity The {@link ManagerNode} object to be saved or updated
-   * @return The ID of the saved or updated {@link ManagerNode}.
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  int save(ManagerNode entity) throws DataPersistException;
+  void save(ManagerNode entity) throws DataPersistException;
 
   /**
    * Deletes the {@link ManagerNode} with the specified ID from persistent storage.

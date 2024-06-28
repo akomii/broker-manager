@@ -105,4 +105,8 @@ public interface DownloadEvent {
    * @param hashAlgorithm the hash algorithm name
    */
   void setHashAlgorithm(String hashAlgorithm);
+
+  void setFilename(String filename);
+
+  String getFilename();
 }

@@ -19,6 +19,7 @@ package org.aktin.broker.manager.model.api.models;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.aktin.broker.manager.model.api.enums.RequestState;
 import org.aktin.broker.query.xml.Principal;
@@ -86,6 +87,8 @@ public interface ManagerRequest {
   List<RequestExecution> getRequestExecutions();
 
   void setRequestExecutions(List<RequestExecution> requestExecutions);
+
+  RequestExecution getRequestExecutionBySeqId(int sequenceId);
 
   Instant getCreatedDate();
 

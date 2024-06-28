@@ -111,4 +111,13 @@ abstract class AbstractManagerRequest implements ManagerRequest {
   public void setPrincipal(Principal principal) {
     query.principal = principal;
   }
+
+  public RequestExecution getRequestExecutionBySeqId(int sequenceId) {
+    for (RequestExecution exec : requestExecutions) {
+      if (exec.getSequenceId() == sequenceId) {
+        return exec;
+      }
+    }
+    return null;
+  }
 }

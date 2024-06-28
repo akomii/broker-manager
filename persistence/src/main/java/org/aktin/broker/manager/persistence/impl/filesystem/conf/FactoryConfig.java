@@ -38,5 +38,4 @@ public class FactoryConfig {
   public TextEntryFactory fsTextEntryFactory() {
     return new FsTextEntryFactory();
   }
-
 }

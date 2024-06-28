@@ -17,13 +17,12 @@
 
 package org.aktin.broker.manager.persistence.api.repositories;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerNode} entities.
@@ -60,6 +59,7 @@ public interface ManagerNodeRepository {
 
   /**
    * Retrieves all {@link ManagerNode}s from persistent storage.
+   *
    * @return A List containing the {@link ManagerNode}s, potentially an empty list if none exist or all entities are invalid.
    */
   List<ManagerNode> getAll();

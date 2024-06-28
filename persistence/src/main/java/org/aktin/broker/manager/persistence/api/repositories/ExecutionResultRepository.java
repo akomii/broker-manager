@@ -18,7 +18,6 @@
 package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;

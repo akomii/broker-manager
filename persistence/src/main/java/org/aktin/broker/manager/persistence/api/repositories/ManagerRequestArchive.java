@@ -17,7 +17,6 @@
 
 package org.aktin.broker.manager.persistence.api.repositories;
 
-import java.nio.file.Path;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;

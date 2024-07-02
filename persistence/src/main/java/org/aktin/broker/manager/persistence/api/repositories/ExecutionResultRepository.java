@@ -32,29 +32,9 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ExecutionResultRepository {
 
-  /**
-   * Saves the provided result data as an {@link InputStream} and returns a unique filename associated with the saved result.
-   *
-   * @param result   the {@link InputStream} containing the result data to be saved
-   * @param filename the name of the result data to store as
-   * @throws DataPersistException if an error occurs while saving the result data
-   */
-  void save(InputStream result, String filename) throws DataPersistException;
+  void save(InputStream result, String identifier) throws DataPersistException;
 
-  /**
-   * Retrieves the result data associated with the provided filename as an {@link InputStream}.
-   *
-   * @param filename the unique filename associated with the result data to be retrieved
-   * @return an {@link InputStream} containing the result data
-   * @throws DataReadException if an error occurs while retrieving the result data
-   */
-  Optional<InputStream> get(String filename) throws DataReadException;
+  Optional<InputStream> get(String identifier) throws DataReadException;
 
-  /**
-   * Deletes the result data associated with the provided filename.
-   *
-   * @param filename the unique filename associated with the result data to be deleted
-   * @throws DataDeleteException if an error occurs while deleting the result data
-   */
-  void delete(String filename) throws DataDeleteException;
+  void delete(String identifier) throws DataDeleteException;
 }

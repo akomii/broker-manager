@@ -53,8 +53,8 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
   }
 
   @Override
-  public void save(InputStream result, String filename) throws DataPersistException {
-    String filePath = Path.of(resultsDirectory, filename).toString();
+  public void save(InputStream result, String identifier) throws DataPersistException {
+    String filePath = Path.of(resultsDirectory, identifier).toString();
     File file = new File(filePath);
     if (file.exists()) {
       throw new DataPersistException("Execution result file must be unique. File already exists: " + filePath);
@@ -68,13 +68,13 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
   }
 
   @Override
-  public Optional<InputStream> get(String filename) throws DataReadException {
-    String filePath = Path.of(resultsDirectory, filename).toString();
+  public Optional<InputStream> get(String identifier) throws DataReadException {
+    String filePath = Path.of(resultsDirectory, identifier).toString();
     File file = new File(filePath);
     if (!file.exists()) {
       return Optional.empty();
     }
-    ReentrantReadWriteLock lock = getLock(filename);
+    ReentrantReadWriteLock lock = getLock(identifier);
     lock.readLock().lock();
     try {
       return Optional.of(Files.newInputStream(Path.of(filePath)));
@@ -86,8 +86,8 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
   }
 
   @Override
-  public void delete(String filename) throws DataDeleteException {
-    String filePath = Path.of(resultsDirectory, filename).toString();
+  public void delete(String identifier) throws DataDeleteException {
+    String filePath = Path.of(resultsDirectory, identifier).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {

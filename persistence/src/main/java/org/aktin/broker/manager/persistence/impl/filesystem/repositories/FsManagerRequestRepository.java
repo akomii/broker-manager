@@ -84,6 +84,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       File file = new File(filePath);
       if (!file.exists()) {
         log.info("Creating new ManagerRequest: {}", filePath);
+      } else {
+        log.info("Updating ManagerRequest with id: {}", entity.getId());
       }
       xmlMarshaller.marshal(entity, file);
     } catch (Exception e) {

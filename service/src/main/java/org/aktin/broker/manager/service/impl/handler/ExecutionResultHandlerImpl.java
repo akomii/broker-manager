@@ -93,7 +93,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     return execution;
   }
 
-  // TODO add timeout??
+  // TODO add timeout / exception on connection failure
   private InputStream getResultStreamFromBroker(RequestExecution execution) throws IOException {
     int externalId = execution.getExternalId();
     ResponseWithMetadata response = brokerAdmin.getResult(externalId, 1); // TODO change this method to getRequestBundleExport(int requestid)

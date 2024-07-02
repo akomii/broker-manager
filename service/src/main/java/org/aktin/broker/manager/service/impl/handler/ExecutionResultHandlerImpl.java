@@ -63,7 +63,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   // NOTE: We assume the results from broker are always ZIP
   @Override
-  public InputStream downloadBrokerServerResults(int requestId, int sequenceId, String username, Set<String> userOrgs)
+  public InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, FileHashingException, IOException {
     log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     // get result export from broker
@@ -137,7 +137,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   @Override
-  public InputStream getStoredExecutionResults(int requestId, int sequenceId, int iteration, String username, Set<String> userOrgs)
+  public InputStream getStored(int requestId, int sequenceId, int iteration, String username, Set<String> userOrgs)
       throws EntityNotFoundException {
     log.info("Downloading existing results for requestId={} sequenceId={} iteration={}", requestId, sequenceId, iteration);
     String filename = generateResultFilename(requestId, sequenceId, iteration);
@@ -155,7 +155,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   @Override
-  public void deleteExecutionResults(int requestId, int sequenceId) throws EntityNotFoundException {
+  public void delete(int requestId, int sequenceId) throws EntityNotFoundException {
     log.info("Deleting execution results for requestId={} sequenceId={}", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);

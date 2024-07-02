@@ -25,11 +25,11 @@ import org.aktin.broker.manager.service.api.exceptions.FileHashingException;
 
 public interface ExecutionResultHandler {
 
-  InputStream downloadBrokerServerResults(int requestId, int sequenceId, String username, Set<String> userOrgs)
+  InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, FileHashingException, IOException;
 
-  InputStream getStoredExecutionResults(int requestId, int sequenceId, int index, String username, Set<String> userOrgs)
+  InputStream getStored(int requestId, int sequenceId, int index, String username, Set<String> userOrgs)
       throws EntityNotFoundException;
 
-  void deleteExecutionResults(int requestId, int sequenceId) throws EntityNotFoundException;
+  void delete(int requestId, int sequenceId) throws EntityNotFoundException;
 }

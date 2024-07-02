@@ -36,15 +36,18 @@ public class RequestStateManager {
     VALID_TRANSITIONS.put(RequestState.ARCHIVED, Set.of());
   }
 
-  public static void setRequestStateToOnline(ManagerRequest request) {
+  private RequestStateManager() {
+  }
+
+  public static void setToOnline(ManagerRequest request) {
     setRequestState(request, RequestState.ONLINE);
   }
 
-  public static void setRequestStateToClosed(ManagerRequest request) {
+  public static void setToClosed(ManagerRequest request) {
     setRequestState(request, RequestState.CLOSED);
   }
 
-  public static void setRequestStateToArchived(ManagerRequest request) {
+  public static void setToArchived(ManagerRequest request) {
     setRequestState(request, RequestState.ARCHIVED);
   }
 

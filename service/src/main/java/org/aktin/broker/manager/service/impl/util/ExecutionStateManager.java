@@ -36,15 +36,18 @@ public class ExecutionStateManager {
     VALID_TRANSITIONS.put(ExecutionState.ARCHIVED, Set.of());
   }
 
-  public static void setExecutionStateToPublished(int requestId, RequestExecution execution) {
+  private ExecutionStateManager() {
+  }
+
+  public static void setToPublished(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.PUBLISHED);
   }
 
-  public static void setExecutionStateToClosed(int requestId, RequestExecution execution) {
+  public static void setToClosed(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.CLOSED);
   }
 
-  public static void setExecutionStateToArchived(int requestId, RequestExecution execution) {
+  public static void setToArchived(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.ARCHIVED);
   }
 

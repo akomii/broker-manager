@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
-import org.aktin.broker.manager.service.api.exceptions.FileHashingException;
+import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 
 public interface ExecutionResultHandler {
 
   InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, FileHashingException, IOException;
+      throws EntityNotFoundException, HashGenerationException, IOException;
 
   InputStream getStored(int requestId, int sequenceId, int index, String username, Set<String> userOrgs)
       throws EntityNotFoundException;

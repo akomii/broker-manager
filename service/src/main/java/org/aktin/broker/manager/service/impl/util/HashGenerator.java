@@ -18,11 +18,11 @@
 package org.aktin.broker.manager.service.impl.util;
 
 import java.io.InputStream;
-import org.aktin.broker.manager.service.api.exceptions.FileHashingException;
+import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 
-public interface FileHashGenerator {
+public interface HashGenerator {
 
-  String getHashAlgorithm();
+  String getAlgorithm();
 
-  String generateFileHash(InputStream inputStream) throws FileHashingException;
+  String generateHash(InputStream dataStream) throws HashGenerationException;
 }

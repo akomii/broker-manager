@@ -23,7 +23,7 @@ import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepo
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.service.api.handlers.ExecutionResultHandler;
 import org.aktin.broker.manager.service.impl.handler.ExecutionResultHandlerImpl;
-import org.aktin.broker.manager.service.impl.util.FileSHA256Generator;
+import org.aktin.broker.manager.service.impl.util.SHA256Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,7 @@ public class HandlerConfig {
         executionResultRepository,
         managerRequestRepository,
         downloadEventFactory,
-        new FileSHA256Generator()
+        new SHA256Generator()
     );
   }
 }

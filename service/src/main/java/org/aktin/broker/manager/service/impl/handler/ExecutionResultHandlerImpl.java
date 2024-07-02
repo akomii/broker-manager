@@ -32,9 +32,9 @@ import org.aktin.broker.manager.model.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
-import org.aktin.broker.manager.service.api.exceptions.FileHashingException;
+import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 import org.aktin.broker.manager.service.api.handlers.ExecutionResultHandler;
-import org.aktin.broker.manager.service.impl.util.FileHashGenerator;
+import org.aktin.broker.manager.service.impl.util.HashGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,25 +46,25 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   private final ExecutionResultRepository resultRepository;
   private final ManagerRequestRepository requestRepository;
   private final DownloadEventFactory downloadEventFactory;
-  private final FileHashGenerator fileHashGenerator;
+  private final HashGenerator hashGenerator;
 
   public ExecutionResultHandlerImpl(
       BrokerAdmin brokerAdmin,
       ExecutionResultRepository resultRepository,
       ManagerRequestRepository requestRepository,
       DownloadEventFactory downloadEventFactory,
-      FileHashGenerator fileHashGenerator) {
+      HashGenerator hashGenerator) {
     this.brokerAdmin = brokerAdmin;
     this.resultRepository = resultRepository;
     this.requestRepository = requestRepository;
     this.downloadEventFactory = downloadEventFactory;
-    this.fileHashGenerator = fileHashGenerator;
+    this.hashGenerator = hashGenerator;
   }
 
   // NOTE: We assume the results from broker are always ZIP
   @Override
   public InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, FileHashingException, IOException {
+      throws EntityNotFoundException, HashGenerationException, IOException {
     log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     // get result export from broker
     ManagerRequest request = getRequestFromRepository(requestId);
@@ -117,14 +117,14 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   private DownloadEvent createNewDownloadEvent(String username, Set<String> userOrgs, InputStream resultStream, String filename)
-      throws FileHashingException {
+      throws HashGenerationException {
     DownloadEvent downloadEvent = downloadEventFactory.create();
     downloadEvent.setUsername(username);
     downloadEvent.setUserOrganizations(userOrgs);
     downloadEvent.setDownloadDate(Instant.now());
-    String fileHash = fileHashGenerator.generateFileHash(resultStream);
+    String fileHash = hashGenerator.generateHash(resultStream);
     downloadEvent.setDownloadHash(fileHash);
-    downloadEvent.setHashAlgorithm(fileHashGenerator.getHashAlgorithm());
+    downloadEvent.setHashAlgorithm(hashGenerator.getAlgorithm());
     downloadEvent.setFilename(filename);
     return downloadEvent;
   }

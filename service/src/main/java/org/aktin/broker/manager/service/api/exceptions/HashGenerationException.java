@@ -17,13 +17,13 @@
 
 package org.aktin.broker.manager.service.api.exceptions;
 
-public class FileHashingException extends RuntimeException {
+public class HashGenerationException extends RuntimeException {
 
-  public FileHashingException(String message) {
+  public HashGenerationException(String message) {
     super(message);
   }
 
-  public FileHashingException(String message, Throwable cause) {
+  public HashGenerationException(String message, Throwable cause) {
     super(message, cause);
   }
 }

@@ -21,24 +21,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.aktin.broker.manager.service.api.exceptions.FileHashingException;
+import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 
-public class FileSHA256Generator implements FileHashGenerator {
+public class SHA256Generator implements HashGenerator {
 
   private static final String HASH_ALGORITHM = "SHA-256";
 
   @Override
-  public String getHashAlgorithm() {
+  public String getAlgorithm() {
     return HASH_ALGORITHM;
   }
 
   @Override
-  public String generateFileHash(InputStream inputStream) throws FileHashingException {
+  public String generateHash(InputStream dataStream) throws HashGenerationException {
     try {
       MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
       byte[] byteArray = new byte[1024];
       int bytesCount;
-      while ((bytesCount = inputStream.read(byteArray)) != -1) {
+      while ((bytesCount = dataStream.read(byteArray)) != -1) {
         digest.update(byteArray, 0, bytesCount);
       }
       byte[] bytes = digest.digest();
@@ -48,7 +48,7 @@ public class FileSHA256Generator implements FileHashGenerator {
       }
       return sb.toString();
     } catch (NoSuchAlgorithmException | IOException e) {
-      throw new FileHashingException("Error occurred during generation of file hash", e);
+      throw new HashGenerationException("Error occurred during generation of file hash", e);
     }
   }
 }

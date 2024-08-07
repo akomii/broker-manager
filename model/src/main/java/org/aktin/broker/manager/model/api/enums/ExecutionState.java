@@ -29,15 +29,15 @@ import org.aktin.broker.manager.model.api.models.RequestExecution;
  */
 public enum ExecutionState {
   /**
-   * The execution has been created and is waiting for publishing.
+   * The execution has been created and is waiting for publishing. The content is fully editable.
    */
   PENDING,
   /**
-   * The execution has been sent to corresponding {@link ManagerNode}. Results may be available.
+   * The execution has been sent to corresponding {@link ManagerNode}. Results may be available. Content is not editable anymore.
    */
   PUBLISHED,
   /**
-   * The execution has been closed and results can no longer be contributed.
+   * The execution has been closed and results can no longer be contributed. Content is not editable anymore.
    */
   CLOSED,
   /**

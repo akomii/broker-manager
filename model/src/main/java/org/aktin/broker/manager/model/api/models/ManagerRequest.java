@@ -19,7 +19,6 @@ package org.aktin.broker.manager.model.api.models;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import org.aktin.broker.manager.model.api.enums.RequestState;
 import org.aktin.broker.query.xml.Principal;

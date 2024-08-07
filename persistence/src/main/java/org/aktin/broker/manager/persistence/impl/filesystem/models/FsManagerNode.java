@@ -48,7 +48,7 @@ public class FsManagerNode implements ManagerNode {
   @XmlAttribute
   int dataVersion;
 
-  String apiKey;
+  boolean active;
 
   @XmlElementWrapper(name = "tags")
   @XmlElement(name = "tag")

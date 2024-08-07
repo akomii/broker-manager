@@ -30,8 +30,8 @@ public class RequestStateManager {
   private static final EnumMap<RequestState, Set<RequestState>> VALID_TRANSITIONS = new EnumMap<>(RequestState.class);
 
   static {
-    VALID_TRANSITIONS.put(RequestState.DRAFT, Set.of(RequestState.ONLINE));
-    VALID_TRANSITIONS.put(RequestState.ONLINE, Set.of(RequestState.CLOSED));
+    VALID_TRANSITIONS.put(RequestState.DRAFT, Set.of(RequestState.ACTIVE));
+    VALID_TRANSITIONS.put(RequestState.ACTIVE, Set.of(RequestState.CLOSED));
     VALID_TRANSITIONS.put(RequestState.CLOSED, Set.of(RequestState.ARCHIVED));
     VALID_TRANSITIONS.put(RequestState.ARCHIVED, Set.of());
   }
@@ -39,8 +39,8 @@ public class RequestStateManager {
   private RequestStateManager() {
   }
 
-  public static void setToOnline(ManagerRequest request) {
-    setRequestState(request, RequestState.ONLINE);
+  public static void setToActive(ManagerRequest request) {
+    setRequestState(request, RequestState.ACTIVE);
   }
 
   public static void setToClosed(ManagerRequest request) {

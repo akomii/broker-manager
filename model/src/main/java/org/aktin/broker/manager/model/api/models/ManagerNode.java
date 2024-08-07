@@ -51,19 +51,9 @@ public interface ManagerNode {
    */
   void setId(int id);
 
-  /**
-   * Gets the API key associated with this manager node.
-   *
-   * @return the API key
-   */
-  String getApiKey();
+  boolean isActive();
 
-  /**
-   * Sets the API key associated with this manager node.
-   *
-   * @param apiKey the API key
-   */
-  void setApiKey(String apiKey);
+  void setActive(boolean active);
 
   /**
    * Gets the set of tags associated with this manager node.

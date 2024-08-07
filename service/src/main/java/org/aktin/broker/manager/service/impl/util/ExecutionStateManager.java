@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.service.impl.util;
 
+import java.time.Instant;
 import java.util.EnumMap;
 import java.util.Set;
 import org.aktin.broker.manager.model.api.enums.ExecutionState;
@@ -41,14 +42,17 @@ public class ExecutionStateManager {
 
   public static void setToPublished(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.PUBLISHED);
+    execution.setPublishedDate(Instant.now());
   }
 
   public static void setToClosed(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.CLOSED);
+    execution.setClosedDate(Instant.now());
   }
 
   public static void setToArchived(int requestId, RequestExecution execution) {
     setExecutionState(requestId, execution, ExecutionState.ARCHIVED);
+    execution.setArchivedDate(Instant.now());
   }
 
   private static void setExecutionState(int requestId, RequestExecution execution, ExecutionState newState) {

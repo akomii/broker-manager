@@ -25,11 +25,11 @@ import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 
 public interface ExecutionResultHandler {
 
-  InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
+  InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, HashGenerationException, IOException;
 
-  InputStream getStored(int requestId, int sequenceId, int index, String username, Set<String> userOrgs)
+  InputStream getStoredResult(int requestId, int sequenceId, String filename, String username, Set<String> userOrgs)
       throws EntityNotFoundException;
 
-  void delete(int requestId, int sequenceId) throws EntityNotFoundException;
+  void deleteStoredResults(int requestId, int sequenceId);
 }

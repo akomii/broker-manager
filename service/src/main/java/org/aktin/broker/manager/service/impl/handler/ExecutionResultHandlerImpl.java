@@ -63,20 +63,22 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   // NOTE: We assume the results from broker are always ZIP
   @Override
-  public InputStream downloadFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
+  public InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, HashGenerationException, IOException {
-    log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     // get result export from broker
+    log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);
-    InputStream resultStream = getResultStreamFromBroker(execution);
+    int externalId = execution.getExternalId();
+    InputStream resultStream = getResultStreamFromBroker(externalId);
     // store result export locally
     int nextIteration = getNextIterationOfFileDownload(execution);
     String filename = generateResultFilename(requestId, sequenceId, nextIteration);
     resultRepository.save(resultStream, filename);
     // log result download
     DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, filename);
-    saveDownloadEventInRequest(request, sequenceId, downloadEvent);
+    addDownloadToExecution(execution, downloadEvent);
+    requestRepository.save(request);
     return resultStream;
   }
 
@@ -86,17 +88,15 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   private RequestExecution getExecutionFromRequest(ManagerRequest request, int sequenceId) throws EntityNotFoundException {
-    RequestExecution execution = request.getRequestExecutionBySeqId(sequenceId);
-    if (execution == null) {
-      throw new EntityNotFoundException("Execution not found: " + sequenceId);
-    }
-    return execution;
+    return request.getRequestExecutions().stream()
+        .filter(execution -> execution.getSequenceId() == sequenceId)
+        .findFirst()
+        .orElseThrow(() -> new EntityNotFoundException("Execution not found: " + sequenceId));
   }
 
-  // TODO add timeout / exception on connection failure
-  private InputStream getResultStreamFromBroker(RequestExecution execution) throws IOException {
-    int externalId = execution.getExternalId();
-    ResponseWithMetadata response = brokerAdmin.getResult(externalId, 1); // TODO change this method to getRequestBundleExport(int requestid)
+  // TODO add timeout / exception on connection failure??
+  private InputStream getResultStreamFromBroker(int requestId) throws IOException {
+    ResponseWithMetadata response = brokerAdmin.getResult(requestId, 1); // TODO change this method to getRequestBundleExport(int requestid)
     return response.getInputStream();
   }
 
@@ -112,8 +112,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
         .collect(Collectors.toSet());
   }
 
-  private String generateResultFilename(int requestId, int executionId, int iteration) {
-    return String.format("aktin-export_req%d-exec%d-iter%d.zip", requestId, executionId, iteration);
+  private String generateResultFilename(int requestId, int sequenceId, int iteration) {
+    return String.format("aktin-export_req%d-seq%d-iter%d.zip", requestId, sequenceId, iteration);
   }
 
   private DownloadEvent createNewDownloadEvent(String username, Set<String> userOrgs, InputStream resultStream, String filename)
@@ -129,23 +129,23 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     return downloadEvent;
   }
 
-  private void saveDownloadEventInRequest(ManagerRequest request, int sequenceId, DownloadEvent downloadEvent) {
-    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
+  private void addDownloadToExecution(RequestExecution execution, DownloadEvent downloadEvent) {
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
     downloadEvents.add(downloadEvent);
-    requestRepository.save(request);
   }
 
   @Override
-  public InputStream getStored(int requestId, int sequenceId, int iteration, String username, Set<String> userOrgs)
+  public InputStream getStoredResult(int requestId, int sequenceId, String filename, String username, Set<String> userOrgs)
       throws EntityNotFoundException {
-    log.info("Downloading existing results for requestId={} sequenceId={} iteration={}", requestId, sequenceId, iteration);
-    String filename = generateResultFilename(requestId, sequenceId, iteration);
+    // get stored result export
+    log.info("Retrieving existing results of {}", filename);
     InputStream resultStream = getResultStreamFromRepository(filename);
-    ManagerRequest request = getRequestFromRepository(requestId);
     // log result download
+    ManagerRequest request = getRequestFromRepository(requestId);
+    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, filename);
-    saveDownloadEventInRequest(request, sequenceId, downloadEvent);
+    addDownloadToExecution(execution, downloadEvent);
+    requestRepository.save(request);
     return resultStream;
   }
 
@@ -155,8 +155,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   @Override
-  public void delete(int requestId, int sequenceId) throws EntityNotFoundException {
-    log.info("Deleting execution results for requestId={} sequenceId={}", requestId, sequenceId);
+  public void deleteStoredResults(int requestId, int sequenceId) {
+    log.info("Deleting all execution results for requestId={} sequenceId={}", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     deleteDownloadedResults(execution);

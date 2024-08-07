@@ -61,7 +61,6 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     this.hashGenerator = hashGenerator;
   }
 
-  // NOTE: We assume the results from broker are always ZIP
   @Override
   public InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, HashGenerationException, IOException {
@@ -72,12 +71,12 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     int externalId = execution.getExternalId();
     InputStream resultStream = getResultStreamFromBroker(externalId);
     // store result export locally
-    int nextIteration = getNextIterationOfFileDownload(execution);
-    String filename = generateResultFilename(requestId, sequenceId, nextIteration);
-    resultRepository.save(resultStream, filename);
+    int nextIteration = getNextIterationOfResultDownload(execution);
+    String identifier = generateResultIdentifier(requestId, sequenceId, nextIteration);
+    resultRepository.save(resultStream, identifier);
     // log result download
-    DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, filename);
-    addDownloadToExecution(execution, downloadEvent);
+    DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, identifier);
+    addDownloadEventToExecution(execution, downloadEvent);
     requestRepository.save(request);
     return resultStream;
   }
@@ -100,23 +99,24 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     return response.getInputStream();
   }
 
-  private int getNextIterationOfFileDownload(RequestExecution execution) {
+  private int getNextIterationOfResultDownload(RequestExecution execution) {
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
-    Set<String> uniqueFilenames = getUniqueFilenames(downloadEvents);
-    return uniqueFilenames.size() + 1;
+    Set<String> identifiers = getUniqueResultIdentifiers(downloadEvents);
+    return identifiers.size() + 1;
   }
 
-  private Set<String> getUniqueFilenames(List<DownloadEvent> downloadEvents) {
+  private Set<String> getUniqueResultIdentifiers(List<DownloadEvent> downloadEvents) {
     return downloadEvents.stream()
-        .map(DownloadEvent::getFilename)
+        .map(DownloadEvent::getIdentifier)
         .collect(Collectors.toSet());
   }
 
-  private String generateResultFilename(int requestId, int sequenceId, int iteration) {
+  // NOTE: We assume the results from broker are always ZIP
+  private String generateResultIdentifier(int requestId, int sequenceId, int iteration) {
     return String.format("aktin-export_req%d-seq%d-iter%d.zip", requestId, sequenceId, iteration);
   }
 
-  private DownloadEvent createNewDownloadEvent(String username, Set<String> userOrgs, InputStream resultStream, String filename)
+  private DownloadEvent createNewDownloadEvent(String username, Set<String> userOrgs, InputStream resultStream, String identifier)
       throws HashGenerationException {
     DownloadEvent downloadEvent = downloadEventFactory.create();
     downloadEvent.setUsername(username);
@@ -125,33 +125,33 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     String fileHash = hashGenerator.generateHash(resultStream);
     downloadEvent.setDownloadHash(fileHash);
     downloadEvent.setHashAlgorithm(hashGenerator.getAlgorithm());
-    downloadEvent.setFilename(filename);
+    downloadEvent.setIdentifier(identifier);
     return downloadEvent;
   }
 
-  private void addDownloadToExecution(RequestExecution execution, DownloadEvent downloadEvent) {
+  private void addDownloadEventToExecution(RequestExecution execution, DownloadEvent downloadEvent) {
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
     downloadEvents.add(downloadEvent);
   }
 
   @Override
-  public InputStream getStoredResult(int requestId, int sequenceId, String filename, String username, Set<String> userOrgs)
+  public InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
       throws EntityNotFoundException {
     // get stored result export
-    log.info("Retrieving existing results of {}", filename);
-    InputStream resultStream = getResultStreamFromRepository(filename);
+    log.info("Retrieving existing results of {}", identifier);
+    InputStream resultStream = getResultStreamFromRepository(identifier);
     // log result download
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);
-    DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, filename);
-    addDownloadToExecution(execution, downloadEvent);
+    DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, identifier);
+    addDownloadEventToExecution(execution, downloadEvent);
     requestRepository.save(request);
     return resultStream;
   }
 
-  private InputStream getResultStreamFromRepository(String filename) throws EntityNotFoundException {
-    return resultRepository.get(filename)
-        .orElseThrow(() -> new EntityNotFoundException("Result not found: " + filename));
+  private InputStream getResultStreamFromRepository(String identifier) throws EntityNotFoundException {
+    return resultRepository.get(identifier)
+        .orElseThrow(() -> new EntityNotFoundException("Result not found: " + identifier));
   }
 
   @Override
@@ -165,8 +165,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   private void deleteDownloadedResults(RequestExecution execution) {
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
     if (!downloadEvents.isEmpty()) {
-      Set<String> filenames = getUniqueFilenames(downloadEvents);
-      filenames.forEach(resultRepository::delete);
+      Set<String> identifiers = getUniqueResultIdentifiers(downloadEvents);
+      identifiers.forEach(resultRepository::delete);
     } else {
       log.info("Request has no downloaded results");
     }

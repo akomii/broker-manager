@@ -50,5 +50,5 @@ public class FsDownloadEvent implements DownloadEvent {
   Instant downloadDate;
   String downloadHash;
   String hashAlgorithm;
-  String filename;
+  String identifier;
 }

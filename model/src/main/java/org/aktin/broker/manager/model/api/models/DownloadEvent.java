@@ -106,7 +106,7 @@ public interface DownloadEvent {
    */
   void setHashAlgorithm(String hashAlgorithm);
 
-  void setFilename(String filename);
+  void setIdentifier(String identifier);
 
-  String getFilename();
+  String getIdentifier();
 }

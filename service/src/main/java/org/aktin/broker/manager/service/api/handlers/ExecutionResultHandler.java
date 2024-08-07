@@ -28,7 +28,7 @@ public interface ExecutionResultHandler {
   InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
       throws EntityNotFoundException, HashGenerationException, IOException;
 
-  InputStream getStoredResult(int requestId, int sequenceId, String filename, String username, Set<String> userOrgs)
+  InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
       throws EntityNotFoundException;
 
   void deleteStoredResults(int requestId, int sequenceId);

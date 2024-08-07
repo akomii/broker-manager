@@ -73,7 +73,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
-  public void save(ManagerRequest entity) throws DataPersistException {
+  public int save(ManagerRequest entity) throws DataPersistException {
     if (entity.getId() == 0) {
       entity.setId(fsIdGenerator.generateId());
     }
@@ -88,28 +88,9 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
         log.info("Updating ManagerRequest with id: {}", entity.getId());
       }
       xmlMarshaller.marshal(entity, file);
+      return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
-    } finally {
-      lock.writeLock().unlock();
-    }
-  }
-
-  @CacheEvict(cacheNames = "managerRequests", key = "#id")
-  @Override
-  public void delete(int id) throws DataDeleteException {
-    String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      boolean deleted = Files.deleteIfExists(Path.of(filePath));
-      if (!deleted) {
-        log.warn("ManagerRequest file not found for deletion: {}", filePath);
-      } else {
-        log.info("Deleted ManagerRequest file: {}", filePath);
-      }
-    } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerRequest: " + filePath, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -191,5 +172,25 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
   private boolean hasAuthorizedOrganization(ManagerRequest request, List<Integer> authorizedOrgIds) {
     Set<Integer> requestOrgIds = request.getAuthorizedOrganizations();
     return !Collections.disjoint(requestOrgIds, authorizedOrgIds);
+  }
+
+  @CacheEvict(cacheNames = "managerRequests", key = "#id")
+  @Override
+  public void delete(int id) throws DataDeleteException {
+    String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
+    lock.writeLock().lock();
+    try {
+      boolean deleted = Files.deleteIfExists(Path.of(filePath));
+      if (!deleted) {
+        log.warn("ManagerRequest file not found for deletion: {}", filePath);
+      } else {
+        log.info("Deleted ManagerRequest file: {}", filePath);
+      }
+    } catch (Exception e) {
+      throw new DataDeleteException("Error deleting ManagerRequest: " + filePath, e);
+    } finally {
+      lock.writeLock().unlock();
+    }
   }
 }

@@ -34,15 +34,14 @@ import java.util.List;
 import java.util.Optional;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import org.aktin.broker.manager.model.api.models.ManagerNode;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
+import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
 import org.aktin.broker.manager.persistence.impl.filesystem.conf.JaxbConfig;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataMigrationException;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsManagerNode;
-import org.aktin.broker.manager.persistence.impl.filesystem.repositories.FsManagerNodeRepository;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.model.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataMigrationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -103,11 +102,10 @@ class ManagerNodeRepositoryTest {
   @Test
   void testUpdate() {
     ManagerNode newNode = loadManagerNodeFromTestResources(1);
-    String oldKey = newNode.getApiKey();
-    newNode.setApiKey("ABDCDEF");
+    newNode.setActive(false);
     int id = repository.save(newNode);
     assertFalse(areXmlFilesEqual(id));
-    newNode.setApiKey(oldKey);
+    newNode.setActive(true);
     repository.save(newNode);
     assertTrue(areXmlFilesEqual(id));
   }
@@ -142,7 +140,7 @@ class ManagerNodeRepositoryTest {
 
   private void compareManagerNodes(ManagerNode expected, ManagerNode actual) {
     assertEquals(expected.getId(), actual.getId());
-    assertEquals(expected.getApiKey(), actual.getApiKey());
+    assertEquals(expected.isActive(), actual.isActive());
     assertEquals(expected.getTags(), actual.getTags());
     assertEquals(expected.getUserNotes(), actual.getUserNotes());
     assertEquals(expected.getLastContact(), actual.getLastContact());

@@ -27,8 +27,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
+import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,16 +42,16 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   private static final Logger log = LoggerFactory.getLogger(FsManagerRequestArchive.class);
   private static final String XML_EXTENSION = ".xml";
 
+  private final XmlMarshaller xmlMarshaller;
   private final XmlUnmarshaller<ManagerRequest> xmlUnmarshaller;
-  private final String requestsDirectory;
   private final String archiveDirectory;
 
   private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
 
-  public FsManagerRequestArchive(XmlUnmarshaller<ManagerRequest> xmlUnmarshaller, String requestsDirectory, String archiveDirectory)
+  public FsManagerRequestArchive(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest> xmlUnmarshaller, String archiveDirectory)
       throws IOException {
+    this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
-    this.requestsDirectory = requestsDirectory;
     this.archiveDirectory = archiveDirectory;
     Files.createDirectories(Path.of(this.archiveDirectory));
   }
@@ -59,16 +61,17 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public void archive(int id) throws DataArchiveException {
-    String sourcePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
-    String destinationPath = Path.of(archiveDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(sourcePath);
+  public int save(ManagerRequest entity) throws DataArchiveException {
+    String filePath = Path.of(archiveDirectory, entity.getId() + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      log.info("Archiving ManagerRequest: {} to {}", sourcePath, destinationPath);
-      Files.move(Path.of(sourcePath), Path.of(destinationPath));
+      log.info("Archiving ManagerRequest: {}", filePath);
+      File file = new File(filePath);
+      xmlMarshaller.marshal(entity, file);
+      return entity.getId();
     } catch (Exception e) {
-      throw new DataArchiveException("Failed to archive ManagerRequest: " + id, e);
+      throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
     }

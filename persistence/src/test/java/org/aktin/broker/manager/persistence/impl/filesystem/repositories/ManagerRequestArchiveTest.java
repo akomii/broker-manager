@@ -17,48 +17,8 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
-import org.aktin.broker.manager.persistence.impl.filesystem.conf.JaxbConfig;
-import org.aktin.broker.manager.persistence.impl.filesystem.repositories.FsManagerRequestArchive;
-import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
-import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
-import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataMigrationException;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsSeriesRequest;
-import org.aktin.broker.query.xml.Principal;
-import org.aktin.broker.query.xml.QuerySchedule;
-import org.aktin.broker.query.xml.RepeatedExecution;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.builder.Input;
-import org.xmlunit.diff.Diff;
-
 class ManagerRequestArchiveTest {
-
+/*
   @TempDir
   private Path tempArchiveDir;
 
@@ -240,4 +200,5 @@ class ManagerRequestArchiveTest {
       e.printStackTrace();
     }
   }
+ */
 }

@@ -38,15 +38,7 @@ public interface ManagerNodeRepository {
    * @param entity The {@link ManagerNode} object to be saved or updated
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerNode entity) throws DataPersistException;
-
-  /**
-   * Deletes the {@link ManagerNode} with the specified ID from persistent storage.
-   *
-   * @param id The ID of the {@link ManagerNode} to delete
-   * @throws DataDeleteException If there's an error while deleting the {@link ManagerNode}
-   */
-  void delete(int id) throws DataDeleteException;
+  int save(ManagerNode entity) throws DataPersistException;
 
   /**
    * Retrieves a {@link ManagerNode} from persistent storage based on its ID.
@@ -63,4 +55,12 @@ public interface ManagerNodeRepository {
    * @return A List containing the {@link ManagerNode}s, potentially an empty list if none exist or all entities are invalid.
    */
   List<ManagerNode> getAll();
+
+  /**
+   * Deletes the {@link ManagerNode} with the specified ID from persistent storage.
+   *
+   * @param id The ID of the {@link ManagerNode} to delete
+   * @throws DataDeleteException If there's an error while deleting the {@link ManagerNode}
+   */
+  void delete(int id) throws DataDeleteException;
 }

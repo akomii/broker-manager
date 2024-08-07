@@ -31,9 +31,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
-import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.impl.filesystem.repositories.FsExecutionResultRepository;
+import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,8 +61,8 @@ class ExecutionResultRepositoryTest {
   @Test
   void testSave() throws IOException {
     InputStream is = getExecutionResultTestResourceAsInputStream("export_1.zip");
-    String filename = repository.save(is, "file1.txt");
-    assertTrue(areBinaryFilesEqual(Path.of(getTestResourcePath("export_1.zip")), Path.of(String.valueOf(tempDir), filename)));
+    repository.save(is, "file1.txt");
+    assertTrue(areBinaryFilesEqual(Path.of(getTestResourcePath("export_1.zip")), Path.of(String.valueOf(tempDir), "file1.txt")));
   }
 
   @Test

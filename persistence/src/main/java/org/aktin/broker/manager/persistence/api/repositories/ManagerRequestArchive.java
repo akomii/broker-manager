@@ -31,13 +31,7 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ManagerRequestArchive {
 
-  /**
-   * Moves a persisted {@link ManagerRequest} to an archive storage location.
-   *
-   * @param id The unique identifier of the {@link ManagerRequest} to archive
-   * @throws DataArchiveException If an error occurs during the archival process
-   */
-  void archive(int id) throws DataArchiveException;
+  int save(ManagerRequest entity) throws DataArchiveException;
 
   /**
    * Retrieves a {@link ManagerRequest} from archive storage based on its ID.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <managerNode xmlns:ns2="http://aktin.org/ns/exchange" dataVersion="1">
-  <apiKey>c8d9e0f1</apiKey>
+  <active>true</active>
   <tags>
     <tag>emergency-care</tag>
     <tag>general medicine</tag>

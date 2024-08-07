@@ -38,15 +38,7 @@ public interface ManagerRequestRepository {
    * @param entity The {@link ManagerRequest} object to be saved or updated
    * @throws DataPersistException If there are general problems during the save or update operation
    */
-  void save(ManagerRequest entity) throws DataPersistException;
-
-  /**
-   * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.
-   *
-   * @param id The ID of the {@link ManagerRequest} to delete
-   * @throws DataDeleteException If there's an error while deleting the {@link ManagerRequest}
-   */
-  void delete(int id) throws DataDeleteException;
+  int save(ManagerRequest entity) throws DataPersistException;
 
   /**
    * Retrieves a {@link ManagerRequest} from persistent storage based on its ID.
@@ -64,10 +56,13 @@ public interface ManagerRequestRepository {
    */
   List<ManagerRequest> getAll();
 
-  /**
-   * Retrieves all {@link ManagerRequest}s from persistent storage with corresponding authorized user organization.
-   *
-   * @return A List containing the retrieved {@link ManagerRequest}s, potentially an empty list if none exist or all entities are invalid.
-   */
   List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds);
+
+  /**
+   * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.
+   *
+   * @param id The ID of the {@link ManagerRequest} to delete
+   * @throws DataDeleteException If there's an error while deleting the {@link ManagerRequest}
+   */
+  void delete(int id) throws DataDeleteException;
 }

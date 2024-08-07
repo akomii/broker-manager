@@ -64,9 +64,10 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
   }
 
+  // TODO was wenn Node sich noch nicht gemeldet hat?
   @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
-  public void save(ManagerNode entity) throws DataPersistException {
+  public int save(ManagerNode entity) throws DataPersistException {
     String filePath = Path.of(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
@@ -76,28 +77,9 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
         log.info("Creating new ManagerNode: {}", filePath);
       }
       xmlMarshaller.marshal(entity, file);
+      return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
-    } finally {
-      lock.writeLock().unlock();
-    }
-  }
-
-  @CacheEvict(cacheNames = "managerNodes", key = "#id")
-  @Override
-  public void delete(int id) throws DataDeleteException {
-    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      boolean deleted = Files.deleteIfExists(Path.of(filePath));
-      if (!deleted) {
-        log.warn("ManagerNode file not found for deletion: {}", filePath);
-      } else {
-        log.info("Deleted ManagerNode file: {}", filePath);
-      }
-    } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerNode: " + filePath, e);
     } finally {
       lock.writeLock().unlock();
     }
@@ -147,5 +129,25 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
       }
     }
     return managerNodes;
+  }
+
+  @CacheEvict(cacheNames = "managerNodes", key = "#id")
+  @Override
+  public void delete(int id) throws DataDeleteException {
+    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
+    ReentrantReadWriteLock lock = getLock(filePath);
+    lock.writeLock().lock();
+    try {
+      boolean deleted = Files.deleteIfExists(Path.of(filePath));
+      if (!deleted) {
+        log.warn("ManagerNode file not found for deletion: {}", filePath);
+      } else {
+        log.info("Deleted ManagerNode file: {}", filePath);
+      }
+    } catch (Exception e) {
+      throw new DataDeleteException("Error deleting ManagerNode: " + filePath, e);
+    } finally {
+      lock.writeLock().unlock();
+    }
   }
 }

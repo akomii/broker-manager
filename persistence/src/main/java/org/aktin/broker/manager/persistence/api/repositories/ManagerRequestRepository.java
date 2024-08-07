@@ -19,6 +19,7 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
@@ -36,6 +37,7 @@ public interface ManagerRequestRepository {
    * Saves or updates the provided {@link ManagerRequest} entity in persistent storage.
    *
    * @param entity The {@link ManagerRequest} object to be saved or updated
+   * @return The ID of the saved or updated {@link ManagerRequest}
    * @throws DataPersistException If there are general problems during the save or update operation
    */
   int save(ManagerRequest entity) throws DataPersistException;
@@ -56,7 +58,13 @@ public interface ManagerRequestRepository {
    */
   List<ManagerRequest> getAll();
 
-  List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds);
+  /**
+   * Retrieves all {@link ManagerRequest}s from persistent storage that match the given filter.
+   *
+   * @param filter A {@link Predicate} to apply to the {@link ManagerRequest}s
+   * @return A List containing the filtered {@link ManagerRequest}s, potentially an empty list if none match the filter.
+   */
+  List<ManagerRequest> getFiltered(Predicate<ManagerRequest> filter);
 
   /**
    * Deletes the {@link ManagerRequest} with the specified ID from persistent storage.

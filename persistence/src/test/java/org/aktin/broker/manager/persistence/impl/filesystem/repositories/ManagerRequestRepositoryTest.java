@@ -221,17 +221,6 @@ class ManagerRequestRepositoryTest {
     assertEquals(0, allRequests.size());
   }
 
-  @Test
-  void testGetAllForOrganizations() {
-    copyManagerRequestTestResourceToTempDir(1);
-    copyManagerRequestTestResourceToTempDir(2);
-    copyManagerRequestTestResourceToTempDir(3);
-    List<ManagerRequest> r1 = repository.getAllForOrganizations(List.of(1));
-    assertEquals(2, r1.size());
-    List<ManagerRequest> r2 = repository.getAllForOrganizations(List.of(2));
-    assertEquals(1, r2.size());
-  }
-
   private String getTestResourcePath(String filename) throws IllegalArgumentException {
     String resourcePath = "requests/" + filename;
     URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);

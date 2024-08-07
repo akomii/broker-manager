@@ -22,13 +22,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Predicate;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
@@ -144,7 +143,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
 
   @Cacheable(cacheNames = "managerRequests")
   @Override
-  public List<ManagerRequest> getAllForOrganizations(List<Integer> authorizedOrgIds) {
+  public List<ManagerRequest> getFiltered(Predicate<ManagerRequest> filter) {
     List<ManagerRequest> filteredRequests = new ArrayList<>();
     File storageDir = new File(requestsDirectory);
     File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
@@ -157,7 +156,7 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       lock.readLock().lock();
       try {
         ManagerRequest request = xmlUnmarshaller.unmarshal(file);
-        if (request != null && hasAuthorizedOrganization(request, authorizedOrgIds)) {
+        if (request != null && filter.test(request)) {
           filteredRequests.add(request);
         }
       } catch (Exception e) {
@@ -167,11 +166,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
       }
     }
     return filteredRequests;
-  }
-
-  private boolean hasAuthorizedOrganization(ManagerRequest request, List<Integer> authorizedOrgIds) {
-    Set<Integer> requestOrgIds = request.getAuthorizedOrganizations();
-    return !Collections.disjoint(requestOrgIds, authorizedOrgIds);
   }
 
   @CacheEvict(cacheNames = "managerRequests", key = "#id")

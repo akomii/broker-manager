@@ -87,8 +87,6 @@ public interface ManagerRequest {
 
   void setRequestExecutions(List<RequestExecution> requestExecutions);
 
-  RequestExecution getRequestExecutionBySeqId(int sequenceId);
-
   Instant getCreatedDate();
 
   void setCreatedDate(Instant createdDate);

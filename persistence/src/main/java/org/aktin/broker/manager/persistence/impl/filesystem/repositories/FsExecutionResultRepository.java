@@ -61,7 +61,7 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
     }
     try (OutputStream outputStream = Files.newOutputStream(Path.of(filePath))) {
       result.transferTo(outputStream);
-      log.info("Saved result to: {}", filePath);
+      log.info("Saved new result to: {}", filePath);
     } catch (Exception e) {
       throw new DataPersistException("Failed to save execution results to file: " + filePath, e);
     }

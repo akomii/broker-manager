@@ -81,12 +81,13 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     lock.writeLock().lock();
     try {
       File file = new File(filePath);
-      if (!file.exists()) {
-        log.info("Creating new ManagerRequest: {}", filePath);
-      } else {
-        log.info("Updating ManagerRequest with id: {}", entity.getId());
-      }
+      boolean isNewFile = !file.exists();
       xmlMarshaller.marshal(entity, file);
+      if (isNewFile) {
+        log.info("Created new ManagerRequest: {}", filePath);
+      } else {
+        log.info("Updated ManagerRequest with id: {}", entity.getId());
+      }
       return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);

@@ -73,10 +73,13 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     lock.writeLock().lock();
     try {
       File file = new File(filePath);
-      if (!file.exists()) {
-        log.info("Creating new ManagerNode: {}", filePath);
-      }
+      boolean isNewFile = !file.exists();
       xmlMarshaller.marshal(entity, file);
+      if (isNewFile) {
+        log.info("Created new ManagerNode: {}", filePath);
+      } else {
+        log.info("Updated ManagerNode with id: {}", entity.getId());
+      }
       return entity.getId();
     } catch (Exception e) {
       throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);

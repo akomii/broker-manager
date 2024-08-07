@@ -19,7 +19,7 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 
 /**
@@ -31,7 +31,7 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ManagerRequestArchive {
 
-  int save(ManagerRequest entity) throws DataArchiveException;
+  int save(ManagerRequest entity) throws DataPersistException;
 
   /**
    * Retrieves a {@link ManagerRequest} from archive storage based on its ID.

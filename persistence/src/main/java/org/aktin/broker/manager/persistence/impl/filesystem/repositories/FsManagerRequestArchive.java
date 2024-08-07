@@ -26,7 +26,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.exceptions.DataArchiveException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
@@ -61,17 +60,17 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
   }
 
   @Override
-  public int save(ManagerRequest entity) throws DataArchiveException {
+  public int save(ManagerRequest entity) throws DataPersistException {
     String filePath = Path.of(archiveDirectory, entity.getId() + XML_EXTENSION).toString();
     ReentrantReadWriteLock lock = getLock(filePath);
     lock.writeLock().lock();
     try {
-      log.info("Archiving ManagerRequest: {}", filePath);
       File file = new File(filePath);
       xmlMarshaller.marshal(entity, file);
+      log.info("Archived ManagerRequest: {}", filePath);
       return entity.getId();
     } catch (Exception e) {
-      throw new DataPersistException("Failed to save ManagerRequest: " + entity.getId(), e);
+      throw new DataPersistException("Failed to archive ManagerRequest: " + entity.getId(), e);
     } finally {
       lock.writeLock().unlock();
     }

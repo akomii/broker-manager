@@ -30,7 +30,7 @@ public interface ExecutionResultHandler {
       throws EntityNotFoundException, HashGenerationException, BrokerException, IOException;
 
   InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, HashGenerationException;
+      throws EntityNotFoundException, HashGenerationException, IOException;
 
-  void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException;
+  void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException, IOException;
 }

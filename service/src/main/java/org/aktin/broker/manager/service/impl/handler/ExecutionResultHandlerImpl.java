@@ -29,6 +29,8 @@ import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
+import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
 import org.aktin.broker.manager.service.api.exceptions.BrokerException;
@@ -82,7 +84,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     return resultStream;
   }
 
-  private ManagerRequest getRequestFromRepository(int requestId) throws EntityNotFoundException {
+  private ManagerRequest getRequestFromRepository(int requestId) throws DataReadException, EntityNotFoundException {
     return requestRepository.get(requestId)
         .orElseThrow(() -> new EntityNotFoundException("Request not found: " + requestId));
   }
@@ -143,7 +145,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   @Override
   public InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, HashGenerationException {
+      throws EntityNotFoundException, HashGenerationException, IOException {
     // get stored result export
     log.info("Retrieving existing results of {}", identifier);
     InputStream resultStream = getResultStreamFromRepository(identifier);
@@ -156,26 +158,28 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     return resultStream;
   }
 
-  private InputStream getResultStreamFromRepository(String identifier) throws EntityNotFoundException {
+  private InputStream getResultStreamFromRepository(String identifier) throws DataReadException, EntityNotFoundException {
     return resultRepository.get(identifier)
         .orElseThrow(() -> new EntityNotFoundException("Result not found: " + identifier));
   }
 
   @Override
-  public void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException {
+  public void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException, IOException {
     log.info("Deleting all execution results for requestId={} sequenceId={}", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);
     deleteDownloadedResults(execution);
   }
 
-  private void deleteDownloadedResults(RequestExecution execution) {
+  private void deleteDownloadedResults(RequestExecution execution) throws DataDeleteException {
     List<DownloadEvent> downloadEvents = execution.getDownloadEvents();
-    if (!downloadEvents.isEmpty()) {
-      Set<String> identifiers = getUniqueResultIdentifiers(downloadEvents);
-      identifiers.forEach(resultRepository::delete);
-    } else {
+    if (downloadEvents.isEmpty()) {
       log.info("Request has no downloaded results");
+      return;
+    }
+    Set<String> identifiers = getUniqueResultIdentifiers(downloadEvents);
+    for (String identifier : identifiers) {
+      resultRepository.delete(identifier);
     }
   }
 }

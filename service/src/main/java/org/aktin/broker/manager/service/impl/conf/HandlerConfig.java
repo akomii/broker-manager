@@ -21,6 +21,7 @@ import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.service.api.conn.BrokerAdminWrapper;
 import org.aktin.broker.manager.service.api.handlers.ExecutionResultHandler;
 import org.aktin.broker.manager.service.impl.handler.ExecutionResultHandlerImpl;
 import org.aktin.broker.manager.service.impl.util.SHA256Generator;
@@ -33,12 +34,12 @@ public class HandlerConfig {
 
   @Bean
   public ExecutionResultHandler executionResultHandlerImpl(
-      @Autowired BrokerAdmin brokerAdmin,
+      @Autowired BrokerAdminWrapper brokerAdminWrapper,
       @Autowired ExecutionResultRepository executionResultRepository,
       @Autowired ManagerRequestRepository managerRequestRepository,
       @Autowired DownloadEventFactory downloadEventFactory) {
     return new ExecutionResultHandlerImpl(
-        brokerAdmin,
+        brokerAdminWrapper,
         executionResultRepository,
         managerRequestRepository,
         downloadEventFactory,

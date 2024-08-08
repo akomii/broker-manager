@@ -18,6 +18,8 @@
 package org.aktin.broker.manager.service.api.conn;
 
 import org.aktin.broker.client.BrokerAdmin;
+import org.aktin.broker.client.ResponseWithMetadata;
+import org.aktin.broker.manager.service.api.exceptions.BrokerException;
 
 /**
  * Interface for initializing a {@link BrokerAdmin} client. This client is used to perform administrative operations on an AKTIN Broker.
@@ -25,12 +27,8 @@ import org.aktin.broker.client.BrokerAdmin;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface BrokerAdminInitializer {
+public interface BrokerAdminWrapper {
 
-  /**
-   * Returns an initialized and configured {@link BrokerAdmin} client instance.
-   *
-   * @return The ready-to-use {@link BrokerAdmin} client.
-   */
-  BrokerAdmin getAdminClient();
+  ResponseWithMetadata getExecutionResult(int externalId) throws BrokerException;
+
 }

@@ -17,9 +17,8 @@
 
 package org.aktin.broker.manager.service.impl.conf;
 
-import org.aktin.broker.client.BrokerAdmin;
-import org.aktin.broker.manager.service.api.conn.BrokerAdminInitializer;
-import org.aktin.broker.manager.service.impl.conn.BrokerAdmin2InitializerImpl;
+import org.aktin.broker.manager.service.api.conn.BrokerAdminWrapper;
+import org.aktin.broker.manager.service.impl.conn.BrokerAdmin2WrapperImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +27,9 @@ import org.springframework.context.annotation.Configuration;
 public class ConnConfig {
 
   @Bean
-  public BrokerAdmin brokerAdmin(
+  public BrokerAdminWrapper brokerAdminWrapper(
       @Value("${broker-manager.connection.broker.uri}") String uriString,
       @Value("${broker-manager.connection.broker.apiKey}") String apiKey) {
-    BrokerAdminInitializer adminInitializer = new BrokerAdmin2InitializerImpl(uriString, apiKey);
-    return adminInitializer.getAdminClient();
+    return new BrokerAdmin2WrapperImpl(uriString, apiKey);
   }
 }

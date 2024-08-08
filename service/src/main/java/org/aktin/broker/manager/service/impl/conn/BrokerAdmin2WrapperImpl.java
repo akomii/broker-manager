@@ -17,11 +17,14 @@
 
 package org.aktin.broker.manager.service.impl.conn;
 
+import java.io.IOException;
 import java.net.URI;
 import org.aktin.broker.client.BrokerAdmin;
+import org.aktin.broker.client.ResponseWithMetadata;
 import org.aktin.broker.client2.BrokerAdmin2;
 import org.aktin.broker.client2.auth.ApiKeyAuthentication;
-import org.aktin.broker.manager.service.api.conn.BrokerAdminInitializer;
+import org.aktin.broker.manager.service.api.conn.BrokerAdminWrapper;
+import org.aktin.broker.manager.service.api.exceptions.BrokerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,9 +34,9 @@ import org.slf4j.LoggerFactory;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
+public class BrokerAdmin2WrapperImpl implements BrokerAdminWrapper {
 
-  private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2InitializerImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(BrokerAdmin2WrapperImpl.class);
 
   private final BrokerAdmin brokerAdmin;
 
@@ -43,7 +46,7 @@ public class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
    * @param uriString The URI of the broker.
    * @param apiKey    The API key for authentication with the broker.
    */
-  public BrokerAdmin2InitializerImpl(String uriString, String apiKey) {
+  public BrokerAdmin2WrapperImpl(String uriString, String apiKey) {
     brokerAdmin = initBrokerAdmin(uriString, apiKey);
   }
 
@@ -64,10 +67,14 @@ public class BrokerAdmin2InitializerImpl implements BrokerAdminInitializer {
     return admin;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public BrokerAdmin getAdminClient() {
-    return brokerAdmin;
+  // TODO change getResult() to getRequestBundleExport(int requestid)
+  // TODO add timeout / exception on connection failure??
+  @Override
+  public ResponseWithMetadata getExecutionResult(int externalId) throws BrokerException {
+    try {
+      return brokerAdmin.getResult(externalId, 1);
+    } catch (IOException e) {
+      throw new BrokerException("Failed to retrieve result from broker", e);
+    }
   }
 }

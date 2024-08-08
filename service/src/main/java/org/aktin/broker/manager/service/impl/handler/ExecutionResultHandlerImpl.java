@@ -23,7 +23,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.ResponseWithMetadata;
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
@@ -33,6 +32,7 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.service.api.conn.BrokerAdminWrapper;
 import org.aktin.broker.manager.service.api.exceptions.BrokerException;
 import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
 import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
@@ -45,14 +45,14 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   private static final Logger log = LoggerFactory.getLogger(ExecutionResultHandlerImpl.class);
 
-  private final BrokerAdmin brokerAdmin;
+  private final BrokerAdminWrapper brokerAdmin;
   private final ExecutionResultRepository resultRepository;
   private final ManagerRequestRepository requestRepository;
   private final DownloadEventFactory downloadEventFactory;
   private final HashGenerator hashGenerator;
 
   public ExecutionResultHandlerImpl(
-      BrokerAdmin brokerAdmin,
+      BrokerAdminWrapper brokerAdmin,
       ExecutionResultRepository resultRepository,
       ManagerRequestRepository requestRepository,
       DownloadEventFactory downloadEventFactory,
@@ -96,15 +96,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
         .orElseThrow(() -> new EntityNotFoundException("Execution not found: " + sequenceId));
   }
 
-  // TODO change getResult() to getRequestBundleExport(int requestid)
-  // TODO add timeout / exception on connection failure??
-  private InputStream getResultStreamFromBroker(int requestId) throws BrokerException, IOException {
-    ResponseWithMetadata response;
-    try {
-      response = brokerAdmin.getResult(requestId, 1);
-    } catch (IOException e) {
-      throw new BrokerException("Failed to retrieve result from broker", e);
-    }
+  private InputStream getResultStreamFromBroker(int externalId) throws BrokerException, IOException {
+    ResponseWithMetadata response = brokerAdmin.getExecutionResult(externalId);
     return response.getInputStream();
   }
 

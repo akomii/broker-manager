@@ -20,16 +20,17 @@ package org.aktin.broker.manager.service.api.handlers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
+import org.aktin.broker.manager.service.api.exceptions.BrokerException;
 import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
 import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 
 public interface ExecutionResultHandler {
 
   InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, HashGenerationException, IOException;
+      throws EntityNotFoundException, HashGenerationException, BrokerException, IOException;
 
   InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
-      throws EntityNotFoundException;
+      throws EntityNotFoundException, HashGenerationException;
 
-  void deleteStoredResults(int requestId, int sequenceId);
+  void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException;
 }

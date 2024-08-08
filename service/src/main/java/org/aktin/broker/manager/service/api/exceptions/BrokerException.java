@@ -17,13 +17,13 @@
 
 package org.aktin.broker.manager.service.api.exceptions;
 
-public class EntityNotFoundException extends Exception {
+public class BrokerException extends Exception {
 
-  public EntityNotFoundException(String message) {
+  public BrokerException(String message) {
     super(message);
   }
 
-  public EntityNotFoundException(String message, Throwable cause) {
+  public BrokerException(String message, Throwable cause) {
     super(message, cause);
   }
 }

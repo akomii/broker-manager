@@ -31,6 +31,7 @@ import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.service.api.exceptions.BrokerException;
 import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
 import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 import org.aktin.broker.manager.service.api.handlers.ExecutionResultHandler;
@@ -63,7 +64,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   @Override
   public InputStream addResultFromBrokerServer(int requestId, int sequenceId, String username, Set<String> userOrgs)
-      throws EntityNotFoundException, HashGenerationException, IOException {
+      throws EntityNotFoundException, HashGenerationException, BrokerException, IOException {
     // get result export from broker
     log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
@@ -93,9 +94,15 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
         .orElseThrow(() -> new EntityNotFoundException("Execution not found: " + sequenceId));
   }
 
+  // TODO change getResult() to getRequestBundleExport(int requestid)
   // TODO add timeout / exception on connection failure??
-  private InputStream getResultStreamFromBroker(int requestId) throws IOException {
-    ResponseWithMetadata response = brokerAdmin.getResult(requestId, 1); // TODO change this method to getRequestBundleExport(int requestid)
+  private InputStream getResultStreamFromBroker(int requestId) throws BrokerException, IOException {
+    ResponseWithMetadata response;
+    try {
+      response = brokerAdmin.getResult(requestId, 1);
+    } catch (IOException e) {
+      throw new BrokerException("Failed to retrieve result from broker", e);
+    }
     return response.getInputStream();
   }
 
@@ -136,7 +143,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
 
   @Override
   public InputStream getStoredResult(int requestId, int sequenceId, String identifier, String username, Set<String> userOrgs)
-      throws EntityNotFoundException {
+      throws EntityNotFoundException, HashGenerationException {
     // get stored result export
     log.info("Retrieving existing results of {}", identifier);
     InputStream resultStream = getResultStreamFromRepository(identifier);
@@ -155,7 +162,7 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   }
 
   @Override
-  public void deleteStoredResults(int requestId, int sequenceId) {
+  public void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException {
     log.info("Deleting all execution results for requestId={} sequenceId={}", requestId, sequenceId);
     ManagerRequest request = getRequestFromRepository(requestId);
     RequestExecution execution = getExecutionFromRequest(request, sequenceId);

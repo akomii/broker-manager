@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.service.api.exceptions;
 
-public class HashGenerationException extends RuntimeException {
+public class HashGenerationException extends Exception {
 
   public HashGenerationException(String message) {
     super(message);

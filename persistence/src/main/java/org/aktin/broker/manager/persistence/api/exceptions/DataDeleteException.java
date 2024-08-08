@@ -17,6 +17,8 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+import java.io.IOException;
+
 /**
  * This exception is used to wrap any exceptions that occur during delete operations across all
  * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data deletion processes within
@@ -25,7 +27,7 @@ package org.aktin.broker.manager.persistence.api.exceptions;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class DataDeleteException extends RuntimeException {
+public class DataDeleteException extends IOException {
 
   /**
    * Constructs a new DataDeleteException with the specified detail message.

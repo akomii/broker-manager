@@ -17,6 +17,8 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+import java.io.IOException;
+
 /**
  * This exception is used to wrap any exceptions that occur during data persistence operations across all
  * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data persistence processes
@@ -25,7 +27,7 @@ package org.aktin.broker.manager.persistence.api.exceptions;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class DataPersistException extends RuntimeException {
+public class DataPersistException extends IOException {
 
   /**
    * Constructs a new DataPersistException with the specified detail message.

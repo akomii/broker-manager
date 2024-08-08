@@ -17,7 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.exceptions;
 
-public class DataMigrationException extends RuntimeException {
+public class DataMigrationException extends Exception {
 
   public DataMigrationException(String message) {
     super(message);

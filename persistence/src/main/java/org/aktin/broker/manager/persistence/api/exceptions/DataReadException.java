@@ -17,15 +17,17 @@
 
 package org.aktin.broker.manager.persistence.api.exceptions;
 
+import java.io.IOException;
+
 /**
  * This exception is used to wrap any exceptions that occur during data read operations across all
- * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data read processes within the
- * application.
+ * {@link org.aktin.broker.manager.persistence.api.repositories}, providing a way to signal issues specifically related to data read processes within
+ * the application.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public class DataReadException extends RuntimeException {
+public class DataReadException extends IOException {
 
   /**
    * Constructs a new DataReadException with the specified detail message.

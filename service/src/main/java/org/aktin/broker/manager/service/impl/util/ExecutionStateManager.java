@@ -32,7 +32,7 @@ public class ExecutionStateManager {
 
   static {
     VALID_TRANSITIONS.put(ExecutionState.PENDING, Set.of(ExecutionState.PUBLISHED));
-    VALID_TRANSITIONS.put(ExecutionState.PUBLISHED, Set.of(ExecutionState.CLOSED));
+    VALID_TRANSITIONS.put(ExecutionState.PUBLISHED, Set.of(ExecutionState.CLOSED, ExecutionState.ARCHIVED));
     VALID_TRANSITIONS.put(ExecutionState.CLOSED, Set.of(ExecutionState.ARCHIVED));
     VALID_TRANSITIONS.put(ExecutionState.ARCHIVED, Set.of());
   }

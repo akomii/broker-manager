@@ -31,7 +31,7 @@ public class RequestStateManager {
 
   static {
     VALID_TRANSITIONS.put(RequestState.DRAFT, Set.of(RequestState.ACTIVE));
-    VALID_TRANSITIONS.put(RequestState.ACTIVE, Set.of(RequestState.CLOSED));
+    VALID_TRANSITIONS.put(RequestState.ACTIVE, Set.of(RequestState.CLOSED, RequestState.ARCHIVED));
     VALID_TRANSITIONS.put(RequestState.CLOSED, Set.of(RequestState.ARCHIVED));
     VALID_TRANSITIONS.put(RequestState.ARCHIVED, Set.of());
   }

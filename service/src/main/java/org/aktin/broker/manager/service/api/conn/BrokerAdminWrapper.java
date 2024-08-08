@@ -20,6 +20,7 @@ package org.aktin.broker.manager.service.api.conn;
 import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.client.ResponseWithMetadata;
 import org.aktin.broker.manager.service.api.exceptions.BrokerException;
+import org.aktin.broker.query.xml.QueryRequest;
 
 /**
  * Interface for initializing a {@link BrokerAdmin} client. This client is used to perform administrative operations on an AKTIN Broker.
@@ -29,6 +30,13 @@ import org.aktin.broker.manager.service.api.exceptions.BrokerException;
  */
 public interface BrokerAdminWrapper {
 
+  int allocateNewExecutionOnBroker() throws BrokerException;
+
+  void publishExecutionOnBroker(QueryRequest request, int[] targetNodes) throws BrokerException;
+
   ResponseWithMetadata getExecutionResult(int externalId) throws BrokerException;
 
+  void closeExecutionOnBroker(int externalId) throws BrokerException;
+
+  void deleteExecutionFromBroker(int externalId) throws BrokerException;
 }

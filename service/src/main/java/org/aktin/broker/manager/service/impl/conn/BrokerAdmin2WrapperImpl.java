@@ -25,6 +25,7 @@ import org.aktin.broker.client2.BrokerAdmin2;
 import org.aktin.broker.client2.auth.ApiKeyAuthentication;
 import org.aktin.broker.manager.service.api.conn.BrokerAdminWrapper;
 import org.aktin.broker.manager.service.api.exceptions.BrokerException;
+import org.aktin.broker.query.xml.QueryRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,20 +62,68 @@ public class BrokerAdmin2WrapperImpl implements BrokerAdminWrapper {
       throw new IllegalStateException("Broker URI or API key is null. Initialization failed");
     }
     URI brokerUri = URI.create(uriString);
-    log.info("Initializing BrokerAdmin with URI: {}", brokerUri);
     BrokerAdmin2 admin = new BrokerAdmin2(brokerUri);
     admin.setAuthFilter(new ApiKeyAuthentication(apiKey));
+    log.info("Initialized BrokerAdmin with URI: {}", brokerUri);
     return admin;
+  }
+
+  @Override
+  public int allocateNewExecutionOnBroker() throws BrokerException {
+    int externalId;
+    try {
+      externalId = brokerAdmin.createRequest();
+    } catch (IOException e) {
+      throw new BrokerException("Failed to create execution on broker", e);
+    }
+    log.info("Created new execution on broker");
+    return externalId;
+  }
+
+  @Override
+  public void publishExecutionOnBroker(QueryRequest request, int[] targetNodes) throws BrokerException {
+    try {
+      int externalId = request.getId();
+      brokerAdmin.putRequestDefinition(externalId, "application/vnd.aktin.query.request+xml", request.toString());
+      brokerAdmin.setRequestTargetNodes(externalId, targetNodes);
+      brokerAdmin.publishRequest(externalId);
+    } catch (IOException e) {
+      throw new BrokerException("Failed to publish execution on broker", e);
+    }
+    log.info("Published execution on broker");
   }
 
   // TODO change getResult() to getRequestBundleExport(int requestid)
   // TODO add timeout / exception on connection failure??
   @Override
   public ResponseWithMetadata getExecutionResult(int externalId) throws BrokerException {
+    ResponseWithMetadata result;
     try {
-      return brokerAdmin.getResult(externalId, 1);
+      result = brokerAdmin.getResult(externalId, 1);
     } catch (IOException e) {
-      throw new BrokerException("Failed to retrieve result from broker", e);
+      throw new BrokerException("Failed to retrieve execution result from broker", e);
     }
+    log.info("Retrieved execution result from broker");
+    return result;
+  }
+
+  @Override
+  public void closeExecutionOnBroker(int externalId) throws BrokerException {
+    try {
+      brokerAdmin.closeRequest(externalId);
+    } catch (IOException e) {
+      throw new BrokerException("Failed to close execution on broker", e);
+    }
+    log.info("Closed execution on broker");
+  }
+
+  @Override
+  public void deleteExecutionFromBroker(int externalId) throws BrokerException {
+    try {
+      brokerAdmin.deleteRequest(externalId);
+    } catch (IOException e) {
+      throw new BrokerException("Failed to delete execution from broker", e);
+    }
+    log.info("Deleted execution from broker");
   }
 }

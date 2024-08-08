@@ -38,6 +38,7 @@ import org.aktin.broker.manager.service.api.exceptions.EntityNotFoundException;
 import org.aktin.broker.manager.service.api.exceptions.HashGenerationException;
 import org.aktin.broker.manager.service.api.handlers.ExecutionResultHandler;
 import org.aktin.broker.manager.service.impl.util.HashGenerator;
+import org.aktin.broker.manager.service.impl.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,8 +70,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
       throws EntityNotFoundException, HashGenerationException, BrokerException, IOException {
     // get result export from broker
     log.info("Downloading new results for requestId={} sequenceId={} from broker", requestId, sequenceId);
-    ManagerRequest request = getRequestFromRepository(requestId);
-    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
+    ManagerRequest request = RequestUtils.getRequestFromRepository(requestRepository, requestId);
+    RequestExecution execution = RequestUtils.getExecutionFromRequest(request, sequenceId);
     int externalId = execution.getExternalId();
     InputStream resultStream = getResultStreamFromBroker(externalId);
     // store result export locally
@@ -82,18 +83,6 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     addDownloadEventToExecution(execution, downloadEvent);
     requestRepository.save(request);
     return resultStream;
-  }
-
-  private ManagerRequest getRequestFromRepository(int requestId) throws DataReadException, EntityNotFoundException {
-    return requestRepository.get(requestId)
-        .orElseThrow(() -> new EntityNotFoundException("Request not found: " + requestId));
-  }
-
-  private RequestExecution getExecutionFromRequest(ManagerRequest request, int sequenceId) throws EntityNotFoundException {
-    return request.getRequestExecutions().stream()
-        .filter(execution -> execution.getSequenceId() == sequenceId)
-        .findFirst()
-        .orElseThrow(() -> new EntityNotFoundException("Execution not found: " + sequenceId));
   }
 
   private InputStream getResultStreamFromBroker(int externalId) throws BrokerException, IOException {
@@ -143,8 +132,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
     log.info("Retrieving existing results of {}", identifier);
     InputStream resultStream = getResultStreamFromRepository(identifier);
     // log result download
-    ManagerRequest request = getRequestFromRepository(requestId);
-    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
+    ManagerRequest request = RequestUtils.getRequestFromRepository(requestRepository, requestId);
+    RequestExecution execution = RequestUtils.getExecutionFromRequest(request, sequenceId);
     DownloadEvent downloadEvent = createNewDownloadEvent(username, userOrgs, resultStream, identifier);
     addDownloadEventToExecution(execution, downloadEvent);
     requestRepository.save(request);
@@ -159,8 +148,8 @@ public class ExecutionResultHandlerImpl implements ExecutionResultHandler {
   @Override
   public void deleteStoredResults(int requestId, int sequenceId) throws EntityNotFoundException, IOException {
     log.info("Deleting all execution results for requestId={} sequenceId={}", requestId, sequenceId);
-    ManagerRequest request = getRequestFromRepository(requestId);
-    RequestExecution execution = getExecutionFromRequest(request, sequenceId);
+    ManagerRequest request = RequestUtils.getRequestFromRepository(requestRepository, requestId);
+    RequestExecution execution = RequestUtils.getExecutionFromRequest(request, sequenceId);
     deleteDownloadedResults(execution);
   }
 

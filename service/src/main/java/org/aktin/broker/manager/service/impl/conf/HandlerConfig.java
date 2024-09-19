@@ -17,7 +17,6 @@
 
 package org.aktin.broker.manager.service.impl.conf;
 
-import org.aktin.broker.client.BrokerAdmin;
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;

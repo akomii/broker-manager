@@ -17,90 +17,42 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
+import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
 
-// each stored result is unique
-// TODO refactor
-public class FsExecutionResultRepository implements ExecutionResultRepository {
-
-  private static final Logger log = LoggerFactory.getLogger(FsExecutionResultRepository.class);
-
-  private final String resultsDirectory;
-  private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
+// TODO startup -> sync with broker, load all requests in memory
+// ToDo Add lockfile to broker and persistence operations
+// ToDo check performance of persistence and memory with 50MB requests (multiple)
+//TODO test Cache
+//TODO add SqlLite for indexing requests with Tags, Name, ID, external IDs and Orgs?
+public class FsExecutionResultRepository extends AbstractBinaryRepository implements ExecutionResultRepository {
 
   public FsExecutionResultRepository(String resultsDirectory) throws IOException {
-    this.resultsDirectory = resultsDirectory;
-    Files.createDirectories(Path.of(resultsDirectory));
-  }
-
-  private ReentrantReadWriteLock getLock(String filename) {
-    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
+    super(resultsDirectory);
   }
 
   @Override
-  public void save(InputStream result, String identifier) throws DataPersistException {
-    String filePath = Path.of(resultsDirectory, identifier).toString();
-    File file = new File(filePath);
-    if (file.exists()) {
-      throw new DataPersistException("Execution result file must be unique. File already exists: " + filePath);
+  public void write(InputStream result, String identifier) throws DataPersistException {
+    Path filePath = Paths.get(directory, identifier);
+    if (Files.exists(filePath)) {
+      throw new DataPersistException("Execution result must be unique. File already exists: " + filePath);
     }
-    try (OutputStream outputStream = Files.newOutputStream(Path.of(filePath))) {
-      result.transferTo(outputStream);
-      log.info("Saved new result to: {}", filePath);
-    } catch (IOException e) {
-      throw new DataPersistException("Failed to save execution results to file: " + filePath, e);
-    }
+    saveData(result, identifier);
   }
 
   @Override
-  public Optional<InputStream> get(String identifier) throws DataReadException {
-    String filePath = Path.of(resultsDirectory, identifier).toString();
-    File file = new File(filePath);
-    if (!file.exists()) {
-      return Optional.empty();
-    }
-    ReentrantReadWriteLock lock = getLock(identifier);
-    lock.readLock().lock();
-    try {
-      return Optional.of(Files.newInputStream(Path.of(filePath)));
-    } catch (Exception e) {
-      throw new DataReadException("Error retrieving execution result: " + filePath, e);
-    } finally {
-      lock.readLock().unlock();
-    }
+  public Optional<InputStream> get(String identifier) {
+    return getData(identifier);
   }
 
   @Override
-  public void delete(String identifier) throws DataDeleteException {
-    String filePath = Path.of(resultsDirectory, identifier).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      boolean deleted = Files.deleteIfExists(Path.of(filePath));
-      if (!deleted) {
-        log.warn("Execution result not found for deletion: {}", filePath);
-      } else {
-        log.info("Deleted execution result: {}", filePath);
-      }
-    } catch (Exception e) {
-      throw new DataDeleteException("Error deleting execution result: " + filePath, e);
-    } finally {
-      lock.writeLock().unlock();
-    }
+  public void delete(String identifier) {
+    deleteData(identifier);
   }
 }

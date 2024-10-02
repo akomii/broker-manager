@@ -33,11 +33,7 @@ import org.w3c.dom.Element;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerRequest {
-
-  int getId();
-
-  void setId(int id);
+public interface ManagerRequest extends PersistentObject {
 
   Set<String> getTags();
 

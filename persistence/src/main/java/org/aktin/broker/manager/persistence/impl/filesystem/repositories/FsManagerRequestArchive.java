@@ -17,79 +17,32 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.List;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-//TODO refactor and simplify
-public class FsManagerRequestArchive implements ManagerRequestArchive {
-
-  private static final Logger log = LoggerFactory.getLogger(FsManagerRequestArchive.class);
-  private static final String XML_EXTENSION = ".xml";
-
-  private final XmlMarshaller xmlMarshaller;
-  private final XmlUnmarshaller<ManagerRequest> xmlUnmarshaller;
-  private final String archiveDirectory;
-
-  private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
+public class FsManagerRequestArchive extends AbstractXMLRepository<ManagerRequest> implements ManagerRequestArchive {
 
   public FsManagerRequestArchive(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerRequest> xmlUnmarshaller, String archiveDirectory)
       throws IOException {
-    this.xmlMarshaller = xmlMarshaller;
-    this.xmlUnmarshaller = xmlUnmarshaller;
-    this.archiveDirectory = archiveDirectory;
-    Files.createDirectories(Path.of(this.archiveDirectory));
-  }
-
-  private ReentrantReadWriteLock getLock(String filename) {
-    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
+    super(xmlMarshaller, xmlUnmarshaller, archiveDirectory);
   }
 
   @Override
-  public int save(ManagerRequest entity) throws DataPersistException {
-    String filePath = Path.of(archiveDirectory, entity.getId() + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      File file = new File(filePath);
-      xmlMarshaller.marshal(entity, file);
-      log.info("Archived ManagerRequest: {}", filePath);
-      return entity.getId();
-    } catch (Exception e) {
-      throw new DataPersistException("Failed to archive ManagerRequest: " + entity.getId(), e);
-    } finally {
-      lock.writeLock().unlock();
-    }
+  protected String entityType() {
+    return "archived ManagerRequest";
   }
 
   @Override
-  public Optional<ManagerRequest> get(int id) throws DataReadException {
-    String filePath = Path.of(archiveDirectory, id + XML_EXTENSION).toString();
-    File file = new File(filePath);
-    if (!file.exists()) {
-      return Optional.empty();
-    }
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.readLock().lock();
-    try {
-      return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (Exception e) {
-      throw new DataReadException("Error retrieving archived ManagerRequest: " + filePath, e);
-    } finally {
-      lock.readLock().unlock();
-    }
+  public ManagerRequest save(ManagerRequest entity) {
+    return saveEntity(entity);
+  }
+
+  @Override
+  public List<ManagerRequest> getAll() {
+    return getAllEntities();
   }
 }

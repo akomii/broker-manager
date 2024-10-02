@@ -17,134 +17,38 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
-//TODO refactor
-public class FsManagerNodeRepository implements ManagerNodeRepository {
-
-  private static final Logger log = LoggerFactory.getLogger(FsManagerNodeRepository.class);
-  private static final String XML_EXTENSION = ".xml";
-
-  private final XmlMarshaller xmlMarshaller;
-  private final XmlUnmarshaller<ManagerNode> xmlUnmarshaller;
-  private final String nodesDirectory;
-
-  private final Map<String, ReentrantReadWriteLock> fileLocks = new ConcurrentHashMap<>();
+public class FsManagerNodeRepository extends AbstractXMLRepository<ManagerNode> implements ManagerNodeRepository {
 
   public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String nodesDirectory)
       throws IOException {
-    this.xmlMarshaller = xmlMarshaller;
-    this.xmlUnmarshaller = xmlUnmarshaller;
-    this.nodesDirectory = nodesDirectory;
-    Files.createDirectories(Path.of(this.nodesDirectory));
-  }
-
-  private ReentrantReadWriteLock getLock(String filename) {
-    return fileLocks.computeIfAbsent(filename, f -> new ReentrantReadWriteLock());
-  }
-
-  // TODO was wenn Node sich noch nicht gemeldet hat?
-  @Override
-  public int save(ManagerNode entity) throws DataPersistException {
-    String filePath = Path.of(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      File file = new File(filePath);
-      boolean isNewFile = !file.exists();
-      xmlMarshaller.marshal(entity, file);
-      if (isNewFile) {
-        log.info("Created new ManagerNode: {}", filePath);
-      } else {
-        log.info("Updated ManagerNode with id: {}", entity.getId());
-      }
-      return entity.getId();
-    } catch (Exception e) {
-      throw new DataPersistException("Failed to save ManagerNode: " + entity.getId(), e);
-    } finally {
-      lock.writeLock().unlock();
-    }
+    super(xmlMarshaller, xmlUnmarshaller, nodesDirectory);
   }
 
   @Override
-  public Optional<ManagerNode> get(int id) throws DataReadException {
-    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
-    File file = new File(filePath);
-    if (!file.exists()) {
-      return Optional.empty();
-    }
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.readLock().lock();
-    try {
-      return Optional.of(xmlUnmarshaller.unmarshal(file));
-    } catch (Exception e) {
-      throw new DataReadException("Error retrieving ManagerNode: " + filePath, e);
-    } finally {
-      lock.readLock().unlock();
-    }
+  protected String entityType() {
+    return "ManagerNode";
+  }
+
+  @Override
+  public ManagerNode save(ManagerNode entity) {
+    return saveEntity(entity);
   }
 
   @Override
   public List<ManagerNode> getAll() {
-    List<ManagerNode> managerNodes = new ArrayList<>();
-    File storageDir = new File(nodesDirectory);
-    File[] files = storageDir.listFiles((dir, name) -> name.endsWith(XML_EXTENSION));
-    if (files == null) {
-      return managerNodes;
-    }
-    for (File file : files) {
-      String filePath = file.getAbsolutePath();
-      ReentrantReadWriteLock lock = getLock(filePath);
-      lock.readLock().lock();
-      try {
-        ManagerNode node = xmlUnmarshaller.unmarshal(file);
-        if (node != null) {
-          managerNodes.add(node);
-        }
-      } catch (Exception e) {
-        log.warn("Error retrieving ManagerNode: {}, skipping...", filePath, e);
-      } finally {
-        lock.readLock().unlock();
-      }
-    }
-    return managerNodes;
+    return getAllEntities();
   }
 
   @Override
-  public void delete(int id) throws DataDeleteException {
-    String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
-    ReentrantReadWriteLock lock = getLock(filePath);
-    lock.writeLock().lock();
-    try {
-      boolean deleted = Files.deleteIfExists(Path.of(filePath));
-      if (!deleted) {
-        log.warn("ManagerNode file not found for deletion: {}", filePath);
-      } else {
-        log.info("Deleted ManagerNode file: {}", filePath);
-      }
-    } catch (Exception e) {
-      throw new DataDeleteException("Error deleting ManagerNode: " + filePath, e);
-    } finally {
-      lock.writeLock().unlock();
-    }
+  public void delete(int id) {
+    deleteEntity(id);
   }
 }

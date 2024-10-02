@@ -19,17 +19,10 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.io.InputStream;
 import java.util.Optional;
-import org.aktin.broker.manager.model.api.models.RequestExecution;
 
-/**
- * Defines an interface for persisting operations related to results of {@link RequestExecution} entities.
- *
- * @author akombeiz@ukaachen.de
- * @version 1.0
- */
 public interface ExecutionResultRepository {
 
-  void save(InputStream result, String identifier);
+  void write(InputStream result, String identifier);
 
   Optional<InputStream> get(String identifier);
 

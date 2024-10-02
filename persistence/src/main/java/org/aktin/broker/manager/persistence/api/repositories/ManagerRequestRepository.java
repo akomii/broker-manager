@@ -18,25 +18,13 @@
 package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
 
-/**
- * Defines an interface for data persistence operations related to {@link ManagerRequest} entities.
- *
- * @author akombeiz@ukaachen.de
- * @version 1.0
- */
 public interface ManagerRequestRepository {
 
-  int save(ManagerRequest entity);
-
-  Optional<ManagerRequest> get(int id);
+  ManagerRequest save(ManagerRequest entity);
 
   List<ManagerRequest> getAll();
-
-  List<ManagerRequest> getFiltered(Predicate<ManagerRequest> filter);
 
   void delete(int id);
 }

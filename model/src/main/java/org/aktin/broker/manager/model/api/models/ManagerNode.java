@@ -35,21 +35,7 @@ import java.util.Set;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerNode {
-
-  /**
-   * Gets the unique identifier for this manager node.
-   *
-   * @return the node ID
-   */
-  int getId();
-
-  /**
-   * Sets the unique identifier for this manager node.
-   *
-   * @param id the node ID
-   */
-  void setId(int id);
+public interface ManagerNode extends PersistentObject {
 
   boolean isActive();
 

@@ -15,14 +15,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.api.repositories;
+package org.aktin.broker.manager.model.api.models;
 
-import java.util.List;
-import org.aktin.broker.manager.model.api.models.ManagerRequest;
+public interface PersistentObject {
 
-public interface ManagerRequestArchive {
+  int getId();
 
-  ManagerRequest save(ManagerRequest entity);
-
-  List<ManagerRequest> getAll();
+  void setId(int id);
 }

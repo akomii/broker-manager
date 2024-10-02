@@ -18,20 +18,11 @@
 package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.List;
-import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
 
-/**
- * Defines an interface for data persistence operations related to {@link ManagerNode} entities.
- *
- * @author akombeiz@ukaachen.de
- * @version 1.0
- */
 public interface ManagerNodeRepository {
 
-  int save(ManagerNode entity);
-
-  Optional<ManagerNode> get(int id);
+  ManagerNode save(ManagerNode entity);
 
   List<ManagerNode> getAll();
 

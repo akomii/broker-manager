@@ -20,9 +20,6 @@ package org.aktin.broker.manager.persistence.api.repositories;
 import java.io.InputStream;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 
 /**
  * Defines an interface for persisting operations related to results of {@link RequestExecution} entities.
@@ -32,9 +29,9 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ExecutionResultRepository {
 
-  void save(InputStream result, String identifier) throws DataPersistException;
+  void save(InputStream result, String identifier);
 
-  Optional<InputStream> get(String identifier) throws DataReadException;
+  Optional<InputStream> get(String identifier);
 
-  void delete(String identifier) throws DataDeleteException;
+  void delete(String identifier);
 }

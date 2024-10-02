@@ -20,9 +20,6 @@ package org.aktin.broker.manager.persistence.api.repositories;
 import java.util.List;
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 
 /**
  * Defines an interface for data persistence operations related to {@link ManagerNode} entities.
@@ -32,35 +29,11 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ManagerNodeRepository {
 
-  /**
-   * Saves or updates the provided {@link ManagerNode} entity in persistent storage.
-   *
-   * @param entity The {@link ManagerNode} object to be saved or updated
-   * @throws DataPersistException If there are general problems during the save or update operation
-   */
-  int save(ManagerNode entity) throws DataPersistException;
+  int save(ManagerNode entity);
 
-  /**
-   * Retrieves a {@link ManagerNode} from persistent storage based on its ID.
-   *
-   * @param id The ID of the {@link ManagerNode} to retrieve
-   * @return An Optional containing the {@link ManagerNode} if found, or an empty Optional if not
-   * @throws DataReadException If there's an error while reading the {@link ManagerNode} data
-   */
-  Optional<ManagerNode> get(int id) throws DataReadException;
+  Optional<ManagerNode> get(int id);
 
-  /**
-   * Retrieves all {@link ManagerNode}s from persistent storage.
-   *
-   * @return A List containing the {@link ManagerNode}s, potentially an empty list if none exist or all entities are invalid.
-   */
   List<ManagerNode> getAll();
 
-  /**
-   * Deletes the {@link ManagerNode} with the specified ID from persistent storage.
-   *
-   * @param id The ID of the {@link ManagerNode} to delete
-   * @throws DataDeleteException If there's an error while deleting the {@link ManagerNode}
-   */
-  void delete(int id) throws DataDeleteException;
+  void delete(int id);
 }

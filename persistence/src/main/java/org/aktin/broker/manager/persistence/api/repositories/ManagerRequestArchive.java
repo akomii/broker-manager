@@ -19,8 +19,6 @@ package org.aktin.broker.manager.persistence.api.repositories;
 
 import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 
 /**
  * Enables the relocation of {@link ManagerRequest} from primary data storage to designated archive storages to manage storage resources and
@@ -31,14 +29,7 @@ import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
  */
 public interface ManagerRequestArchive {
 
-  int save(ManagerRequest entity) throws DataPersistException;
+  int save(ManagerRequest entity);
 
-  /**
-   * Retrieves a {@link ManagerRequest} from archive storage based on its ID.
-   *
-   * @param id The ID of the {@link ManagerRequest} to retrieve
-   * @return An Optional containing the {@link ManagerRequest} if found, or an empty Optional if not
-   * @throws DataReadException If there's an error while reading the {@link ManagerRequest} data
-   */
-  Optional<ManagerRequest> get(int id) throws DataReadException;
+  Optional<ManagerRequest> get(int id);
 }

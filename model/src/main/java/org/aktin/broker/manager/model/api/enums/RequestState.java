@@ -19,10 +19,16 @@ package org.aktin.broker.manager.model.api.enums;
 
 import org.aktin.broker.manager.model.api.models.ManagerNode;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
+import org.aktin.broker.manager.model.api.models.RequestExecution;
 
 /**
- * Enumerates the potential states of a {@link ManagerRequest}. States typically progress from
- * <code>DRAFT</code> => <code>ACTIVE</code> => <code>CLOSED</code> => <code>ARCHIVED</code>.
+ * Represents the possible states of a {@link ManagerRequest}. The states typically transition in the following order:
+ * <ul>
+ *   <li><code>DRAFT</code></li>
+ *   <li><code>ACTIVE</code></li>
+ *   <li><code>CLOSED</code></li>
+ *   <li><code>ARCHIVED</code></li>
+ * </ul>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -38,11 +44,11 @@ public enum RequestState {
    */
   ACTIVE,
   /**
-   * The request and all of its executions are closed. New executions cannot be created. The content cannot be edited.
+   * The request and all of its {@link RequestExecution}s are closed. New executions cannot be created. The content cannot be edited. All executions of this request are set to the state {@link ExecutionState#CLOSED}.
    */
   CLOSED,
   /**
-   * The request and all of its executions have been moved to a long-term archive for historical or auditing purposes.
+   * The request and all of its {@link RequestExecution}s have been moved to a long-term archive for historical or auditing purposes. All executions of this request are set to the state {@link ExecutionState#DELETED}.
    */
   ARCHIVED
 }

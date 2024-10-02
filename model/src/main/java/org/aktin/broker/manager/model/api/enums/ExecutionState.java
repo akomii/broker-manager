@@ -21,8 +21,13 @@ import org.aktin.broker.manager.model.api.models.ManagerNode;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
 
 /**
- * Enumerates the potential states of a {@link RequestExecution}. States typically progress from
- * <code>PENDING</code> => <code>PUBLISHED</code> => <code>CLOSED</code> => <code>ARCHIVED</code>.
+ * Represents the possible states of a {@link RequestExecution}. The states typically transition in the following order:
+ * <ul>
+ *   <li><code>PENDING</code></li>
+ *   <li><code>PUBLISHED</code></li>
+ *   <li><code>CLOSED</code></li>
+ *   <li><code>DELETED</code></li>
+ * </ul>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -33,15 +38,16 @@ public enum ExecutionState {
    */
   PENDING,
   /**
-   * The execution has been sent to corresponding {@link ManagerNode}. Results may be available. Content is not editable anymore.
+   * The execution has been published on the AKTIN Broker and sent to corresponding {@link ManagerNode}s. Results may be available. Content is not
+   * editable anymore.
    */
   PUBLISHED,
   /**
-   * The execution has been closed and results can no longer be contributed. Content is not editable anymore.
+   * The execution has been closed on the AKTIN Broker and results can no longer be contributed. Content is not editable anymore.
    */
   CLOSED,
   /**
-   * The execution has been moved to long-term storage. The corresponding results have been deleted and are no longer available.
+   * The execution and corresponding results have been deleted from the AKTIN Broker and are no longer available.
    */
-  ARCHIVED;
+  DELETED;
 }

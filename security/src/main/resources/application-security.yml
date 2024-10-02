@@ -1,9 +1,0 @@
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8180/realms/broker-manager-realm
-        authorities:
-          prefix: ROLE_
-          roles: resource_access.broker-manager-client.roles

@@ -35,9 +35,6 @@
     <module>model</module>
     <module>persistence</module>
     <module>service</module>
-    <module>endpoint</module>
-    <module>security</module>
-    <module>ui</module>
     <module>main</module>
   </modules>
 

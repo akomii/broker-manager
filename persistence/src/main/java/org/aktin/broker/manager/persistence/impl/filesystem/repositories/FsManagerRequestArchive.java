@@ -26,14 +26,13 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestArchive;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 
 //TODO refactor and simplify
 public class FsManagerRequestArchive implements ManagerRequestArchive {
@@ -76,7 +75,6 @@ public class FsManagerRequestArchive implements ManagerRequestArchive {
     }
   }
 
-  @Cacheable(cacheNames = "requestsArchive", key = "#id")
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
     String filePath = Path.of(archiveDirectory, id + XML_EXTENSION).toString();

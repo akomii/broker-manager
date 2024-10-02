@@ -28,16 +28,14 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.aktin.broker.manager.model.api.models.ManagerNode;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeRepository;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 // ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
 //TODO refactor
@@ -65,7 +63,6 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
   }
 
   // TODO was wenn Node sich noch nicht gemeldet hat?
-  @CacheEvict(cacheNames = "managerNodes", key = "#entity.id")
   @Override
   public int save(ManagerNode entity) throws DataPersistException {
     String filePath = Path.of(nodesDirectory, entity.getId() + XML_EXTENSION).toString();
@@ -88,7 +85,6 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     }
   }
 
-  @Cacheable(cacheNames = "managerNodes", key = "#id")
   @Override
   public Optional<ManagerNode> get(int id) throws DataReadException {
     String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();
@@ -107,7 +103,6 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     }
   }
 
-  @Cacheable(cacheNames = "managerNodes")
   @Override
   public List<ManagerNode> getAll() {
     List<ManagerNode> managerNodes = new ArrayList<>();
@@ -134,7 +129,6 @@ public class FsManagerNodeRepository implements ManagerNodeRepository {
     return managerNodes;
   }
 
-  @CacheEvict(cacheNames = "managerNodes", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
     String filePath = Path.of(nodesDirectory, id + XML_EXTENSION).toString();

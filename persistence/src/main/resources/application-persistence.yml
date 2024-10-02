@@ -3,7 +3,7 @@ broker-manager:
     directory:
       nodes: /var/lib/broker-manager/nodes
       requests: /var/lib/broker-manager/requests
-      archive: /var/lib/broker-manager/archive
+      archive: /var/lib/broker-manager/requests-archive
       results: /var/lib/broker-manager/results
 
 spring:

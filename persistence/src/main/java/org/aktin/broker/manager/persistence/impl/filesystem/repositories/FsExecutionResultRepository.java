@@ -27,9 +27,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class FsExecutionResultRepository implements ExecutionResultRepository {
     try (OutputStream outputStream = Files.newOutputStream(Path.of(filePath))) {
       result.transferTo(outputStream);
       log.info("Saved new result to: {}", filePath);
-    } catch (Exception e) {
+    } catch (IOException e) {
       throw new DataPersistException("Failed to save execution results to file: " + filePath, e);
     }
   }

@@ -29,17 +29,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Predicate;
 import org.aktin.broker.manager.model.api.models.ManagerRequest;
-import org.aktin.broker.manager.persistence.api.exceptions.DataDeleteException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataPersistException;
-import org.aktin.broker.manager.persistence.api.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.api.repositories.ManagerRequestRepository;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
+import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataReadException;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.FsIdGenerator;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 //TODO refactor and simplify
 //TODO test Cache
@@ -70,7 +68,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     return fileLocks.computeIfAbsent(filePath, f -> new ReentrantReadWriteLock());
   }
 
-  @CacheEvict(cacheNames = "managerRequests", key = "#entity.id")
   @Override
   public int save(ManagerRequest entity) throws DataPersistException {
     if (entity.getId() == 0) {
@@ -96,7 +93,8 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     }
   }
 
-  @Cacheable(cacheNames = "managerRequests", key = "#id")
+  // TODO update write copy and rename....
+
   @Override
   public Optional<ManagerRequest> get(int id) throws DataReadException {
     String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();
@@ -115,7 +113,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     }
   }
 
-  @Cacheable(cacheNames = "managerRequests")
   @Override
   public List<ManagerRequest> getAll() {
     List<ManagerRequest> requests = new ArrayList<>();
@@ -142,7 +139,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     return requests;
   }
 
-  @Cacheable(cacheNames = "managerRequests")
   @Override
   public List<ManagerRequest> getFiltered(Predicate<ManagerRequest> filter) {
     List<ManagerRequest> filteredRequests = new ArrayList<>();
@@ -169,7 +165,6 @@ public class FsManagerRequestRepository implements ManagerRequestRepository {
     return filteredRequests;
   }
 
-  @CacheEvict(cacheNames = "managerRequests", key = "#id")
   @Override
   public void delete(int id) throws DataDeleteException {
     String filePath = Path.of(requestsDirectory, id + XML_EXTENSION).toString();

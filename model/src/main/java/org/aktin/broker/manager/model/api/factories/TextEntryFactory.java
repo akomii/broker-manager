@@ -19,6 +19,8 @@ package org.aktin.broker.manager.model.api.factories;
 
 import org.aktin.broker.manager.model.api.models.TextEntry;
 
-public interface TextEntryFactory extends GenericFactory<TextEntry> {
+public interface TextEntryFactory {
+
+  TextEntry create();
 
 }

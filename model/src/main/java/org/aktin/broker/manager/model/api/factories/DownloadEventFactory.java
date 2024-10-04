@@ -19,6 +19,8 @@ package org.aktin.broker.manager.model.api.factories;
 
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
 
-public interface DownloadEventFactory extends GenericFactory<DownloadEvent> {
+public interface DownloadEventFactory {
+
+  DownloadEvent create();
 
 }

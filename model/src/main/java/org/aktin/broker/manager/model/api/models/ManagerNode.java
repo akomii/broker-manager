@@ -22,14 +22,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Represents a participating institution (node) in the AKTIN reserach infrastructure. Nodes can be targeted by {@link ManagerRequest} to execute data
- * queries and collect research data. Each node is uniquely identified by an ID and may be associated with:
+ * Represents a participating institution (node) in the AKTIN research infrastructure. Nodes can be targeted by {@link ManagerRequest} to execute data
+ * queries and collect research data.
+ *
+ * <p>The node includes:</p>
  * <ul>
- *   <li>An API key for authentication.</li>
- *   <li>Tags to categorize or group the node based on specific criteria.</li>
- *   <li>User notes for additional information or comments.</li>
- *   <li>Client DN (Distinguished Name) human-readable identity verification.</li>
- *   <li>Timestamp of the last contact made by the node with the AKTIN query broker.</li>
+ *   <li><strong>Active State</strong>: Only an active node is visible and can receive {@link ManagerRequest}s.</li>
+ *   <li><strong>Tags</strong>: Used to categorize or group the node based on specific criteria.</li>
+ *   <li><strong>User Notes</strong>: Additional information or comments.</li>
+ *   <li><strong>Client Distinguished Name (DN)</strong>: Human-readable identity verification.</li>
+ *   <li><strong>Last Contact Timestamp</strong>: The timestamp of the last communication with the AKTIN query broker.</li>
  * </ul>
  *
  * @author akombeiz@ukaachen.de
@@ -41,67 +43,27 @@ public interface ManagerNode extends PersistentObject {
 
   void setActive(boolean active);
 
-  /**
-   * Gets the set of tags associated with this manager node.
-   *
-   * @return the tags
-   */
   Set<String> getTags();
 
-  /**
-   * Sets the set of tags associated with this manager node.
-   *
-   * @param tags the tags
-   */
   void setTags(Set<String> tags);
 
   void addTag(String tag);
 
   void removeTag(String tag);
 
-  /**
-   * Gets the list of user notes associated with this manager node.
-   *
-   * @return the user notes
-   */
   List<TextEntry> getUserNotes();
 
-  /**
-   * Sets the list of user notes associated with this manager node.
-   *
-   * @param userNotes the user notes
-   */
   void setUserNotes(List<TextEntry> userNotes);
 
   void addUserNote(TextEntry userNote);
 
   void removeUserNote(TextEntry userNote);
 
-  /**
-   * Gets the Distinguished Name (DN) associated with this manager node.
-   *
-   * @return the client DN
-   */
   String getClientDN();
 
-  /**
-   * Sets the Distinguished Name (DN) associated with this manager node.
-   *
-   * @param clientDN the client DN
-   */
   void setClientDN(String clientDN);
 
-  /**
-   * Gets the timestamp of the last contact made with the AKTIN query broker.
-   *
-   * @return the timestamp of last contact
-   */
   Instant getLastContact();
 
-  /**
-   * Sets the timestamp of the last contact made with the AKTIN query broker.
-   *
-   * @param lastContact the timestamp of last contact
-   */
   void setLastContact(Instant lastContact);
 }

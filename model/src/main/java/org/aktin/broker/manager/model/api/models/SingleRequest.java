@@ -18,7 +18,7 @@
 package org.aktin.broker.manager.model.api.models;
 
 /**
- * Represents a {@link ManagerRequest} with only one {@link RequestExecution}.
+ * Represents a {@link ManagerRequest} that has only one {@link RequestExecution}.
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0

@@ -17,6 +17,12 @@
 
 package org.aktin.broker.manager.model.api.models;
 
+/**
+ * Represents an object within the system that shall be persisted.
+ *
+ * @author akombeiz@ukaachen.de
+ * @version 1.0
+ */
 public interface PersistentObject {
 
   int getId();

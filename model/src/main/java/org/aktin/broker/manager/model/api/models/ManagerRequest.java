@@ -27,8 +27,25 @@ import org.aktin.broker.query.xml.QuerySchedule;
 import org.w3c.dom.Element;
 
 /**
- * Represents a data request within the AKTIN infrastructure. Corresponds to a {@link org.aktin.broker.query.xml.QueryRequest} with more
- * capabilities.
+ * Represents a data request within the AKTIN infrastructure. A {@code ManagerRequest} is used to define queries that are executed by participating
+ * nodes to collect research data.
+ *
+ * <p>The request includes:</p>
+ * <ul>
+ *   <li><strong>Tags</strong>: For categorization and filtering.</li>
+ *   <li><strong>Authorized Organizations</strong>: Organizations permitted to access the request.</li>
+ *   <li><strong>Target Nodes</strong>: Specific {@link ManagerNode}s where the request should be executed.</li>
+ *   <li><strong>Request state</strong>: The current state of the request (see {@link RequestState}).</li>
+ *   <li><strong>Modification Entries</strong>: Logs of changes made to the request.</li>
+ *   <li><strong>Query Definition</strong>: The actual query to be executed.</li>
+ *   <li><strong>Title</strong>: The human-readable title of the query.</li>
+ *   <li><strong>Description</strong>: The human-readable description of the query.</li>
+ *   <li><strong>Extensions</strong>: The technical syntax to be executed.</li>
+ *   <li><strong>Principal</strong>: The author or owner of the request.</li>
+ *   <li><strong>Schedule</strong>: Execution interval of the query.</li>
+ *   <li><strong>Executions</strong>: Associated {@link RequestExecution}s of this request.</li>
+ *   <li><strong>Creation information</strong>: Creation date and creator (user or system) of this request.</li>
+ * </ul>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
@@ -39,13 +56,25 @@ public interface ManagerRequest extends PersistentObject {
 
   void setTags(Set<String> tags);
 
+  void addTag(String tag);
+
+  void removeTag(String tag);
+
   Set<Integer> getAuthorizedOrganizations();
 
   void setAuthorizedOrganizations(Set<Integer> authorizedOrganizations);
 
+  void addAuthorizedOrganization(Integer organization);
+
+  void removeAuthorizedOrganization(Integer organization);
+
   Set<Integer> getTargetNodes();
 
   void setTargetNodes(Set<Integer> targetNodes);
+
+  void addTargetNode(Integer node);
+
+  void removeTargetNode(Integer node);
 
   RequestState getRequestState();
 
@@ -54,6 +83,8 @@ public interface ManagerRequest extends PersistentObject {
   List<TextEntry> getModificationEntries();
 
   void setModificationEntries(List<TextEntry> modificationEntries);
+
+  void addModificationEntry(TextEntry entry);
 
   Query getQuery();
 
@@ -82,6 +113,10 @@ public interface ManagerRequest extends PersistentObject {
   List<RequestExecution> getRequestExecutions();
 
   void setRequestExecutions(List<RequestExecution> requestExecutions);
+
+  void addRequestExecution(RequestExecution requestExecution);
+
+  void removeRequestExecution(RequestExecution requestExecution);
 
   Instant getCreatedDate();
 

@@ -20,54 +20,29 @@ package org.aktin.broker.manager.model.api.models;
 import java.time.Instant;
 
 /**
- * Represents a textual entry associated with a user, such as a note or modification entry. Implementations of this interface encapsulate information
- * about the author, creation date, and content of the text entry. Examples of text entries are user notes in {@link ManagerNode} or modification
- * entries in {@link ManagerRequest}.
+ * Represents a textual entry associated with a user, such as a note or modification log.
+ *
+ * <p>Text entries include information about:</p>
+ * <ul>
+ *   <li><strong>Author</strong>: The username of the person who created the entry.</li>
+ *   <li><strong>Creation Date</strong>: When the entry was made.</li>
+ *   <li><strong>Content</strong>: The actual text content of the entry.</li>
+ * </ul>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
 public interface TextEntry {
 
-  /**
-   * Returns the username of the author of this text entry.
-   *
-   * @return the username of the author.
-   */
   String getUsername();
 
-  /**
-   * Sets the username of the author of this text entry.
-   *
-   * @param username the username of the author.
-   */
   void setUsername(String username);
 
-  /**
-   * Returns the creation date of this text entry.
-   *
-   * @return the creation date as an {@link Instant}.
-   */
   Instant getCreatedDate();
 
-  /**
-   * Sets the creation date of this text entry.
-   *
-   * @param createdDate the creation date as an {@link Instant}.
-   */
   void setCreatedDate(Instant createdDate);
 
-  /**
-   * Returns the content of this text entry.
-   *
-   * @return the content of the text entry.
-   */
   String getContent();
 
-  /**
-   * Sets the content of this text entry.
-   *
-   * @param content the content of the text entry.
-   */
   void setContent(String content);
 }

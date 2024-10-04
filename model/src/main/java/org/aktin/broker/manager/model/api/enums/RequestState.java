@@ -22,33 +22,23 @@ import org.aktin.broker.manager.model.api.models.ManagerRequest;
 import org.aktin.broker.manager.model.api.models.RequestExecution;
 
 /**
- * Represents the possible states of a {@link ManagerRequest}. The states typically transition in the following order:
- * <ul>
- *   <li><code>DRAFT</code></li>
- *   <li><code>ACTIVE</code></li>
- *   <li><code>CLOSED</code></li>
- *   <li><code>ARCHIVED</code></li>
- * </ul>
+ * Enumerates the possible states of a {@link ManagerRequest}. These states represent the lifecycle of a request within the system, typically
+ * transitioning as follows:
+ * <ol>
+ *   <li><strong>DRAFT</strong> - Indicates that the request is a work in progress. All aspects of the request are editable. It can be used to create other drafts or be transitioned to the {@code ACTIVE} state for publication.</li>
+ *   <li><strong>ACTIVE</strong> - The request is active and its executions are published to targeted {@link ManagerNode}s. Some minor content like tags are still be editable.</li>
+ *   <li><strong>CLOSED</strong> - The request and all of its associated {@link RequestExecution}s are closed. New executions cannot be created, and the content is locked from further edits. All executions of this request are set to the state {@link ExecutionState#CLOSED}.</li>
+ *   <li><strong>ARCHIVED</strong> - The request and all associated {@link RequestExecution}s have been archived for long-term storage.  All executions of this request are set to the state {@link ExecutionState#DELETED}.</li>
+ * </ol>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
 public enum RequestState {
-  /**
-   * The request is a work in progress. All contents of the request can be changed. It can be used to create other drafts or be published in the
-   * <code>ACTIVE</code> state.
-   */
+
   DRAFT,
-  /**
-   * The request is active and its executions are published to {@link ManagerNode}s. Some minor content is still editable.
-   */
   ACTIVE,
-  /**
-   * The request and all of its {@link RequestExecution}s are closed. New executions cannot be created. The content cannot be edited. All executions of this request are set to the state {@link ExecutionState#CLOSED}.
-   */
   CLOSED,
-  /**
-   * The request and all of its {@link RequestExecution}s have been moved to a long-term archive for historical or auditing purposes. All executions of this request are set to the state {@link ExecutionState#DELETED}.
-   */
-  ARCHIVED
+  ARCHIVED;
 }
+

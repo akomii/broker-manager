@@ -18,9 +18,18 @@
 package org.aktin.broker.manager.model.api.models;
 
 import java.time.Instant;
+import org.aktin.broker.manager.model.api.enums.RequestState;
 
 /**
- * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution}.
+ * Represents a {@link ManagerRequest} that is executed repeatedly over time, generating a series of {@link RequestExecution} instances.
+ *
+ * <p>Attributes include:</p>
+ * <ul>
+ *   <li><strong>Anchored Sequence ID</strong>: Reference to a specific execution in the series which timestamp information is used a baseline to create new executions (during auto-publishing).</li>
+ *   <li><strong>Auto-Publishing</strong>: Indicates whether executions are published automatically.</li>
+ *   <li><strong>Series Closing Date</strong>: The date when the request is scheduled to be {@link RequestState#CLOSED}.</li>
+ *   <li><strong>Series Archive Date</strong>: The date when the request is scheduled to be {@link RequestState#ARCHIVED}.</li>
+ * </ul>
  *
  * @author akombeiz@ukaachen.de
  * @version 1.0

@@ -26,11 +26,6 @@ import java.util.Optional;
 import org.aktin.broker.manager.persistence.api.repositories.ExecutionResultRepository;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
 
-// TODO startup -> sync with broker, load all requests in memory
-// ToDo Add lockfile to broker and persistence operations
-// ToDo check performance of persistence and memory with 50MB requests (multiple)
-//TODO test Cache
-//TODO add SqlLite for indexing requests with Tags, Name, ID, external IDs and Orgs?
 public class FsExecutionResultRepository extends AbstractBinaryRepository implements ExecutionResultRepository {
 
   public FsExecutionResultRepository(String resultsDirectory) throws IOException {

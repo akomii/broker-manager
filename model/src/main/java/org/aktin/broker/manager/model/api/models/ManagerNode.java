@@ -55,6 +55,10 @@ public interface ManagerNode extends PersistentObject {
    */
   void setTags(Set<String> tags);
 
+  void addTag(String tag);
+
+  void removeTag(String tag);
+
   /**
    * Gets the list of user notes associated with this manager node.
    *
@@ -68,6 +72,10 @@ public interface ManagerNode extends PersistentObject {
    * @param userNotes the user notes
    */
   void setUserNotes(List<TextEntry> userNotes);
+
+  void addUserNote(TextEntry userNote);
+
+  void removeUserNote(TextEntry userNote);
 
   /**
    * Gets the Distinguished Name (DN) associated with this manager node.

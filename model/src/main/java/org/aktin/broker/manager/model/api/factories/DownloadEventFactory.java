@@ -22,5 +22,4 @@ import org.aktin.broker.manager.model.api.models.DownloadEvent;
 public interface DownloadEventFactory {
 
   DownloadEvent create();
-
 }

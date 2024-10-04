@@ -15,11 +15,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.model.api.factories;
+package org.aktin.broker.manager.persistence.impl.filesystem.models.listener;
 
-import org.aktin.broker.manager.model.api.models.TextEntry;
+import org.aktin.broker.manager.model.api.models.ManagerNode;
 
-public interface TextEntryFactory {
+public interface ManagerNodeChangeListener {
 
-  TextEntry create();
+  void onManagerNodeChanged(ManagerNode node);
 }

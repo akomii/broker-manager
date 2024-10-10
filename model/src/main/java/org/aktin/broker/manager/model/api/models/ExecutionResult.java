@@ -15,14 +15,30 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.model.api.factories;
+package org.aktin.broker.manager.model.api.models;
 
-import java.time.Instant;
-import java.util.Set;
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.model.api.models.ExecutionResult;
+import java.io.IOException;
+import java.io.InputStream;
 
-public interface DownloadEventFactory {
+public interface ExecutionResult {
 
-  DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, ExecutionResult executionResult);
+  String getName();
+
+  void setName(String name);
+
+  String getContentType();
+
+  void setContentType(String contentType);
+
+  InputStream getContent() throws IOException;
+
+  void setContent(InputStream content);
+
+  String getContentHash();
+
+  void setContentHash(String contentHash);
+
+  String getHashAlgorithm();
+
+  void setHashAlgorithm(String hashAlgorithm);
 }

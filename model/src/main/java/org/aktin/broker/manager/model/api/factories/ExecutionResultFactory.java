@@ -17,12 +17,10 @@
 
 package org.aktin.broker.manager.model.api.factories;
 
-import java.time.Instant;
-import java.util.Set;
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
+import java.io.InputStream;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
-public interface DownloadEventFactory {
+public interface ExecutionResultFactory {
 
-  DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, ExecutionResult executionResult);
+  ExecutionResult create(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm);
 }

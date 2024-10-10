@@ -24,15 +24,6 @@ import java.util.Set;
  * Represents an event where a user downloads the results of a {@link RequestExecution}. This interface is used for tracking and auditing download
  * activities within the AKTIN research infrastructure.
  *
- * <p>Each download event captures the following information:</p>
- * <ul>
- *     <li><strong>Username</strong>: The user who initiated the download.</li>
- *     <li><strong>User Organizations</strong>: The organizations associated with the user at the time of download.</li>
- *     <li><strong>Download Date</strong>: The exact date and time when the download occurred.</li>
- *     <li><strong>Download Hash</strong>: A cryptographic hash of the downloaded data, used to verify data integrity.</li>
- *     <li><strong>Hash Algorithm</strong>: The algorithm used to generate the download hash (e.g., SHA-1).</li>
- * </ul>
- *
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
@@ -50,11 +41,7 @@ public interface DownloadEvent {
 
   void setDownloadDate(Instant downloadDate);
 
-  String getDownloadHash();
+  ExecutionResult getExecutionResult();
 
-  void setDownloadHash(String downloadHash);
-
-  String getHashAlgorithm();
-
-  void setHashAlgorithm(String hashAlgorithm);
+  void setExecutionResult(ExecutionResult executionResult);
 }

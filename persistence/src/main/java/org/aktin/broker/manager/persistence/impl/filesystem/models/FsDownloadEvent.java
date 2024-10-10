@@ -18,6 +18,8 @@
 package org.aktin.broker.manager.persistence.impl.filesystem.models;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,4 +54,16 @@ public class FsDownloadEvent implements DownloadEvent {
   Instant downloadDate;
   String downloadHash;
   String hashAlgorithm;
+
+  public Set<String> getUserOrganizations() {
+    return userOrganizations != null ? Collections.unmodifiableSet(userOrganizations) : Collections.emptySet();
+  }
+
+  public void setUserOrganizations(Set<String> userOrganizations) {
+    if (userOrganizations != null) {
+      this.userOrganizations = new HashSet<>(userOrganizations);
+    } else {
+      this.userOrganizations = null;
+    }
+  }
 }

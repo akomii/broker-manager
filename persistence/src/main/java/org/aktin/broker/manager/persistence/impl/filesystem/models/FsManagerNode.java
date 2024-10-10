@@ -154,9 +154,7 @@ public class FsManagerNode implements ManagerNode {
 
   @Override
   public void setId(int id) {
-    if (node == null) {
-      initDefaultNode();
-    }
+    initDefaultNodeIfNull();
     if (node.id != id) {
       node.id = id;
       markDirty();
@@ -170,9 +168,7 @@ public class FsManagerNode implements ManagerNode {
 
   @Override
   public void setClientDN(String clientDN) {
-    if (node == null) {
-      initDefaultNode();
-    }
+    initDefaultNodeIfNull();
     if (node.clientDN == null || !node.clientDN.equals(clientDN)) {
       node.clientDN = clientDN;
       markDirty();
@@ -186,17 +182,17 @@ public class FsManagerNode implements ManagerNode {
 
   @Override
   public void setLastContact(Instant lastContact) {
-    if (node == null) {
-      initDefaultNode();
-    }
+    initDefaultNodeIfNull();
     if (node.lastContact == null || !node.lastContact.equals(lastContact)) {
       node.lastContact = lastContact;
       markDirty();
     }
   }
 
-  private void initDefaultNode() {
-    this.node = new Node(0, "", Instant.MIN);
+  private void initDefaultNodeIfNull() {
+    if (node == null) {
+      this.node = new Node(0, "", Instant.MIN);
+    }
   }
 
   private void markDirty() {

@@ -17,6 +17,8 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.factories;
 
+import java.time.Instant;
+import java.util.Set;
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
@@ -24,7 +26,7 @@ import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEve
 public class FsDownloadEventFactory implements DownloadEventFactory {
 
   @Override
-  public DownloadEvent create() {
-    return new FsDownloadEvent();
+  public DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, String downloadHash, String hashAlgorithm) {
+    return new FsDownloadEvent(username, userOrganizations, downloadDate, downloadHash, hashAlgorithm);
   }
 }

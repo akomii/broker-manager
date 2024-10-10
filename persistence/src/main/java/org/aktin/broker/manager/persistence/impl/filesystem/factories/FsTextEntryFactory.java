@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.factories;
 
+import java.time.Instant;
 import org.aktin.broker.manager.model.api.factories.TextEntryFactory;
 import org.aktin.broker.manager.model.api.models.TextEntry;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsTextEntry;
@@ -24,7 +25,7 @@ import org.aktin.broker.manager.persistence.impl.filesystem.models.FsTextEntry;
 public class FsTextEntryFactory implements TextEntryFactory {
 
   @Override
-  public TextEntry create() {
-    return new FsTextEntry();
+  public TextEntry create(String username, Instant createdDate, String content) {
+    return new FsTextEntry(username, createdDate, content);
   }
 }

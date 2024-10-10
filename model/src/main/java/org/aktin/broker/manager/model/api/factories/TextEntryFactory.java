@@ -17,9 +17,10 @@
 
 package org.aktin.broker.manager.model.api.factories;
 
+import java.time.Instant;
 import org.aktin.broker.manager.model.api.models.TextEntry;
 
 public interface TextEntryFactory {
 
-  TextEntry create();
+  TextEntry create(String username, Instant createdDate, String content);
 }

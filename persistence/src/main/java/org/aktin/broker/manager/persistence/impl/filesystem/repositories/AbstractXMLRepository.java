@@ -38,7 +38,7 @@ import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-abstract class AbstractXMLRepository<T extends PersistentObject> extends AbstractBinaryRepository {
+abstract class AbstractXMLRepository<T extends PersistentObject<?>> extends AbstractBinaryRepository {
 
   private static final Logger log = LoggerFactory.getLogger(AbstractXMLRepository.class);
   private static final String FILE_EXTENSION = ".xml";

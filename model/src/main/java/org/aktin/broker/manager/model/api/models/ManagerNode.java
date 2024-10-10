@@ -37,7 +37,7 @@ import java.util.Set;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerNode extends PersistentObject {
+public interface ManagerNode extends PersistentObject<Integer> {
 
   boolean isActive();
 

@@ -148,12 +148,12 @@ public class FsManagerNode implements ManagerNode {
   }
 
   @Override
-  public int getId() {
+  public Integer getId() {
     return node != null ? node.id : 0;
   }
 
   @Override
-  public void setId(int id) {
+  public void setId(Integer id) {
     initDefaultNodeIfNull();
     if (node.id != id) {
       node.id = id;

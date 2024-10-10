@@ -50,7 +50,7 @@ import org.w3c.dom.Element;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface ManagerRequest extends PersistentObject {
+public interface ManagerRequest extends PersistentObject<Integer> {
 
   Set<String> getTags();
 

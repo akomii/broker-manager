@@ -93,12 +93,12 @@ abstract class AbstractManagerRequest implements ManagerRequest {
   Query query;
 
   @Override
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
   @Override
-  public void setId(int id) {
+  public void setId(Integer id) {
     if (this.id != id) {
       this.id = id;
       markDirty();

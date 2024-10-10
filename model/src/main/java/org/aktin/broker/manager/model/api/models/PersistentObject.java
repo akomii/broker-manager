@@ -23,9 +23,9 @@ package org.aktin.broker.manager.model.api.models;
  * @author akombeiz@ukaachen.de
  * @version 1.0
  */
-public interface PersistentObject {
+public interface PersistentObject<T> {
 
-  int getId();
+  T getId();
 
-  void setId(int id);
+  void setId(T id);
 }

@@ -17,6 +17,7 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.models;
 
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,17 +39,27 @@ public class FsSingleRequest extends AbstractManagerRequest implements SingleReq
     if (query.schedule != null && !(query.schedule instanceof SingleExecution)) {
       throw new IllegalArgumentException("Expected a Query with a SingleExecution schedule");
     }
-    super.setQuery(query);
+    if (!Objects.equals(this.query, query)) {
+      super.setQuery(query);
+    }
   }
 
+  @Override
+  public SingleExecution getQuerySchedule() {
+    return (SingleExecution) (query != null ? query.schedule : null);
+  }
+
+  @Override
   public void setQuerySchedule(QuerySchedule schedule) {
     if (!(schedule instanceof SingleExecution)) {
       throw new IllegalArgumentException("Expected a SingleExecution schedule");
     }
-    query.schedule = schedule;
-  }
-
-  public SingleExecution getQuerySchedule() {
-    return (SingleExecution) query.schedule;
+    if (query == null) {
+      initDefaultQuery();
+    }
+    if (!Objects.equals(query.schedule, schedule)) {
+      query.schedule = schedule;
+      markDirty();
+    }
   }
 }

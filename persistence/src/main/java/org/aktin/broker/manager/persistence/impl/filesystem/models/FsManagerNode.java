@@ -51,6 +51,7 @@ public class FsManagerNode implements ManagerNode {
   @XmlAttribute
   int dataVersion;
 
+  @Getter
   @XmlTransient
   boolean dirty = false;
 
@@ -58,10 +59,8 @@ public class FsManagerNode implements ManagerNode {
   @XmlTransient
   ManagerNodeChangeListener changeListener;
 
-  @Getter
   boolean active;
 
-  @Getter
   @XmlElementWrapper(name = "tags")
   @XmlElement(name = "tag")
   Set<String> tags;
@@ -74,6 +73,10 @@ public class FsManagerNode implements ManagerNode {
   @XmlElement(namespace = org.aktin.broker.xml.XMLConstants.XML_NAMESPACE)
   Node node;
 
+  @Override
+  public boolean isActive() {
+    return active;
+  }
 
   @Override
   public void setActive(boolean active) {
@@ -81,6 +84,11 @@ public class FsManagerNode implements ManagerNode {
       this.active = active;
       markDirty();
     }
+  }
+
+  @Override
+  public Set<String> getTags() {
+    return tags != null ? Collections.unmodifiableSet(tags) : Collections.emptySet();
   }
 
   @Override

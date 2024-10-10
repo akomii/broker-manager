@@ -17,14 +17,9 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.models;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.InputStream;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,10 +28,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
-@XmlRootElement(name = "downloadEvent")
+@XmlRootElement(name = "executionResult")
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -44,26 +38,11 @@ import org.aktin.broker.manager.model.api.models.ExecutionResult;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FsDownloadEvent implements DownloadEvent {
+public class FsExecutionResult implements ExecutionResult {
 
-  String username;
-
-  @XmlElementWrapper(name = "userOrgs")
-  @XmlElement(name = "userOrg")
-  Set<String> userOrganizations;
-
-  Instant downloadDate;
-  ExecutionResult executionResult;
-
-  public Set<String> getUserOrganizations() {
-    return userOrganizations != null ? Collections.unmodifiableSet(userOrganizations) : Collections.emptySet();
-  }
-
-  public void setUserOrganizations(Set<String> userOrganizations) {
-    if (userOrganizations != null) {
-      this.userOrganizations = new HashSet<>(userOrganizations);
-    } else {
-      this.userOrganizations = null;
-    }
-  }
+  String name;
+  String contentType;
+  InputStream content;
+  String contentHash;
+  String hashAlgorithm;
 }

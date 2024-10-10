@@ -15,19 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.aktin.broker.manager.persistence.impl.filesystem.factories;
+package org.aktin.broker.manager.persistence.impl.filesystem.adapters;
 
-import java.time.Instant;
-import java.util.Set;
-import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
+import org.aktin.broker.manager.persistence.impl.filesystem.models.FsExecutionResult;
 
-public class FsDownloadEventFactory implements DownloadEventFactory {
+public class ExecutionResultAdapter extends AbstractXmlAdapter<FsExecutionResult, ExecutionResult> {
 
-  @Override
-  public DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, ExecutionResult executionResult) {
-    return new FsDownloadEvent(username, userOrganizations, downloadDate, executionResult);
+  public ExecutionResultAdapter() {
+    super(FsExecutionResult.class);
   }
 }

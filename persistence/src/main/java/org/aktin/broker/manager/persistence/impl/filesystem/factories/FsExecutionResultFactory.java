@@ -17,17 +17,15 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.factories;
 
-import java.time.Instant;
-import java.util.Set;
-import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
-import org.aktin.broker.manager.model.api.models.DownloadEvent;
+import java.io.InputStream;
+import org.aktin.broker.manager.model.api.factories.ExecutionResultFactory;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
-import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
+import org.aktin.broker.manager.persistence.impl.filesystem.models.FsExecutionResult;
 
-public class FsDownloadEventFactory implements DownloadEventFactory {
+public class FsExecutionResultFactory implements ExecutionResultFactory {
 
   @Override
-  public DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, ExecutionResult executionResult) {
-    return new FsDownloadEvent(username, userOrganizations, downloadDate, executionResult);
+  public ExecutionResult create(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
+    return new FsExecutionResult(name, contentType, content, contentHash, hashAlgorithm);
   }
 }

@@ -18,8 +18,10 @@
 package org.aktin.broker.manager.persistence.impl.filesystem.conf;
 
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
+import org.aktin.broker.manager.model.api.factories.ExecutionResultFactory;
 import org.aktin.broker.manager.model.api.factories.TextEntryFactory;
 import org.aktin.broker.manager.persistence.impl.filesystem.factories.FsDownloadEventFactory;
+import org.aktin.broker.manager.persistence.impl.filesystem.factories.FsExecutionResultFactory;
 import org.aktin.broker.manager.persistence.impl.filesystem.factories.FsTextEntryFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +39,10 @@ public class FactoryConfig {
   @Bean
   public TextEntryFactory fsTextEntryFactory() {
     return new FsTextEntryFactory();
+  }
+
+  @Bean
+  public ExecutionResultFactory fsExecutionResultFactory() {
+    return new FsExecutionResultFactory();
   }
 }

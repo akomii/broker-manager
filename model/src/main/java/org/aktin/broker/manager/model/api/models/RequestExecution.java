@@ -95,6 +95,8 @@ public interface RequestExecution {
 
   void addNodeStatusInfo(NodeStatusInfo nodeStatusInfo);
 
+  void removeNodeStatusInfo(NodeStatusInfo nodeStatusInfo);
+
   List<DownloadEvent> getDownloadEvents();
 
   void setDownloadEvents(List<DownloadEvent> downloadEvents);

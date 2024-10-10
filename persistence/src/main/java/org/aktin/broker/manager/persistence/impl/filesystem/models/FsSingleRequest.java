@@ -54,9 +54,7 @@ public class FsSingleRequest extends AbstractManagerRequest implements SingleReq
     if (!(schedule instanceof SingleExecution)) {
       throw new IllegalArgumentException("Expected a SingleExecution schedule");
     }
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.schedule, schedule)) {
       query.schedule = schedule;
       markDirty();

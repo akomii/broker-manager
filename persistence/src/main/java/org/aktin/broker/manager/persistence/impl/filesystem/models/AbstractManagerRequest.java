@@ -240,7 +240,17 @@ abstract class AbstractManagerRequest implements ManagerRequest {
   @Override
   public void setRequestExecutions(List<RequestExecution> requestExecutions) {
     if (this.requestExecutions == null || !this.requestExecutions.equals(requestExecutions)) {
+      if (this.requestExecutions != null) {
+        for (RequestExecution exec : this.requestExecutions) {
+          removeParentRefFromExecution(exec);
+        }
+      }
       this.requestExecutions = requestExecutions;
+      if (this.requestExecutions != null) {
+        for (RequestExecution exec : this.requestExecutions) {
+          setParentRefToExecution(exec);
+        }
+      }
       markDirty();
     }
   }
@@ -251,6 +261,7 @@ abstract class AbstractManagerRequest implements ManagerRequest {
       requestExecutions = new ArrayList<>();
     }
     if (execution != null) {
+      setParentRefToExecution(execution);
       requestExecutions.add(execution);
       markDirty();
     }
@@ -259,7 +270,20 @@ abstract class AbstractManagerRequest implements ManagerRequest {
   @Override
   public void removeRequestExecution(RequestExecution execution) {
     if (requestExecutions != null && requestExecutions.remove(execution)) {
+      removeParentRefFromExecution(execution);
       markDirty();
+    }
+  }
+
+  private void setParentRefToExecution(RequestExecution execution) {
+    if (execution instanceof FsRequestExecution) {
+      ((FsRequestExecution) execution).setParentRequestRef(this);
+    }
+  }
+
+  private void removeParentRefFromExecution(RequestExecution execution) {
+    if (execution instanceof FsRequestExecution) {
+      ((FsRequestExecution) execution).setParentRequestRef(null);
     }
   }
 
@@ -309,9 +333,7 @@ abstract class AbstractManagerRequest implements ManagerRequest {
 
   @Override
   public void setTitle(String title) {
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.title, title)) {
       query.title = title;
       markDirty();
@@ -325,9 +347,7 @@ abstract class AbstractManagerRequest implements ManagerRequest {
 
   @Override
   public void setDescription(String description) {
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.description, description)) {
       query.description = description;
       markDirty();
@@ -341,9 +361,7 @@ abstract class AbstractManagerRequest implements ManagerRequest {
 
   @Override
   public void setExtensions(List<Element> extensions) {
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.extensions, extensions)) {
       query.extensions = extensions;
       markDirty();
@@ -357,17 +375,17 @@ abstract class AbstractManagerRequest implements ManagerRequest {
 
   @Override
   public void setPrincipal(Principal principal) {
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.principal, principal)) {
       query.principal = principal;
       markDirty();
     }
   }
 
-  protected void initDefaultQuery() {
-    this.query = new Query();
+  protected void initQueryIfNull() {
+    if (query == null) {
+      query = new Query();
+    }
   }
 
   protected void markDirty() {

@@ -63,9 +63,7 @@ public class FsSeriesRequest extends AbstractManagerRequest implements SeriesReq
     if (!(schedule instanceof RepeatedExecution)) {
       throw new IllegalArgumentException("Expected a RepeatedExecution schedule");
     }
-    if (query == null) {
-      initDefaultQuery();
-    }
+    initQueryIfNull();
     if (!Objects.equals(query.schedule, schedule)) {
       query.schedule = schedule;
       markDirty();

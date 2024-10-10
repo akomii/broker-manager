@@ -18,13 +18,14 @@
 package org.aktin.broker.manager.persistence.impl.filesystem.models;
 
 import java.time.Instant;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -35,8 +36,6 @@ import org.aktin.broker.xml.RequestStatusInfo;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-@Getter
-@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FsNodeStatusInfo implements NodeStatusInfo {
 
@@ -45,75 +44,158 @@ public class FsNodeStatusInfo implements NodeStatusInfo {
   @XmlElement(namespace = org.aktin.broker.xml.XMLConstants.XML_NAMESPACE)
   RequestStatusInfo statusInfo;
 
+  @Setter
+  @XmlTransient
+  transient FsRequestExecution parentExecutionRef;
+
+  @Override
+  public String getStatusMessage() {
+    return statusMessage;
+  }
+
+  @Override
+  public void setStatusMessage(String statusMessage) {
+    if (!Objects.equals(this.statusMessage, statusMessage)) {
+      this.statusMessage = statusMessage;
+      markDirty();
+    }
+  }
+
+  @Override
   public int getNode() {
-    return statusInfo.node;
+    return statusInfo != null ? statusInfo.node : 0;
   }
 
+  @Override
   public void setNode(int id) {
-    statusInfo.node = id;
+    initStatusInfoIfNull();
+    if (statusInfo.node != id) {
+      statusInfo.node = id;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getDeleted() {
-    return statusInfo.deleted;
+    return statusInfo != null ? statusInfo.deleted : null;
   }
 
+  @Override
   public void setDeleted(Instant deleted) {
-    statusInfo.deleted = deleted;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.deleted, deleted)) {
+      statusInfo.deleted = deleted;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getRetrieved() {
-    return statusInfo.retrieved;
+    return statusInfo != null ? statusInfo.retrieved : null;
   }
 
+  @Override
   public void setRetrieved(Instant retrieved) {
-    statusInfo.retrieved = retrieved;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.retrieved, retrieved)) {
+      statusInfo.retrieved = retrieved;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getQueued() {
-    return statusInfo.queued;
+    return statusInfo != null ? statusInfo.queued : null;
   }
 
+  @Override
   public void setQueued(Instant queued) {
-    statusInfo.queued = queued;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.queued, queued)) {
+      statusInfo.queued = queued;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getProcessing() {
-    return statusInfo.processing;
+    return statusInfo != null ? statusInfo.processing : null;
   }
 
+  @Override
   public void setProcessing(Instant processing) {
-    statusInfo.processing = processing;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.processing, processing)) {
+      statusInfo.processing = processing;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getCompleted() {
-    return statusInfo.completed;
+    return statusInfo != null ? statusInfo.completed : null;
   }
 
+  @Override
   public void setCompleted(Instant completed) {
-    statusInfo.completed = completed;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.completed, completed)) {
+      statusInfo.completed = completed;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getRejected() {
-    return statusInfo.rejected;
+    return statusInfo != null ? statusInfo.rejected : null;
   }
 
+  @Override
   public void setRejected(Instant rejected) {
-    statusInfo.rejected = rejected;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.rejected, rejected)) {
+      statusInfo.rejected = rejected;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getFailed() {
-    return statusInfo.failed;
+    return statusInfo != null ? statusInfo.failed : null;
   }
 
+  @Override
   public void setFailed(Instant failed) {
-    statusInfo.failed = failed;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.failed, failed)) {
+      statusInfo.failed = failed;
+      markDirty();
+    }
   }
 
+  @Override
   public Instant getExpired() {
-    return statusInfo.expired;
+    return statusInfo != null ? statusInfo.expired : null;
   }
 
+  @Override
   public void setExpired(Instant expired) {
-    statusInfo.expired = expired;
+    initStatusInfoIfNull();
+    if (!Objects.equals(statusInfo.expired, expired)) {
+      statusInfo.expired = expired;
+      markDirty();
+    }
+  }
+
+  private void initStatusInfoIfNull() {
+    if (statusInfo == null) {
+      statusInfo = new RequestStatusInfo();
+    }
+  }
+
+  private void markDirty() {
+    if (parentExecutionRef != null) {
+      parentExecutionRef.markDirty();
+    }
   }
 }

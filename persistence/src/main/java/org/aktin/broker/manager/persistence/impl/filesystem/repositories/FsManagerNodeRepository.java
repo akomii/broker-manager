@@ -24,7 +24,6 @@ import org.aktin.broker.manager.persistence.api.repositories.ManagerNodeReposito
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlMarshaller;
 import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller;
 
-// ManagerNodes are registered on the broker-server, broker-manager only mirrors them, so no id generation is necessary
 public class FsManagerNodeRepository extends AbstractXMLRepository<ManagerNode> implements ManagerNodeRepository {
 
   public FsManagerNodeRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<ManagerNode> xmlUnmarshaller, String nodesDirectory)
@@ -39,16 +38,16 @@ public class FsManagerNodeRepository extends AbstractXMLRepository<ManagerNode> 
 
   @Override
   public ManagerNode save(ManagerNode entity) {
-    return saveEntity(entity);
+    return saveXML(entity);
   }
 
   @Override
   public List<ManagerNode> getAll() {
-    return getAllEntities();
+    return getAllXMLs();
   }
 
   @Override
   public void delete(int id) {
-    deleteEntity(id);
+    deleteXML(id);
   }
 }

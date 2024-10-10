@@ -38,11 +38,11 @@ public class FsManagerRequestArchive extends AbstractXMLRepository<ManagerReques
 
   @Override
   public ManagerRequest save(ManagerRequest entity) {
-    return saveEntity(entity);
+    return saveXML(entity);
   }
 
   @Override
   public List<ManagerRequest> getAll() {
-    return getAllEntities();
+    return getAllXMLs();
   }
 }

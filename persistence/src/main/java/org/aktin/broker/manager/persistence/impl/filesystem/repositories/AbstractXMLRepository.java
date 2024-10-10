@@ -18,17 +18,17 @@
 package org.aktin.broker.manager.persistence.impl.filesystem.repositories;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.aktin.broker.manager.model.api.models.PersistentObject;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
@@ -38,66 +38,48 @@ import org.aktin.broker.manager.persistence.impl.filesystem.util.XmlUnmarshaller
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-abstract class AbstractXMLRepository<T extends PersistentObject> {
+abstract class AbstractXMLRepository<T extends PersistentObject> extends AbstractBinaryRepository {
 
   private static final Logger log = LoggerFactory.getLogger(AbstractXMLRepository.class);
   private static final String FILE_EXTENSION = ".xml";
-  private static final String TMP_EXTENSION = ".tmp";
 
   protected final XmlMarshaller xmlMarshaller;
   protected final XmlUnmarshaller<T> xmlUnmarshaller;
-  protected final String directory;
 
   protected AbstractXMLRepository(XmlMarshaller xmlMarshaller, XmlUnmarshaller<T> xmlUnmarshaller, String directory) throws IOException {
+    super(directory);
     this.xmlMarshaller = xmlMarshaller;
     this.xmlUnmarshaller = xmlUnmarshaller;
-    this.directory = directory;
-    Files.createDirectories(Paths.get(directory));
-    cleanupTemporaryFiles();
   }
 
-  private void cleanupTemporaryFiles() {
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directory), "*" + TMP_EXTENSION)) {
-      for (Path entry : stream) {
-        Files.deleteIfExists(entry);
-        log.info("Deleted leftover temporary file: {}", entry.getFileName());
-      }
-    } catch (IOException e) {
-      log.warn("Failed to clean up temporary files in directory {}: {}", directory, e.getMessage());
-    }
-  }
-
-  protected T saveEntity(T entity) throws DataPersistException {
-    String fileName = entity.getId() + FILE_EXTENSION;
-    Path filePath = Paths.get(directory, fileName);
-    Path tmpFilePath = Paths.get(directory, fileName + TMP_EXTENSION);
+  protected T saveXML(T entity) throws DataPersistException {
+    String filename = entity.getId() + FILE_EXTENSION;
+    Path tmpFilePath = Paths.get(directory, filename + TMP_EXTENSION);
     try {
       // Marshal the entity to a temporary file
       xmlMarshaller.marshal(entity, tmpFilePath.toFile());
-      // Acquire a lock and atomically move the temporary file to the target location
-      try (FileChannel channel = FileChannel.open(filePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE); FileLock lock = channel.lock()) {
-        boolean isNewFile = !Files.exists(filePath);
-        Files.move(tmpFilePath, filePath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-        if (isNewFile) {
-          log.info("Created new {}: {}", entity.getClass().getSimpleName(), filePath);
-        } else {
-          log.info("Updated {}: {}", entity.getClass().getSimpleName(), filePath);
-        }
-        return entity;
-      }
+      Path filePath = Paths.get(directory, filename);
+      moveTempFile(filePath, tmpFilePath);
+      return entity;
     } catch (Exception e) {
       throw new DataPersistException("Failed to save " + entityType() + " with ID " + entity.getId(), e);
-    } finally {
-      try {
-        // Ensure temporary file is deleted
-        Files.deleteIfExists(tmpFilePath);
-      } catch (IOException ex) {
-        log.warn("Failed to delete temporary file: {}", tmpFilePath, ex);
-      }
     }
   }
 
-  protected List<T> getAllEntities() throws DataReadException {
+  protected Optional<T> getXML(String filename) throws DataReadException {
+    Optional<InputStream> fileStream = getFile(filename);
+    if (fileStream.isPresent()) {
+      try (InputStream inputStream = fileStream.get()) {
+        T entity = xmlUnmarshaller.unmarshal(inputStream);
+        return Optional.of(entity);
+      } catch (Exception e) {
+        throw new DataReadException("Error unmarshalling XML from file: " + filename, e);
+      }
+    }
+    return Optional.empty();
+  }
+
+  protected List<T> getAllXMLs() throws DataReadException {
     List<T> entities = new ArrayList<>();
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directory), "*" + FILE_EXTENSION)) {
       for (Path filePath : stream) {
@@ -114,28 +96,15 @@ abstract class AbstractXMLRepository<T extends PersistentObject> {
           log.warn("Error retrieving {}: {}, skipping...", entityType(), filePath, e);
         }
       }
-    } catch (Exception e) {
-      log.warn("Failed to list files in directory: {}", directory, e);
-      throw new DataReadException("Failed to retrieve entities from directory: " + directory, e);
+    } catch (IOException e) {
+      throw new DataReadException("Error reading files from directory: " + directory, e);
     }
     return entities;
   }
 
-  protected void deleteEntity(int id) throws DataDeleteException {
-    String fileName = id + FILE_EXTENSION;
-    Path filePath = Paths.get(directory, fileName);
-    try (FileChannel channel = FileChannel.open(filePath, StandardOpenOption.WRITE); FileLock lock = channel.lock()) {
-      boolean deleted = Files.deleteIfExists(filePath);
-      if (deleted) {
-        log.info("Deleted {}: {}", entityType(), filePath);
-      } else {
-        log.warn("{} not found for deletion: {}", entityType(), filePath);
-      }
-    } catch (NoSuchFileException e) {
-      log.warn("{} not found for deletion: {}", entityType(), filePath);
-    } catch (Exception e) {
-      throw new DataDeleteException("Error deleting " + entityType() + ": " + filePath, e);
-    }
+  protected void deleteXML(int id) throws DataDeleteException {
+    String filename = id + FILE_EXTENSION;
+    deleteFile(filename);
   }
 
   protected String entityType() {

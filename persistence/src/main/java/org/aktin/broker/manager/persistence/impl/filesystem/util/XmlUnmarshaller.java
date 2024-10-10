@@ -18,6 +18,7 @@
 package org.aktin.broker.manager.persistence.impl.filesystem.util;
 
 import java.io.File;
+import java.io.InputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -32,9 +33,14 @@ public class XmlUnmarshaller<T> {
     this.type = type;
   }
 
-  public T unmarshal(File xmlFile) throws JAXBException, IllegalArgumentException {
+  public T unmarshal(File xmlFile) throws JAXBException {
     Unmarshaller unmarshaller = createUnmarshaller();
     return type.cast(unmarshaller.unmarshal(xmlFile));
+  }
+
+  public T unmarshal(InputStream inputStream) throws JAXBException {
+    Unmarshaller unmarshaller = createUnmarshaller();
+    return type.cast(unmarshaller.unmarshal(inputStream));
   }
 
   private Unmarshaller createUnmarshaller() throws JAXBException {

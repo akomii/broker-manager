@@ -29,6 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataDeleteException;
 import org.aktin.broker.manager.persistence.impl.filesystem.exceptions.DataPersistException;
@@ -60,29 +62,32 @@ abstract class AbstractBinaryRepository {
     }
   }
 
-  protected void saveData(InputStream data, String identifier) throws DataPersistException {
-    Path filePath = Paths.get(directory, identifier);
-    Path tmpFilePath = Paths.get(directory, identifier + TMP_EXTENSION);
+  protected void saveFile(InputStream data, String filename) throws DataPersistException {
+    Path filePath = Paths.get(directory, filename);
+    Path tmpFilePath = Paths.get(directory, filename + TMP_EXTENSION);
     try {
       // Write data to temporary file
       try (OutputStream outputStream = Files.newOutputStream(tmpFilePath)) {
         data.transferTo(outputStream);
       }
-      // Acquire lock and move the temporary file to the target location
-      try (FileChannel channel = FileChannel.open(filePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE); FileLock lock = channel.lock()) {
-        boolean isNewFile = !Files.exists(filePath);
-        Files.move(tmpFilePath, filePath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-        if (isNewFile) {
-          log.info("Created new data: {}", filePath);
-        } else {
-          log.info("Updated data: {}", filePath);
-        }
-      }
+      moveTempFile(filePath, tmpFilePath);
     } catch (Exception e) {
       throw new DataPersistException("Failed to save data to file: " + filePath, e);
+    }
+  }
+
+  protected void moveTempFile(Path filePath, Path tmpFilePath) throws IOException {
+    try (FileChannel channel = FileChannel.open(filePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        FileLock lock = channel.lock()) {
+      boolean isNewFile = !Files.exists(filePath);
+      Files.move(tmpFilePath, filePath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+      if (isNewFile) {
+        log.info("Created new file: {}", filePath);
+      } else {
+        log.info("Updated file: {}", filePath);
+      }
     } finally {
       try {
-        // Ensure temporary file is deleted
         Files.deleteIfExists(tmpFilePath);
       } catch (IOException ex) {
         log.warn("Failed to delete temporary file: {}", tmpFilePath, ex);
@@ -90,8 +95,8 @@ abstract class AbstractBinaryRepository {
     }
   }
 
-  protected Optional<InputStream> getData(String identifier) throws DataReadException {
-    Path filePath = Paths.get(directory, identifier);
+  protected Optional<InputStream> getFile(String filename) throws DataReadException {
+    Path filePath = Paths.get(directory, filename);
     if (!Files.exists(filePath)) {
       return Optional.empty();
     }
@@ -103,19 +108,42 @@ abstract class AbstractBinaryRepository {
     }
   }
 
-  protected void deleteData(String identifier) throws DataDeleteException {
-    Path filePath = Paths.get(directory, identifier);
+  protected List<InputStream> getAllFiles() throws DataReadException {
+    List<InputStream> inputStreams = new ArrayList<>();
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directory))) {
+      for (Path filePath : stream) {
+        // Skip temporary files
+        if (filePath.toString().endsWith(TMP_EXTENSION)) {
+          continue;
+        }
+        if (Files.isRegularFile(filePath)) {
+          try {
+            InputStream inputStream = Files.newInputStream(filePath);
+            inputStreams.add(inputStream);
+          } catch (Exception e) {
+            log.warn("Error retrieving data from file: {}, skipping...", filePath, e);
+          }
+        }
+      }
+    } catch (IOException e) {
+      throw new DataReadException("Error reading files from directory: " + directory, e);
+    }
+    return inputStreams;
+  }
+
+  protected void deleteFile(String filename) throws DataDeleteException {
+    Path filePath = Paths.get(directory, filename);
     try (FileChannel channel = FileChannel.open(filePath, StandardOpenOption.WRITE); FileLock lock = channel.lock()) {
       boolean deleted = Files.deleteIfExists(filePath);
       if (deleted) {
-        log.info("Deleted data: {}", filePath);
+        log.info("File deleted: {}", filePath);
       } else {
-        log.warn("Data not found for deletion: {}", filePath);
+        log.warn("File not found for deletion: {}", filePath);
       }
     } catch (NoSuchFileException e) {
-      log.warn("Data not found for deletion: {}", filePath);
+      log.warn("File not found for deletion: {}", filePath);
     } catch (Exception e) {
-      throw new DataDeleteException("Error deleting data: " + filePath, e);
+      throw new DataDeleteException("Error deleting file: " + filePath, e);
     }
   }
 }

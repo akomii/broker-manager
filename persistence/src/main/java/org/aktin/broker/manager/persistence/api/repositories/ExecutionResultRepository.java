@@ -17,14 +17,14 @@
 
 package org.aktin.broker.manager.persistence.api.repositories;
 
-import java.io.InputStream;
 import java.util.Optional;
+import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
 public interface ExecutionResultRepository {
 
-  void write(InputStream result, String identifier);
+  ExecutionResult save(ExecutionResult result);
 
-  Optional<InputStream> get(String identifier);
+  Optional<ExecutionResult> get(String identifier);
 
   void delete(String identifier);
 }

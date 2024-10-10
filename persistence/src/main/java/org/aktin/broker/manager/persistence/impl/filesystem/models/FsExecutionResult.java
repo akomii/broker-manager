@@ -35,8 +35,8 @@ public class FsExecutionResult extends FsExecutionResultMetadata implements Exec
 
   InputStream content;
 
-  public FsExecutionResult(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
-    this.name = name;
+  public FsExecutionResult(String id, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
+    this.id = id;
     this.contentType = contentType;
     this.content = content;
     this.contentHash = contentHash;

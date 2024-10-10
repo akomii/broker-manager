@@ -28,6 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
+import org.aktin.broker.manager.model.api.models.PersistentObject;
 
 @XmlRootElement(name = "executionResultMetadata")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -37,15 +38,15 @@ import org.aktin.broker.manager.model.api.models.ExecutionResult;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public class FsExecutionResultMetadata {
+public class FsExecutionResultMetadata implements PersistentObject<String> {
 
-  String name;
+  String id;
   String contentType;
   String contentHash;
   String hashAlgorithm;
 
   public FsExecutionResultMetadata(ExecutionResult result) {
-    this.name = result.getName();
+    this.id = result.getId();
     this.contentType = result.getContentType();
     this.contentHash = result.getContentHash();
     this.hashAlgorithm = result.getHashAlgorithm();

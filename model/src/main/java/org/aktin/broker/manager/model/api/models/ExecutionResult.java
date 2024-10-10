@@ -20,11 +20,7 @@ package org.aktin.broker.manager.model.api.models;
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface ExecutionResult {
-
-  String getName();
-
-  void setName(String name);
+public interface ExecutionResult extends PersistentObject<String> {
 
   String getContentType();
 

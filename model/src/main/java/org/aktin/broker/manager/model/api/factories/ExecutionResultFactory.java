@@ -22,5 +22,5 @@ import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
 public interface ExecutionResultFactory {
 
-  ExecutionResult create(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm);
+  ExecutionResult create(String id, String contentType, InputStream content, String contentHash, String hashAlgorithm);
 }

@@ -25,7 +25,7 @@ import org.aktin.broker.manager.persistence.impl.filesystem.models.FsExecutionRe
 public class FsExecutionResultFactory implements ExecutionResultFactory {
 
   @Override
-  public ExecutionResult create(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
-    return new FsExecutionResult(name, contentType, content, contentHash, hashAlgorithm);
+  public ExecutionResult create(String id, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
+    return new FsExecutionResult(id, contentType, content, contentHash, hashAlgorithm);
   }
 }

@@ -24,7 +24,7 @@ public interface ExecutionResultRepository {
 
   ExecutionResult save(ExecutionResult result);
 
-  Optional<ExecutionResult> get(String identifier);
+  Optional<ExecutionResult> get(String id);
 
-  void delete(String identifier);
+  void delete(String id);
 }

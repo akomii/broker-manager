@@ -21,13 +21,12 @@ import java.time.Instant;
 import java.util.Set;
 import org.aktin.broker.manager.model.api.factories.DownloadEventFactory;
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.model.api.models.ExecutionResult;
 import org.aktin.broker.manager.persistence.impl.filesystem.models.FsDownloadEvent;
 
 public class FsDownloadEventFactory implements DownloadEventFactory {
 
   @Override
-  public DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, ExecutionResult executionResult) {
-    return new FsDownloadEvent(username, userOrganizations, downloadDate, executionResult);
+  public DownloadEvent create(String username, Set<String> userOrganizations, Instant downloadDate, String resultRef) {
+    return new FsDownloadEvent(username, userOrganizations, downloadDate, resultRef);
   }
 }

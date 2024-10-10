@@ -34,7 +34,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.model.api.models.DownloadEvent;
-import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
 @XmlRootElement(name = "downloadEvent")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,7 +52,7 @@ public class FsDownloadEvent implements DownloadEvent {
   Set<String> userOrganizations;
 
   Instant downloadDate;
-  ExecutionResult executionResult;
+  String executionResultRef;
 
   public Set<String> getUserOrganizations() {
     return userOrganizations != null ? Collections.unmodifiableSet(userOrganizations) : Collections.emptySet();

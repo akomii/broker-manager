@@ -41,7 +41,7 @@ public interface DownloadEvent {
 
   void setDownloadDate(Instant downloadDate);
 
-  ExecutionResult getExecutionResult();
+  String getExecutionResultRef();
 
-  void setExecutionResult(ExecutionResult executionResult);
+  void setExecutionResultRef(String resultRef);
 }

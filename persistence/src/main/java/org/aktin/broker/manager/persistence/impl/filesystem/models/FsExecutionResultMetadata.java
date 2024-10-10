@@ -17,8 +17,11 @@
 
 package org.aktin.broker.manager.persistence.impl.filesystem.models;
 
-import java.io.InputStream;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,20 +29,25 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.aktin.broker.manager.model.api.models.ExecutionResult;
 
-@EqualsAndHashCode(callSuper = false)
+@XmlRootElement(name = "executionResultMetadata")
+@XmlAccessorType(XmlAccessType.FIELD)
+@EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class FsExecutionResult extends FsExecutionResultMetadata implements ExecutionResult {
+@FieldDefaults(level = AccessLevel.PROTECTED)
+public class FsExecutionResultMetadata {
 
-  InputStream content;
+  String name;
+  String contentType;
+  String contentHash;
+  String hashAlgorithm;
 
-  public FsExecutionResult(String name, String contentType, InputStream content, String contentHash, String hashAlgorithm) {
-    this.name = name;
-    this.contentType = contentType;
-    this.content = content;
-    this.contentHash = contentHash;
-    this.hashAlgorithm = hashAlgorithm;
+  public FsExecutionResultMetadata(ExecutionResult result) {
+    this.name = result.getName();
+    this.contentType = result.getContentType();
+    this.contentHash = result.getContentHash();
+    this.hashAlgorithm = result.getHashAlgorithm();
   }
 }
